@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-surface text-ink antialiased;
+}
+
+::selection {
+  background: rgba(129, 140, 248, 0.35);
+}
+
+/* thin scrollbars for the cockpit feel */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #232c3f transparent;
+}
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #232c3f;
+  border-radius: 4px;
+}
+
+@layer components {
+  .card {
+    @apply rounded-lg border border-surface-edge bg-surface-raised;
+  }
+  .input {
+    @apply rounded-md border border-surface-edge bg-surface-overlay px-2.5 py-1.5 text-sm text-ink placeholder:text-ink-faint focus:border-indigo-400/60 focus:outline-none;
+  }
+  .btn {
+    @apply rounded-md border border-surface-edge bg-surface-overlay px-2.5 py-1.5 text-sm text-ink-dim transition-colors hover:border-indigo-400/50 hover:text-ink;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-medium leading-none;
+  }
+}
