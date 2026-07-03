@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./venturehq.db"
+}
+
+model Business {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  color       String // hex accent color used across cards, tags, calendar dots
+  status      String // active | back-burner | launching
+  description String
+  notes       String   @default("") // markdown scratchpad, autosaved
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tasks     Task[]
+  documents Document[]
+  contacts  Contact[]
+  links     Link[]
+  deals     Deal[]
+  ledger    LedgerEntry[]
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  notes       String    @default("")
+  priority    String    @default("P2") // P1 | P2 | P3
+  status      String    @default("BACKLOG") // BACKLOG | THIS_WEEK | IN_PROGRESS | DONE
+  dueDate     DateTime?
+  // recurrence: null = one-off. Otherwise DAILY | WEEKLY | BIWEEKLY | MONTHLY.
+  // Completing a recurring task spawns the next instance automatically.
+  recurrence  String?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status])
+  @@index([dueDate])
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  title     String
+  category  String   @default("operations") // legal | financial | brand | operations | compliance
+  url       String // http link (Drive etc.) or local file path — files are not stored in the DB
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, category])
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   @default("")
+  phone     String   @default("")
+  email     String   @default("")
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+}
+
+model Link {
+  id        String   @id @default(cuid())
+  label     String
+  url       String
+  createdAt DateTime @default(now())
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+}
+
+// ---- v2 structure (schema only, no UI yet) ----
+
+// CRE deal pipeline: lead -> underwriting -> offer -> title -> close
+model Deal {
+  id        String   @id @default(cuid())
+  name      String
+  stage     String   @default("LEAD") // LEAD | UNDERWRITING | OFFER | TITLE | CLOSE
+  address   String   @default("")
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, stage])
+}
+
+// Revenue/expense quick-log per business
+model LedgerEntry {
+  id        String   @id @default(cuid())
+  type      String // REVENUE | EXPENSE
+  amountCts Int // cents, avoids float drift
+  memo      String   @default("")
+  date      DateTime @default(now())
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, date])
+}
