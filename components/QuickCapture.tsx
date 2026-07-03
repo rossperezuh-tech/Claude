@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { createTask } from "@/app/actions";
 
 type Biz = { id: string; name: string; color: string };
@@ -13,6 +13,19 @@ export default function QuickCapture({ businesses }: { businesses: Biz[] }) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const selected = businesses.find((b) => b.id === businessId);
+
+  // "/" from anywhere on the page jumps to quick capture
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (e.key === "/" && tag !== "INPUT" && tag !== "TEXTAREA" && tag !== "SELECT") {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   function submit() {
     const t = title.trim();
