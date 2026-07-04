@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deckroom — private DJ practice rooms, NYC</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --ink-950: #0A0A0C;
+      --ink-900: #101013;
+      --ink-850: #141417;
+      --ink-800: #18181C;
+      --line: rgba(255,255,255,0.08);
+      --fg: #EDEDEF;
+      --fg-mid: #9B9BA3;
+      --fg-dim: #63636C;
+      --acid: #CDF463;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink-950);
+      color: var(--fg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      text-rendering: optimizeLegibility;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--line);
+      background: rgba(10,10,12,0.8);
+      backdrop-filter: blur(10px);
+      height: 64px;
+      display: flex;
+      align-items: center;
+    }
+    .header-inner {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .wordmark {
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      font-size: 18px;
+      text-decoration: none;
+      color: var(--fg);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .wordmark-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--acid);
+      border-radius: 50%;
+    }
+    .nav { display: none; }
+    @media (min-width: 640px) {
+      .nav {
+        display: flex;
+        gap: 32px;
+        font-size: 14px;
+      }
+      .nav a { color: var(--fg-mid); text-decoration: none; transition: color 0.3s; }
+      .nav a:hover { color: var(--fg); }
+    }
+    .btn {
+      padding: 10px 16px;
+      background: var(--fg);
+      color: var(--ink-950);
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s;
+    }
+    .btn:hover { background: white; }
+    section { border-top: 1px solid var(--line); }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 80px 0 100px;
+      text-align: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.5;
+      background: radial-gradient(ellipse 55% 45% at 50% 88%, rgba(205,244,99,0.09), transparent);
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .kicker {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+    h1 {
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      margin: 20px 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.05;
+    }
+    .subheading {
+      font-size: 16px;
+      color: var(--fg-mid);
+      max-width: 600px;
+      margin: 24px auto;
+      line-height: 1.6;
+    }
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+    .btn-primary { background: var(--fg); color: var(--ink-950); }
+    .btn-ghost { border: 1px solid var(--line); background: transparent; color: var(--fg); }
+    .btn-ghost:hover { border-color: var(--fg-dim); }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--fg-dim);
+    }
+    .deck-placeholder {
+      margin: 40px auto;
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      background: linear-gradient(135deg, #1a1a1e 0%, #2a2a2e 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--fg-mid);
+      font-size: 14px;
+      text-align: center;
+    }
+    .how-it-works {
+      padding: 60px 0;
+      background: rgba(0,0,0,0.2);
+    }
+    .grid-3 {
+      display: grid;
+      gap: 40px;
+      margin-top: 60px;
+    }
+    @media (min-width: 768px) {
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+    .step { text-align: left; }
+    .step-number { color: var(--acid); font-weight: 600; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+    .step h3 { font-size: 18px; margin-top: 12px; }
+    .step p { font-size: 14px; color: var(--fg-mid); margin-top: 8px; }
+    .spaces { padding: 60px 0; }
+    .spaces h2 { font-size: 32px; margin-top: 12px; max-width: 600px; }
+    .locations {
+      display: grid;
+      gap: 24px;
+      margin-top: 40px;
+    }
+    @media (min-width: 1024px) {
+      .locations { grid-template-columns: repeat(2, 1fr); }
+    }
+    .location-card {
+      border: 1px solid var(--line);
+      background: rgba(16, 16, 19, 0.6);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .location-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .location-card h3 { font-size: 20px; }
+    .location-rate { color: var(--fg-mid); font-size: 14px; font-family: monospace; }
+    .location-rate strong { color: var(--fg); }
+    .location-transit { font-size: 12px; color: var(--fg-dim); margin-top: 4px; }
+    .location-desc { font-size: 15px; color: var(--fg-mid); margin-top: 16px; line-height: 1.6; }
+    .location-features {
+      list-style: none;
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--fg-mid);
+    }
+    .location-features li { display: flex; gap: 10px; margin-bottom: 10px; }
+    .location-features li:before {
+      content: "●";
+      color: var(--acid);
+      flex-shrink: 0;
+    }
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 32px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--fg-dim);
+      font-size: 12px;
+    }
+    @media (max-width: 640px) {
+      h1 { font-size: 28px; }
+      .location-header { flex-direction: column; align-items: flex-start; }
+      .nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-inner">
+        <div class="wordmark">
+          <span>deckroom</span>
+          <span class="wordmark-dot"></span>
+        </div>
+        <nav class="nav">
+          <a href="#spaces">Spaces</a>
+          <a href="#gear">The gear</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        <a href="#book" class="btn">Book a room</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container">
+      <div class="hero-content">
+        <p class="kicker">Greenpoint, Brooklyn · Lower East Side, Manhattan</p>
+        <h1>Practice on the real thing.</h1>
+        <p class="subheading">
+          Private, sound-treated rooms with an AlphaTheta DJ-RX3 and tuned monitors.
+          Book by the hour, let yourself in, play loud. No membership, no gear to carry.
+        </p>
+        <div class="cta-group">
+          <button class="btn btn-primary">Book a session →</button>
+          <button class="btn btn-ghost">What's in the room</button>
+        </div>
+        <div class="meta">
+          <span>From $45/hr</span>
+          <span>·</span>
+          <span>Open daily to midnight</span>
+          <span>·</span>
+          <span>Booked in under a minute</span>
+        </div>
+        <div class="deck-placeholder">
+          🎛️ DJ-RX3 Animated Model (displayed in the live site)
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="container">
+      <p class="kicker">How it works</p>
+      <div class="grid-3">
+        <div class="step">
+          <p class="step-number">01</p>
+          <h3>Pick a room</h3>
+          <p>Greenpoint or Manhattan. Same system in both — choose by neighborhood and rate.</p>
+        </div>
+        <div class="step">
+          <p class="step-number">02</p>
+          <h3>Pick your hours</h3>
+          <p>Live availability, one to four hours, up to three weeks out. Paid slots disappear instantly.</p>
+        </div>
+        <div class="step">
+          <p class="step-number">03</p>
+          <h3>Pay and play</h3>
+          <p>Stripe checkout, then a confirmation email with your door code the morning of your session.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spaces" id="spaces">
+    <div class="container">
+      <p class="kicker">The spaces</p>
+      <h2>Two rooms. One on each side of the river.</h2>
+      <div class="locations">
+        <div class="location-card">
+          <div class="location-header">
+            <h3>Greenpoint</h3>
+            <div class="location-rate"><strong>$45</strong>/hour</div>
+          </div>
+          <p class="location-transit">G at Greenpoint Ave · 5 min walk</p>
+          <p class="location-desc">A quiet, treated room on a side street off Manhattan Ave. Book it, close the door, play as loud as the monitors go.</p>
+          <ul class="location-features">
+            <li>AlphaTheta DJ-RX3 2-channel all-in-one system</li>
+            <li>Pair of powered monitors, tuned to the room</li>
+            <li>Sound-treated walls, no daytime noise limits</li>
+            <li>Keypad entry — no front desk, no waiting</li>
+          </ul>
+        </div>
+
+        <div class="location-card">
+          <div class="location-header">
+            <h3>Manhattan</h3>
+            <div class="location-rate"><strong>$60</strong>/hour</div>
+          </div>
+          <p class="location-transit">F/J/M/Z at Delancey–Essex · 4 min walk</p>
+          <p class="location-desc">A below-grade room on the Lower East Side. Dark, cold-air quiet, and built for late sessions before a set.</p>
+          <ul class="location-features">
+            <li>AlphaTheta DJ-RX3 2-channel all-in-one system</li>
+            <li>Pair of powered monitors, tuned to the room</li>
+            <li>Below street level — naturally isolated</li>
+            <li>Keypad entry — no front desk, no waiting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spaces" id="gear">
+    <div class="container">
+      <p class="kicker">The gear</p>
+      <h2>The same system in both rooms.</h2>
+      <p style="color: var(--fg-mid); margin-top: 20px; max-width: 600px;">
+        Every session runs on an AlphaTheta DJ-RX3 — a 2-channel all-in-one performance system.
+        Practice exactly what you'll play out on: real jogs, real pads, real screen. It's wired into
+        monitors tuned for the room, so what you hear is what the floor would hear.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <div class="wordmark" style="font-size: 14px;">
+        <span>deckroom</span>
+        <span class="wordmark-dot"></span>
+      </div>
+      <p style="margin: 0;">Greenpoint, BK · LES, MHTN · book@deckroom.nyc</p>
+    </div>
+  </footer>
+</body>
+</html>
