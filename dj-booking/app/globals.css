@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter Variable", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ink-950 text-fg antialiased;
+  font-feature-settings: "cv05", "cv11", "ss01";
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(205, 244, 99, 0.25);
+}
+
+/* ---- shared primitives ---------------------------------------- */
+
+.container-x {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+.kicker {
+  @apply font-mono text-[11px] uppercase tracking-caps text-fg-dim;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-fg px-5 py-3
+    text-sm font-medium text-ink-950 transition
+    hover:bg-white disabled:cursor-not-allowed disabled:opacity-40;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-line-strong
+    px-5 py-3 text-sm font-medium text-fg transition hover:border-fg-dim hover:bg-ink-800;
+}
+
+.card {
+  @apply rounded-2xl border border-line bg-ink-900;
+}
+
+/* subtle top-light on cards, Linear-style */
+.card-sheen {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 42%),
+    theme("colors.ink.900");
+}
+
+/* ---- hero backdrop --------------------------------------------- */
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 75%);
+}
+
+.hero-glow {
+  background: radial-gradient(
+    ellipse 55% 45% at 50% 88%,
+    rgba(205, 244, 99, 0.09) 0%,
+    rgba(205, 244, 99, 0.025) 45%,
+    transparent 72%
+  );
+}
+
+/* ---- deck visual ------------------------------------------------ */
+
+@keyframes deck-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.jog-spin {
+  animation: deck-spin 5.2s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.jog-spin-b {
+  animation: deck-spin 7.8s linear infinite reverse;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@keyframes vu {
+  0%, 100% { transform: scaleY(0.35); }
+  18% { transform: scaleY(0.9); }
+  40% { transform: scaleY(0.55); }
+  62% { transform: scaleY(1); }
+  80% { transform: scaleY(0.45); }
+}
+
+.vu-bar {
+  animation: vu 1.9s ease-in-out infinite;
+  transform-origin: bottom;
+  transform-box: fill-box;
+}
+
+@keyframes pad-blink {
+  0%, 92%, 100% { opacity: 0.16; }
+  94%, 98% { opacity: 0.85; }
+}
+
+.pad-blink {
+  animation: pad-blink 4.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jog-spin, .jog-spin-b, .vu-bar, .pad-blink {
+    animation: none;
+  }
+}
+
+/* ---- slot grid --------------------------------------------------- */
+
+.slot {
+  @apply relative flex h-11 items-center justify-center rounded-lg border font-mono text-[13px]
+    transition select-none;
+}
+
+.slot-open {
+  @apply cursor-pointer border-line bg-ink-850 text-fg-mid hover:border-fg-dim hover:text-fg;
+}
+
+.slot-selected {
+  @apply cursor-pointer border-acid/60 bg-acid/10 text-acid;
+}
+
+.slot-taken {
+  @apply cursor-not-allowed border-transparent bg-ink-900 text-fg-dim/50 line-through decoration-fg-dim/40;
+}
