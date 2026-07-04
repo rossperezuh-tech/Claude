@@ -38,12 +38,14 @@ export function Footer() {
             >
               {SITE.email}
             </a>
+            <span className="block text-faint">Brooklyn, NY</span>
             <span className="block text-faint">{SITE.domain}</span>
           </div>
         </div>
       </div>
       <div className="container-site border-t border-line py-6 text-center text-xs text-faint">
-        Steadyhand · Independent Claude consulting for small business
+        © {new Date().getFullYear()} Steadyhand · Independent Claude
+        consulting for small business
       </div>
     </footer>
   );

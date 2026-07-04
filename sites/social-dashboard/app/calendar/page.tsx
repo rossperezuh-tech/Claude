@@ -12,9 +12,10 @@ export const metadata: Metadata = { title: "Content Calendar" };
 export default async function CalendarPage({
   searchParams,
 }: {
-  searchParams: { week?: string };
+  searchParams: Promise<{ week?: string }>;
 }) {
-  const offset = Number(searchParams.week ?? 0) || 0;
+  const { week } = await searchParams;
+  const offset = Number(week ?? 0) || 0;
   const weekStart = startOfWeek(addWeeks(new Date(), offset), { weekStartsOn: 1 });
   const weekEnd = addDays(weekStart, 6);
 

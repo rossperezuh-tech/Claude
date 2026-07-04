@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type JSX } from "react";
 
 /** Fades content up into view the first time it enters the viewport. */
 export function Reveal({

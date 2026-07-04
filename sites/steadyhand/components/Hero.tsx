@@ -20,10 +20,11 @@ export function Hero() {
           <Reveal delay={120}>
             <p className="mt-6 max-w-[52ch] text-[17px] text-muted sm:text-lg">
               Steadyhand is an independent Claude consulting practice for
-              established small businesses. We take one repetitive task —
-              quotes, customer emails, reports — and hand it to Claude, tuned
-              on your real examples, with your rules. No hype, no
-              re-platforming, no jargon.
+              established small businesses. We pick the one task that eats the
+              most of your week (quotes, customer emails, reports) and hand it
+              to Claude, trained on your real examples and following your
+              rules. You keep your tools, your process, and everything we
+              build.
             </p>
           </Reveal>
           <Reveal delay={180}>

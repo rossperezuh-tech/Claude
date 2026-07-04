@@ -38,13 +38,14 @@ export function Footer() {
             >
               {SITE.email}
             </a>
+            <span className="block text-faint">Brooklyn, NY</span>
             <span className="block text-faint">{SITE.domain}</span>
           </div>
         </div>
       </div>
       <div className="container-site border-t border-line py-6 text-center text-xs text-faint">
-        The Prompt Sherpa · Claude consulting &amp; Claude Code builds for
-        early-stage entrepreneurs
+        © {new Date().getFullYear()} The Prompt Sherpa · Claude consulting
+        &amp; Claude Code builds for early-stage entrepreneurs
       </div>
     </footer>
   );

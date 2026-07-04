@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+};
 
 export const metadata: Metadata = {
   title: {

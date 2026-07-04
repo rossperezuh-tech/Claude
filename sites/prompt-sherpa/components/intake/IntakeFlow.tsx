@@ -47,8 +47,8 @@ export function IntakeFlow() {
   const [loaded, setLoaded] = useState(false);
   const [savedFlash, setSavedFlash] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
-  const savedTimer = useRef<ReturnType<typeof setTimeout>>();
-  const toastTimer = useRef<ReturnType<typeof setTimeout>>();
+  const savedTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     try {

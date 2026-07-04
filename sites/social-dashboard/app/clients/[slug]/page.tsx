@@ -29,10 +29,11 @@ import { TaskCheckbox } from "@/components/TaskCheckbox";
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const client = await prisma.client.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
   });
   return { title: client?.name ?? "Client" };
 }
@@ -40,12 +41,13 @@ export async function generateMetadata({
 export default async function ClientDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const today = startOfDay(new Date());
 
   const client = await prisma.client.findUnique({
-    where: { slug: params.slug },
+    where: { slug },
     include: {
       contracts: { orderBy: { startDate: "desc" } },
       invoices: { orderBy: { issueDate: "desc" }, take: 6 },

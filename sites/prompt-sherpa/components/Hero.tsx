@@ -21,10 +21,10 @@ export function Hero() {
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-6 max-w-[52ch] text-[17px] text-muted sm:text-lg">
-              The Prompt Sherpa guides early-stage entrepreneurs from idea to
-              working product using Claude Code — landing pages, MVPs, and
-              prototypes built in weeks, not quarters. No tech co-founder, no
-              agency retainer, no business plan required.
+              The Prompt Sherpa takes early-stage entrepreneurs from idea to
+              working product with Claude Code. Landing pages, MVPs,
+              prototypes. Most first versions ship in two to four weeks, and
+              you don&apos;t need a technical co-founder to get there.
             </p>
           </Reveal>
           <Reveal delay={180}>

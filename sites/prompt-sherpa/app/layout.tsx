@@ -1,6 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { SITE } from "@/lib/site";
+
+export const viewport: Viewport = {
+  themeColor: "#F5F7F2",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),

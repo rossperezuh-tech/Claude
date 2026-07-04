@@ -12,7 +12,7 @@ export function NotesEditor({
 }) {
   const [value, setValue] = useState(initialNotes);
   const [saved, setSaved] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(timer.current);
