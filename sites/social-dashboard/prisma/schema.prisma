@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dashboard.db"
+}
+
+model Client {
+  id              String   @id @default(cuid())
+  name            String
+  slug            String   @unique
+  color           String   @default("#3454D1") // hex accent used across cards, tags, calendar
+  status          String   @default("ACTIVE") // ACTIVE | ONBOARDING | PAUSED | CHURNED
+  platforms       String   @default("") // comma-joined Platform values, e.g. "INSTAGRAM,TIKTOK"
+  contactName     String   @default("")
+  contactEmail    String   @default("")
+  contactPhone    String   @default("")
+  monthlyRetainer Float    @default(0)
+  startDate       DateTime @default(now())
+  notes           String   @default("") // markdown scratchpad, autosaved
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  contracts Contract[]
+  invoices  Invoice[]
+  posts     ContentPost[]
+  metrics   PerformanceMetric[]
+  tasks     ClientTask[]
+}
+
+model Contract {
+  id        String    @id @default(cuid())
+  clientId  String
+  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title     String
+  type      String    @default("RETAINER") // RETAINER | PROJECT | ONE_TIME
+  status    String    @default("DRAFT") // DRAFT | SENT | SIGNED | EXPIRED
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  autoRenew Boolean   @default(false)
+  value     Float     @default(0)
+  content   String    @default("")
+  sentAt    DateTime?
+  signedAt  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([clientId])
+}
+
+model ContractTemplate {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   @default("RETAINER") // RETAINER | PROJECT | ONE_TIME
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invoice {
+  id          String    @id @default(cuid())
+  clientId    String
+  client      Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  number      String    @unique
+  periodLabel String
+  amount      Float
+  status      String    @default("DRAFT") // DRAFT | SENT | PAID | OVERDUE
+  issueDate   DateTime  @default(now())
+  dueDate     DateTime
+  paidDate    DateTime?
+  notes       String    @default("")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([clientId, status])
+}
+
+model ContentPost {
+  id            String    @id @default(cuid())
+  clientId      String
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  platform      String    @default("INSTAGRAM") // Platform value
+  caption       String    @default("")
+  status        String    @default("IDEA") // IDEA | DRAFTED | SCHEDULED | POSTED
+  scheduledDate DateTime
+  postedAt      DateTime?
+  notes         String    @default("")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([clientId, scheduledDate])
+  @@index([scheduledDate])
+}
+
+model PerformanceMetric {
+  id             String   @id @default(cuid())
+  clientId       String
+  client         Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  platform       String   @default("INSTAGRAM") // Platform value
+  date           DateTime @default(now())
+  followers      Int      @default(0)
+  engagementRate Float    @default(0)
+  reach          Int      @default(0)
+  impressions    Int      @default(0)
+  notes          String   @default("")
+  createdAt      DateTime @default(now())
+
+  @@index([clientId, date])
+}
+
+model ClientTask {
+  id        String    @id @default(cuid())
+  clientId  String
+  client    Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  title     String
+  status    String    @default("TODO") // TODO | IN_PROGRESS | DONE
+  priority  String    @default("P2") // P1 | P2 | P3
+  dueDate   DateTime?
+  notes     String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([clientId, status])
+  @@index([dueDate])
+}

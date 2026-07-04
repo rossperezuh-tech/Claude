@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ring: rgba(52, 84, 209, 0.18);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply bg-canvas text-ink font-sans antialiased;
+  line-height: 1.5;
+}
+
+::selection {
+  @apply bg-brand-soft;
+}
+
+/* ---------- layout ---------- */
+
+.page {
+  @apply mx-auto w-full max-w-[1240px] px-6 py-8 sm:px-10;
+}
+
+/* ---------- primitives ---------- */
+
+.card {
+  @apply rounded-xl2 border border-line bg-surface shadow-card;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] px-4 py-2.5 text-[14px] font-medium transition-all duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-primary {
+  @apply btn bg-brand text-white shadow-card;
+}
+.btn-primary:hover:not(:disabled) {
+  @apply bg-brand-ink;
+}
+
+.btn-line {
+  @apply btn border border-line-strong bg-surface text-ink;
+}
+.btn-line:hover:not(:disabled) {
+  @apply border-ink-faint;
+}
+
+.btn-ghost {
+  @apply btn text-ink-dim;
+}
+.btn-ghost:hover:not(:disabled) {
+  @apply bg-surface-sunken text-ink;
+}
+
+.input-base {
+  @apply w-full rounded-[9px] border border-line-strong bg-surface px-3.5 py-2.5 text-[14px] text-ink transition-all duration-150;
+}
+.input-base::placeholder {
+  @apply text-ink-faint;
+}
+.input-base:focus {
+  @apply border-brand outline-none;
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+textarea.input-base {
+  @apply resize-y;
+}
+
+.select-base {
+  @apply input-base cursor-pointer appearance-none bg-no-repeat pr-9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23767D8F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-position: right 10px center;
+}
+
+.badge {
+  @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-semibold leading-none;
+}
+
+.label {
+  @apply block text-[13px] font-medium text-ink-dim mb-1.5;
+}
+
+.section-title {
+  @apply text-[13px] font-semibold uppercase tracking-wide text-ink-faint;
+}
+
+/* scrollbar polish for calendar/table overflow */
+.scroll-thin::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: #cdd2dc;
+  border-radius: 8px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
