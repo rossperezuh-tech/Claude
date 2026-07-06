@@ -1,7 +1,7 @@
 # Deckroom — DJ session booking site
 
 Booking site for two private DJ practice/performance rooms (Greenpoint,
-Brooklyn and Lower East Side, Manhattan), each with an AlphaTheta DJ-RX3 and
+Brooklyn and Lower East Side, Manhattan), each with an Pioneer DJ XDJ-RX3 and
 tuned monitors bundled into the room. Book by the hour, pay with Stripe, no
 account needed.
 

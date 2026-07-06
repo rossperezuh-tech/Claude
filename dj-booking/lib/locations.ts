@@ -29,7 +29,7 @@ export const LOCATIONS: Record<LocationId, SpaceLocation> = {
     blurb:
       "A quiet, treated room on a side street off Manhattan Ave. Book it, close the door, play as loud as the monitors go.",
     details: [
-      "AlphaTheta DJ-RX3 2-channel all-in-one system",
+      "Pioneer DJ XDJ-RX3 2-channel all-in-one system",
       "Pair of powered monitors, tuned to the room",
       "Sound-treated walls, no daytime noise limits",
       "Fold-down table for laptop and controller work",
@@ -49,7 +49,7 @@ export const LOCATIONS: Record<LocationId, SpaceLocation> = {
     blurb:
       "A below-grade room on the Lower East Side. Dark, cold-air quiet, and built for late sessions before a set.",
     details: [
-      "AlphaTheta DJ-RX3 2-channel all-in-one system",
+      "Pioneer DJ XDJ-RX3 2-channel all-in-one system",
       "Pair of powered monitors, tuned to the room",
       "Below street level — naturally isolated",
       "Booth-height stand, club lighting on a dimmer",

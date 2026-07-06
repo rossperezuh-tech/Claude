@@ -84,10 +84,10 @@ export default function Home() {
         <div className="container-x relative pb-10 pt-20 text-center sm:pt-28">
           <p className="kicker">Greenpoint, Brooklyn · Lower East Side, Manhattan</p>
           <h1 className="mx-auto mt-5 max-w-3xl text-4xl font-semibold leading-[1.05] tracking-[-0.035em] sm:text-6xl">
-            Practice on the real thing.
+            Practice on the real thing
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-fg-mid sm:text-lg">
-            Private, sound-treated rooms with an AlphaTheta DJ-RX3 and tuned
+            Private, sound-treated rooms with an Pioneer DJ XDJ-RX3 and tuned
             monitors. Book by the hour, let yourself in, play loud. No
             membership, no gear to carry.
           </p>
@@ -160,7 +160,7 @@ export default function Home() {
               The same system in both rooms.
             </h2>
             <p className="mt-5 max-w-md leading-relaxed text-fg-mid">
-              Every session runs on an AlphaTheta DJ-RX3 — a 2-channel
+              Every session runs on an Pioneer DJ XDJ-RX3 — a 2-channel
               all-in-one performance system. Practice exactly what you&apos;ll
               play out on: real jogs, real pads, real screen. It&apos;s wired
               into monitors tuned for the room, so what you hear is what the
@@ -168,7 +168,7 @@ export default function Home() {
             </p>
             <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 max-w-md">
               {[
-                ["Player", "AlphaTheta DJ-RX3, 2-channel all-in-one"],
+                ["Player", "Pioneer DJ XDJ-RX3, 2-channel all-in-one"],
                 ["Sound", "Powered monitors, room-tuned"],
                 ["Sources", "USB sticks, laptop over USB"],
                 ["Extras", "Booth stand, cabling, spare headphones"],
