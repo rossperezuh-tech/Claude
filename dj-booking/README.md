@@ -82,7 +82,8 @@ app/
   api/webhook           Stripe events → confirm/release
 components/
   BookingFlow.tsx       client-side booking UI
-  DeckVisual.tsx        animated SVG model of the DJ-RX3 (hero)
+  DeckVisual.tsx        animated SVG model of the DJ-RX3 (unused — hero now
+                        uses public/xdj-rx3.png, background knocked out)
   RoomScene.tsx         abstract room illustration (photo placeholder)
 lib/
   locations.ts          ← rates, hours, copy (edit me)
