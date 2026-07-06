@@ -68,3 +68,6 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 - Keep everything in one repo, no microservices, no external APIs in v1
 - Seed realistic sample data so the dashboard looks alive on first run
 - `npm run db:reset` wipes and re-seeds the local DB
+- **Two people work in this repo.** Never commit straight to `main` —
+  always pull `main`, branch as `ross/<thing>` or `partner/<thing>`, and
+  merge through a Pull Request. Full workflow in `COLLABORATING.md`.
