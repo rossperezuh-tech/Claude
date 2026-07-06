@@ -106,16 +106,16 @@ export default function Home() {
             <span>Booked in under a minute</span>
           </div>
         </div>
-        <div className="container-x relative mt-10 pb-24 sm:mt-6">
+        <div className="container-x relative mt-10 pb-40 sm:mt-6">
           <div className="relative mx-auto w-full max-w-4xl">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/xdj-rx3.png"
-              alt="AlphaTheta XDJ-RX3 2-channel all-in-one DJ system"
+              alt="Pioneer DJ XDJ-RX3 2-channel all-in-one DJ system"
               className="relative z-10 w-full drop-shadow-[0_50px_90px_rgba(0,0,0,0.85)]"
             />
-            <div className="absolute inset-x-[8%] bottom-[-6%] h-24 rounded-[100%] bg-black/70 blur-3xl" />
-            <div className="absolute inset-x-[24%] bottom-[-3%] h-16 rounded-[100%] bg-acid/10 blur-3xl" />
+            <div className="absolute inset-x-[8%] bottom-[-8%] h-24 rounded-[100%] bg-black/70 blur-3xl" />
+            <div className="absolute inset-x-[24%] bottom-[-5%] h-16 rounded-[100%] bg-acid/10 blur-3xl" />
           </div>
         </div>
       </section>
