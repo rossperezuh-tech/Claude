@@ -289,6 +289,53 @@ export async function updateTaskStatus(id: string, status: string) {
   revalidatePath("/");
 }
 
+// ---------- Import from call summary ----------
+// Creates a client from a confirmed import draft, storing the full call
+// summary as the client's notes and spinning up the starter tasks the
+// human kept. Same validation rules as createClient.
+
+export async function importClientFromSummary(formData: FormData) {
+  const name = text(formData.get("name"), 120).trim();
+  if (!name) return;
+
+  const count = await prisma.client.count();
+  const colors = [
+    "#3454D1", "#158A5A", "#B4740E", "#8B3FD1", "#C4342F",
+    "#0E8FA8", "#D1349B", "#B4570E", "#3D7A2E", "#A13D6B",
+  ];
+
+  let slug = slugify(name) || "client";
+  const existing = await prisma.client.findUnique({ where: { slug } });
+  if (existing) slug = `${slug}-${Date.now().toString(36)}`;
+
+  const tasks = formData
+    .getAll("tasks")
+    .map((t) => text(t, 300).trim())
+    .filter(Boolean)
+    .slice(0, 20);
+
+  await prisma.client.create({
+    data: {
+      name,
+      slug,
+      color: colors[count % colors.length],
+      status: oneOf(CLIENT_STATUSES, formData.get("status"), "ONBOARDING"),
+      platforms: cleanPlatforms(formData.getAll("platforms")),
+      contactName: text(formData.get("contactName"), 120),
+      contactEmail: text(formData.get("contactEmail"), 254),
+      contactPhone: text(formData.get("contactPhone"), 40),
+      monthlyRetainer: money(formData.get("monthlyRetainer")),
+      notes: text(formData.get("notes"), 20_000),
+      tasks: {
+        create: tasks.map((title) => ({ title, priority: "P2" })),
+      },
+    },
+  });
+
+  revalidatePath("/");
+  revalidatePath("/clients");
+}
+
 // ---------- Performance ----------
 
 export async function addPerformanceMetric(
