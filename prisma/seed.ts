@@ -143,13 +143,20 @@ Hands-on: I spec and help set up the tent, light, and airflow in their space so 
 - Consulting/coaching on someone's *own* legal home grow — no sales/distribution of product.
 - TODO: confirm current OCM home-grow rules before publishing any material.
 
-## My method (fill in — the step-by-step you ran)
-1. Genetics / germination —
-2. Veg (light, medium, feeding) —
-3. Training to hit 6 ft —
-4. Flip to flower —
-5. Harvest —
-6. Dry & cure —
+## Grow SOP — the Laughing Buddha method
+*Client-facing playbook, drawn from my 5-plant grow. \`[ ]\` = specifics to lock in with real numbers before publishing.*
+
+1. **Genetics & germination** — Start from **seed** (Laughing Buddha). Pop the seed until it cracks and shows a taproot, then into the soil. \`[ ]\` germination method (paper towel / water / straight to soil) + days to sprout.
+
+2. **Medium & feeding** — Grow in **organic soil**. Living soil does most of the feeding, so it's the beginner-friendly path — less nutrient math, much harder to burn a plant. \`[ ]\` soil brand/mix, top-dress or teas?, watering rhythm.
+
+3. **Veg & training — keep it SHORT** — Big lesson from last run: they hit **6 ft, which is too tall** for a home tent. Fix: **top the plants** early (cut the main stem above a node) so they bush out wide instead of shooting up, and keep topping/training to hold the height down. Goal is a manageable canopy, not a tree. \`[ ]\` light (type + wattage), veg weeks before flip, how many tops.
+
+4. **Flip to flower — don't wait** — Switch the light to **12/12 before they get too tall**. Plants roughly double in early flower ("the stretch"), so flip while they're still short. \`[ ]\` confirm 12/12 + weeks in flower.
+
+5. **Harvest — read the trichomes** — Go by the plant, not the calendar. Harvest when the **trichomes** (frosty resin heads) turn clear → cloudy → **amber**. Amber = peak ripeness. A cheap jeweler's loupe or USB scope is all you need.
+
+6. **Dry & cure** — Dried with a **drying machine** (controlled temp/humidity — faster and more consistent than hang-drying). \`[ ]\` machine model + temp/time, then cure in glass jars (burp daily) to finish.
 `,
   },
 ];
@@ -212,7 +219,8 @@ async function main() {
       { businessId: bySlug["brooklyn-tiny-farm"], title: "Deliver to restaurant accounts", priority: "P1", status: "THIS_WEEK", dueDate: daysFromNow(2), recurrence: "WEEKLY" },
       // Brooklyn Grow Consulting
       { businessId: bySlug["brooklyn-weed-consulting"], title: "Confirm current NY OCM home-grow rules (plant counts, adults 21+)", priority: "P1", status: "THIS_WEEK", dueDate: daysFromNow(1) },
-      { businessId: bySlug["brooklyn-weed-consulting"], title: "Write up my Laughing Buddha grow as a step-by-step SOP", priority: "P1", status: "IN_PROGRESS", dueDate: daysFromNow(3) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Write up my Laughing Buddha grow as a step-by-step SOP", priority: "P1", status: "DONE", completedAt: daysFromNow(0) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Fill in SOP specifics (light wattage, veg weeks, feed, dry machine settings)", priority: "P2", status: "THIS_WEEK", dueDate: daysFromNow(5) },
       { businessId: bySlug["brooklyn-weed-consulting"], title: "Define packages + pricing (starter session / grow-along / room build)", priority: "P2", status: "THIS_WEEK", dueDate: daysFromNow(4) },
       { businessId: bySlug["brooklyn-weed-consulting"], title: "Build tent + light shopping-list template for client rooms", priority: "P2", status: "BACKLOG", dueDate: daysFromNow(7) },
       { businessId: bySlug["brooklyn-weed-consulting"], title: "Landing page + intake form for consult bookings", priority: "P2", status: "BACKLOG", dueDate: daysFromNow(10) },
