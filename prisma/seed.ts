@@ -107,6 +107,38 @@ const businesses = [
     description: "Microgreens, direct to consumer.",
     sortOrder: 12,
   },
+  {
+    slug: "brooklyn-weed-consulting",
+    name: "Brooklyn Grow Consulting",
+    color: "#22c55e",
+    status: "launching",
+    description:
+      "Home cannabis grow coaching for NY adults 21+ — legal home cultivation under the MRTA.",
+    sortOrder: 13,
+    notes: `# Brooklyn Grow Consulting — playbook
+
+## Origin
+Grew **5 Laughing Buddha plants to 6 ft** this season. People started asking how — that demand is the business.
+
+## The offer (draft)
+- **Starter session** — help someone set up a legal home grow (space, light, soil, seeds/clones) from zero.
+- **Grow-along coaching** — check-ins across a full cycle: veg → flower → harvest → cure.
+- **Room build** — tent/light/airflow spec + shopping list for their space.
+
+## NY legal frame (adults 21+, MRTA)
+- Up to **3 mature + 3 immature plants per adult**; **max 6 mature + 6 immature per household**.
+- Consulting/coaching on someone's *own* legal home grow — no sales/distribution of product.
+- TODO: confirm current OCM home-grow rules before publishing any material.
+
+## My method (fill in — the step-by-step you ran)
+1. Genetics / germination —
+2. Veg (light, medium, feeding) —
+3. Training to hit 6 ft —
+4. Flip to flower —
+5. Harvest —
+6. Dry & cure —
+`,
+  },
 ];
 
 async function main() {
@@ -165,6 +197,13 @@ async function main() {
       // Tiny Farm
       { businessId: bySlug["brooklyn-tiny-farm"], title: "Seed new microgreen trays", priority: "P2", status: "THIS_WEEK", dueDate: daysFromNow(1), recurrence: "WEEKLY" },
       { businessId: bySlug["brooklyn-tiny-farm"], title: "Deliver to restaurant accounts", priority: "P1", status: "THIS_WEEK", dueDate: daysFromNow(2), recurrence: "WEEKLY" },
+      // Brooklyn Grow Consulting
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Confirm current NY OCM home-grow rules (plant counts, adults 21+)", priority: "P1", status: "THIS_WEEK", dueDate: daysFromNow(1) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Write up my Laughing Buddha grow as a step-by-step SOP", priority: "P1", status: "IN_PROGRESS", dueDate: daysFromNow(3) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Define packages + pricing (starter session / grow-along / room build)", priority: "P2", status: "THIS_WEEK", dueDate: daysFromNow(4) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Build tent + light shopping-list template for client rooms", priority: "P2", status: "BACKLOG", dueDate: daysFromNow(7) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Landing page + intake form for consult bookings", priority: "P2", status: "BACKLOG", dueDate: daysFromNow(10) },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Photograph the 6ft plants for before/after portfolio", priority: "P3", status: "BACKLOG" },
       // A couple of done items so the board looks lived-in
       { businessId: bySlug["penthouse-yoga"], title: "Launch day open house", priority: "P1", status: "DONE", completedAt: daysFromNow(-2) },
       { businessId: bySlug["brooklyn-tea-cigs"], title: "Register trademark application", priority: "P2", status: "DONE", completedAt: daysFromNow(-5) },
@@ -186,6 +225,9 @@ async function main() {
       { businessId: bySlug["green-shoots-studio"], title: "Client services agreement template", category: "legal", url: "https://drive.google.com/gs/msa", notes: "" },
       { businessId: bySlug["steadyhand-ai"], title: "Consulting engagement letter template", category: "legal", url: "https://drive.google.com/sh/engagement", notes: "" },
       { businessId: bySlug["brooklyn-tiny-farm"], title: "Restaurant account price sheet", category: "operations", url: "https://drive.google.com/btf/prices", notes: "Update quarterly" },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "NY OCM adult-use home cultivation guidance", category: "compliance", url: "https://cannabis.ny.gov/adult-use-cannabis", notes: "Confirm current plant limits before publishing anything" },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Laughing Buddha grow SOP (veg→flower→cure)", category: "operations", url: "https://drive.google.com/bgc/grow-sop", notes: "My method from the 6ft grow — client-facing playbook" },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Client consulting agreement template", category: "legal", url: "https://drive.google.com/bgc/agreement", notes: "Coaching-only; no product sales/distribution" },
     ],
   });
 
@@ -197,6 +239,7 @@ async function main() {
       { businessId: bySlug["cre-direct-buying"], name: "Houston title officer", role: "Title company", phone: "713-555-0134", notes: "6416 Conley St file" },
       { businessId: bySlug["penthouse-yoga"], name: "Lead instructor", role: "Instructor", phone: "917-555-0182", notes: "Owns the weekend schedule" },
       { businessId: bySlug["clean-plate-nyc"], name: "Glass container supplier", role: "Supplier", email: "orders@glasspack.com", notes: "2-week lead time" },
+      { businessId: bySlug["brooklyn-weed-consulting"], name: "Local hydro/grow shop", role: "Supplier — tents, lights, medium", notes: "Client shopping-list fulfillment" },
     ],
   });
 
