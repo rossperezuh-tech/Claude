@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steadyhand AI Consulting - Services Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        header {
+            margin-bottom: 50px;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 30px;
+        }
+
+        .brand {
+            font-size: 14px;
+            color: #2563eb;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: #64748b;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .service {
+            margin: 50px 0;
+            padding: 40px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 5px solid #2563eb;
+        }
+
+        .service-number {
+            font-size: 14px;
+            color: #2563eb;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .service-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .service-icon {
+            font-size: 28px;
+            margin-left: 8px;
+        }
+
+        .service-desc {
+            font-size: 14px;
+            color: #475569;
+            margin: 20px 0;
+            line-height: 1.6;
+            background: white;
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .service-meta {
+            font-size: 13px;
+            color: #64748b;
+            margin: 15px 0;
+        }
+
+        .service-meta strong {
+            color: #0f172a;
+        }
+
+        .service-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .service-list li {
+            font-size: 13px;
+            color: #475569;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .service-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .results {
+            font-size: 13px;
+            color: #16a34a;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+            font-weight: 500;
+        }
+
+        .how-it-works {
+            margin: 60px 0;
+            padding: 40px;
+            background: #eff6ff;
+            border-radius: 8px;
+        }
+
+        .how-it-works h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #0f172a;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .step-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .step-text {
+            font-size: 13px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .cta {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .cta p {
+            font-size: 16px;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .email {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                padding: 40px;
+            }
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">Core Services</div>
+            <h1>Steadyhand AI Consulting</h1>
+            <p class="tagline">Configurable AI tools that work for ANY business. Build in 2-3 weeks, deploy immediately.</p>
+        </header>
+
+        <div class="service">
+            <div class="service-number">1</div>
+            <div class="service-title">Document Intelligence Engine 📄</div>
+            <div class="service-desc">Upload any document (contracts, proposals, reports, PDFs, emails) → Claude extracts key info, risks, action items, summaries.</div>
+            <div class="service-meta"><strong>Works for:</strong> Lawyers, consultants, real estate agents, recruiters, nonprofits, investors, contractors, agencies</div>
+            <div class="service-meta"><strong>What changes:</strong> The context (what documents matter to your business)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Lawyer: Contract upload → obligations, risks, clauses</li>
+                <li>Real Estate: Property listing → comps, pricing strategy, risks</li>
+                <li>Recruiter: Resume → fit score, red flags, interview questions</li>
+                <li>Consultant: Proposal → scope, timeline, pricing extraction</li>
+                <li>Investor: Deal doc → valuation, risks, investment angle</li>
+            </ul>
+            <div class="results">80% faster document review | Never miss critical info | Automated action items</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">2</div>
+            <div class="service-title">Data Pattern Analyzer 📊</div>
+            <div class="service-desc">Feed any data (sales, customers, operations, feedback) → Claude finds trends, anomalies, opportunities, recommendations.</div>
+            <div class="service-meta"><strong>Works for:</strong> Every business (sales teams, restaurant owners, real estate, gyms, consultants, agencies)</div>
+            <div class="service-meta"><strong>What changes:</strong> The data source (CRM, spreadsheet, survey, operational logs)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Sales team: CRM data → at-risk deals, win/loss patterns, next steps</li>
+                <li>Restaurant: Transaction data → high-margin dishes, pricing opportunities</li>
+                <li>Gym: Member data → churn risk, engagement trends, retention opportunities</li>
+                <li>Real estate: Portfolio → underperforming properties, cash flow gaps</li>
+                <li>Agency: Project data → profitability by client, scope creep patterns</li>
+            </ul>
+            <div class="results">Spot opportunities nobody else sees | Data-driven decisions | 15-25% margin/efficiency gains</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">3</div>
+            <div class="service-title">Communication & Content Accelerator ✍️</div>
+            <div class="service-desc">Brief Claude on your message/goal → generates professional copy (emails, proposals, marketing, presentations, social).</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business needing to communicate (sales, marketing, support, leadership)</div>
+            <div class="service-meta"><strong>What changes:</strong> The tone and format (proposal vs. email vs. social vs. cold outreach)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Sales: "We demoed for a prospect worried about cost" → personalized follow-up email</li>
+                <li>Restaurant: "New menu item launch" → social copy, email to members, signage</li>
+                <li>Consultant: "Project kickoff" → client email, internal kickoff deck, status update template</li>
+                <li>Real estate: "New listing" → description, email to buyers, open house promo</li>
+                <li>Recruiter: "Top candidate we want" → personalized offer letter, rejection letters</li>
+            </ul>
+            <div class="results">5-10x faster content creation | Professional tone every time | Consistent messaging</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">4</div>
+            <div class="service-title">Process Optimization Auditor 🔍</div>
+            <div class="service-desc">Describe your current workflow → Claude identifies bottlenecks, inefficiencies, automation opportunities, and suggests improvements.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business with repetitive workflows (proposals, hiring, billing, scheduling, approvals, reporting)</div>
+            <div class="service-meta"><strong>What changes:</strong> The specific process you're optimizing</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Consultant: Proposal → approval → invoicing (10 days) → Claude identifies 5-day speedups</li>
+                <li>Restaurant: Order → kitchen → delivery → spots 30% time waste</li>
+                <li>Real estate: Lead → showing → offer → closing (90 days) → Claude finds 20-day optimizations</li>
+                <li>Gym: Onboarding → assessment → program → tracking → Claude suggests automation</li>
+                <li>Recruiter: Job post → screening → interview → offer (4 weeks) → Claude finds 2-week gains</li>
+            </ul>
+            <div class="results">20-40% faster workflows | Eliminate manual steps | Data-driven process improvements</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">5</div>
+            <div class="service-title">Feedback & Sentiment Analyzer 💬</div>
+            <div class="service-desc">Customer reviews, survey responses, NPS feedback, support tickets → Claude extracts sentiment, themes, improvement roadmap.</div>
+            <div class="service-meta"><strong>Works for:</strong> Every business (anyone with customers, reviews, or feedback)</div>
+            <div class="service-meta"><strong>What changes:</strong> The feedback source (Google reviews, Trustpilot, surveys, support tickets, emails)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Restaurant: 200 Google reviews → themes (slow service, great pizza, dirty bathroom) + fixes</li>
+                <li>E-commerce: 500 product reviews → what people love, what breaks, what's missing</li>
+                <li>Agency: Client feedback → satisfaction trends, at-risk accounts, what to double down on</li>
+                <li>SaaS: Support tickets → most common issues, feature requests, frustration points</li>
+                <li>Fitness studio: Member surveys → retention risks, preferred classes, facility gaps</li>
+            </ul>
+            <div class="results">Never miss customer insight | Proactive problem-solving | +20-30% retention from action</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">6</div>
+            <div class="service-title">Decision Support Assistant 🎯</div>
+            <div class="service-desc">Present a business decision + relevant data → Claude weighs options, surfaces risks, recommends path forward.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business making decisions (hiring, pricing, expansion, partnerships, product, strategy)</div>
+            <div class="service-meta"><strong>What changes:</strong> The decision type (hire vs. outsource, buy vs. build, expand vs. stay, pricing strategy)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Founder: "Hire a salesperson or use an agency?" → Claude weighs pros/cons, ROI, risks</li>
+                <li>Restaurant: "Expand menu from 30 to 50 items?" → Claude flags operational impact, margin analysis</li>
+                <li>Real estate: "Buy or pass on this property?" → Claude pulls together valuation, market analysis, risk</li>
+                <li>Consultant: "Take on this unprofitable client?" → Claude shows profitability, opportunity cost</li>
+                <li>Gym: "Launch 6am classes?" → Claude analyzes demand signals, retention impact, staffing needs</li>
+            </ul>
+            <div class="results">Better decisions faster | Risk assessment built-in | Reduced decision paralysis</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">7</div>
+            <div class="service-title">Meeting Intelligence System 🎙️</div>
+            <div class="service-desc">Paste meeting transcript or notes → Claude extracts decisions made, action items, owners, deadlines, follow-ups needed.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business with meetings (sales, leadership, client, team, project reviews)</div>
+            <div class="service-meta"><strong>What changes:</strong> The meeting context (sales call vs. board meeting vs. project review)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Sales call: 30-min demo recap → next steps, objections, close date extracted automatically</li>
+                <li>Board meeting: 2-hour discussion → decisions made, action items, who owns what</li>
+                <li>Client meeting: Consultant project review → scope changes, timeline impacts, approval items</li>
+                <li>Leadership: Strategy discussion → initiatives decided, metrics to track, dependencies</li>
+                <li>Project review: Status check → blockers, on-track items, next week's priorities</li>
+            </ul>
+            <div class="results">Zero missed action items | Clear accountability | Automatic meeting follow-ups</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">8</div>
+            <div class="service-title">Competitive Intelligence Tracker 🎯</div>
+            <div class="service-desc">Feed competitor info (websites, pricing, launches, announcements) → Claude tracks changes, flags opportunities, suggests responses.</div>
+            <div class="service-meta"><strong>Works for:</strong> Businesses in competitive markets (SaaS, e-commerce, real estate, fitness, consulting)</div>
+            <div class="service-meta"><strong>What changes:</strong> Who you're tracking and what matters to your business</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>SaaS: Competitor launches feature → Claude flags threat, suggests response</li>
+                <li>E-commerce: 3 competitors lower prices → Claude analyzes impact, pricing strategy</li>
+                <li>Real estate agent: Competitor agent in your area → Claude tracks their listings, pricing trends</li>
+                <li>Gym: New fitness studio opens nearby → Claude suggests retention moves, unique positioning</li>
+                <li>Consultant: Competitor lowers rates → Claude analyzes impact on your positioning</li>
+            </ul>
+            <div class="results">Stay ahead of market shifts | Faster competitive responses | Pricing intelligence</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">9</div>
+            <div class="service-title">Knowledge Base Builder 🧠</div>
+            <div class="service-desc">Feed your docs, processes, best practices, customer data → Claude builds searchable knowledge system anyone can query.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business wanting to scale knowledge (onboarding, support, sales, operations)</div>
+            <div class="service-meta"><strong>What changes:</strong> Your unique docs/processes (your procedures are what matter)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Agency: 50 project case studies → searchable "what worked before" for similar projects</li>
+                <li>Consultant: 100 past proposals → search by industry/solution to accelerate new proposals</li>
+                <li>Support team: 500 customer issues + fixes → searchable troubleshooting without email hunting</li>
+                <li>Sales team: 10 years of deals + what closed → searchable playbook by deal type/industry</li>
+                <li>Restaurant chain: All location best practices → new manager can query "how do we handle rushes?"</li>
+            </ul>
+            <div class="results">Onboarding 50% faster | Consistency across team | Capture tribal knowledge</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">10</div>
+            <div class="service-title">Financial Forecasting & Analytics 💰</div>
+            <div class="service-desc">Plug in historical financial data → Claude forecasts revenue, margins, cash flow, flags risks, suggests levers.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business managing finances (profitability, growth, cash, pricing)</div>
+            <div class="service-meta"><strong>What changes:</strong> Your specific business model (unit economics vary)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Startup: Last 12 months revenue → forecast next 24 months, flag runway risks</li>
+                <li>Restaurant: 2 years transaction data → predict seasonal dips, suggest pricing/menu changes</li>
+                <li>Consultant: Project profitability history → forecast Q4 revenue, identify at-risk clients</li>
+                <li>E-commerce: SKU-level data → forecast inventory needs, flag slow movers</li>
+                <li>SaaS: Churn, CAC, LTV history → forecast growth rate, pricing optimization</li>
+            </ul>
+            <div class="results">Cash flow visibility | Confident forecasts | Pricing/strategy optimization</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">11</div>
+            <div class="service-title">Compliance & Risk Checker ⚠️</div>
+            <div class="service-desc">Describe your situation → Claude generates checklists, flags compliance risks, suggests safeguards.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any regulated business (contractors, healthcare, nonprofits, financial, real estate, restaurants)</div>
+            <div class="service-meta"><strong>What changes:</strong> Your specific jurisdiction/industry regulations</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Contractor: New project type → safety checklist, permits needed, insurance requirements</li>
+                <li>Nonprofit: Grant application → compliance checklist, reporting obligations, restrictions</li>
+                <li>Restaurant: Expansion to new state → food safety regs, labor laws, licensing needed</li>
+                <li>Real estate: New market → disclosure requirements, licensing, contract language</li>
+                <li>Consultant: International client → tax implications, contract considerations, compliance gaps</li>
+            </ul>
+            <div class="results">Zero compliance surprises | Regulatory confidence | Reduced legal risk</div>
+        </div>
+
+        <div class="service">
+            <div class="service-number">12</div>
+            <div class="service-title">Workflow Automation Designer 🤖</div>
+            <div class="service-desc">Describe your repetitive task → Claude suggests automation, integrations, or templates to eliminate manual work.</div>
+            <div class="service-meta"><strong>Works for:</strong> Any business with repetitive workflows (invoicing, reporting, onboarding, follow-ups, approvals)</div>
+            <div class="service-meta"><strong>What changes:</strong> Your specific tools (Slack, email, CRM, spreadsheets)</div>
+            <div class="service-meta"><strong>Examples:</strong></div>
+            <ul class="service-list">
+                <li>Sales: "I manually update CRM after every call" → Claude suggests Slack capture or email integration</li>
+                <li>Support: "We respond to 50 similar support tickets daily" → Claude generates response templates + automation</li>
+                <li>Finance: "Monthly reporting is 10 hours of copy-paste" → Claude designs automated report generation</li>
+                <li>HR: "Onboarding checklist sent via email every time" → Claude suggests automated task system</li>
+                <li>Marketing: "We post the same content to 5 platforms" → Claude designs multi-platform automation</li>
+            </ul>
+            <div class="results">10+ hours saved weekly | Fewer errors | Team can focus on strategy</div>
+        </div>
+
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Pick your tool — whatever hurts the most</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">30-minute call — we scope it together</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">2-3 weeks — we build it</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">We train your team — you own everything</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <p>Questions? <a href="mailto:ross@steadyhand.ai" class="email">ross@steadyhand.ai</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steadyhand AI Consulting - General Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: white;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        header {
+            margin-bottom: 50px;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 30px;
+        }
+
+        .brand {
+            font-size: 14px;
+            color: #2563eb;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #0f172a;
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: #64748b;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .tool {
+            padding: 30px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .tool-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .tool-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #0f172a;
+        }
+
+        .tool-description {
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .tool-tagline {
+            font-size: 13px;
+            font-style: italic;
+            color: #2563eb;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .how-it-works {
+            margin: 60px 0;
+            padding: 40px;
+            background: #eff6ff;
+            border-radius: 8px;
+        }
+
+        .how-it-works h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #0f172a;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .step-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+
+        .step-text {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .pricing {
+            margin: 60px 0;
+        }
+
+        .pricing h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #0f172a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        thead {
+            background: #0f172a;
+            color: white;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .guarantee {
+            font-size: 13px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .cta {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .cta p {
+            font-size: 18px;
+            color: #0f172a;
+            font-weight: 600;
+        }
+
+        .email {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                padding: 40px;
+            }
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">What We Build</div>
+            <h1>Steadyhand AI Consulting</h1>
+            <p class="tagline">Custom AI tools that give you your time back.</p>
+        </header>
+
+        <p style="font-size: 16px; color: #475569; margin-bottom: 40px;">
+            We build AI assistants trained on <em>your</em> business. Pick what solves your biggest headache — we handle the rest.
+        </p>
+
+        <div class="tools-grid">
+            <div class="tool">
+                <div class="tool-icon">📄</div>
+                <div class="tool-name">Document Intelligence</div>
+                <div class="tool-description">Upload any document — Claude reads it, summarizes it, flags the risks, and pulls out what needs your attention.</div>
+                <div class="tool-tagline">Stop reading 40-page docs line by line.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">📊</div>
+                <div class="tool-name">Data Analyzer</div>
+                <div class="tool-description">Feed it your numbers — Claude finds the patterns, the problems, and the opportunities you're missing.</div>
+                <div class="tool-tagline">Turn spreadsheets into decisions in minutes.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">✍️</div>
+                <div class="tool-name">Content & Communication</div>
+                <div class="tool-description">Tell it what you need — emails, proposals, posts, reports — and it writes them in your voice.</div>
+                <div class="tool-tagline">5 minutes instead of 2 hours.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">🔍</div>
+                <div class="tool-name">Process Auditor</div>
+                <div class="tool-description">Describe how you work — Claude shows you where you're wasting time and how to fix it.</div>
+                <div class="tool-tagline">Cut 20-40% of the busywork.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">💬</div>
+                <div class="tool-name">Feedback Analyzer</div>
+                <div class="tool-description">Reviews, surveys, support tickets — Claude tells you what people really think and what to do about it.</div>
+                <div class="tool-tagline">Never miss what your customers are telling you.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">🎯</div>
+                <div class="tool-name">Decision Support</div>
+                <div class="tool-description">Bring it a hard call — Claude weighs the options, flags the risks, and recommends a path.</div>
+                <div class="tool-tagline">A second brain for your biggest decisions.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">🎙️</div>
+                <div class="tool-name">Meeting Assistant</div>
+                <div class="tool-description">Paste your meeting notes — Claude pulls out every decision, action item, and deadline.</div>
+                <div class="tool-tagline">Nothing falls through the cracks.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">🧠</div>
+                <div class="tool-name">Knowledge Base</div>
+                <div class="tool-description">Give it your docs and know-how — Claude turns it into something anyone on your team can just ask.</div>
+                <div class="tool-tagline">Your whole business, searchable.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">💰</div>
+                <div class="tool-name">Financial Forecasting</div>
+                <div class="tool-description">Plug in your history — Claude forecasts revenue, cash flow, and flags trouble early.</div>
+                <div class="tool-tagline">See around corners.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">⚠️</div>
+                <div class="tool-name">Compliance Checker</div>
+                <div class="tool-description">Tell it your situation — Claude builds the checklist and flags the risks before they bite.</div>
+                <div class="tool-tagline">Sleep better at night.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">🤖</div>
+                <div class="tool-name">Workflow Automation</div>
+                <div class="tool-description">Show it your repetitive tasks — Claude designs the automation to make them disappear.</div>
+                <div class="tool-tagline">Buy back 10+ hours a week.</div>
+            </div>
+
+            <div class="tool">
+                <div class="tool-icon">🎯</div>
+                <div class="tool-name">Competitive Tracker</div>
+                <div class="tool-description">Point it at your competitors — Claude watches their moves and tells you how to respond.</div>
+                <div class="tool-tagline">Always know what they're doing.</div>
+            </div>
+        </div>
+
+        <div class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Pick your tool — whatever hurts the most</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">30-minute call — we scope it together</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">2-3 weeks — we build it</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">We train your team — you own everything</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing">
+            <h2>Simple Pricing</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th><strong>Starter</strong></th>
+                        <th><strong>Growth</strong></th>
+                        <th><strong>Full Suite</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tools</strong></td>
+                        <td>1</td>
+                        <td>2-3</td>
+                        <td>5-6</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Timeline</strong></td>
+                        <td>2 weeks</td>
+                        <td>3 weeks</td>
+                        <td>5 weeks</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Price</strong></td>
+                        <td>$4,500</td>
+                        <td>$9,000</td>
+                        <td>$16,500</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="guarantee">30-day money-back guarantee. If it doesn't save you 5+ hours a week, you don't pay.</p>
+        </div>
+
+        <div class="cta">
+            <p>Let's talk. <a href="mailto:ross@steadyhand.ai" class="email">ross@steadyhand.ai</a></p>
+        </div>
+    </div>
+</body>
+</html>
