@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Menu — Steadyhand</title>
+<style>
+  @page { size: Letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #1c1a17;
+    background: #f5f2ea;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.55in 0.65in 0.5in;
+    display: flex;
+    flex-direction: column;
+    background: #f5f2ea;
+  }
+
+  /* ---- Header ---- */
+  header { display: flex; justify-content: space-between; align-items: flex-end; }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: #b0341d;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: 'Arial Narrow', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 800;
+    font-size: 62px;
+    line-height: 0.85;
+    letter-spacing: -1px;
+    color: #1c1a17;
+    transform: scaleX(0.92);
+    transform-origin: left;
+  }
+  .tagline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #4a4640;
+    text-align: right;
+    max-width: 3in;
+  }
+
+  .rule {
+    height: 3px;
+    background: #1c1a17;
+    margin: 14px 0 18px;
+  }
+
+  /* ---- Columns ---- */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 44px;
+    flex: 1;
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .group { margin-bottom: 0; }
+  .group-title {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #1c1a17;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid #b0341d;
+    margin-bottom: 10px;
+  }
+
+  .item {
+    padding: 7px 0 8px;
+    border-bottom: 1px solid #d9d3c6;
+  }
+  .item:last-child { border-bottom: none; }
+
+  .name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1c1a17;
+  }
+  .desc {
+    font-size: 11.5px;
+    color: #5a554c;
+    line-height: 1.35;
+  }
+
+  /* ---- Footer ---- */
+  .foot {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 3px solid #1c1a17;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .foot .how {
+    font-size: 11px;
+    color: #4a4640;
+  }
+  .foot .how b { color: #1c1a17; }
+  .foot .contact {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #1c1a17;
+  }
+  .foot .contact span { color: #b0341d; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div>
+        <div class="eyebrow">Steadyhand &nbsp;&middot;&nbsp; À La Carte</div>
+        <h1>THE&nbsp;MENU.</h1>
+      </div>
+      <div class="tagline">
+        Start anywhere. Everything plugs into the brain.<br>
+        Priced at the sit-down, sized to your shop.
+      </div>
+    </header>
+
+    <div class="rule"></div>
+
+    <div class="cols">
+      <!-- LEFT COLUMN -->
+      <div class="col">
+        <div class="group">
+          <div class="group-title">Websites &amp; Storefront</div>
+          <div class="item"><span class="name">The New Website —</span> <span class="desc">Designed and built from scratch, with a dashboard you edit yourself.</span></div>
+          <div class="item"><span class="name">The Website Tune-Up —</span> <span class="desc">Make your current site fast, findable, and wired to the brain.</span></div>
+          <div class="item"><span class="name">The Full World —</span> <span class="desc">Brand, story, design, and site — the whole treatment.</span></div>
+          <div class="item"><span class="name">The Shop —</span> <span class="desc">Online store, bookings, and payments: money while you sleep.</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">The Brain</div>
+          <div class="item"><span class="name">The Brain —</span> <span class="desc">Your private AI and voice-note bot. Everything plugs into it.</span></div>
+          <div class="item"><span class="name">Document Reader —</span> <span class="desc">Upload a document, get a summary with the key parts highlighted.</span></div>
+          <div class="item"><span class="name">The Archive —</span> <span class="desc">Old drives and files, digitized and searchable — ask it anything.</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Get More Done</div>
+          <div class="item"><span class="name">Meeting Notes —</span> <span class="desc">Turns meeting notes into a simple to-do list.</span></div>
+          <div class="item"><span class="name">Efficiency Finder —</span> <span class="desc">Finds where you're wasting time.</span></div>
+          <div class="item"><span class="name">Task Automator —</span> <span class="desc">Takes repetitive tasks off your plate.</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="col">
+        <div class="group">
+          <div class="group-title">Money &amp; Numbers</div>
+          <div class="item"><span class="name">The Dashboard —</span> <span class="desc">Sales, stock, and jobs on one screen. Mission control for the shop.</span></div>
+          <div class="item"><span class="name">Data Analyzer —</span> <span class="desc">Turns your numbers into simple insights.</span></div>
+          <div class="item"><span class="name">Money Forecaster —</span> <span class="desc">Predicts your future cash flow.</span></div>
+          <div class="item"><span class="name">Feedback Reader —</span> <span class="desc">Reads your reviews and tells you what customers think.</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Decisions</div>
+          <div class="item"><span class="name">Decision Helper —</span> <span class="desc">Give it a hard choice, it helps you decide.</span></div>
+          <div class="item"><span class="name">Competitor Watcher —</span> <span class="desc">Keeps an eye on what competitors are doing.</span></div>
+          <div class="item"><span class="name">Rule Checker —</span> <span class="desc">Tells you what rules apply to your situation.</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Paperwork &amp; Content</div>
+          <div class="item"><span class="name">The Contract Manager —</span> <span class="desc">Drafts agreements, tracks dates, flags renewals early.</span></div>
+          <div class="item"><span class="name">The Paperwork Crew —</span> <span class="desc">Invoices, quotes, proposals, and follow-up emails for your approval.</span></div>
+          <div class="item"><span class="name">The Content Kitchen —</span> <span class="desc">Phone footage in; branded posts and captions out.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div class="how"><b>How it works:</b> &nbsp;Pick what you need &nbsp;&rarr;&nbsp; 30-minute sit-down &nbsp;&rarr;&nbsp; we build it &nbsp;&rarr;&nbsp; we teach you to run it.</div>
+      <div class="contact">Let's talk — <span>ross@steadyhand.ai</span></div>
+    </div>
+  </div>
+</body>
+</html>
