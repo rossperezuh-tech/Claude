@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Steadyhand AI Consulting — Menu</title>
+<style>
+  @page {
+    size: Letter;
+    margin: 0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #1a1a1a;
+    background: #ffffff;
+  }
+
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.7in 0.7in;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* ---------- Header ---------- */
+  header {
+    border-bottom: 3px solid #0f2a4a;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+  }
+
+  .eyebrow {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #b8860b;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-size: 34px;
+    font-weight: 700;
+    color: #0f2a4a;
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* ---------- Tool groups ---------- */
+  .groups {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px 32px;
+    align-content: start;
+  }
+
+  .group-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f2a4a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    border-bottom: 1.5px solid #d4a017;
+  }
+
+  .tool {
+    margin-bottom: 9px;
+    display: flex;
+    align-items: baseline;
+  }
+
+  .tool-name {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #1a1a1a;
+    white-space: nowrap;
+    margin-right: 8px;
+  }
+
+  .tool-desc {
+    font-size: 12px;
+    color: #444;
+    line-height: 1.35;
+  }
+
+  /* ---------- Footer band ---------- */
+  .footer {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 28px;
+    border-top: 2px solid #0f2a4a;
+    padding-top: 16px;
+  }
+
+  .block-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #b8860b;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+  }
+
+  .steps {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    color: #333;
+    line-height: 1.9;
+  }
+  .steps .num {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: #0f2a4a;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 18px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    padding: 6px 0;
+    border-bottom: 1px dotted #ccc;
+  }
+  .price-row:last-of-type { border-bottom: none; }
+  .plan-name { font-size: 12.5px; font-weight: 700; color: #0f2a4a; }
+  .plan-meta { font-size: 10.5px; color: #777; }
+  .plan-price { font-size: 14px; font-weight: 700; color: #b8860b; }
+
+  .guarantee {
+    font-size: 10.5px;
+    color: #666;
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact {
+    margin-top: 18px;
+    text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12.5px;
+    color: #0f2a4a;
+    border-top: 1px solid #ddd;
+    padding-top: 12px;
+  }
+  .contact strong { color: #b8860b; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="eyebrow">Steadyhand AI Consulting</div>
+      <h1>The Menu</h1>
+      <div class="subtitle">Simple AI tools for your business. Start anywhere — pick what you need.</div>
+    </header>
+
+    <div class="groups">
+      <div>
+        <div class="group-title">The Brain</div>
+        <div class="tool"><span class="tool-name">Document Reader —</span><span class="tool-desc">Upload a document, get a summary with the important parts highlighted.</span></div>
+        <div class="tool"><span class="tool-name">Knowledge Search —</span><span class="tool-desc">Ask questions about your own files, get instant answers.</span></div>
+      </div>
+
+      <div>
+        <div class="group-title">The Data Engine</div>
+        <div class="tool"><span class="tool-name">Data Analyzer —</span><span class="tool-desc">Turns your numbers into simple insights.</span></div>
+        <div class="tool"><span class="tool-name">Money Forecaster —</span><span class="tool-desc">Predicts your future cash flow.</span></div>
+        <div class="tool"><span class="tool-name">Feedback Reader —</span><span class="tool-desc">Reads your reviews, tells you what customers think.</span></div>
+      </div>
+
+      <div>
+        <div class="group-title">The Decision Maker</div>
+        <div class="tool"><span class="tool-name">Decision Helper —</span><span class="tool-desc">Give it a hard choice, it helps you decide.</span></div>
+        <div class="tool"><span class="tool-name">Competitor Watcher —</span><span class="tool-desc">Keeps an eye on what competitors are doing.</span></div>
+        <div class="tool"><span class="tool-name">Rule Checker —</span><span class="tool-desc">Tells you what rules apply to your situation.</span></div>
+      </div>
+
+      <div>
+        <div class="group-title">The Workflow Crew</div>
+        <div class="tool"><span class="tool-name">Writing Helper —</span><span class="tool-desc">Writes your emails, posts, and proposals.</span></div>
+        <div class="tool"><span class="tool-name">Meeting Notes —</span><span class="tool-desc">Turns meeting notes into a simple to-do list.</span></div>
+        <div class="tool"><span class="tool-name">Efficiency Finder —</span><span class="tool-desc">Finds where you're wasting time.</span></div>
+        <div class="tool"><span class="tool-name">Task Automator —</span><span class="tool-desc">Takes repetitive tasks off your plate.</span></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>
+        <div class="block-title">How It Works</div>
+        <div class="steps">
+          <div><span class="num">1</span>Pick a tool</div>
+          <div><span class="num">2</span>30-minute call</div>
+          <div><span class="num">3</span>We build it — 2 to 3 weeks</div>
+          <div><span class="num">4</span>We teach you how to use it</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="block-title">Pricing</div>
+        <div class="price-row">
+          <div><div class="plan-name">Starter</div><div class="plan-meta">1 tool &middot; 2 weeks</div></div>
+          <div class="plan-price">$4,500</div>
+        </div>
+        <div class="price-row">
+          <div><div class="plan-name">Growth</div><div class="plan-meta">2–3 tools &middot; 3 weeks</div></div>
+          <div class="plan-price">$9,000</div>
+        </div>
+        <div class="price-row">
+          <div><div class="plan-name">Full Suite</div><div class="plan-meta">5–6 tools &middot; 5 weeks</div></div>
+          <div class="plan-price">$16,500</div>
+        </div>
+        <div class="guarantee">Money-back guarantee if it doesn't save you time.</div>
+      </div>
+    </div>
+
+    <div class="contact">
+      Let's talk — <strong>ross@steadyhand.ai</strong>
+    </div>
+  </div>
+</body>
+</html>
