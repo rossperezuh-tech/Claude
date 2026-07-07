@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Menu — Steadyhand</title>
+<style>
+  :root{
+    --ground:#f5f2ea; --card:#fbf9f4; --ink:#1c1a17; --muted:#5a554c;
+    --hair:#d9d3c6; --accent:#b0341d; --good:#2f6b3f;
+    --sans:'Helvetica Neue',Arial,sans-serif;
+    --cond:'Arial Narrow','Helvetica Neue',Arial,sans-serif;
+    --mono:ui-monospace,'SFMono-Regular','Menlo','Consolas',monospace;
+    --serif:Georgia,'Times New Roman',serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ground);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 28px 64px}
+
+  /* ---------------- MENU VIEW ---------------- */
+  .mast{border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:6px}
+  .mast h1{
+    font-family:var(--cond);font-weight:800;font-size:clamp(52px,11vw,92px);
+    line-height:.85;letter-spacing:-1px;transform:scaleX(.92);transform-origin:left;
+  }
+  .mast .sub{font-family:var(--serif);font-style:italic;color:var(--muted);
+    font-size:15px;margin-top:14px}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px 48px;margin-top:26px}
+  @media(max-width:720px){.cols{grid-template-columns:1fr;gap:26px}}
+  .grp-title{
+    font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+    padding-bottom:6px;border-bottom:1.5px solid var(--accent);margin-bottom:4px;
+  }
+  .row{
+    display:block;padding:11px 10px 11px 0;border-bottom:1px solid var(--hair);
+    position:relative;transition:background .15s,padding .15s;
+  }
+  .row:last-child{border-bottom:none}
+  .row .nm{font-size:14px;font-weight:700}
+  .row .ds{font-size:12px;color:var(--muted)}
+  .row .go{
+    position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    font-family:var(--mono);font-size:11px;color:var(--accent);opacity:0;
+    transition:opacity .15s,right .15s;white-space:nowrap;
+  }
+  .row:hover{background:var(--card);padding-left:12px}
+  .row:hover .go{opacity:1;right:10px}
+  .row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .footer{
+    margin-top:40px;padding-top:16px;border-top:3px solid var(--ink);
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
+    font-size:12.5px;color:var(--muted);
+  }
+  .footer b{color:var(--ink)}
+  .footer .mail{font-weight:700;color:var(--ink)}
+  .footer .mail span{color:var(--accent)}
+
+  /* ---------------- EXAMPLE VIEW ---------------- */
+  #example{display:none}
+  body.showing-example #menu{display:none}
+  body.showing-example #example{display:block}
+
+  .back{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
+    font-size:12px;letter-spacing:.5px;color:var(--accent);padding:8px 0;margin-bottom:18px;
+  }
+  .back:hover{text-decoration:underline}
+  .ex-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2px;
+    text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .ex-title{font-family:var(--cond);font-weight:800;font-size:44px;line-height:.95;
+    letter-spacing:-.5px;transform:scaleX(.94);transform-origin:left}
+  .ex-blurb{font-size:16px;color:var(--muted);margin-top:12px;max-width:60ch}
+  .ex-hr{height:1px;background:var(--hair);margin:26px 0}
+
+  .io{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:720px){.io{grid-template-columns:1fr}}
+  .io-card{background:var(--card);border:1px solid var(--hair);border-radius:2px;overflow:hidden}
+  .io-head{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    padding:9px 14px;border-bottom:1px solid var(--hair);color:var(--muted);
+    display:flex;justify-content:space-between;align-items:center}
+  .io-head .tag{color:var(--accent)}
+  .io-body{padding:14px 16px;font-size:13.5px}
+  .io-body.out{background:#fdfcf9}
+
+  .io-body p{margin:0 0 9px}
+  .io-body p:last-child{margin-bottom:0}
+  .io-body ul{list-style:none;margin:0}
+  .io-body li{padding:6px 0 6px 20px;position:relative;border-bottom:1px solid var(--hair)}
+  .io-body li:last-child{border-bottom:none}
+  .io-body li::before{content:"—";position:absolute;left:0;color:var(--accent)}
+  .k{font-weight:700}
+  .muted{color:var(--muted)}
+  .doc-lines{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9}
+
+  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;
+    text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid;}
+  .chip.warn{color:var(--accent);border-color:var(--accent);background:#f7e9e5}
+  .chip.good{color:var(--good);border-color:var(--good);background:#e7efe7}
+  .chip.flag{color:var(--accent);border-color:var(--accent)}
+
+  /* mocks */
+  .browser{border:1px solid var(--hair);border-radius:6px;overflow:hidden;background:#fff}
+  .browser .bar{background:#efeadf;padding:8px 12px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--hair)}
+  .dot{width:9px;height:9px;border-radius:50%;background:#cfc7b6}
+  .browser .url{margin-left:10px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+  .site{padding:26px 22px;text-align:center}
+  .site nav{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:26px}
+  .site h3{font-family:var(--cond);font-weight:800;font-size:30px;line-height:1;margin-bottom:10px}
+  .site .lede{font-size:12.5px;color:var(--muted);max-width:34ch;margin:0 auto 16px}
+  .site .cta{display:inline-block;background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:9px 18px;border-radius:3px}
+  .site .tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:26px}
+  .site .tri div{background:var(--ground);border:1px solid var(--hair);border-radius:3px;height:46px}
+
+  .swatches{display:flex;gap:10px;margin:4px 0 14px;flex-wrap:wrap}
+  .sw{width:60px}
+  .sw i{display:block;height:44px;border-radius:3px;border:1px solid rgba(0,0,0,.08)}
+  .sw small{font-family:var(--mono);font-size:10px;color:var(--muted);display:block;margin-top:4px}
+
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:720px){.kpis{grid-template-columns:1fr 1fr}}
+  .kpi{background:var(--card);border:1px solid var(--hair);border-radius:3px;padding:12px 14px}
+  .kpi .lab{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+  .kpi .val{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px}
+  .kpi .val small{font-size:12px;font-weight:600;color:var(--good)}
+
+  .bars{display:flex;align-items:flex-end;gap:10px;height:120px;padding-top:10px}
+  .bars .b{flex:1;background:var(--accent);border-radius:2px 2px 0 0;position:relative;opacity:.85}
+  .bars .b span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+  .bars .b em{position:absolute;top:-16px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--ink);font-style:normal}
+
+  .toast{background:var(--ink);color:var(--ground);border-radius:4px;padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:13px}
+  .toast .b{font-family:var(--mono);font-size:10px;color:#e9b9ad;letter-spacing:1px}
+
+  table.mini{width:100%;border-collapse:collapse;font-size:12.5px}
+  table.mini th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:1px;
+    text-transform:uppercase;color:var(--muted);font-weight:400;padding:6px 8px;border-bottom:1px solid var(--hair)}
+  table.mini td{padding:8px;border-bottom:1px solid var(--hair);vertical-align:top}
+  table.mini tr:last-child td{border-bottom:none}
+  .num{font-variant-numeric:tabular-nums;text-align:right}
+
+  .voice{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .wave{display:flex;gap:2px;align-items:center}
+  .wave i{width:3px;background:var(--accent);border-radius:2px;opacity:.7}
+
+  .rec{background:var(--card);border:1px solid var(--hair);border-left:3px solid var(--accent);border-radius:2px;padding:12px 14px;margin-top:12px}
+  .rec .h{font-weight:700;margin-bottom:4px}
+
+  .disclaim{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:22px;text-align:center;letter-spacing:.3px}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ======================= MENU ======================= -->
+<main id="menu">
+  <div class="wrap">
+    <div class="mast">
+      <h1>THE&nbsp;MENU</h1>
+      <div class="sub">Tap any item to see a real example of what it produces.</div>
+    </div>
+    <div class="cols" id="cols"></div>
+    <div class="footer">
+      <div><b>How it works:</b> Pick what you need → 30-minute sit-down → we build it → we teach you to run it.</div>
+      <div class="mail">Let's talk — <span>ross@steadyhand.ai</span></div>
+    </div>
+  </div>
+</main>
+
+<!-- ======================= EXAMPLE ======================= -->
+<main id="example">
+  <div class="wrap">
+    <a class="back" href="#" id="backlink">← Back to the menu</a>
+    <div class="ex-eyebrow" id="exEyebrow"></div>
+    <h2 class="ex-title" id="exTitle"></h2>
+    <p class="ex-blurb" id="exBlurb"></p>
+    <div class="ex-hr"></div>
+    <div id="exBody"></div>
+    <div class="disclaim">Sample output — illustrative of a finished build. Your version is trained on your own business.</div>
+  </div>
+</main>
+
+<script>
+/* ---- helper builders ---- */
+const io = (inLabel, inHTML, outHTML, outLabel="Claude returns") => `
+  <div class="io">
+    <div class="io-card"><div class="io-head"><span>${inLabel}</span><span class="tag">YOU GIVE IT</span></div><div class="io-body">${inHTML}</div></div>
+    <div class="io-card"><div class="io-head"><span>${outLabel}</span><span class="tag">YOU GET</span></div><div class="io-body out">${outHTML}</div></div>
+  </div>`;
+
+const DATA = [
+ // ---------- WEBSITES & STOREFRONT ----------
+ {slug:"the-new-website",group:"Websites & Storefront",name:"The New Website",
+  blurb:"Designed and built from scratch, with a dashboard you edit yourself.",
+  body:`
+   <div class="browser">
+     <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">greenpointsupply.com</span></div>
+     <div class="site">
+       <nav><span><b>GREENPOINT&nbsp;SUPPLY</b></span><span>Shop&nbsp;·&nbsp;About&nbsp;·&nbsp;Contact</span></nav>
+       <h3>Built for the way you work.</h3>
+       <div class="lede">Tools, hardware, and same-day delivery across North Brooklyn.</div>
+       <a class="cta">Shop the store</a>
+       <div class="tri"><div></div><div></div><div></div></div>
+     </div>
+   </div>
+   <p class="muted" style="margin-top:14px;font-size:13px">Delivered in 2 weeks. You edit text, prices, and photos yourself from a simple dashboard — no developer, no monthly agency fee.</p>`},
+
+ {slug:"the-website-tune-up",group:"Websites & Storefront",name:"The Website Tune-Up",
+  blurb:"Make your current site fast, findable, and wired to the brain.",
+  body: io("Your current site","<p class='k'>oldshop.com</p><ul><li>Loads in 6.2 seconds</li><li>Page 3 on Google for your own name</li><li>Breaks on phones</li></ul>",
+     `<table class="mini"><tr><th>Metric</th><th class="num">Before</th><th class="num">After</th></tr>
+      <tr><td>Load time</td><td class="num">6.2s</td><td class="num"><span class="k">0.9s</span></td></tr>
+      <tr><td>Google spot (your name)</td><td class="num">pg 3</td><td class="num"><span class="k">pg 1, #1</span></td></tr>
+      <tr><td>Mobile score</td><td class="num">44</td><td class="num"><span class="k">98</span></td></tr></table>
+      <p style="margin-top:10px" class="muted">Plus: contact forms now drop straight into <span class="k">the brain</span>.</p>`)},
+
+ {slug:"the-full-world",group:"Websites & Storefront",name:"The Full World",
+  blurb:"Brand, story, design language, and site — the whole treatment.",
+  body:`
+   <div class="io-card"><div class="io-head"><span>Brand kit</span><span class="tag">DELIVERED</span></div>
+   <div class="io-body">
+     <p style="font-family:var(--cond);font-weight:800;font-size:34px;letter-spacing:-1px">BROOKLYN TINY FARM</p>
+     <p class="muted" style="font-family:var(--serif);font-style:italic;margin-bottom:14px">"Greens, cut this morning. Ten minutes from your door."</p>
+     <div class="swatches">
+       <div class="sw"><i style="background:#2f5233"></i><small>#2F5233</small></div>
+       <div class="sw"><i style="background:#a7c957"></i><small>#A7C957</small></div>
+       <div class="sw"><i style="background:#f2e8cf"></i><small>#F2E8CF</small></div>
+       <div class="sw"><i style="background:#1c1a17"></i><small>#1C1A17</small></div>
+     </div>
+     <p class="muted" style="font-size:12.5px">Logo, colors, fonts, voice, packaging, and the website — one consistent world, ready to roll out everywhere.</p>
+   </div></div>`},
+
+ {slug:"the-shop",group:"Websites & Storefront",name:"The Shop",
+  blurb:"Online store, bookings, and payments: money while you sleep.",
+  body:`
+   <div class="toast"><span class="b">NEW&nbsp;ORDER · 3:12&nbsp;AM</span><span>Order #1043 — 2× Sampler Box — <b>$68.00</b> — paid, label printed.</span></div>
+   <div class="io-card" style="margin-top:14px"><div class="io-head"><span>This week, unattended</span><span class="tag">STORE</span></div>
+   <div class="io-body"><table class="mini">
+     <tr><th>Orders</th><th>Bookings</th><th class="num">Collected</th><th class="num">Payout</th></tr>
+     <tr><td>34</td><td>11</td><td class="num">$2,417</td><td class="num"><span class="k">Fri, auto</span></td></tr>
+   </table><p class="muted" style="margin-top:10px;font-size:12.5px">Store, calendar, and checkout in one place. Runs overnight without you.</p></div></div>`},
+
+ // ---------- THE BRAIN ----------
+ {slug:"the-brain",group:"The Brain",name:"The Brain",
+  blurb:"Your private AI and voice-note bot. Everything plugs into it.",
+  body: io("Voice note, 6 sec",
+     `<div class="voice"><span>🎙️</span><div class="wave"><i style="height:8px"></i><i style="height:18px"></i><i style="height:12px"></i><i style="height:22px"></i><i style="height:10px"></i><i style="height:16px"></i><i style="height:9px"></i></div></div>
+      <p style="margin-top:10px" class="muted">"Remind me what we agreed with the Conley Street seller."</p>`,
+     `<p>You offered <span class="k">$1.42M</span>, all-cash, 21-day close. Seller wanted the forklift left behind — you said yes. Inspection contingency waived.</p>
+      <p class="muted">Pulled from your note dated <span class="k">Jun 18</span>. Want me to draft the follow-up email?</p>`)},
+
+ {slug:"document-reader",group:"The Brain",name:"Document Reader",
+  blurb:"Upload a document, get a summary with the key parts highlighted.",
+  body: io("Mutual NDA — 14 pages",
+     `<div class="doc-lines">§1 Definitions…<br>§2 Confidential Info…<br>§4 Term &amp; Termination…<br>§7 Governing Law…<br>§9 Injunctive Relief…<br>… 14 pages …</div>`,
+     `<p class="k">In plain English</p><ul>
+        <li>Standard 2-way NDA. Nothing unusual in scope.</li>
+        <li><span class="chip warn">Watch</span> Term runs <span class="k">5 years</span> — longer than your usual 2.</li>
+        <li><span class="chip warn">Watch</span> No carve-out for info you already knew.</li>
+      </ul>
+      <p class="k" style="margin-top:10px">Your move</p>
+      <ul><li>Ask to cut term to 2 years</li><li>Add "prior knowledge" exception, then sign</li></ul>`)},
+
+ {slug:"the-archive",group:"The Brain",name:"The Archive",
+  blurb:"Old drives and files, digitized and searchable — ask it anything.",
+  body: io("You ask",
+     `<p style="font-family:var(--mono);font-size:12.5px">"find the Henderson invoice from 2019"</p>`,
+     `<table class="mini"><tr><th>File</th><th>Date</th><th class="num">Amount</th></tr>
+      <tr><td class="k">Henderson_final_inv.pdf</td><td>Mar 2019</td><td class="num">$8,450</td></tr></table>
+      <p class="muted" style="margin-top:10px;font-size:12.5px">Found in <span class="k">Old Drive → 2019 → Clients</span>. Scanned box #4, page 212. Opened in 1.2s.</p>`)},
+
+ // ---------- GET MORE DONE ----------
+ {slug:"meeting-notes",group:"Get More Done",name:"Meeting Notes",
+  blurb:"Turns meeting notes into a simple to-do list.",
+  body: io("Meeting transcript — 38 min",
+     `<div class="doc-lines">…"let's push the launch to the 15th"…<br>…"Anna will handle the supplier"…<br>…"we still need the insurance quote"…</div>`,
+     `<table class="mini"><tr><th>To-do</th><th>Owner</th><th>Due</th></tr>
+      <tr><td>Move launch to the 15th</td><td>You</td><td>—</td></tr>
+      <tr><td>Line up the supplier</td><td class="k">Anna</td><td>Fri</td></tr>
+      <tr><td>Get insurance quote</td><td>You</td><td class="k">Wed</td></tr></table>`)},
+
+ {slug:"efficiency-finder",group:"Get More Done",name:"Efficiency Finder",
+  blurb:"Finds where you're wasting time.",
+  body: io("Your weekly routine",
+     `<ul><li>Copy orders from email → spreadsheet</li><li>Re-type them into QuickBooks</li><li>Text each customer a tracking number</li></ul>`,
+     `<p><span class="chip warn">Bottleneck</span> You're typing the same order <span class="k">three times</span>.</p>
+      <div class="rec"><div class="h">Fix</div>One entry that feeds email, books, and texts. <span class="k">~6 hrs/week</span> back.</div>`)},
+
+ {slug:"task-automator",group:"Get More Done",name:"Task Automator",
+  blurb:"Takes repetitive tasks off your plate.",
+  body: io("The task you hate",
+     `<p style="font-family:var(--mono);font-size:12.5px">"Every invoice, I re-type into QuickBooks by hand."</p>`,
+     `<p class="k">Automation designed</p>
+      <ul><li>Invoice lands → read automatically</li><li>Fields filled into QuickBooks</li><li>You get a one-tap "Approve" text</li></ul>
+      <p class="muted" style="margin-top:10px">40 invoices/week × 4 min = <span class="k">~2.5 hrs/week</span> gone.</p>`)},
+
+ // ---------- MONEY & NUMBERS ----------
+ {slug:"the-dashboard",group:"Money & Numbers",name:"The Dashboard",
+  blurb:"Sales, stock, and jobs on one screen. Mission control for the shop.",
+  body:`
+   <div class="kpis">
+     <div class="kpi"><div class="lab">Sales today</div><div class="val">$3,240 <small>▲9%</small></div></div>
+     <div class="kpi"><div class="lab">Open jobs</div><div class="val">7</div></div>
+     <div class="kpi"><div class="lab">Low stock</div><div class="val">3</div></div>
+     <div class="kpi"><div class="lab">Machines</div><div class="val" style="color:var(--good)">OK</div></div>
+   </div>
+   <p class="muted" style="margin-top:14px;font-size:13px">Everything you'd walk the floor to check — sales, stock, jobs, equipment — on one screen, live.</p>`},
+
+ {slug:"data-analyzer",group:"Money & Numbers",name:"Data Analyzer",
+  blurb:"Turns your numbers into simple insights.",
+  body: io("sales_2026.csv — 4,812 rows",
+     `<div class="doc-lines">date, item, qty, price, refund<br>2026-01-03, B-12, 2, 34.00, 0<br>… 4,812 rows …</div>`,
+     `<p class="k">Three things worth knowing</p>
+      <ul><li>Tuesdays are your slowest day — <span class="k">31% below</span> average.</li>
+      <li>Product B earns the most per sale. Push it.</li>
+      <li><span class="chip warn">Watch</span> Refunds on item C jumped last month.</li></ul>`)},
+
+ {slug:"money-forecaster",group:"Money & Numbers",name:"Money Forecaster",
+  blurb:"Predicts your future cash flow.",
+  body:`
+   <div class="io-card"><div class="io-head"><span>Cash on hand — next 6 months</span><span class="tag">FORECAST</span></div>
+   <div class="io-body">
+     <div class="bars">
+       <div class="b" style="height:70%"><em>$41k</em><span>Jul</span></div>
+       <div class="b" style="height:78%"><em>$46k</em><span>Aug</span></div>
+       <div class="b" style="height:60%"><em>$35k</em><span>Sep</span></div>
+       <div class="b" style="height:48%"><em>$28k</em><span>Oct</span></div>
+       <div class="b" style="height:38%"><em>$22k</em><span>Nov</span></div>
+       <div class="b" style="height:30%"><em>$18k</em><span>Dec</span></div>
+     </div>
+     <div class="rec" style="margin-top:26px"><div class="h">Heads up</div>December dips to <span class="k">$18k</span> — your seasonal slow month. Set aside now or line up a small buffer.</div>
+   </div></div>`},
+
+ {slug:"feedback-reader",group:"Money & Numbers",name:"Feedback Reader",
+  blurb:"Reads your reviews and tells you what customers think.",
+  body: io("47 reviews across Google + Yelp",
+     `<div class="doc-lines">★★★★★ "fast and friendly"<br>★★☆☆☆ "waited 25 min"<br>★★★★★ "best in the neighborhood"<br>… 47 total …</div>`,
+     `<p><span class="k">4.3 / 5</span> overall.</p>
+      <ul><li><span class="chip good">Loved</span> Friendly staff, quality, location.</li>
+      <li><span class="chip warn">Complaint</span> Wait times at lunch (came up 9×).</li></ul>
+      <div class="rec"><div class="h">Quick win</div>Add one person 12–2pm. Most complaints vanish.</div>`)},
+
+ // ---------- DECISIONS ----------
+ {slug:"decision-helper",group:"Decisions",name:"Decision Helper",
+  blurb:"Give it a hard choice, it helps you decide.",
+  body: io("Your question",
+     `<p style="font-family:var(--mono);font-size:12.5px">"Hire a salesperson, or use an agency?"</p>`,
+     `<table class="mini"><tr><th></th><th>Hire</th><th>Agency</th></tr>
+      <tr><td>Cost/mo</td><td>$5k+</td><td>$3k</td></tr>
+      <tr><td>Ramp-up</td><td>2–3 mo</td><td class="k">2 wks</td></tr>
+      <tr><td>Control</td><td class="k">High</td><td>Medium</td></tr></table>
+      <div class="rec"><div class="h">Recommendation</div>Start with the agency for 90 days. If leads hold, hire. Lower risk, faster proof.</div>`)},
+
+ {slug:"competitor-watcher",group:"Decisions",name:"Competitor Watcher",
+  blurb:"Keeps an eye on what competitors are doing.",
+  body:`
+   <div class="toast"><span class="b">ALERT · TODAY</span><span>Riverside Co. dropped their starter price to <b>$49</b> (was $59).</span></div>
+   ${io("What changed","<p>Competitor cut price 17% and added free delivery.</p>",
+     `<p class="k">Your options</p><ul>
+      <li>Hold price, lean on same-day service they can't match</li>
+      <li>Match $49 on the starter only, keep margins on the rest</li>
+      <li>Bundle to beat them without a price war</li></ul>`).replace('<div class="io">','<div class="io" style="margin-top:14px">')}`},
+
+ {slug:"rule-checker",group:"Decisions",name:"Rule Checker",
+  blurb:"Tells you what rules apply to your situation.",
+  body: io("Your plan",
+     `<p style="font-family:var(--mono);font-size:12.5px">"Open a food stall in Brooklyn."</p>`,
+     `<table class="mini"><tr><th>You'll need</th><th>Status</th></tr>
+      <tr><td>NYC Food Vendor License</td><td><span class="chip flag">Apply</span></td></tr>
+      <tr><td>Food Protection Certificate</td><td><span class="chip flag">Apply</span></td></tr>
+      <tr><td>Commissary agreement</td><td><span class="chip warn">Required</span></td></tr>
+      <tr><td>Sales tax ID</td><td><span class="chip good">You have it</span></td></tr></table>`)},
+
+ // ---------- PAPERWORK & CONTENT ----------
+ {slug:"the-contract-manager",group:"Paperwork & Content",name:"The Contract Manager",
+  blurb:"Drafts agreements, tracks dates, flags renewals early.",
+  body:`
+   <div class="io-card"><div class="io-head"><span>Your agreements</span><span class="tag">TRACKED</span></div>
+   <div class="io-body"><table class="mini">
+     <tr><th>Contract</th><th>Renews</th><th>Flag</th></tr>
+     <tr><td>Supplier — CoolBrew</td><td>in 12 days</td><td><span class="chip warn">Act now</span></td></tr>
+     <tr><td>Lease — 231 Norman</td><td>in 4 mo</td><td><span class="chip good">Fine</span></td></tr>
+     <tr><td>Insurance</td><td>auto-renews</td><td><span class="chip warn">Review rate</span></td></tr>
+   </table><p class="muted" style="margin-top:10px;font-size:12.5px">It drafts new ones too — you just fill in the blanks it asks for.</p></div></div>`},
+
+ {slug:"the-paperwork-crew",group:"Paperwork & Content",name:"The Paperwork Crew",
+  blurb:"Invoices, quotes, proposals, and follow-up emails for your approval.",
+  body: io("You say",
+     `<p style="font-family:var(--mono);font-size:12.5px">"Invoice the Delgado job, then chase last month's unpaid one."</p>`,
+     `<p class="k">Invoice #1044 — ready</p>
+      <p class="muted">Delgado Remodel · $4,200 · due in 14 days</p>
+      <div class="rec"><div class="h">Follow-up email — draft</div>"Hi Maria — just a friendly note that invoice #1031 ($1,850) was due last week. Here's the link to pay…"</div>
+      <p class="muted" style="margin-top:10px;font-size:12px">Both wait for your one-tap approval before sending.</p>`)},
+
+ {slug:"the-content-kitchen",group:"Paperwork & Content",name:"The Content Kitchen",
+  blurb:"Phone footage in; branded posts and captions out.",
+  body: io("One phone clip",
+     `<div class="voice"><span>📱</span><span class="muted">clip_0714.mov — 22 sec, filmed on the floor</span></div>`,
+     `<p class="k">3 posts, on-brand, ready</p>
+      <ul><li>"Fresh batch, straight off the bench 🌱 #Greenpoint"</li>
+      <li>"This is what 6am looks like. Worth it."</li>
+      <li>"New drop Friday. Set a reminder."</li></ul>
+      <p class="muted" style="margin-top:8px;font-size:12px">Cropped, captioned, and sized for each platform.</p>`)},
+];
+
+/* ---- render menu ---- */
+const LEFT = ["Websites & Storefront","The Brain","Get More Done"];
+const RIGHT = ["Money & Numbers","Decisions","Paperwork & Content"];
+const bySlug = Object.fromEntries(DATA.map(d=>[d.slug,d]));
+
+function groupHTML(g){
+  const items = DATA.filter(d=>d.group===g).map(d=>`
+    <a class="row" href="#${d.slug}">
+      <div class="nm">${d.name}</div>
+      <div class="ds">${d.blurb}</div>
+      <div class="go">see example →</div>
+    </a>`).join("");
+  return `<div class="grp"><div class="grp-title">${g}</div>${items}</div>`;
+}
+document.getElementById("cols").innerHTML =
+  `<div>${LEFT.map(groupHTML).join("")}</div><div>${RIGHT.map(groupHTML).join("")}</div>`;
+
+/* ---- router ---- */
+function render(){
+  const slug = location.hash.replace(/^#/,"");
+  const d = bySlug[slug];
+  if(d){
+    document.getElementById("exEyebrow").textContent = d.group;
+    document.getElementById("exTitle").textContent = d.name;
+    document.getElementById("exBlurb").textContent = d.blurb;
+    document.getElementById("exBody").innerHTML = d.body;
+    document.body.classList.add("showing-example");
+    window.scrollTo(0,0);
+  } else {
+    document.body.classList.remove("showing-example");
+  }
+}
+document.getElementById("backlink").addEventListener("click",e=>{
+  e.preventDefault(); history.pushState("",document.title,location.pathname+location.search);
+  render();
+});
+window.addEventListener("hashchange",render);
+render();
+</script>
+</body>
+</html>
