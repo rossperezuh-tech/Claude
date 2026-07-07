@@ -109,21 +109,34 @@ const businesses = [
   },
   {
     slug: "brooklyn-weed-consulting",
-    name: "Brooklyn Grow Consulting",
+    name: "Laughing Buddha Grow Co.",
     color: "#22c55e",
     status: "launching",
     description:
-      "Home cannabis grow coaching for NY adults 21+ — legal home cultivation under the MRTA.",
+      "Brooklyn home-grow coaching — get NY adults 21+ growing their own, legally, under the MRTA.",
     sortOrder: 13,
-    notes: `# Brooklyn Grow Consulting — playbook
+    notes: `# Laughing Buddha Grow Co. — playbook
 
 ## Origin
 Grew **5 Laughing Buddha plants to 6 ft** this season. People started asking how — that demand is the business.
 
-## The offer (draft)
-- **Starter session** — help someone set up a legal home grow (space, light, soil, seeds/clones) from zero.
-- **Grow-along coaching** — check-ins across a full cycle: veg → flower → harvest → cure.
-- **Room build** — tent/light/airflow spec + shopping list for their space.
+## Packages & pricing (draft)
+
+**1. Starter Session — $199**
+One 90-min consult (video or in-person in Brooklyn). Assess their space, pick a setup, and send them out the door with a light/medium/genetics plan + a shopping list they can order same-day. Best for the "I want to grow but don't know where to start" person.
+
+**2. Grow-Along Coaching — $900 for a full cycle** (or $199/mo)
+Soup-to-nuts coaching across one full grow (~4–5 months): check-ins at each stage (germ → veg → flip → flower → harvest → cure), text support between calls for "is this normal?" photos, and troubleshooting (nutrients, pests, light burn). The flagship — this is what turns someone into a grower.
+
+**3. Room Build — $500 + equipment cost**
+Hands-on: I spec and help set up the tent, light, and airflow in their space so day one is right. Equipment billed at cost (they buy). Add Grow-Along for $700 (save $200).
+
+**Add-ons**
+- Harvest & Cure day (in-person, dial in drying + jars) — $250
+- One-off "rescue" call (something's going wrong) — $75
+
+*Positioning: coaching on the client's own legal home grow. No product sales, no distribution.*
+*TODO: sanity-check pricing against 2–3 NYC grow shops / local consultants before publishing.*
 
 ## NY legal frame (adults 21+, MRTA)
 - Up to **3 mature + 3 immature plants per adult**; **max 6 mature + 6 immature per household**.
@@ -228,6 +241,7 @@ async function main() {
       { businessId: bySlug["brooklyn-weed-consulting"], title: "NY OCM adult-use home cultivation guidance", category: "compliance", url: "https://cannabis.ny.gov/adult-use-cannabis", notes: "Confirm current plant limits before publishing anything" },
       { businessId: bySlug["brooklyn-weed-consulting"], title: "Laughing Buddha grow SOP (veg→flower→cure)", category: "operations", url: "https://drive.google.com/bgc/grow-sop", notes: "My method from the 6ft grow — client-facing playbook" },
       { businessId: bySlug["brooklyn-weed-consulting"], title: "Client consulting agreement template", category: "legal", url: "https://drive.google.com/bgc/agreement", notes: "Coaching-only; no product sales/distribution" },
+      { businessId: bySlug["brooklyn-weed-consulting"], title: "Packages & pricing (draft)", category: "operations", url: "https://drive.google.com/bgc/pricing", notes: "Starter $199 / Grow-Along $900 / Room Build $500+equip — see scratchpad" },
     ],
   });
 

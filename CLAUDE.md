@@ -28,7 +28,7 @@ A local-first personal command center for managing all of RP's ventures in one p
 10. **The Prompt Sherpa** — Claude Code consulting for startup creators
 11. **All In One Health Shop** — product site
 12. **Brooklyn Tiny Farm** — microgreens DTC
-13. **Brooklyn Grow Consulting** — home cannabis grow coaching for NY adults 21+ (legal home cultivation under the MRTA)
+13. **Laughing Buddha Grow Co.** — Brooklyn home cannabis grow coaching for NY adults 21+ (legal home cultivation under the MRTA)
 
 Each business has: name, slug, color tag, status (active / back-burner / launching), one-line description.
 
