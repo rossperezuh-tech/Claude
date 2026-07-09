@@ -6,37 +6,44 @@
 <style>
   @page { size: Letter; margin: 0; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
+  html, body { font-family: 'Liberation Sans', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
     -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   .page { width: 8.5in; height: 11in; padding: 0.9in 1.1in; display: flex; flex-direction: column;
     justify-content: center; background: #f5f2ea; }
 
-  h1 { font-family: 'Arial Narrow','Helvetica Neue',Arial,sans-serif; font-weight: 800;
-    font-size: 64px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
-  .rule { height: 3px; background: #1c1a17; margin: 22px 0 8px; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 4px; color: #b0341d;
+    text-transform: uppercase; margin-bottom: 14px; }
 
-  a.item { display: flex; justify-content: space-between; align-items: baseline; gap: 24px;
-    text-decoration: none; color: #1c1a17; padding: 17px 0; border-bottom: 1px solid #d9d3c6; }
+  h1 { font-weight: 900; font-size: 92px; line-height: .82; letter-spacing: -2px;
+    transform: scaleX(.78); transform-origin: left; }
+  .rule { height: 4px; background: #1c1a17; margin: 24px 0 6px; }
+
+  a.item { display: flex; justify-content: space-between; align-items: baseline; gap: 28px;
+    text-decoration: none; color: #1c1a17; padding: 16px 0; border-bottom: 1px solid #d9d3c6; }
   a.item:last-of-type { border-bottom: none; }
-  .nm { font-size: 18px; font-weight: 800; white-space: nowrap; }
-  .ds { font-size: 12.5px; color: #5a554c; line-height: 1.35; text-align: right; }
+  .nm { font-size: 15.5px; font-weight: 700; white-space: nowrap; text-transform: uppercase;
+    letter-spacing: .8px; }
+  .ds { font-family: 'Bitstream Charter', Georgia, serif; font-style: italic; font-size: 14px;
+    color: #55504a; line-height: 1.4; text-align: right; }
 
-  .foot { margin-top: 10px; padding-top: 16px; border-top: 3px solid #1c1a17;
-    display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #4a4640; }
-  .foot b { color: #1c1a17; }
-  .foot .mail { font-weight: 700; color: #1c1a17; }
+  .foot { margin-top: 8px; padding-top: 18px; border-top: 4px solid #1c1a17;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+  .foot .note { font-family: 'Bitstream Charter', Georgia, serif; font-style: italic;
+    font-size: 13px; color: #55504a; }
+  .foot .mail { font-size: 12px; font-weight: 700; letter-spacing: .3px; }
   .foot .mail span { color: #b0341d; }
 </style>
 </head>
 <body>
   <div class="page">
+    <div class="eyebrow">Steadyhand</div>
     <h1>THE&nbsp;MENU</h1>
     <div class="rule"></div>
 
     <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-brain">
       <span class="nm">The Brain</span>
-      <span class="ds">Your private AI. Voice notes and documents in — answers, summaries, and found files out.</span>
+      <span class="ds">Your private AI — voice notes in, answers and found files out.</span>
     </a>
 
     <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-new-website">
@@ -66,7 +73,7 @@
 
     <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-paperwork-crew">
       <span class="nm">The Back Office</span>
-      <span class="ds">Invoices, contracts, meeting notes, and busywork — drafted and automated.</span>
+      <span class="ds">Invoices, contracts, and busywork — drafted and automated.</span>
     </a>
 
     <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-content-kitchen">
@@ -75,8 +82,8 @@
     </a>
 
     <div class="foot">
-      <div><b>Tap any item to see it in action.</b></div>
-      <div class="mail">Let's talk — <span>ross@steadyhand.ai</span></div>
+      <div class="note">Tap any item to see it in action. Everything plugs into the brain.</div>
+      <div class="mail">LET'S TALK — <span>ROSS@STEADYHAND.AI</span></div>
     </div>
   </div>
 </body>
