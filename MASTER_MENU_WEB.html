@@ -7,57 +7,46 @@
 <style>
   :root{
     --ground:#f5f2ea; --card:#fbf9f4; --ink:#1c1a17; --muted:#5a554c;
-    --hair:#d9d3c6; --accent:#b0341d; --good:#2f6b3f;
+    --hair:#d9d3c6; --accent:#b0341d; --good:#2f8f5b;
     --sans:'Helvetica Neue',Arial,sans-serif;
     --cond:'Arial Narrow','Helvetica Neue',Arial,sans-serif;
     --mono:ui-monospace,'SFMono-Regular','Menlo','Consolas',monospace;
     --serif:Georgia,'Times New Roman',serif;
+    /* product-UI tokens (inside app mocks) */
+    --ui:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+    --appbg:#ffffff; --appline:#e9e3d7; --appmut:#6b6a66; --appink:#1f1e1c;
+    --pri:#b0341d; --pri-weak:#f7e9e5;
+    --warn:#c9862a; --warn-weak:#f7efdf; --bad:#c8402f; --bad-weak:#f8e7e4;
+    --good-weak:#e5f2ea; --blue:#2f6fb0; --blue-weak:#e7eff7;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    background:var(--ground);color:var(--ink);font-family:var(--sans);
-    line-height:1.5;-webkit-font-smoothing:antialiased;
-  }
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);
+    line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
-  .wrap{max-width:960px;margin:0 auto;padding:40px 28px 64px}
+  .wrap{max-width:1000px;margin:0 auto;padding:40px 28px 64px}
 
   /* ---------------- MENU VIEW ---------------- */
   .mast{border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:6px}
-  .mast h1{
-    font-family:var(--cond);font-weight:800;font-size:clamp(52px,11vw,92px);
-    line-height:.85;letter-spacing:-1px;transform:scaleX(.92);transform-origin:left;
-  }
-  .mast .sub{font-family:var(--serif);font-style:italic;color:var(--muted);
-    font-size:15px;margin-top:14px}
-
+  .mast h1{font-family:var(--cond);font-weight:800;font-size:clamp(52px,11vw,92px);
+    line-height:.85;letter-spacing:-1px;transform:scaleX(.92);transform-origin:left}
+  .mast .sub{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:15px;margin-top:14px}
   .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px 48px;margin-top:26px}
-  @media(max-width:720px){.cols{grid-template-columns:1fr;gap:26px}}
-  .grp-title{
-    font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
-    padding-bottom:6px;border-bottom:1.5px solid var(--accent);margin-bottom:4px;
-  }
-  .row{
-    display:block;padding:11px 10px 11px 0;border-bottom:1px solid var(--hair);
-    position:relative;transition:background .15s,padding .15s;
-  }
+  @media(max-width:760px){.cols{grid-template-columns:1fr;gap:26px}}
+  .grp-title{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+    padding-bottom:6px;border-bottom:1.5px solid var(--accent);margin-bottom:4px}
+  .row{display:block;padding:11px 10px 11px 0;border-bottom:1px solid var(--hair);
+    position:relative;transition:background .15s,padding .15s}
   .row:last-child{border-bottom:none}
   .row .nm{font-size:14px;font-weight:700}
   .row .ds{font-size:12px;color:var(--muted)}
-  .row .go{
-    position:absolute;right:6px;top:50%;transform:translateY(-50%);
-    font-family:var(--mono);font-size:11px;color:var(--accent);opacity:0;
-    transition:opacity .15s,right .15s;white-space:nowrap;
-  }
+  .row .go{position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    font-family:var(--mono);font-size:11px;color:var(--accent);opacity:0;transition:opacity .15s,right .15s;white-space:nowrap}
   .row:hover{background:var(--card);padding-left:12px}
   .row:hover .go{opacity:1;right:10px}
   .row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-  .footer{
-    margin-top:40px;padding-top:16px;border-top:3px solid var(--ink);
-    display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
-    font-size:12.5px;color:var(--muted);
-  }
+  .footer{margin-top:40px;padding-top:16px;border-top:3px solid var(--ink);
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted)}
   .footer b{color:var(--ink)}
   .footer .mail{font-weight:700;color:var(--ink)}
   .footer .mail span{color:var(--accent)}
@@ -66,93 +55,195 @@
   #example{display:none}
   body.showing-example #menu{display:none}
   body.showing-example #example{display:block}
-
-  .back{
-    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
-    font-size:12px;letter-spacing:.5px;color:var(--accent);padding:8px 0;margin-bottom:18px;
-  }
+  .back{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
+    font-size:12px;letter-spacing:.5px;color:var(--accent);padding:8px 0;margin-bottom:16px}
   .back:hover{text-decoration:underline}
-  .ex-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2px;
-    text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-  .ex-title{font-family:var(--cond);font-weight:800;font-size:44px;line-height:.95;
-    letter-spacing:-.5px;transform:scaleX(.94);transform-origin:left}
+  .ex-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .ex-title{font-family:var(--cond);font-weight:800;font-size:44px;line-height:.95;letter-spacing:-.5px;transform:scaleX(.94);transform-origin:left}
   .ex-blurb{font-size:16px;color:var(--muted);margin-top:12px;max-width:60ch}
-  .ex-hr{height:1px;background:var(--hair);margin:26px 0}
+  .ex-hr{height:1px;background:var(--hair);margin:24px 0}
+  .disclaim{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:20px;text-align:center;letter-spacing:.3px}
 
-  .io{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  @media(max-width:720px){.io{grid-template-columns:1fr}}
-  .io-card{background:var(--card);border:1px solid var(--hair);border-radius:2px;overflow:hidden}
-  .io-head{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
-    padding:9px 14px;border-bottom:1px solid var(--hair);color:var(--muted);
-    display:flex;justify-content:space-between;align-items:center}
-  .io-head .tag{color:var(--accent)}
-  .io-body{padding:14px 16px;font-size:13.5px}
-  .io-body.out{background:#fdfcf9}
+  /* ============ APP MOCK FRAMEWORK ============ */
+  .app{background:var(--appbg);border:1px solid var(--appline);border-radius:11px;overflow:hidden;
+    box-shadow:0 14px 40px rgba(28,26,23,.13),0 3px 8px rgba(28,26,23,.06);
+    font-family:var(--ui);color:var(--appink);font-size:13.5px;line-height:1.45}
+  .app + .app{margin-top:18px}
+  .app-bar{display:flex;align-items:center;gap:11px;padding:10px 14px;background:#f6f3ee;border-bottom:1px solid var(--appline)}
+  .dots{display:flex;gap:7px}
+  .dots i{width:11px;height:11px;border-radius:50%;display:block}
+  .dots i:nth-child(1){background:#f0655a}.dots i:nth-child(2){background:#f5bf4f}.dots i:nth-child(3){background:#57c15b}
+  .app-title{font-size:12.5px;font-weight:600;color:#4a4844}
+  .demo{font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--appmut);
+    border:1px solid var(--appline);border-radius:999px;padding:2px 7px;background:#fff}
+  .app-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .app-body{padding:16px}
+  .app-body.flush{padding:0}
 
-  .io-body p{margin:0 0 9px}
-  .io-body p:last-child{margin-bottom:0}
-  .io-body ul{list-style:none;margin:0}
-  .io-body li{padding:6px 0 6px 20px;position:relative;border-bottom:1px solid var(--hair)}
-  .io-body li:last-child{border-bottom:none}
-  .io-body li::before{content:"—";position:absolute;left:0;color:var(--accent)}
-  .k{font-weight:700}
-  .muted{color:var(--muted)}
-  .doc-lines{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.9}
+  .btn{font-family:var(--ui);font-size:12px;font-weight:600;padding:7px 13px;border-radius:7px;border:1px solid var(--appline);background:#fff;color:var(--appink);cursor:default;display:inline-flex;align-items:center;gap:6px}
+  .btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+  .btn.sm{padding:5px 10px;font-size:11px}
 
-  .chip{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;
-    text-transform:uppercase;padding:2px 8px;border-radius:999px;border:1px solid;}
-  .chip.warn{color:var(--accent);border-color:var(--accent);background:#f7e9e5}
-  .chip.good{color:var(--good);border-color:var(--good);background:#e7efe7}
-  .chip.flag{color:var(--accent);border-color:var(--accent)}
+  .pill{font-family:var(--ui);font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .pill.good{background:var(--good-weak);color:#1f6f47}
+  .pill.warn{background:var(--warn-weak);color:#8a5a12}
+  .pill.bad{background:var(--bad-weak);color:#a12e20}
+  .pill.blue{background:var(--blue-weak);color:#255a8f}
+  .pill.mut{background:#f0ede7;color:#6b6a66}
+  .pill .d{width:6px;height:6px;border-radius:50%;background:currentColor}
 
-  /* mocks */
-  .browser{border:1px solid var(--hair);border-radius:6px;overflow:hidden;background:#fff}
-  .browser .bar{background:#efeadf;padding:8px 12px;display:flex;gap:6px;align-items:center;border-bottom:1px solid var(--hair)}
-  .dot{width:9px;height:9px;border-radius:50%;background:#cfc7b6}
-  .browser .url{margin-left:10px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
-  .site{padding:26px 22px;text-align:center}
-  .site nav{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:26px}
-  .site h3{font-family:var(--cond);font-weight:800;font-size:30px;line-height:1;margin-bottom:10px}
-  .site .lede{font-size:12.5px;color:var(--muted);max-width:34ch;margin:0 auto 16px}
-  .site .cta{display:inline-block;background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:9px 18px;border-radius:3px}
-  .site .tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:26px}
-  .site .tri div{background:var(--ground);border:1px solid var(--hair);border-radius:3px;height:46px}
+  .av{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:700;color:#fff;flex:none}
 
-  .swatches{display:flex;gap:10px;margin:4px 0 14px;flex-wrap:wrap}
-  .sw{width:60px}
-  .sw i{display:block;height:44px;border-radius:3px;border:1px solid rgba(0,0,0,.08)}
-  .sw small{font-family:var(--mono);font-size:10px;color:var(--muted);display:block;margin-top:4px}
+  .lbl{font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--appmut);font-weight:600}
+  .mut{color:var(--appmut)}
+  .tnum{font-variant-numeric:tabular-nums}
 
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  @media(max-width:720px){.kpis{grid-template-columns:1fr 1fr}}
-  .kpi{background:var(--card);border:1px solid var(--hair);border-radius:3px;padding:12px 14px}
-  .kpi .lab{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
-  .kpi .val{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px}
-  .kpi .val small{font-size:12px;font-weight:600;color:var(--good)}
+  /* data table */
+  .tbl{width:100%;border-collapse:collapse;font-size:13px}
+  .tbl th{text-align:left;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--appmut);font-weight:600;padding:10px 14px;border-bottom:1px solid var(--appline);background:#faf8f4}
+  .tbl td{padding:11px 14px;border-bottom:1px solid #f0ece4;vertical-align:middle}
+  .tbl tr:last-child td{border-bottom:none}
+  .tbl tr.hl td{background:var(--pri-weak)}
+  .tbl .r{text-align:right}
 
-  .bars{display:flex;align-items:flex-end;gap:10px;height:120px;padding-top:10px}
-  .bars .b{flex:1;background:var(--accent);border-radius:2px 2px 0 0;position:relative;opacity:.85}
-  .bars .b span{position:absolute;bottom:-18px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
-  .bars .b em{position:absolute;top:-16px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:9.5px;color:var(--ink);font-style:normal}
+  /* chat */
+  .chat{background:#fff}
+  .chat-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--appline)}
+  .chat-body{padding:16px;display:flex;flex-direction:column;gap:12px;background:#faf9f6}
+  .msg{max-width:78%;padding:10px 13px;border-radius:15px;font-size:13.5px;box-shadow:0 1px 1px rgba(0,0,0,.04)}
+  .msg.me{align-self:flex-end;background:var(--pri);color:#fff;border-bottom-right-radius:5px}
+  .msg.ai{align-self:flex-start;background:#fff;border:1px solid var(--appline);border-bottom-left-radius:5px}
+  .msg .t{display:block;font-size:10px;margin-top:5px;opacity:.7}
+  .vn{display:flex;align-items:center;gap:10px}
+  .wave{display:flex;gap:2px;align-items:center;height:22px}
+  .wave i{width:3px;border-radius:2px;background:currentColor;opacity:.9}
+  .play{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:11px}
 
-  .toast{background:var(--ink);color:var(--ground);border-radius:4px;padding:12px 14px;display:flex;gap:10px;align-items:center;font-size:13px}
-  .toast .b{font-family:var(--mono);font-size:10px;color:#e9b9ad;letter-spacing:1px}
+  /* doc viewer */
+  .docview{display:grid;grid-template-columns:1fr 1fr;min-height:290px}
+  @media(max-width:760px){.docview{grid-template-columns:1fr}}
+  .pages{background:#eceae4;padding:16px;border-right:1px solid var(--appline);position:relative}
+  .paper{background:#fff;border:1px solid #ddd8cd;border-radius:3px;padding:16px 15px;font-size:10.5px;line-height:1.8;color:#3a3934;box-shadow:0 4px 12px rgba(0,0,0,.06);height:100%}
+  .paper h6{font-size:11px;letter-spacing:.5px;margin-bottom:8px;color:#1f1e1c}
+  .hl{background:#fdf2b0;padding:1px 2px;border-radius:2px}
+  .hl.risk{background:#f8d2cc}
+  .pgtag{position:absolute;bottom:10px;right:12px;font-family:var(--mono);font-size:9.5px;color:var(--appmut)}
+  .analysis{padding:16px 18px}
+  .analysis h5{font-size:13px;margin-bottom:4px}
+  .an-sec{margin-top:14px}
+  .an-list{list-style:none;margin-top:8px;display:flex;flex-direction:column;gap:8px}
+  .an-list li{display:flex;gap:8px;align-items:flex-start;font-size:12.5px}
+  .an-list .ck{color:var(--good);font-weight:700}
 
-  table.mini{width:100%;border-collapse:collapse;font-size:12.5px}
-  table.mini th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:1px;
-    text-transform:uppercase;color:var(--muted);font-weight:400;padding:6px 8px;border-bottom:1px solid var(--hair)}
-  table.mini td{padding:8px;border-bottom:1px solid var(--hair);vertical-align:top}
-  table.mini tr:last-child td{border-bottom:none}
-  .num{font-variant-numeric:tabular-nums;text-align:right}
+  /* search */
+  .omni{display:flex;align-items:center;gap:10px;border:1px solid var(--appline);border-radius:9px;padding:10px 13px;margin-bottom:6px;background:#faf8f4}
+  .omni .q{font-size:14px}
+  .chips{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+  .chip2{font-size:11px;padding:4px 10px;border-radius:7px;border:1px solid var(--appline);background:#fff;color:var(--appmut)}
+  .chip2.on{background:var(--pri-weak);border-color:var(--pri);color:#8f2a17}
+  .res{display:flex;align-items:center;gap:12px;padding:11px 6px;border-bottom:1px solid #f0ece4}
+  .res:last-child{border-bottom:none}
+  .ficon{width:34px;height:40px;border-radius:4px;flex:none;display:flex;align-items:flex-end;justify-content:center;
+    font-size:8px;font-weight:800;color:#fff;padding-bottom:4px;letter-spacing:.5px}
 
-  .voice{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;color:var(--muted)}
-  .wave{display:flex;gap:2px;align-items:center}
-  .wave i{width:3px;background:var(--accent);border-radius:2px;opacity:.7}
+  /* stats + spark */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:760px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{border:1px solid var(--appline);border-radius:9px;padding:12px 13px;background:#fff}
+  .stat .v{font-size:23px;font-weight:800;margin-top:5px;letter-spacing:-.5px}
+  .stat .v small{font-size:11.5px;font-weight:700}
+  .up{color:var(--good)}.down{color:var(--bad)}
+  .grid2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-top:16px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .panel{border:1px solid var(--appline);border-radius:9px;padding:14px;background:#fff}
+  .panel h5{font-size:12px;margin-bottom:10px}
+  .jrow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0ece4;font-size:12.5px}
+  .jrow:last-child{border-bottom:none}
 
-  .rec{background:var(--card);border:1px solid var(--hair);border-left:3px solid var(--accent);border-radius:2px;padding:12px 14px;margin-top:12px}
-  .rec .h{font-weight:700;margin-bottom:4px}
+  /* gauges */
+  .gauges{display:flex;gap:22px;flex-wrap:wrap;align-items:center;justify-content:center}
+  .gauge{text-align:center}
+  .gauge .cap{font-size:11px;color:var(--appmut);margin-top:6px}
+  .gauge .sc{font-size:12px;font-weight:700;margin-top:2px}
 
-  .disclaim{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:22px;text-align:center;letter-spacing:.3px}
+  /* reviews */
+  .revwrap{display:grid;grid-template-columns:200px 1fr;gap:18px}
+  @media(max-width:760px){.revwrap{grid-template-columns:1fr}}
+  .bigscore{font-size:44px;font-weight:800;letter-spacing:-1px;line-height:1}
+  .stars{color:#e6a817;font-size:15px;letter-spacing:1px}
+  .themebar{margin:9px 0}
+  .themebar .tb{height:7px;border-radius:5px;background:#efece5;overflow:hidden;margin-top:4px}
+  .themebar .tb i{display:block;height:100%}
+  .revcard{border:1px solid var(--appline);border-radius:9px;padding:12px;background:#fff;margin-bottom:10px}
+  .revcard:last-child{margin-bottom:0}
+  .srcbadge{font-size:10px;font-weight:700;padding:1px 7px;border-radius:5px}
+
+  /* checklist */
+  .prog{height:8px;border-radius:6px;background:#efece5;overflow:hidden;margin:10px 0 4px}
+  .prog i{display:block;height:100%;background:var(--good)}
+  .chk{display:flex;align-items:flex-start;gap:11px;padding:12px 4px;border-bottom:1px solid #f0ece4}
+  .chk:last-child{border-bottom:none}
+  .box{width:19px;height:19px;border-radius:5px;border:1.5px solid #cfc9bc;flex:none;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;margin-top:1px}
+  .box.done{background:var(--good);border-color:var(--good)}
+  .chk .sub{font-size:11.5px;color:var(--appmut)}
+
+  /* invoice + email */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.split{grid-template-columns:1fr}}
+  .doc{border:1px solid var(--appline);border-radius:9px;padding:18px;background:#fff}
+  .doc .hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+  .doc .big{font-family:var(--cond);font-weight:800;font-size:22px;letter-spacing:-.5px}
+  .liner{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0ece4;font-size:12.5px}
+  .liner.tot{border-bottom:none;border-top:2px solid var(--appink);font-weight:800;margin-top:4px;padding-top:9px}
+  .mail{border:1px solid var(--appline);border-radius:9px;background:#fff;overflow:hidden}
+  .mail .mh{padding:9px 13px;border-bottom:1px solid #f0ece4;font-size:12px;display:flex;gap:8px}
+  .mail .mh .k{color:var(--appmut);width:44px}
+  .mail .mb{padding:13px;font-size:12.5px;color:#3a3934;line-height:1.6}
+
+  /* social */
+  .igwrap{display:grid;grid-template-columns:230px 1fr;gap:18px}
+  @media(max-width:760px){.igwrap{grid-template-columns:1fr}}
+  .ig{border:1px solid var(--appline);border-radius:12px;overflow:hidden;background:#fff}
+  .ig .top{display:flex;align-items:center;gap:9px;padding:9px 11px}
+  .ig .img{aspect-ratio:1;background:
+     radial-gradient(120% 120% at 20% 15%, #a7c957 0%, #5b8a3a 45%, #2f5233 100%)}
+  .ig .acts{display:flex;gap:12px;padding:9px 11px 4px;font-size:15px}
+  .ig .cap{padding:0 11px 12px;font-size:12px}
+  .capopt{border:1px solid var(--appline);border-radius:9px;padding:11px 12px;background:#fff;margin-bottom:9px;font-size:12.5px;display:flex;gap:9px;align-items:flex-start}
+  .capopt:last-child{margin-bottom:0}
+
+  /* flow / automation */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .node{border:1px solid var(--appline);border-radius:10px;padding:12px;background:#fff;min-width:150px;flex:1}
+  .node.flag{border-color:var(--bad);background:var(--bad-weak)}
+  .node .ic{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:8px}
+  .arrow{display:flex;align-items:center;justify-content:center;color:#c5bfb2;font-size:20px;padding:0 6px;flex:none}
+  .callout{border:1px solid var(--appline);border-left:3px solid var(--pri);border-radius:8px;padding:12px 14px;background:#fff;margin-top:14px}
+  .callout .h{font-weight:700;margin-bottom:3px}
+
+  /* brand board */
+  .board{display:grid;grid-template-columns:1.2fr 1fr;gap:16px}
+  @media(max-width:760px){.board{grid-template-columns:1fr}}
+  .card-mock{background:#2f5233;color:#f2e8cf;border-radius:10px;padding:20px;height:140px;display:flex;flex-direction:column;justify-content:space-between}
+  .sw{display:flex;gap:9px;flex-wrap:wrap}
+  .sw div{flex:1;min-width:52px}
+  .sw i{display:block;height:40px;border-radius:6px;border:1px solid rgba(0,0,0,.08)}
+  .sw small{font-family:var(--mono);font-size:9.5px;color:var(--appmut);display:block;margin-top:4px}
+
+  /* website mock */
+  .site{background:#fff}
+  .site .nav{display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid #eee;font-size:12px}
+  .site .brand{font-family:var(--cond);font-weight:800;font-size:16px;letter-spacing:.5px}
+  .site .hero{padding:40px 24px;text-align:center;
+     background:linear-gradient(180deg,#f6f8f2 0%,#eef2e6 100%)}
+  .site .hero h3{font-family:var(--cond);font-weight:800;font-size:34px;line-height:1;margin-bottom:10px}
+  .site .hero p{font-size:13px;color:#5a6152;max-width:38ch;margin:0 auto 16px}
+  .site .cta{display:inline-block;background:var(--pri);color:#fff;font-size:12.5px;font-weight:700;padding:10px 20px;border-radius:8px}
+  .site .feats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:22px 24px}
+  @media(max-width:760px){.site .feats{grid-template-columns:1fr}}
+  .site .feat{text-align:center;font-size:11px;color:#5a6152}
+  .site .feat .fi{width:36px;height:36px;border-radius:9px;background:#e6efd8;margin:0 auto 8px;display:flex;align-items:center;justify-content:center;font-size:17px}
 
   @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
 </style>
@@ -183,240 +274,388 @@
     <p class="ex-blurb" id="exBlurb"></p>
     <div class="ex-hr"></div>
     <div id="exBody"></div>
-    <div class="disclaim">Sample output — illustrative of a finished build. Your version is trained on your own business.</div>
+    <div class="disclaim">Demo build with sample data — your version runs on your own business.</div>
   </div>
 </main>
 
 <script>
-/* ---- helper builders ---- */
-const io = (inLabel, inHTML, outHTML, outLabel="Claude returns") => `
-  <div class="io">
-    <div class="io-card"><div class="io-head"><span>${inLabel}</span><span class="tag">YOU GIVE IT</span></div><div class="io-body">${inHTML}</div></div>
-    <div class="io-card"><div class="io-head"><span>${outLabel}</span><span class="tag">YOU GET</span></div><div class="io-body out">${outHTML}</div></div>
-  </div>`;
+/* ---------- helpers ---------- */
+const app=(title,body,o={})=>`<div class="app"><div class="app-bar"><div class="dots"><i></i><i></i><i></i></div><span class="app-title">${title}</span><span class="demo">${o.tag||'SAMPLE'}</span>${o.action?`<span class="app-actions">${o.action}</span>`:''}</div><div class="app-body${o.flush?' flush':''}">${body}</div></div>`;
+const av=(t,c)=>`<span class="av" style="background:${c}">${t}</span>`;
+const stars=n=>'★'.repeat(Math.floor(n))+(n%1?'½':'')+'☆'.repeat(5-Math.ceil(n));
+const wave=(c,arr)=>`<span class="wave" style="color:${c}">`+arr.map(h=>`<i style="height:${h}px"></i>`).join('')+`</span>`;
 
-const DATA = [
- // ---------- WEBSITES & STOREFRONT ----------
+const DATA=[
+ /* ---------- WEBSITES & STOREFRONT ---------- */
  {slug:"the-new-website",group:"Websites & Storefront",name:"The New Website",
   blurb:"Designed and built from scratch, with a dashboard you edit yourself.",
-  body:`
-   <div class="browser">
-     <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">greenpointsupply.com</span></div>
-     <div class="site">
-       <nav><span><b>GREENPOINT&nbsp;SUPPLY</b></span><span>Shop&nbsp;·&nbsp;About&nbsp;·&nbsp;Contact</span></nav>
-       <h3>Built for the way you work.</h3>
-       <div class="lede">Tools, hardware, and same-day delivery across North Brooklyn.</div>
-       <a class="cta">Shop the store</a>
-       <div class="tri"><div></div><div></div><div></div></div>
-     </div>
-   </div>
-   <p class="muted" style="margin-top:14px;font-size:13px">Delivered in 2 weeks. You edit text, prices, and photos yourself from a simple dashboard — no developer, no monthly agency fee.</p>`},
+  body: app("greenpointsupply.com",
+    `<div class="site">
+       <div class="nav"><span class="brand">GREENPOINT SUPPLY</span><span class="mut">Shop &nbsp; About &nbsp; Contact &nbsp; <span class="btn sm pri" style="padding:5px 11px">Cart · 2</span></span></div>
+       <div class="hero"><h3>Built for the way you work.</h3><p>Tools, hardware, and same-day delivery across North Brooklyn.</p><span class="cta">Shop the store →</span></div>
+       <div class="feats">
+         <div class="feat"><div class="fi">🚚</div>Same-day local delivery</div>
+         <div class="feat"><div class="fi">🔧</div>1,200+ pro-grade items</div>
+         <div class="feat"><div class="fi">↩️</div>No-hassle returns</div>
+       </div>
+     </div>`,
+    {tag:"LIVE SITE",action:`<span class="btn sm">Edit page</span>`}) +
+    `<p class="mut" style="font-size:12.5px;margin-top:12px">Delivered in 2 weeks. You change text, prices, and photos yourself — no developer, no monthly agency fee.</p>`},
 
  {slug:"the-website-tune-up",group:"Websites & Storefront",name:"The Website Tune-Up",
   blurb:"Make your current site fast, findable, and wired to the brain.",
-  body: io("Your current site","<p class='k'>oldshop.com</p><ul><li>Loads in 6.2 seconds</li><li>Page 3 on Google for your own name</li><li>Breaks on phones</li></ul>",
-     `<table class="mini"><tr><th>Metric</th><th class="num">Before</th><th class="num">After</th></tr>
-      <tr><td>Load time</td><td class="num">6.2s</td><td class="num"><span class="k">0.9s</span></td></tr>
-      <tr><td>Google spot (your name)</td><td class="num">pg 3</td><td class="num"><span class="k">pg 1, #1</span></td></tr>
-      <tr><td>Mobile score</td><td class="num">44</td><td class="num"><span class="k">98</span></td></tr></table>
-      <p style="margin-top:10px" class="muted">Plus: contact forms now drop straight into <span class="k">the brain</span>.</p>`)},
+  body: app("Site Report — oldshop.com",
+    `<div class="gauges">
+       ${gaugeSVG(44,"#c8402f")}
+       <div style="font-size:26px;color:#c5bfb2">→</div>
+       ${gaugeSVG(98,"#2f8f5b")}
+     </div>
+     <table class="tbl" style="margin-top:8px">
+       <tr><th>Check</th><th class="r">Before</th><th class="r">After</th><th></th></tr>
+       <tr><td>Load time</td><td class="r tnum">6.2s</td><td class="r tnum">0.9s</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
+       <tr><td>Google — your own name</td><td class="r">page 3</td><td class="r">page 1, #1</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
+       <tr><td>Mobile usability</td><td class="r tnum">44</td><td class="r tnum">98</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
+       <tr><td>Contact form → the brain</td><td class="r mut">none</td><td class="r">connected</td><td class="r"><span class="pill blue"><span class="d"></span>Wired</span></td></tr>
+     </table>`,{tag:"AUDIT"})},
 
  {slug:"the-full-world",group:"Websites & Storefront",name:"The Full World",
   blurb:"Brand, story, design language, and site — the whole treatment.",
-  body:`
-   <div class="io-card"><div class="io-head"><span>Brand kit</span><span class="tag">DELIVERED</span></div>
-   <div class="io-body">
-     <p style="font-family:var(--cond);font-weight:800;font-size:34px;letter-spacing:-1px">BROOKLYN TINY FARM</p>
-     <p class="muted" style="font-family:var(--serif);font-style:italic;margin-bottom:14px">"Greens, cut this morning. Ten minutes from your door."</p>
-     <div class="swatches">
-       <div class="sw"><i style="background:#2f5233"></i><small>#2F5233</small></div>
-       <div class="sw"><i style="background:#a7c957"></i><small>#A7C957</small></div>
-       <div class="sw"><i style="background:#f2e8cf"></i><small>#F2E8CF</small></div>
-       <div class="sw"><i style="background:#1c1a17"></i><small>#1C1A17</small></div>
-     </div>
-     <p class="muted" style="font-size:12.5px">Logo, colors, fonts, voice, packaging, and the website — one consistent world, ready to roll out everywhere.</p>
-   </div></div>`},
+  body: app("Brand Board — Brooklyn Tiny Farm",
+    `<div class="board">
+       <div>
+         <div class="lbl">Wordmark</div>
+         <div style="font-family:var(--cond);font-weight:800;font-size:32px;letter-spacing:-1px;margin:6px 0 4px">BROOKLYN TINY FARM</div>
+         <div style="font-family:var(--serif);font-style:italic;color:var(--appmut);margin-bottom:16px">"Greens, cut this morning. Ten minutes from your door."</div>
+         <div class="lbl">Palette</div>
+         <div class="sw" style="margin-top:8px">
+           <div><i style="background:#2f5233"></i><small>#2F5233</small></div>
+           <div><i style="background:#a7c957"></i><small>#A7C957</small></div>
+           <div><i style="background:#f2e8cf"></i><small>#F2E8CF</small></div>
+           <div><i style="background:#1c1a17"></i><small>#1C1A17</small></div>
+         </div>
+       </div>
+       <div class="card-mock">
+         <div style="font-family:var(--cond);font-weight:800;font-size:19px">BTF</div>
+         <div><div style="font-size:12px">Rosa Perez</div><div style="font-size:10px;opacity:.75">rosa@brooklyntinyfarm.com</div></div>
+       </div>
+     </div>`,{tag:"IDENTITY"})},
 
  {slug:"the-shop",group:"Websites & Storefront",name:"The Shop",
   blurb:"Online store, bookings, and payments: money while you sleep.",
-  body:`
-   <div class="toast"><span class="b">NEW&nbsp;ORDER · 3:12&nbsp;AM</span><span>Order #1043 — 2× Sampler Box — <b>$68.00</b> — paid, label printed.</span></div>
-   <div class="io-card" style="margin-top:14px"><div class="io-head"><span>This week, unattended</span><span class="tag">STORE</span></div>
-   <div class="io-body"><table class="mini">
-     <tr><th>Orders</th><th>Bookings</th><th class="num">Collected</th><th class="num">Payout</th></tr>
-     <tr><td>34</td><td>11</td><td class="num">$2,417</td><td class="num"><span class="k">Fri, auto</span></td></tr>
-   </table><p class="muted" style="margin-top:10px;font-size:12.5px">Store, calendar, and checkout in one place. Runs overnight without you.</p></div></div>`},
+  body: app("Orders",
+    `<div class="stats" style="grid-template-columns:repeat(3,1fr)">
+       <div class="stat"><div class="lbl">This week</div><div class="v tnum">$2,417 <small class="up">▲12%</small></div></div>
+       <div class="stat"><div class="lbl">Orders</div><div class="v tnum">34</div></div>
+       <div class="stat"><div class="lbl">Bookings</div><div class="v tnum">11</div></div>
+     </div>
+     <table class="tbl" style="margin-top:14px">
+       <tr><th>Order</th><th>Customer</th><th>Items</th><th class="r">Total</th><th>Status</th></tr>
+       <tr class="hl"><td class="tnum">#1043</td><td>— <span class="mut">3:12am</span></td><td>2× Sampler Box</td><td class="r tnum">$68.00</td><td><span class="pill good"><span class="d"></span>Paid · Label printed</span></td></tr>
+       <tr><td class="tnum">#1042</td><td>M. Ortiz</td><td>Weekly veg share</td><td class="r tnum">$45.00</td><td><span class="pill good"><span class="d"></span>Fulfilled</span></td></tr>
+       <tr><td class="tnum">#1041</td><td>J. Kim</td><td>Consult booking</td><td class="r tnum">$120.00</td><td><span class="pill blue"><span class="d"></span>Scheduled</span></td></tr>
+     </table>`,
+    {tag:"STORE ADMIN",action:`<span class="pill good"><span class="d"></span>Payout Fri, auto</span>`})},
 
- // ---------- THE BRAIN ----------
+ /* ---------- THE BRAIN ---------- */
  {slug:"the-brain",group:"The Brain",name:"The Brain",
   blurb:"Your private AI and voice-note bot. Everything plugs into it.",
-  body: io("Voice note, 6 sec",
-     `<div class="voice"><span>🎙️</span><div class="wave"><i style="height:8px"></i><i style="height:18px"></i><i style="height:12px"></i><i style="height:22px"></i><i style="height:10px"></i><i style="height:16px"></i><i style="height:9px"></i></div></div>
-      <p style="margin-top:10px" class="muted">"Remind me what we agreed with the Conley Street seller."</p>`,
-     `<p>You offered <span class="k">$1.42M</span>, all-cash, 21-day close. Seller wanted the forklift left behind — you said yes. Inspection contingency waived.</p>
-      <p class="muted">Pulled from your note dated <span class="k">Jun 18</span>. Want me to draft the follow-up email?</p>`)},
+  body: app("The Brain",
+    `<div class="chat">
+       <div class="chat-head">${av("B","#b0341d")}<div><div style="font-weight:700;font-size:13px">The Brain</div><div class="mut" style="font-size:11px">online · private to you</div></div></div>
+       <div class="chat-body">
+         <div class="msg me"><div class="vn"><span class="play">▶</span>${wave("#fff",[7,14,9,18,11,20,8,13,6,10])}<span style="font-size:11px">0:06</span></div><span class="t">You · 9:41 AM</span></div>
+         <div class="msg ai">You offered <b>$1.42M</b>, all-cash, 21-day close on the Conley St. warehouse. Seller wanted the forklift left behind — you agreed. Inspection contingency waived.<br><span class="mut" style="font-size:12px">From your note dated Jun 18. Want me to draft the follow-up email?</span><span class="t mut">The Brain · 9:41 AM</span></div>
+         <div class="msg me">yes, and cc Anna<span class="t">You · 9:42 AM</span></div>
+       </div>
+     </div>`,{tag:"ASSISTANT"})},
 
  {slug:"document-reader",group:"The Brain",name:"Document Reader",
   blurb:"Upload a document, get a summary with the key parts highlighted.",
-  body: io("Mutual NDA — 14 pages",
-     `<div class="doc-lines">§1 Definitions…<br>§2 Confidential Info…<br>§4 Term &amp; Termination…<br>§7 Governing Law…<br>§9 Injunctive Relief…<br>… 14 pages …</div>`,
-     `<p class="k">In plain English</p><ul>
-        <li>Standard 2-way NDA. Nothing unusual in scope.</li>
-        <li><span class="chip warn">Watch</span> Term runs <span class="k">5 years</span> — longer than your usual 2.</li>
-        <li><span class="chip warn">Watch</span> No carve-out for info you already knew.</li>
-      </ul>
-      <p class="k" style="margin-top:10px">Your move</p>
-      <ul><li>Ask to cut term to 2 years</li><li>Add "prior knowledge" exception, then sign</li></ul>`)},
+  body: app("Mutual NDA.pdf",
+    `<div class="docview">
+       <div class="pages">
+         <div class="paper">
+           <h6>MUTUAL NON-DISCLOSURE AGREEMENT</h6>
+           This Agreement is entered into as of the date last signed below…<br><br>
+           <b>2. Confidential Information.</b> means any information disclosed… whether or not <span class="hl">marked "confidential."</span><br><br>
+           <b>4. Term.</b> This Agreement shall remain in effect for a period of <span class="hl risk">five (5) years</span> from the Effective Date…<br><br>
+           <b>6. Exclusions.</b> Obligations shall not apply to information that…
+         </div>
+         <span class="pgtag">1 / 14</span>
+       </div>
+       <div class="analysis">
+         <h5>In plain English</h5>
+         <div class="mut" style="font-size:12.5px">Standard two-way NDA. Scope is normal — nothing unusual buried in it.</div>
+         <div class="an-sec"><div class="lbl">Flags</div>
+           <ul class="an-list">
+             <li><span class="pill warn"><span class="d"></span>Watch</span> Term runs <b>5 years</b> — longer than your usual 2.</li>
+             <li><span class="pill warn"><span class="d"></span>Watch</span> No carve-out for info you already knew.</li>
+           </ul>
+         </div>
+         <div class="an-sec"><div class="lbl">Your move</div>
+           <ul class="an-list">
+             <li><span class="ck">✓</span> Ask to cut term to 2 years</li>
+             <li><span class="ck">✓</span> Add a "prior knowledge" exception, then sign</li>
+           </ul>
+         </div>
+       </div>
+     </div>`,{flush:true,tag:"REVIEW",action:`<span class="mut" style="font-size:11px">Analyzed in 4s</span>`})},
 
  {slug:"the-archive",group:"The Brain",name:"The Archive",
   blurb:"Old drives and files, digitized and searchable — ask it anything.",
-  body: io("You ask",
-     `<p style="font-family:var(--mono);font-size:12.5px">"find the Henderson invoice from 2019"</p>`,
-     `<table class="mini"><tr><th>File</th><th>Date</th><th class="num">Amount</th></tr>
-      <tr><td class="k">Henderson_final_inv.pdf</td><td>Mar 2019</td><td class="num">$8,450</td></tr></table>
-      <p class="muted" style="margin-top:10px;font-size:12.5px">Found in <span class="k">Old Drive → 2019 → Clients</span>. Scanned box #4, page 212. Opened in 1.2s.</p>`)},
+  body: app("Archive Search",
+    `<div class="omni">🔍 <span class="q">Henderson invoice from 2019</span></div>
+     <div class="chips"><span class="chip2 on">All drives</span><span class="chip2">Invoices</span><span class="chip2">2019</span><span class="mut" style="font-size:11px;align-self:center;margin-left:auto">3 results · 1.2s</span></div>
+     <div class="res"><span class="ficon" style="background:#c8402f">PDF</span><div style="flex:1"><div style="font-weight:600">Henderson_final_inv.pdf</div><div class="mut" style="font-size:11.5px">Old Drive → 2019 → Clients · scanned box #4, p.212</div></div><div class="r"><div style="font-weight:700" class="tnum">$8,450</div><div class="mut" style="font-size:11px">Mar 2019</div></div></div>
+     <div class="res"><span class="ficon" style="background:#2f6fb0">XLS</span><div style="flex:1"><div style="font-weight:600">Henderson_project_costs.xlsx</div><div class="mut" style="font-size:11.5px">Old Drive → 2019 → Jobs</div></div><div class="r"><span class="pill mut">related</span></div></div>
+     <div class="res"><span class="ficon" style="background:#6b6a66">EML</span><div style="flex:1"><div style="font-weight:600">Re: final invoice — approved</div><div class="mut" style="font-size:11.5px">Email · from a.henderson@…</div></div><div class="r"><span class="pill mut">related</span></div></div>`,
+    {tag:"ARCHIVE"})},
 
- // ---------- GET MORE DONE ----------
+ /* ---------- GET MORE DONE ---------- */
  {slug:"meeting-notes",group:"Get More Done",name:"Meeting Notes",
   blurb:"Turns meeting notes into a simple to-do list.",
-  body: io("Meeting transcript — 38 min",
-     `<div class="doc-lines">…"let's push the launch to the 15th"…<br>…"Anna will handle the supplier"…<br>…"we still need the insurance quote"…</div>`,
-     `<table class="mini"><tr><th>To-do</th><th>Owner</th><th>Due</th></tr>
-      <tr><td>Move launch to the 15th</td><td>You</td><td>—</td></tr>
-      <tr><td>Line up the supplier</td><td class="k">Anna</td><td>Fri</td></tr>
-      <tr><td>Get insurance quote</td><td>You</td><td class="k">Wed</td></tr></table>`)},
+  body: app("Team sync — Jul 8",
+    `<div class="grid2">
+       <div class="panel"><h5>Transcript · 38 min</h5>
+         <div style="font-size:12px;line-height:1.7;color:#3a3934">
+           <b>You:</b> Let's push the launch to the 15th.<br>
+           <b>Anna:</b> I'll lock in the supplier by Friday.<br>
+           <b>You:</b> We still need the insurance quote.<br>
+           <span class="mut">… 34 more min …</span>
+         </div>
+       </div>
+       <div class="panel"><h5>Action items <span class="pill mut" style="margin-left:6px">auto</span></h5>
+         <div class="chk"><div class="box"></div><div><div>Move launch to the 15th</div><div class="sub">You · no date</div></div></div>
+         <div class="chk"><div class="box"></div><div><div>Line up the supplier</div><div class="sub">${'Anna'} · due Fri</div></div></div>
+         <div class="chk"><div class="box"></div><div><div>Get insurance quote</div><div class="sub">You · due Wed</div></div></div>
+       </div>
+     </div>`,{tag:"NOTES"})},
 
  {slug:"efficiency-finder",group:"Get More Done",name:"Efficiency Finder",
   blurb:"Finds where you're wasting time.",
-  body: io("Your weekly routine",
-     `<ul><li>Copy orders from email → spreadsheet</li><li>Re-type them into QuickBooks</li><li>Text each customer a tracking number</li></ul>`,
-     `<p><span class="chip warn">Bottleneck</span> You're typing the same order <span class="k">three times</span>.</p>
-      <div class="rec"><div class="h">Fix</div>One entry that feeds email, books, and texts. <span class="k">~6 hrs/week</span> back.</div>`)},
+  body: app("Workflow Audit — Order handling",
+    `<div class="flow">
+       <div class="node"><div class="ic" style="background:#e7eff7">📧</div><b>Email order</b><div class="mut" style="font-size:11.5px;margin-top:3px">arrives</div></div>
+       <div class="arrow">→</div>
+       <div class="node flag"><div class="ic" style="background:#f8e7e4">⌨️</div><b>Re-typed 3×</b><div class="mut" style="font-size:11.5px;margin-top:3px">email → sheet → books</div><span class="pill bad" style="margin-top:7px"><span class="d"></span>Bottleneck</span></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#e5f2ea">📦</div><b>Ship + text</b><div class="mut" style="font-size:11.5px;margin-top:3px">tracking sent</div></div>
+     </div>
+     <div class="callout"><div class="h">Fix — one entry that feeds all three</div>You're typing the same order three times. Connect them once and it flows through. <b>~6 hrs/week</b> back.</div>`,{tag:"AUDIT"})},
 
  {slug:"task-automator",group:"Get More Done",name:"Task Automator",
   blurb:"Takes repetitive tasks off your plate.",
-  body: io("The task you hate",
-     `<p style="font-family:var(--mono);font-size:12.5px">"Every invoice, I re-type into QuickBooks by hand."</p>`,
-     `<p class="k">Automation designed</p>
-      <ul><li>Invoice lands → read automatically</li><li>Fields filled into QuickBooks</li><li>You get a one-tap "Approve" text</li></ul>
-      <p class="muted" style="margin-top:10px">40 invoices/week × 4 min = <span class="k">~2.5 hrs/week</span> gone.</p>`)},
+  body: app("Automation — Invoice → QuickBooks",
+    `<div class="flow">
+       <div class="node"><div class="ic" style="background:#f7e9e5">📨</div><div class="lbl">When</div><b>Invoice arrives</b></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#e7eff7">🧾</div><div class="lbl">Then</div><b>Read the fields</b></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#e5f2ea">📚</div><div class="lbl">Then</div><b>Fill QuickBooks</b></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#f7efdf">✅</div><div class="lbl">Finally</div><b>Text you to approve</b></div>
+     </div>
+     <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+       <span class="pill good"><span class="d"></span>Automation on</span>
+       <span class="mut" style="font-size:12.5px">40 invoices/week × 4 min = <b style="color:var(--appink)">~2.5 hrs/week</b> saved</span>
+     </div>`,{tag:"AUTOMATION",action:`<span class="btn sm pri">On</span>`})},
 
- // ---------- MONEY & NUMBERS ----------
+ /* ---------- MONEY & NUMBERS ---------- */
  {slug:"the-dashboard",group:"Money & Numbers",name:"The Dashboard",
   blurb:"Sales, stock, and jobs on one screen. Mission control for the shop.",
-  body:`
-   <div class="kpis">
-     <div class="kpi"><div class="lab">Sales today</div><div class="val">$3,240 <small>▲9%</small></div></div>
-     <div class="kpi"><div class="lab">Open jobs</div><div class="val">7</div></div>
-     <div class="kpi"><div class="lab">Low stock</div><div class="val">3</div></div>
-     <div class="kpi"><div class="lab">Machines</div><div class="val" style="color:var(--good)">OK</div></div>
-   </div>
-   <p class="muted" style="margin-top:14px;font-size:13px">Everything you'd walk the floor to check — sales, stock, jobs, equipment — on one screen, live.</p>`},
+  body: app("Shop Dashboard",
+    `<div class="stats">
+       <div class="stat"><div class="lbl">Sales today</div><div class="v tnum">$3,240 <small class="up">▲9%</small></div>${spark([8,10,7,12,9,14,13],"#2f8f5b")}</div>
+       <div class="stat"><div class="lbl">Open jobs</div><div class="v tnum">7</div><div class="mut" style="font-size:11px;margin-top:6px">2 due today</div></div>
+       <div class="stat"><div class="lbl">Low stock</div><div class="v tnum" style="color:var(--warn)">3</div><div class="mut" style="font-size:11px;margin-top:6px">reorder soon</div></div>
+       <div class="stat"><div class="lbl">Machines</div><div class="v" style="color:var(--good)">OK</div><div class="mut" style="font-size:11px;margin-top:6px">all online</div></div>
+     </div>
+     <div class="grid2">
+       <div class="panel"><h5>Sales — this week</h5>${bars([60,72,48,80,66,90,84],["M","T","W","T","F","S","S"])}</div>
+       <div class="panel"><h5>Jobs today</h5>
+         <div class="jrow"><span>Delgado remodel</span><span class="pill blue"><span class="d"></span>In progress</span></div>
+         <div class="jrow"><span>Ortiz delivery</span><span class="pill warn"><span class="d"></span>Due 2pm</span></div>
+         <div class="jrow"><span>Kim consult</span><span class="pill mut">4:30pm</span></div>
+       </div>
+     </div>`,{tag:"LIVE"})},
 
  {slug:"data-analyzer",group:"Money & Numbers",name:"Data Analyzer",
   blurb:"Turns your numbers into simple insights.",
-  body: io("sales_2026.csv — 4,812 rows",
-     `<div class="doc-lines">date, item, qty, price, refund<br>2026-01-03, B-12, 2, 34.00, 0<br>… 4,812 rows …</div>`,
-     `<p class="k">Three things worth knowing</p>
-      <ul><li>Tuesdays are your slowest day — <span class="k">31% below</span> average.</li>
-      <li>Product B earns the most per sale. Push it.</li>
-      <li><span class="chip warn">Watch</span> Refunds on item C jumped last month.</li></ul>`)},
+  body: app("sales_2026.csv — 4,812 rows",
+    `<table class="tbl">
+       <tr><th>Date</th><th>Item</th><th class="r">Qty</th><th class="r">Price</th><th class="r">Refund</th></tr>
+       <tr><td class="tnum">2026-01-03</td><td>B-12</td><td class="r tnum">2</td><td class="r tnum">$34.00</td><td class="r">—</td></tr>
+       <tr><td class="tnum">2026-01-03</td><td>C-07</td><td class="r tnum">1</td><td class="r tnum">$18.00</td><td class="r" style="color:var(--bad)">$18.00</td></tr>
+       <tr><td class="mut" colspan="5" style="text-align:center;font-size:11.5px">… 4,810 more rows …</td></tr>
+     </table>
+     <div class="grid2" style="grid-template-columns:1fr 1fr 1fr">
+       <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Tuesdays are slow</div><div class="mut" style="font-size:12px">31% below average. Try a Tue promo.</div></div>
+       <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Product B = best margin</div><div class="mut" style="font-size:12px">Earns most per sale. Push it.</div></div>
+       <div class="panel" style="border-color:var(--warn)"><div class="lbl" style="color:var(--warn)">Watch</div><div style="margin:6px 0;font-weight:600">Refunds on item C ↑</div><div class="mut" style="font-size:12px">Jumped 3× last month.</div></div>
+     </div>`,{tag:"ANALYSIS",action:`<span class="pill good"><span class="d"></span>Done</span>`})},
 
  {slug:"money-forecaster",group:"Money & Numbers",name:"Money Forecaster",
   blurb:"Predicts your future cash flow.",
-  body:`
-   <div class="io-card"><div class="io-head"><span>Cash on hand — next 6 months</span><span class="tag">FORECAST</span></div>
-   <div class="io-body">
-     <div class="bars">
-       <div class="b" style="height:70%"><em>$41k</em><span>Jul</span></div>
-       <div class="b" style="height:78%"><em>$46k</em><span>Aug</span></div>
-       <div class="b" style="height:60%"><em>$35k</em><span>Sep</span></div>
-       <div class="b" style="height:48%"><em>$28k</em><span>Oct</span></div>
-       <div class="b" style="height:38%"><em>$22k</em><span>Nov</span></div>
-       <div class="b" style="height:30%"><em>$18k</em><span>Dec</span></div>
-     </div>
-     <div class="rec" style="margin-top:26px"><div class="h">Heads up</div>December dips to <span class="k">$18k</span> — your seasonal slow month. Set aside now or line up a small buffer.</div>
-   </div></div>`},
+  body: app("Cash forecast — next 6 months",
+    `${areaChart()}
+     <div class="callout" style="border-left-color:var(--warn)"><div class="h">⚠ Heads up — December</div>Cash dips to <b>$18k</b>, your seasonal slow month. Set aside a buffer now while summer is strong.</div>`,
+    {tag:"FORECAST",action:`<span class="pill blue"><span class="d"></span>Projected</span>`})},
 
  {slug:"feedback-reader",group:"Money & Numbers",name:"Feedback Reader",
   blurb:"Reads your reviews and tells you what customers think.",
-  body: io("47 reviews across Google + Yelp",
-     `<div class="doc-lines">★★★★★ "fast and friendly"<br>★★☆☆☆ "waited 25 min"<br>★★★★★ "best in the neighborhood"<br>… 47 total …</div>`,
-     `<p><span class="k">4.3 / 5</span> overall.</p>
-      <ul><li><span class="chip good">Loved</span> Friendly staff, quality, location.</li>
-      <li><span class="chip warn">Complaint</span> Wait times at lunch (came up 9×).</li></ul>
-      <div class="rec"><div class="h">Quick win</div>Add one person 12–2pm. Most complaints vanish.</div>`)},
+  body: app("Reviews — Google + Yelp",
+    `<div class="revwrap">
+       <div>
+         <div class="bigscore">4.3<span style="font-size:18px;color:var(--appmut)">/5</span></div>
+         <div class="stars">★★★★☆</div>
+         <div class="mut" style="font-size:11.5px;margin-top:2px">47 reviews analyzed</div>
+         <div class="themebar" style="margin-top:14px"><div style="display:flex;justify-content:space-between;font-size:11.5px"><span>Praise</span><span class="mut">72%</span></div><div class="tb"><i style="width:72%;background:var(--good)"></i></div></div>
+         <div class="themebar"><div style="display:flex;justify-content:space-between;font-size:11.5px"><span>Wait times</span><span class="mut">19%</span></div><div class="tb"><i style="width:19%;background:var(--warn)"></i></div></div>
+         <div class="themebar"><div style="display:flex;justify-content:space-between;font-size:11.5px"><span>Pricing</span><span class="mut">9%</span></div><div class="tb"><i style="width:9%;background:#c5bfb2"></i></div></div>
+       </div>
+       <div>
+         <div class="revcard"><div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">${av("DL","#2f6fb0")}<div style="flex:1"><div style="font-weight:600;font-size:12.5px">Dana L.</div><div class="stars" style="font-size:12px">★★★★★</div></div><span class="srcbadge" style="background:#e7eff7;color:#255a8f">Google</span></div><div style="font-size:12.5px">"Fast, friendly, best in the neighborhood."</div></div>
+         <div class="revcard"><div style="display:flex;align-items:center;gap:9px;margin-bottom:6px">${av("MR","#c8402f")}<div style="flex:1"><div style="font-weight:600;font-size:12.5px">Marco R.</div><div class="stars" style="font-size:12px">★★☆☆☆</div></div><span class="srcbadge" style="background:#f8e7e4;color:#a12e20">Yelp</span></div><div style="font-size:12.5px">"Great food but waited 25 min at lunch."</div></div>
+         <div class="callout" style="margin-top:0"><div class="h">Quick win</div>Add one person 12–2pm. Most complaints disappear.</div>
+       </div>
+     </div>`,{tag:"SENTIMENT"})},
 
- // ---------- DECISIONS ----------
+ /* ---------- DECISIONS ---------- */
  {slug:"decision-helper",group:"Decisions",name:"Decision Helper",
   blurb:"Give it a hard choice, it helps you decide.",
-  body: io("Your question",
-     `<p style="font-family:var(--mono);font-size:12.5px">"Hire a salesperson, or use an agency?"</p>`,
-     `<table class="mini"><tr><th></th><th>Hire</th><th>Agency</th></tr>
-      <tr><td>Cost/mo</td><td>$5k+</td><td>$3k</td></tr>
-      <tr><td>Ramp-up</td><td>2–3 mo</td><td class="k">2 wks</td></tr>
-      <tr><td>Control</td><td class="k">High</td><td>Medium</td></tr></table>
-      <div class="rec"><div class="h">Recommendation</div>Start with the agency for 90 days. If leads hold, hire. Lower risk, faster proof.</div>`)},
+  body: app("Decision Helper",
+    `<div style="border:1px solid var(--appline);border-radius:9px;padding:11px 13px;margin-bottom:14px;background:#faf8f4;font-size:13px"><span class="lbl">Your question</span><div style="margin-top:4px;font-weight:600">Hire a salesperson, or use an agency?</div></div>
+     <table class="tbl" style="border:1px solid var(--appline);border-radius:9px;overflow:hidden">
+       <tr><th></th><th>Hire in-house</th><th>Use an agency</th></tr>
+       <tr><td class="lbl">Cost / mo</td><td class="tnum">$5,000+</td><td class="tnum">$3,000</td></tr>
+       <tr><td class="lbl">Time to results</td><td>2–3 months</td><td><b>2 weeks</b></td></tr>
+       <tr><td class="lbl">Control</td><td><b>High</b></td><td>Medium</td></tr>
+       <tr><td class="lbl">Risk if it flops</td><td class="mut">severance, months lost</td><td>cancel the contract</td></tr>
+     </table>
+     <div class="callout"><div class="h">Recommendation <span class="pill blue" style="margin-left:6px"><span class="d"></span>Confidence: High</span></div>Start with the agency for 90 days. If the leads hold up, hire. Lower risk, faster proof, and you learn what "good" looks like before you commit to payroll.</div>`,
+    {tag:"ADVISOR"})},
 
  {slug:"competitor-watcher",group:"Decisions",name:"Competitor Watcher",
   blurb:"Keeps an eye on what competitors are doing.",
-  body:`
-   <div class="toast"><span class="b">ALERT · TODAY</span><span>Riverside Co. dropped their starter price to <b>$49</b> (was $59).</span></div>
-   ${io("What changed","<p>Competitor cut price 17% and added free delivery.</p>",
-     `<p class="k">Your options</p><ul>
-      <li>Hold price, lean on same-day service they can't match</li>
-      <li>Match $49 on the starter only, keep margins on the rest</li>
-      <li>Bundle to beat them without a price war</li></ul>`).replace('<div class="io">','<div class="io" style="margin-top:14px">')}`},
+  body: app("Competitor Watch",
+    `<div style="display:flex;gap:11px;align-items:flex-start;border:1px solid var(--bad);background:var(--bad-weak);border-radius:9px;padding:12px 14px;margin-bottom:14px">
+       <span style="font-size:16px">🔔</span><div><div style="font-weight:700;font-size:12.5px">Price change detected · today 8:04am</div><div style="font-size:12.5px;margin-top:2px">Riverside Co. dropped their starter plan to <b>$49</b> (was $59) and added free delivery.</div></div></div>
+     <table class="tbl" style="border:1px solid var(--appline);border-radius:9px;overflow:hidden">
+       <tr><th></th><th>You</th><th>Riverside</th></tr>
+       <tr><td class="lbl">Starter price</td><td class="tnum">$59</td><td class="tnum" style="color:var(--bad)">$49</td></tr>
+       <tr><td class="lbl">Delivery</td><td>Same-day</td><td>Free, 3–5 days</td></tr>
+       <tr><td class="lbl">Reviews</td><td><b>4.3★</b></td><td>3.8★</td></tr>
+     </table>
+     <div style="margin-top:14px"><div class="lbl">Suggested response</div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+         <span class="btn sm">Hold price, push same-day</span>
+         <span class="btn sm">Match $49 on starter only</span>
+         <span class="btn sm pri">Bundle to beat them</span>
+       </div>
+     </div>`,{tag:"MONITOR"})},
 
  {slug:"rule-checker",group:"Decisions",name:"Rule Checker",
   blurb:"Tells you what rules apply to your situation.",
-  body: io("Your plan",
-     `<p style="font-family:var(--mono);font-size:12.5px">"Open a food stall in Brooklyn."</p>`,
-     `<table class="mini"><tr><th>You'll need</th><th>Status</th></tr>
-      <tr><td>NYC Food Vendor License</td><td><span class="chip flag">Apply</span></td></tr>
-      <tr><td>Food Protection Certificate</td><td><span class="chip flag">Apply</span></td></tr>
-      <tr><td>Commissary agreement</td><td><span class="chip warn">Required</span></td></tr>
-      <tr><td>Sales tax ID</td><td><span class="chip good">You have it</span></td></tr></table>`)},
+  body: app("Compliance — Food stall, Brooklyn",
+    `<div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px"><span>3 of 4 still to do</span><span class="mut">est. 2–3 weeks</span></div>
+     <div class="prog"><i style="width:25%"></i></div>
+     <div class="chk"><div class="box done">✓</div><div><div>Sales tax ID</div><div class="sub">You already have this.</div></div></div>
+     <div class="chk"><div class="box"></div><div><div>NYC Mobile Food Vendor License</div><div class="sub">Apply via Dept. of Health · waitlist possible</div></div><span class="pill warn" style="align-self:center;margin-left:auto"><span class="d"></span>Apply</span></div>
+     <div class="chk"><div class="box"></div><div><div>Food Protection Certificate</div><div class="sub">15-hr course + exam</div></div><span class="pill warn" style="align-self:center;margin-left:auto"><span class="d"></span>Apply</span></div>
+     <div class="chk"><div class="box"></div><div><div>Commissary kitchen agreement</div><div class="sub">Required for storage/prep</div></div><span class="pill bad" style="align-self:center;margin-left:auto"><span class="d"></span>Required</span></div>`,
+    {tag:"CHECKLIST"})},
 
- // ---------- PAPERWORK & CONTENT ----------
+ /* ---------- PAPERWORK & CONTENT ---------- */
  {slug:"the-contract-manager",group:"Paperwork & Content",name:"The Contract Manager",
   blurb:"Drafts agreements, tracks dates, flags renewals early.",
-  body:`
-   <div class="io-card"><div class="io-head"><span>Your agreements</span><span class="tag">TRACKED</span></div>
-   <div class="io-body"><table class="mini">
-     <tr><th>Contract</th><th>Renews</th><th>Flag</th></tr>
-     <tr><td>Supplier — CoolBrew</td><td>in 12 days</td><td><span class="chip warn">Act now</span></td></tr>
-     <tr><td>Lease — 231 Norman</td><td>in 4 mo</td><td><span class="chip good">Fine</span></td></tr>
-     <tr><td>Insurance</td><td>auto-renews</td><td><span class="chip warn">Review rate</span></td></tr>
-   </table><p class="muted" style="margin-top:10px;font-size:12.5px">It drafts new ones too — you just fill in the blanks it asks for.</p></div></div>`},
+  body: app("Agreements",
+    `<table class="tbl">
+       <tr><th>Contract</th><th>Counterparty</th><th>Renews</th><th>Status</th></tr>
+       <tr class="hl"><td>Supply agreement</td><td>CoolBrew Co.</td><td>in 12 days</td><td><span class="pill bad"><span class="d"></span>Act now</span></td></tr>
+       <tr><td>Studio lease</td><td>231 Norman Ave</td><td>in 4 months</td><td><span class="pill good"><span class="d"></span>Fine</span></td></tr>
+       <tr><td>General liability</td><td>Hartford</td><td>auto-renews Sep 1</td><td><span class="pill warn"><span class="d"></span>Review rate</span></td></tr>
+       <tr><td>Contractor MSA</td><td>Delgado Build</td><td>no end date</td><td><span class="pill mut">Active</span></td></tr>
+     </table>
+     <p class="mut" style="font-size:12px;margin-top:12px;padding:0 2px">It drafts new agreements too — you just answer the questions it asks and it fills the rest.</p>`,
+    {tag:"TRACKER",action:`<span class="btn sm pri">+ New agreement</span>`})},
 
  {slug:"the-paperwork-crew",group:"Paperwork & Content",name:"The Paperwork Crew",
   blurb:"Invoices, quotes, proposals, and follow-up emails for your approval.",
-  body: io("You say",
-     `<p style="font-family:var(--mono);font-size:12.5px">"Invoice the Delgado job, then chase last month's unpaid one."</p>`,
-     `<p class="k">Invoice #1044 — ready</p>
-      <p class="muted">Delgado Remodel · $4,200 · due in 14 days</p>
-      <div class="rec"><div class="h">Follow-up email — draft</div>"Hi Maria — just a friendly note that invoice #1031 ($1,850) was due last week. Here's the link to pay…"</div>
-      <p class="muted" style="margin-top:10px;font-size:12px">Both wait for your one-tap approval before sending.</p>`)},
+  body: app("Ready for your approval",
+    `<div class="split">
+       <div class="doc">
+         <div class="hd"><div class="big">INVOICE</div><div class="r" style="text-align:right"><div class="tnum" style="font-weight:700">#1044</div><div class="mut" style="font-size:11px">Due in 14 days</div></div></div>
+         <div class="mut" style="font-size:12px;margin-bottom:10px">To: Maria Delgado — Delgado Remodel</div>
+         <div class="liner"><span>Design + build</span><span class="tnum">$3,400.00</span></div>
+         <div class="liner"><span>Materials</span><span class="tnum">$800.00</span></div>
+         <div class="liner tot"><span>Total</span><span class="tnum">$4,200.00</span></div>
+         <div style="margin-top:14px"><span class="btn sm pri">Approve &amp; send</span> <span class="btn sm">Edit</span></div>
+       </div>
+       <div>
+         <div class="lbl" style="margin-bottom:8px">Follow-up drafted</div>
+         <div class="mail">
+           <div class="mh"><span class="k">To</span><span>maria@…</span></div>
+           <div class="mh"><span class="k">Re</span><span>Invoice #1031 — friendly reminder</span></div>
+           <div class="mb">Hi Maria — just a quick note that invoice #1031 ($1,850) was due last week. Here's the link to pay whenever you get a moment. Thanks again for the great project!<br><br>— Ross</div>
+         </div>
+         <div style="margin-top:10px"><span class="btn sm pri">Send</span> <span class="btn sm">Snooze 3 days</span></div>
+       </div>
+     </div>`,{tag:"DRAFTS"})},
 
  {slug:"the-content-kitchen",group:"Paperwork & Content",name:"The Content Kitchen",
   blurb:"Phone footage in; branded posts and captions out.",
-  body: io("One phone clip",
-     `<div class="voice"><span>📱</span><span class="muted">clip_0714.mov — 22 sec, filmed on the floor</span></div>`,
-     `<p class="k">3 posts, on-brand, ready</p>
-      <ul><li>"Fresh batch, straight off the bench 🌱 #Greenpoint"</li>
-      <li>"This is what 6am looks like. Worth it."</li>
-      <li>"New drop Friday. Set a reminder."</li></ul>
-      <p class="muted" style="margin-top:8px;font-size:12px">Cropped, captioned, and sized for each platform.</p>`)},
+  body: app("Content Kitchen",
+    `<div class="igwrap">
+       <div class="ig">
+         <div class="top">${av("BTF","#2f5233")}<div style="font-size:12px;font-weight:600">brooklyntinyfarm</div></div>
+         <div class="img"></div>
+         <div class="acts"><span>♥</span><span>💬</span><span>➤</span></div>
+         <div class="cap"><b>brooklyntinyfarm</b> Fresh batch, straight off the bench 🌱 #Greenpoint #Brooklyn</div>
+       </div>
+       <div>
+         <div class="lbl" style="margin-bottom:8px">From: clip_0714.mov · 22s · filmed on the floor</div>
+         <div class="capopt">${av("1","#b0341d")}<div>"Fresh batch, straight off the bench 🌱 #Greenpoint"</div></div>
+         <div class="capopt">${av("2","#2f6fb0")}<div>"This is what 6am looks like. Worth it."</div></div>
+         <div class="capopt">${av("3","#2f8f5b")}<div>"New drop Friday. Set a reminder."</div></div>
+         <div style="display:flex;align-items:center;gap:9px;margin-top:12px"><span class="btn sm pri">Schedule</span><span class="mut" style="font-size:12px">Cropped &amp; sized for IG, TikTok, FB</span></div>
+       </div>
+     </div>`,{tag:"STUDIO"})},
 ];
 
-/* ---- render menu ---- */
-const LEFT = ["Websites & Storefront","The Brain","Get More Done"];
-const RIGHT = ["Money & Numbers","Decisions","Paperwork & Content"];
-const bySlug = Object.fromEntries(DATA.map(d=>[d.slug,d]));
+/* ---------- tiny inline charts ---------- */
+function spark(vals,color){
+  const w=120,h=26,max=Math.max(...vals),min=Math.min(...vals);
+  const pts=vals.map((v,i)=>`${(i/(vals.length-1))*w},${h-((v-min)/(max-min||1))*(h-4)-2}`).join(' ');
+  return `<svg width="100%" height="26" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" style="margin-top:8px;display:block"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+}
+function bars(vals,labels){
+  const max=Math.max(...vals);
+  return `<div style="display:flex;align-items:flex-end;gap:8px;height:120px">`+
+    vals.map((v,i)=>`<div style="flex:1;text-align:center;display:flex;flex-direction:column;justify-content:flex-end;height:100%"><div style="height:${(v/max)*100}%;background:var(--pri);opacity:.85;border-radius:3px 3px 0 0"></div><div class="mut" style="font-size:10px;margin-top:5px">${labels[i]}</div></div>`).join('')+`</div>`;
+}
+function areaChart(){
+  const w=560,h=170,pad=32;
+  const vals=[41,46,35,28,22,18], labels=["Jul","Aug","Sep","Oct","Nov","Dec"];
+  const max=50,min=0;
+  const X=i=>pad+(i/(vals.length-1))*(w-pad*2);
+  const Y=v=>h-24-((v-min)/(max-min))*(h-40);
+  const line=vals.map((v,i)=>`${X(i)},${Y(v)}`).join(' ');
+  const area=`${pad},${h-24} ${line} ${w-pad},${h-24}`;
+  const dots=vals.map((v,i)=>`<circle cx="${X(i)}" cy="${Y(v)}" r="3.5" fill="#fff" stroke="var(--pri)" stroke-width="2"/><text x="${X(i)}" y="${Y(v)-9}" font-size="10" fill="#1f1e1c" text-anchor="middle" font-family="var(--mono)">$${v}k</text>`).join('');
+  const labs=labels.map((l,i)=>`<text x="${X(i)}" y="${h-6}" font-size="10" fill="#6b6a66" text-anchor="middle">${l}</text>`).join('');
+  return `<svg width="100%" viewBox="0 0 ${w} ${h}" style="display:block"><defs><linearGradient id="ag" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b0341d" stop-opacity="0.20"/><stop offset="1" stop-color="#b0341d" stop-opacity="0"/></linearGradient></defs><polygon points="${area}" fill="url(#ag)"/><polyline points="${line}" fill="none" stroke="var(--pri)" stroke-width="2.5" stroke-linejoin="round"/>${dots}${labs}</svg>`;
+}
+function gaugeSVG(score,color){
+  const r=30,c=2*Math.PI*r,off=c*(1-score/100);
+  return `<div class="gauge"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${r}" fill="none" stroke="#efece5" stroke-width="8"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" font-size="20" font-weight="800" fill="#1f1e1c">${score}</text></svg><div class="sc" style="color:${color}">${score<50?'Poor':'Great'}</div></div>`;
+}
 
+/* ---------- render menu ---------- */
+const LEFT=["Websites & Storefront","The Brain","Get More Done"];
+const RIGHT=["Money & Numbers","Decisions","Paperwork & Content"];
+const bySlug=Object.fromEntries(DATA.map(d=>[d.slug,d]));
 function groupHTML(g){
-  const items = DATA.filter(d=>d.group===g).map(d=>`
+  const items=DATA.filter(d=>d.group===g).map(d=>`
     <a class="row" href="#${d.slug}">
       <div class="nm">${d.name}</div>
       <div class="ds">${d.blurb}</div>
@@ -424,27 +663,26 @@ function groupHTML(g){
     </a>`).join("");
   return `<div class="grp"><div class="grp-title">${g}</div>${items}</div>`;
 }
-document.getElementById("cols").innerHTML =
+document.getElementById("cols").innerHTML=
   `<div>${LEFT.map(groupHTML).join("")}</div><div>${RIGHT.map(groupHTML).join("")}</div>`;
 
-/* ---- router ---- */
+/* ---------- router ---------- */
 function render(){
-  const slug = location.hash.replace(/^#/,"");
-  const d = bySlug[slug];
+  const slug=location.hash.replace(/^#/,"");
+  const d=bySlug[slug];
   if(d){
-    document.getElementById("exEyebrow").textContent = d.group;
-    document.getElementById("exTitle").textContent = d.name;
-    document.getElementById("exBlurb").textContent = d.blurb;
-    document.getElementById("exBody").innerHTML = d.body;
+    document.getElementById("exEyebrow").textContent=d.group;
+    document.getElementById("exTitle").textContent=d.name;
+    document.getElementById("exBlurb").textContent=d.blurb;
+    document.getElementById("exBody").innerHTML=d.body;
     document.body.classList.add("showing-example");
     window.scrollTo(0,0);
-  } else {
+  }else{
     document.body.classList.remove("showing-example");
   }
 }
 document.getElementById("backlink").addEventListener("click",e=>{
-  e.preventDefault(); history.pushState("",document.title,location.pathname+location.search);
-  render();
+  e.preventDefault();history.pushState("",document.title,location.pathname+location.search);render();
 });
 window.addEventListener("hashchange",render);
 render();
