@@ -1,0 +1,501 @@
+<title>Sync Treatment — Getting the Music On Screen</title>
+<style>
+  :root {
+    color-scheme: dark;
+    /* projection-booth dark ground, warm tungsten amber accent */
+    --bg:        #0b0c0f;
+    --bg-2:      #101217;
+    --panel:     #14171d;
+    --panel-2:   #191d24;
+    --edge:      rgba(232,176,75,0.14);
+    --hair:      rgba(233,230,222,0.09);
+    --ink:       #ece9e1;
+    --ink-soft:  #b6b1a6;
+    --ink-mute:  #837e73;
+    --amber:     #e8b04b;   /* film leader / tungsten */
+    --amber-dim: #b6852c;
+    --rec:       #e0533a;   /* REC / critical */
+    --screen:    #6fb7c2;   /* cool screen-glow secondary */
+    --radius:    14px;
+    --disp: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --body: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --wrap: 1080px;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: light;
+      --bg:#efece4; --bg-2:#e8e4da; --panel:#f6f3ec; --panel-2:#efeae0;
+      --edge:rgba(150,104,24,0.22); --hair:rgba(28,24,16,0.12);
+      --ink:#1c1a14; --ink-soft:#514c40; --ink-mute:#7c7669;
+      --amber:#9c6a12; --amber-dim:#b98a2e; --rec:#b23a24; --screen:#2c6f79;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#0b0c0f;--bg-2:#101217;--panel:#14171d;--panel-2:#191d24;
+    --edge:rgba(232,176,75,0.14);--hair:rgba(233,230,222,0.09);
+    --ink:#ece9e1;--ink-soft:#b6b1a6;--ink-mute:#837e73;
+    --amber:#e8b04b;--amber-dim:#b6852c;--rec:#e0533a;--screen:#6fb7c2;
+  }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#efece4;--bg-2:#e8e4da;--panel:#f6f3ec;--panel-2:#efeae0;
+    --edge:rgba(150,104,24,0.22);--hair:rgba(28,24,16,0.12);
+    --ink:#1c1a14;--ink-soft:#514c40;--ink-mute:#7c7669;
+    --amber:#9c6a12;--amber-dim:#b98a2e;--rec:#b23a24;--screen:#2c6f79;
+  }
+
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--body); line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgba(232,176,75,0.10), transparent 60%),
+      radial-gradient(90% 60% at 100% 120%, rgba(111,183,194,0.06), transparent 55%);
+    background-attachment:fixed;
+  }
+  .wrap { max-width:var(--wrap); margin:0 auto; padding:0 24px; }
+
+  /* ---- shared type ---- */
+  .eyebrow {
+    font-family:var(--mono); font-size:12px; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--amber); margin:0;
+  }
+  h1,h2,h3 { font-family:var(--disp); text-wrap:balance; margin:0; }
+  .tc { /* timecode chip */
+    font-family:var(--mono); font-size:12px; color:var(--ink-mute);
+    letter-spacing:0.12em; font-variant-numeric:tabular-nums;
+  }
+  a { color:var(--amber); text-decoration:none; }
+  a:hover { color:var(--ink); }
+  a:focus-visible, button:focus-visible {
+    outline:2px solid var(--amber); outline-offset:3px; border-radius:4px;
+  }
+
+  /* ---- header / title card ---- */
+  header.hero { position:relative; overflow:hidden; border-bottom:1px solid var(--hair); }
+  .leader {
+    display:flex; align-items:center; gap:14px; padding:18px 0;
+    border-bottom:1px solid var(--hair);
+  }
+  .leader .dot { width:10px; height:10px; border-radius:50%; background:var(--rec);
+    box-shadow:0 0 0 0 rgba(224,83,58,.5); animation:rec 2.4s ease-out infinite; }
+  @keyframes rec { 0%{box-shadow:0 0 0 0 rgba(224,83,58,.45)} 100%{box-shadow:0 0 0 9px rgba(224,83,58,0)} }
+  .leader .slate { font-family:var(--mono); font-size:12px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--ink-soft); }
+  .leader .slate b { color:var(--ink); }
+  .leader .roll { margin-left:auto; font-family:var(--mono); font-size:12px; color:var(--ink-mute); letter-spacing:0.14em; }
+
+  .titlecard { padding:64px 0 54px; }
+  .titlecard h1 {
+    font-size:clamp(44px, 9vw, 104px); font-weight:800; line-height:0.92;
+    letter-spacing:-0.03em; text-transform:uppercase; margin:14px 0 0;
+  }
+  .titlecard h1 .thin { display:block; font-weight:300; color:var(--ink-soft);
+    font-size:clamp(20px,3.4vw,34px); letter-spacing:0.02em; text-transform:none; margin-top:16px; }
+  .logline { max-width:60ch; margin:26px 0 0; font-size:clamp(16px,1.9vw,20px);
+    color:var(--ink-soft); }
+  .logline b { color:var(--ink); font-weight:600; }
+  .credits { margin-top:30px; display:flex; flex-wrap:wrap; gap:10px 26px; }
+  .credits span { font-family:var(--mono); font-size:12.5px; color:var(--ink-mute); letter-spacing:0.06em; }
+  .credits span b { color:var(--ink-soft); font-weight:500; }
+
+  /* ---- sections ---- */
+  section { padding:58px 0; border-top:1px solid var(--hair); }
+  .sec-head { display:flex; align-items:baseline; gap:18px; margin-bottom:30px; flex-wrap:wrap; }
+  .sec-head h2 { font-size:clamp(24px,3.4vw,34px); font-weight:700; letter-spacing:-0.01em; }
+  .sec-head .tc { margin-left:auto; }
+  .lead { max-width:66ch; color:var(--ink-soft); font-size:16.5px; }
+  .lead b { color:var(--ink); }
+
+  /* ---- centerpiece feature ---- */
+  .feature {
+    background:linear-gradient(180deg, var(--panel-2), var(--panel));
+    border:1px solid var(--edge); border-radius:var(--radius);
+    padding:34px; position:relative; overflow:hidden;
+  }
+  .feature::before {
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(70% 120% at 12% 0%, rgba(232,176,75,0.12), transparent 55%);
+    pointer-events:none;
+  }
+  .feature .kicker { color:var(--screen); }
+  .feature h3 { font-size:clamp(22px,3vw,30px); font-weight:700; margin:12px 0 14px; letter-spacing:-0.01em; }
+  .feature p { color:var(--ink-soft); max-width:64ch; margin:0 0 18px; }
+  .feature .why { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--hair);
+    border:1px solid var(--hair); border-radius:10px; overflow:hidden; margin:22px 0 26px; }
+  .feature .why div { background:var(--panel); padding:16px 18px; }
+  .feature .why h4 { margin:0 0 6px; font-family:var(--body); font-size:14px; color:var(--ink); font-weight:650; }
+  .feature .why p { margin:0; font-size:13.5px; color:var(--ink-mute); }
+  .btn {
+    display:inline-flex; align-items:center; gap:10px; font-family:var(--mono);
+    font-size:13px; letter-spacing:0.1em; text-transform:uppercase;
+    background:var(--amber); color:#161206; font-weight:600;
+    padding:13px 22px; border-radius:999px; border:1px solid transparent; cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform:translateY(-1px); box-shadow:0 8px 26px rgba(232,176,75,0.28); color:#161206; }
+  .btn.ghost { background:transparent; color:var(--ink); border-color:var(--edge); }
+  .btn.ghost:hover { border-color:var(--amber); box-shadow:none; }
+  .feature .cta-row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+
+  /* ---- menu casting table ---- */
+  .table-scroll { overflow-x:auto; border:1px solid var(--hair); border-radius:var(--radius); }
+  table { width:100%; border-collapse:collapse; min-width:640px; }
+  thead th { text-align:left; font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--ink-mute); padding:14px 18px; background:var(--bg-2);
+    border-bottom:1px solid var(--hair); font-weight:500; }
+  tbody td { padding:16px 18px; border-bottom:1px solid var(--hair); vertical-align:top; font-size:15px; }
+  tbody tr:last-child td { border-bottom:none; }
+  tbody tr:hover td { background:var(--panel); }
+  td.item { white-space:nowrap; }
+  td.item b { font-family:var(--disp); font-weight:700; font-size:16px; color:var(--ink); display:block; }
+  td.item .og { font-family:var(--mono); font-size:11.5px; color:var(--ink-mute); letter-spacing:0.04em; }
+  td.use { color:var(--ink-soft); }
+  td.use b { color:var(--amber); font-weight:600; }
+  td.pri { white-space:nowrap; }
+  .flag { font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase;
+    padding:4px 9px; border-radius:999px; border:1px solid var(--edge); color:var(--amber); }
+  .flag.lead { background:var(--amber); color:#161206; border-color:transparent; }
+  .flag.later { color:var(--ink-mute); border-color:var(--hair); }
+
+  /* ---- build reels (timeline) ---- */
+  .reels { display:flex; flex-direction:column; gap:14px; }
+  .reel {
+    display:grid; grid-template-columns:132px 1fr; gap:22px;
+    background:var(--panel); border:1px solid var(--hair); border-radius:var(--radius);
+    padding:22px 24px; position:relative;
+  }
+  .reel .strip { border-right:1px solid var(--hair); padding-right:20px; }
+  .reel .strip .tc { display:block; color:var(--amber); font-size:13px; }
+  .reel .strip .len { display:block; margin-top:6px; font-family:var(--mono); font-size:11px; color:var(--ink-mute); letter-spacing:0.1em; }
+  .reel h3 { font-size:19px; font-weight:700; margin-bottom:8px; letter-spacing:-0.01em; }
+  .reel p { margin:0 0 12px; color:var(--ink-soft); font-size:14.5px; max-width:62ch; }
+  .reel ul { margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:8px; }
+  .reel li { font-family:var(--mono); font-size:11.5px; letter-spacing:0.04em; color:var(--ink-soft);
+    background:var(--bg-2); border:1px solid var(--hair); border-radius:7px; padding:5px 10px; }
+  .reel li .from { color:var(--ink-mute); }
+
+  /* ---- playbook checklist ---- */
+  .playbook { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .pb {
+    background:var(--panel); border:1px solid var(--hair); border-radius:var(--radius); padding:22px 24px;
+  }
+  .pb h3 { font-size:16px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:10px; }
+  .pb h3 .n { font-family:var(--mono); font-size:12px; color:var(--amber); border:1px solid var(--edge);
+    border-radius:6px; padding:2px 8px; letter-spacing:0.05em; }
+  .pb .sub { font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--ink-mute); margin:0 0 14px; }
+  .pb ul { margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .pb li { position:relative; padding-left:26px; color:var(--ink-soft); font-size:14.5px; }
+  .pb li::before { content:""; position:absolute; left:0; top:6px; width:12px; height:12px;
+    border:1.5px solid var(--amber-dim); border-radius:3px; }
+  .pb li b { color:var(--ink); font-weight:600; }
+
+  /* ---- closing ---- */
+  .closing { text-align:center; padding:76px 0 40px; }
+  .closing h2 { font-size:clamp(28px,4.4vw,46px); font-weight:800; letter-spacing:-0.02em; text-transform:uppercase; }
+  .closing p { color:var(--ink-soft); max-width:52ch; margin:18px auto 30px; font-size:17px; }
+  .contact { font-family:var(--mono); font-size:13px; color:var(--ink-mute); letter-spacing:0.1em; margin-top:34px; }
+  footer { border-top:1px solid var(--hair); padding:26px 0 60px; }
+  .footer-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-family:var(--mono); font-size:11.5px; color:var(--ink-mute); letter-spacing:0.08em; }
+
+  @media (max-width:720px){
+    .feature .why { grid-template-columns:1fr; }
+    .reel { grid-template-columns:1fr; gap:14px; }
+    .reel .strip { border-right:none; border-bottom:1px solid var(--hair); padding:0 0 12px; display:flex; gap:14px; align-items:baseline; }
+    .playbook { grid-template-columns:1fr; }
+    .feature { padding:24px; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{animation:none !important; scroll-behavior:auto;} }
+</style>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="leader">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="slate">Steadyhand&nbsp;AI &nbsp;×&nbsp; <b>The Artist</b> — Sync Treatment</span>
+      <span class="roll">ROLL 01 · TAKE 01</span>
+    </div>
+    <div class="titlecard">
+      <p class="eyebrow">Getting the music on screen</p>
+      <h1>Placed
+        <span class="thin">A plan to put the artist's songs into film &amp; TV — and give them a website that already plays like one.</span>
+      </h1>
+      <p class="logline">The goal isn't "a page." It's a <b>sync-ready catalogue</b> and a <b>cinematic web experience</b> that makes a music supervisor feel the song against picture in ten seconds — the same instinct behind The Space&nbsp;Pit's <i>Fire Escape</i>. Everything below is cast from the Steadyhand menu.</p>
+      <div class="credits">
+        <span><b>Prepared for</b> · the artist (working name)</span>
+        <span><b>By</b> · ross@steadyhand.ai</span>
+        <span><b>Date</b> · Jul 2026</span>
+        <span><b>Runtime</b> · ~6 weeks to first supervisor-ready link</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- OBJECTIVE -->
+  <section id="objective">
+    <div class="sec-head">
+      <p class="eyebrow">Reel 00 — The brief</p>
+      <span class="tc">00:00:00</span>
+    </div>
+    <h2 style="font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.01em;margin-bottom:18px;">What the artist actually wants</h2>
+    <p class="lead" style="margin-bottom:16px;">In plain terms: <b>they want their music played in movies.</b> That's the sync-licensing business — a supervisor drops a track under a scene, the artist earns a fee up front plus performance royalties on the back end, and every placement pulls new listeners toward the catalogue. It's the most durable income a songwriter can build that isn't tied to touring.</p>
+    <p class="lead">Two things win sync placements: <b>music that's technically ready to license</b> (rights clean, stems and instrumentals on hand) and <b>a presentation that makes the emotion obvious fast.</b> The reference — The Space Pit's <i>Fire Escape</i> — nails the second: it doesn't describe the song, it <i>screens</i> it. We build both halves.</p>
+  </section>
+
+  <!-- CENTERPIECE -->
+  <section id="experience">
+    <div class="sec-head">
+      <p class="eyebrow">Reel 01 — The headline deliverable</p>
+      <span class="tc">00:04:12</span>
+    </div>
+    <div class="feature">
+      <p class="eyebrow kicker">The "Fire Escape" for this artist</p>
+      <h3>A cinematic, scroll-driven experience built around one hero song</h3>
+      <p>One track, presented like a two-minute short film on the web: full-bleed, dark, the song as the score, lyrics rising like subtitles, scenes turning as you scroll. It lives at its own link. That link <b>is</b> the pitch — you send it to a music supervisor, a sync agency, or a director's music editor, and they experience exactly how the record scores a moment before they've read a word.</p>
+      <div class="why">
+        <div><h4>It's a sync reel, disguised</h4><p>Supervisors think in picture. This shows them the song already working against motion, light and mood — no imagination required.</p></div>
+        <div><h4>It signals taste</h4><p>An artist who presents this cinematically reads as someone whose music belongs on screen. The medium makes the argument.</p></div>
+        <div><h4>It's one asset, many cuts</h4><p>The same build gives us the shareable link, the 15s teaser, and the vertical social clips — see The Content Kitchen below.</p></div>
+      </div>
+      <p style="font-size:13.5px;color:var(--ink-mute);margin-bottom:20px;">A working template of this experience ships alongside this plan — dark ambient prototype, placeholder lyrics and audio, ready to drop the artist's real track and footage into.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://claude.ai/code/artifact/5bb02907-131e-4f8f-933a-b66f8d8feb83">▶ &nbsp;Open the experience prototype</a>
+        <a class="btn ghost" href="#build">See how it gets built</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU CASTING -->
+  <section id="menu">
+    <div class="sec-head">
+      <p class="eyebrow">Reel 02 — The menu, cast for this artist</p>
+      <span class="tc">00:11:40</span>
+    </div>
+    <p class="lead" style="margin-bottom:26px;">Every line on the Steadyhand menu maps onto a sync-music career. Here's what each one becomes for this artist, and when it comes into the build.</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Cast as</th><th>What it does for the artist</th><th>Slot</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="item"><b>The Full World</b><span class="og">brand · story · design · site</span></td>
+            <td class="use"><b>The cinematic identity + the "Fire Escape" experience.</b> The artist's visual language, story and hero-song site — the whole treatment. This is the headline.</td>
+            <td class="pri"><span class="flag lead">Lead</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Website</b><span class="og">built or tuned up</span></td>
+            <td class="use">The home the experience links out from — <b>fast, findable, and yours to edit</b>: the catalogue, the EPK, the "for supervisors" page with instant stem downloads.</td>
+            <td class="pri"><span class="flag lead">Lead</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Content Kitchen</b><span class="og">footage in, posts out</span></td>
+            <td class="use">Phone footage and the experience become <b>teasers, vertical clips and captions</b> — the trail that keeps the artist visible to the supervisors and fans who check before they license.</td>
+            <td class="pri"><span class="flag lead">Lead</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Shop</b><span class="og">store · bookings · payments</span></td>
+            <td class="use">A <b>sync licensing storefront</b>: license a track for a project, book the artist, sell merch — payments while you sleep. Clear terms, instant delivery.</td>
+            <td class="pri"><span class="flag">Act 2</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Brain</b><span class="og">private AI</span></td>
+            <td class="use">The catalogue, lyrics and metadata in one private AI. Ask <b>"which of my songs fits a tense night-drive?"</b> and get the track, the timecode, the pitch paragraph, the metadata sheet.</td>
+            <td class="pri"><span class="flag">Act 2</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Back Office</b><span class="og">the paperwork</span></td>
+            <td class="use"><b>Split sheets, sync licenses, one-stop clearance, metadata and PRO registrations</b> — drafted and automated so nothing kills a placement at the last minute.</td>
+            <td class="pri"><span class="flag">Act 2</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Dashboard</b><span class="og">one screen</span></td>
+            <td class="use">Pitches sent, placements landed, streams, sync revenue and supervisor replies — <b>one screen</b> so the artist always knows what's working.</td>
+            <td class="pri"><span class="flag later">Act 3</span></td>
+          </tr>
+          <tr>
+            <td class="item"><b>The Advisor</b><span class="og">judgment on call</span></td>
+            <td class="use">The hard calls weighed: <b>which sync agency, exclusive vs. non-exclusive, deal terms, rights checked.</b> Competitors and trends watched so pitches stay sharp.</td>
+            <td class="pri"><span class="flag later">Ongoing</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BUILD -->
+  <section id="build">
+    <div class="sec-head">
+      <p class="eyebrow">Reel 03 — The shoot schedule</p>
+      <span class="tc">00:19:05</span>
+    </div>
+    <p class="lead" style="margin-bottom:28px;">Sequenced so the artist has a <b>supervisor-ready link in about six weeks</b>, then keeps building the machine around it.</p>
+    <div class="reels">
+      <div class="reel">
+        <div class="strip"><span class="tc">PRE-PROD</span><span class="len">WK 0–1</span></div>
+        <div>
+          <h3>Clear the ground &amp; pick the hero</h3>
+          <p>The unglamorous week that makes everything else licensable. Confirm who owns the master and the publishing, pick the one song we build the experience around, and pull the assets a supervisor will ask for.</p>
+          <ul>
+            <li>Rights &amp; splits audit <span class="from">· Back Office</span></li>
+            <li>Stems + instrumental + 30/60s edits</li>
+            <li>PRO &amp; SoundExchange check <span class="from">· Advisor</span></li>
+            <li>Hero-song pick</li>
+          </ul>
+        </div>
+      </div>
+      <div class="reel">
+        <div class="strip"><span class="tc">REEL A</span><span class="len">WK 1–2</span></div>
+        <div>
+          <h3>The Full World — cinematic identity</h3>
+          <p>The look, the story, the design language the artist lives inside: type, colour, photography direction, and how the song's world translates to screen. This is the palette every other deliverable draws from.</p>
+          <ul>
+            <li>Visual identity <span class="from">· Full World</span></li>
+            <li>Artist story / bio</li>
+            <li>Design language kit</li>
+          </ul>
+        </div>
+      </div>
+      <div class="reel">
+        <div class="strip"><span class="tc">REEL B</span><span class="len">WK 2–4</span></div>
+        <div>
+          <h3>The "Fire Escape" experience + site</h3>
+          <p>The headline. Build the scroll-driven cinematic experience around the hero song, wire in the real track and footage, and stand up the site it links from — including the "for supervisors" page with one-click stem downloads.</p>
+          <ul>
+            <li>Cinematic experience <span class="from">· Full World</span></li>
+            <li>Site + EPK <span class="from">· Website</span></li>
+            <li>Supervisor download page</li>
+          </ul>
+        </div>
+      </div>
+      <div class="reel">
+        <div class="strip"><span class="tc">REEL C</span><span class="len">WK 4–6</span></div>
+        <div>
+          <h3>Cut the trailers &amp; open outreach</h3>
+          <p>Turn the experience into a 15-second teaser and a run of vertical clips, then start the targeted supervisor / agency outreach — every message carrying the one link that does the selling.</p>
+          <ul>
+            <li>Teaser + social cuts <span class="from">· Content Kitchen</span></li>
+            <li>Supervisor target list <span class="from">· Advisor</span></li>
+            <li>Pitch outreach campaign</li>
+          </ul>
+        </div>
+      </div>
+      <div class="reel">
+        <div class="strip"><span class="tc">ACT 2</span><span class="len">WK 6+</span></div>
+        <div>
+          <h3>The machine — shop, brain, paperwork</h3>
+          <p>Once the link is landing, add the parts that scale it: a licensing storefront so anyone can clear a track, the private AI that pitches the whole catalogue, and automated split sheets and licenses so deals close clean.</p>
+          <ul>
+            <li>Sync storefront <span class="from">· Shop</span></li>
+            <li>Catalogue AI <span class="from">· Brain</span></li>
+            <li>Licenses &amp; clearance <span class="from">· Back Office</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="reel">
+        <div class="strip"><span class="tc">ACT 3</span><span class="len">Ongoing</span></div>
+        <div>
+          <h3>Measure &amp; steer</h3>
+          <p>The dashboard shows what's converting; the advisor keeps the strategy honest — which agency, which terms, which scenes to chase next.</p>
+          <ul>
+            <li>Placement dashboard <span class="from">· Dashboard</span></li>
+            <li>Deal &amp; strategy calls <span class="from">· Advisor</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYBOOK -->
+  <section id="playbook">
+    <div class="sec-head">
+      <p class="eyebrow">Reel 04 — How music actually gets into movies</p>
+      <span class="tc">00:31:20</span>
+    </div>
+    <p class="lead" style="margin-bottom:26px;">The field guide behind the strategy — what makes a song licensable, who to reach, and the deal shape to expect. This is what The Advisor and The Back Office run day to day.</p>
+    <div class="playbook">
+      <div class="pb">
+        <h3><span class="n">01</span> Make it clearable</h3>
+        <p class="sub">One-stop or it doesn't get used</p>
+        <ul>
+          <li><b>Own or control both sides</b> — master recording and the publishing/composition. A supervisor on a deadline picks the song they can clear with one signature.</li>
+          <li><b>Have the deliverables ready</b> — WAV master, instrumental, stems, and 15/30/60-second edits.</li>
+          <li><b>Register everything</b> — with a PRO (ASCAP/BMI), SoundExchange, and the MLC, so back-end royalties actually reach the artist.</li>
+          <li><b>Tag the metadata</b> — clean titles, writer splits, ISRC, contact — embedded in the files.</li>
+        </ul>
+      </div>
+      <div class="pb">
+        <h3><span class="n">02</span> Know who places it</h3>
+        <p class="sub">The people who put songs to picture</p>
+        <ul>
+          <li><b>Music supervisors</b> — film, TV, streaming. The primary target.</li>
+          <li><b>Sync agencies &amp; libraries</b> — they pitch on the artist's behalf; worth it for reach, costs a split.</li>
+          <li><b>Trailer houses &amp; ad agencies</b> — fast money, big exposure.</li>
+          <li><b>Indie films, festivals &amp; student projects</b> — where a newer artist builds real screen credits.</li>
+        </ul>
+      </div>
+      <div class="pb">
+        <h3><span class="n">03</span> Pitch like a supervisor thinks</h3>
+        <p class="sub">Short, targeted, feel-first</p>
+        <ul>
+          <li><b>Lead with the link</b> — the cinematic experience, not a paragraph. Let them feel it.</li>
+          <li><b>Reference the scene</b> — "for a tense night-drive," not "check out my music."</li>
+          <li><b>One or two tracks, not the catalogue</b> — curated reads as professional.</li>
+          <li><b>Make yes easy</b> — state that it's one-stop and instantly clearable up front.</li>
+        </ul>
+      </div>
+      <div class="pb">
+        <h3><span class="n">04</span> Understand the deal</h3>
+        <p class="sub">So the artist signs from knowledge</p>
+        <ul>
+          <li><b>Two licenses per placement</b> — a sync license (composition) and a master-use license (recording). Owning both means one negotiation.</li>
+          <li><b>Up-front fee + back-end</b> — a sync fee at signing, plus performance royalties collected by the PRO whenever it airs.</li>
+          <li><b>Exclusive vs. non-exclusive</b> — non-exclusive keeps a song working in many places; weigh exclusivity only for real money.</li>
+          <li><b>Watch the terms</b> — media, territory, term, and MFN. This is where The Advisor earns its keep.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);letter-spacing:0.04em;margin-top:22px;max-width:70ch;">Field guide, not legal advice — every placement gets its own contract review before signing.</p>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing" id="next">
+    <p class="eyebrow" style="justify-content:center;">Reel 05 — Cue to camera</p>
+    <h2>Start with one song<br>and one link</h2>
+    <p>Pick the hero track, clear the ground, and in about six weeks the artist has a cinematic link a supervisor can feel in ten seconds. Everything else on the menu builds out from there.</p>
+    <div class="cta-row" style="justify-content:center;display:flex;gap:12px;flex-wrap:wrap;">
+      <a class="btn" href="https://claude.ai/code/artifact/5bb02907-131e-4f8f-933a-b66f8d8feb83">▶ &nbsp;Open the experience prototype</a>
+      <a class="btn ghost" href="mailto:ross@steadyhand.ai">Let's talk — ross@steadyhand.ai</a>
+    </div>
+    <p class="contact">STEADYHAND AI · AI &amp; BUILD FOR ESTABLISHED CREATORS</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>STEADYHAND × THE ARTIST — SYNC TREATMENT</span>
+    <span>ROLL 01 · TAKE 01 · FIN</span>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle support: honor host-stamped data-theme; nothing else needed.
+  // Progressive reveal on scroll (respects reduced motion).
+  (function(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const els = document.querySelectorAll('section, .reel, .pb, .feature');
+    els.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(14px)'; el.style.transition = 'opacity .6s ease, transform .6s ease'; });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='none'; io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
