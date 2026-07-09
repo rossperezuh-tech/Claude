@@ -9,89 +9,89 @@
   html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
     -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  .page { width: 8.5in; height: 11in; padding: 0.7in; display: flex; flex-direction: column; background: #f5f2ea; }
+  .page { width: 8.5in; height: 11in; padding: 0.65in 0.7in; display: flex; flex-direction: column; background: #f5f2ea; }
 
   h1 { font-family: 'Arial Narrow','Helvetica Neue',Arial,sans-serif; font-weight: 800;
-    font-size: 54px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
-  .sub { font-family: Georgia,'Times New Roman',serif; font-style: italic; font-size: 13px; color: #4a4640; margin-top: 12px; }
-  .rule { height: 3px; background: #1c1a17; margin: 16px 0 22px; }
+    font-size: 52px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
+  .sub { font-family: Georgia,'Times New Roman',serif; font-style: italic; font-size: 12.5px; color: #4a4640; margin-top: 11px; }
+  .rule { height: 3px; background: #1c1a17; margin: 15px 0 20px; }
 
-  .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; flex: 1; align-content: start; }
-  .group { margin-bottom: 20px; }
-  .group-title { font-size: 12.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
-    padding-bottom: 6px; border-bottom: 1.5px solid #b0341d; margin-bottom: 6px; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 42px; flex: 1; }
+  .col { display: flex; flex-direction: column; justify-content: space-between; }
 
-  .item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
-    padding: 8px 0; border-bottom: 1px solid #d9d3c6; }
+  .group-title { font-size: 11.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #b0341d; padding-bottom: 5px; border-bottom: 1.5px solid #b0341d; margin-bottom: 4px; }
+
+  .item { display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+    padding: 7px 0; border-bottom: 1px solid #d9d3c6; }
   .item:last-child { border-bottom: none; }
   .nm { font-size: 12.5px; font-weight: 700; }
-  .who { font-size: 10px; color: #8a857b; }
-  .pr { font-family: ui-monospace,'Menlo','Consolas',monospace; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .ds { font-size: 10px; color: #7a756b; line-height: 1.25; margin-top: 1px; }
+  .who { font-size: 9.5px; color: #a39d90; text-transform: uppercase; letter-spacing: .4px; margin-top: 2px; }
+  .pr { font-family: ui-monospace,'Menlo','Consolas',monospace; font-size: 12px; font-weight: 700; white-space: nowrap; text-align: right; }
 
-  .foot { margin-top: 12px; padding-top: 14px; border-top: 3px solid #1c1a17;
-    display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #4a4640; }
+  .foot { margin-top: 14px; padding-top: 13px; border-top: 3px solid #1c1a17;
+    display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: #4a4640; }
   .foot b { color: #b0341d; }
+  .foot .note { font-family: Georgia, serif; font-style: italic; }
 </style>
 </head>
 <body>
   <div class="page">
     <h1>THE&nbsp;OLD&nbsp;WAY</h1>
-    <div class="sub">What each item on the menu typically costs when a professional or agency does it by hand.</div>
+    <div class="sub">What each item costs when a professional or agency does it by hand — typical U.S. small-business rates, 2025.</div>
     <div class="rule"></div>
 
     <div class="cols">
-      <div>
+      <div class="col">
         <div class="group">
           <div class="group-title">Websites &amp; Storefront</div>
-          <div class="item"><span><span class="nm">The New Website</span> <span class="who">— web agency</span></span><span class="pr">$8,000</span></div>
-          <div class="item"><span><span class="nm">The Website Tune-Up</span> <span class="who">— SEO consultant</span></span><span class="pr">$2,500</span></div>
-          <div class="item"><span><span class="nm">The Full World</span> <span class="who">— branding agency</span></span><span class="pr">$20,000</span></div>
-          <div class="item"><span><span class="nm">The Shop</span> <span class="who">— e-commerce developer</span></span><span class="pr">$12,000</span></div>
+          <div class="item"><span><span class="nm">The New Website</span><div class="ds">A custom site, built from scratch.</div><div class="who">Web design freelancer / small agency</div></span><span class="pr">$4k–9k</span></div>
+          <div class="item"><span><span class="nm">The Website Tune-Up</span><div class="ds">Speed, SEO, and mobile fixes on your current site.</div><div class="who">SEO / performance consultant</div></span><span class="pr">$1.5k–3k</span></div>
+          <div class="item"><span><span class="nm">The Full World</span><div class="ds">Brand, story, design language, and site together.</div><div class="who">Boutique branding studio</div></span><span class="pr">$6k–15k</span></div>
+          <div class="item"><span><span class="nm">The Shop</span><div class="ds">Online store, bookings, and payments.</div><div class="who">E-commerce developer</div></span><span class="pr">$5k–12k</span></div>
         </div>
 
         <div class="group">
           <div class="group-title">The Brain</div>
-          <div class="item"><span><span class="nm">The Brain</span> <span class="who">— full-time assistant</span></span><span class="pr">$55,000/yr</span></div>
-          <div class="item"><span><span class="nm">Document Reader</span> <span class="who">— attorney review</span></span><span class="pr">$350/hr</span></div>
-          <div class="item"><span><span class="nm">The Archive</span> <span class="who">— scanning service</span></span><span class="pr">$5,000</span></div>
+          <div class="item"><span><span class="nm">The Brain</span><div class="ds">Someone who knows everything and answers anytime.</div><div class="who">Full-time assistant (salary)</div></span><span class="pr">$50k–65k/yr</span></div>
+          <div class="item"><span><span class="nm">Document Reader</span><div class="ds">Reading and flagging contracts and documents.</div><div class="who">Small-business attorney</div></span><span class="pr">$250–350/hr</span></div>
+          <div class="item"><span><span class="nm">The Archive</span><div class="ds">Digitizing and organizing old files, searchable.</div><div class="who">Scanning / records service</div></span><span class="pr">$2k–4k</span></div>
         </div>
 
         <div class="group">
           <div class="group-title">Get More Done</div>
-          <div class="item"><span><span class="nm">Meeting Notes</span> <span class="who">— note-taker / VA</span></span><span class="pr">$60/hr</span></div>
-          <div class="item"><span><span class="nm">Efficiency Finder</span> <span class="who">— ops consultant</span></span><span class="pr">$8,000</span></div>
-          <div class="item"><span><span class="nm">Task Automator</span> <span class="who">— automation developer</span></span><span class="pr">$6,000</span></div>
+          <div class="item"><span><span class="nm">Meeting Notes</span><div class="ds">Notes and action items from every meeting.</div><div class="who">Note-taker / virtual assistant</div></span><span class="pr">$25–50/hr</span></div>
+          <div class="item"><span><span class="nm">Automation</span><div class="ds">Finding wasted time and automating it away.</div><div class="who">Ops consultant + automation dev</div></span><span class="pr">$3k–8k</span></div>
         </div>
       </div>
 
-      <div>
+      <div class="col">
         <div class="group">
           <div class="group-title">Money &amp; Numbers</div>
-          <div class="item"><span><span class="nm">The Dashboard</span> <span class="who">— BI consultant</span></span><span class="pr">$12,000</span></div>
-          <div class="item"><span><span class="nm">Data Analyzer</span> <span class="who">— data analyst</span></span><span class="pr">$85/hr</span></div>
-          <div class="item"><span><span class="nm">Money Forecaster</span> <span class="who">— fractional CFO</span></span><span class="pr">$5,000/mo</span></div>
-          <div class="item"><span><span class="nm">Feedback Reader</span> <span class="who">— market research firm</span></span><span class="pr">$6,000</span></div>
+          <div class="item"><span><span class="nm">The Dashboard</span><div class="ds">Your numbers on one screen, with insights.</div><div class="who">BI consultant / analyst</div></span><span class="pr">$6k–12k</span></div>
+          <div class="item"><span><span class="nm">Money Forecaster</span><div class="ds">Cash-flow forecasting and planning.</div><div class="who">Fractional CFO</div></span><span class="pr">$3k–6k/mo</span></div>
+          <div class="item"><span><span class="nm">Feedback Reader</span><div class="ds">Reading reviews for themes and fixes.</div><div class="who">Market research firm</div></span><span class="pr">$3k–6k</span></div>
         </div>
 
         <div class="group">
           <div class="group-title">Decisions</div>
-          <div class="item"><span><span class="nm">Decision Helper</span> <span class="who">— management consultant</span></span><span class="pr">$300/hr</span></div>
-          <div class="item"><span><span class="nm">Competitor Watcher</span> <span class="who">— competitive intel firm</span></span><span class="pr">$3,500/mo</span></div>
-          <div class="item"><span><span class="nm">Rule Checker</span> <span class="who">— compliance attorney</span></span><span class="pr">$400/hr</span></div>
+          <div class="item"><span><span class="nm">Decision Helper</span><div class="ds">Weighing a hard call with the trade-offs.</div><div class="who">Management consultant</div></span><span class="pr">$150–350/hr</span></div>
+          <div class="item"><span><span class="nm">Competitor Watcher</span><div class="ds">Tracking competitors and flagging moves.</div><div class="who">Competitive-intel retainer</div></span><span class="pr">$1.5k–3.5k/mo</span></div>
+          <div class="item"><span><span class="nm">Rule Checker</span><div class="ds">What licenses and rules apply to you.</div><div class="who">Compliance attorney</div></span><span class="pr">$250–400/hr</span></div>
         </div>
 
         <div class="group">
           <div class="group-title">Paperwork &amp; Content</div>
-          <div class="item"><span><span class="nm">The Contract Manager</span> <span class="who">— attorney</span></span><span class="pr">$300/hr</span></div>
-          <div class="item"><span><span class="nm">The Paperwork Crew</span> <span class="who">— bookkeeper / admin</span></span><span class="pr">$55/hr</span></div>
-          <div class="item"><span><span class="nm">The Content Kitchen</span> <span class="who">— social media agency</span></span><span class="pr">$3,000/mo</span></div>
+          <div class="item"><span><span class="nm">The Paperwork Crew</span><div class="ds">Invoices, quotes, contracts, and follow-ups.</div><div class="who">Bookkeeper + attorney</div></span><span class="pr">$40–80/hr</span></div>
+          <div class="item"><span><span class="nm">The Content Kitchen</span><div class="ds">Turning footage into branded posts.</div><div class="who">Social media agency</div></span><span class="pr">$1.5k–4k/mo</span></div>
         </div>
       </div>
     </div>
 
     <div class="foot">
-      <div>Typical U.S. small-business market rates. Your build does the same job — <b>priced at the sit-down</b>.</div>
-      <div><b>ross@steadyhand.ai</b></div>
+      <div class="note">Your build does the same job — <b>priced at the sit-down</b>.</div>
+      <div><b style="color:#1c1a17">ross@steadyhand.ai</b></div>
     </div>
   </div>
 </body>

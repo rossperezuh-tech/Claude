@@ -45,11 +45,6 @@
   .row:hover{background:var(--card);padding-left:10px}
   .row:hover .nm{color:var(--accent)}
   .row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-  /* old-way price compare strip on example */
-  .compare{display:inline-flex;align-items:center;gap:9px;margin-top:16px;font-family:var(--mono);
-    font-size:12px;color:var(--muted);border:1px solid var(--hair);border-radius:8px;padding:9px 13px;background:var(--card)}
-  .compare b{color:var(--accent);font-size:15px}
-  .compare .w{color:var(--muted)}
   .footer{margin-top:40px;padding-top:16px;border-top:3px solid var(--ink);
     display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted)}
   .footer b{color:var(--ink)}
@@ -277,7 +272,6 @@
     <div class="ex-eyebrow" id="exEyebrow"></div>
     <h2 class="ex-title" id="exTitle"></h2>
     <p class="ex-blurb" id="exBlurb"></p>
-    <div class="compare" id="exCompare"></div>
     <div class="ex-hr"></div>
     <div id="exBody"></div>
     <div class="disclaim">Demo build with sample data — your version runs on your own business.</div>
@@ -437,38 +431,35 @@ const DATA=[
        </div>
      </div>`,{tag:"NOTES"})},
 
- {slug:"efficiency-finder",group:"Get More Done",name:"Efficiency Finder",
-  blurb:"Finds where you're wasting time.",
+ {slug:"automation",group:"Get More Done",name:"Automation",
+  blurb:"Finds where you're wasting time, then automates it away.",
   body: app("Workflow Audit — Order handling",
     `<div class="flow">
        <div class="node"><div class="ic" style="background:#e7eff7">📧</div><b>Email order</b><div class="mut" style="font-size:11.5px;margin-top:3px">arrives</div></div>
        <div class="arrow">→</div>
-       <div class="node flag"><div class="ic" style="background:#f8e7e4">⌨️</div><b>Re-typed 3×</b><div class="mut" style="font-size:11.5px;margin-top:3px">email → sheet → books</div><span class="pill bad" style="margin-top:7px"><span class="d"></span>Bottleneck</span></div>
+       <div class="node flag"><div class="ic" style="background:#f8e7e4">⌨️</div><b>Re-typed 3×</b><div class="mut" style="font-size:11.5px;margin-top:3px">email → sheet → books</div><span class="pill bad" style="margin-top:7px"><span class="d"></span>Bottleneck found</span></div>
        <div class="arrow">→</div>
        <div class="node"><div class="ic" style="background:#e5f2ea">📦</div><b>Ship + text</b><div class="mut" style="font-size:11.5px;margin-top:3px">tracking sent</div></div>
      </div>
-     <div class="callout"><div class="h">Fix — one entry that feeds all three</div>You're typing the same order three times. Connect them once and it flows through. <b>~6 hrs/week</b> back.</div>`,{tag:"AUDIT"})},
-
- {slug:"task-automator",group:"Get More Done",name:"Task Automator",
-  blurb:"Takes repetitive tasks off your plate.",
-  body: app("Automation — Invoice → QuickBooks",
+     <div class="callout"><div class="h">Step 1 — we spot the waste</div>You're typing the same order three times. That's <b>~6 hrs/week</b> gone.</div>`,{tag:"AUDIT"}) +
+    app("Automation built — Order → everywhere",
     `<div class="flow">
-       <div class="node"><div class="ic" style="background:#f7e9e5">📨</div><div class="lbl">When</div><b>Invoice arrives</b></div>
+       <div class="node"><div class="ic" style="background:#f7e9e5">📨</div><div class="lbl">When</div><b>Order arrives</b></div>
        <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#e7eff7">🧾</div><div class="lbl">Then</div><b>Read the fields</b></div>
+       <div class="node"><div class="ic" style="background:#e7eff7">📊</div><div class="lbl">Then</div><b>Fill the sheet</b></div>
        <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#e5f2ea">📚</div><div class="lbl">Then</div><b>Fill QuickBooks</b></div>
+       <div class="node"><div class="ic" style="background:#e5f2ea">📚</div><div class="lbl">Then</div><b>Post to books</b></div>
        <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#f7efdf">✅</div><div class="lbl">Finally</div><b>Text you to approve</b></div>
+       <div class="node"><div class="ic" style="background:#f7efdf">💬</div><div class="lbl">Finally</div><b>Text the customer</b></div>
      </div>
      <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
        <span class="pill good"><span class="d"></span>Automation on</span>
-       <span class="mut" style="font-size:12.5px">40 invoices/week × 4 min = <b style="color:var(--appink)">~2.5 hrs/week</b> saved</span>
+       <span class="mut" style="font-size:12.5px">Step 2 — one entry now feeds all three. <b style="color:var(--appink)">~6 hrs/week</b> back.</span>
      </div>`,{tag:"AUTOMATION",action:`<span class="btn sm pri">On</span>`})},
 
  /* ---------- MONEY & NUMBERS ---------- */
  {slug:"the-dashboard",group:"Money & Numbers",name:"The Dashboard",
-  blurb:"Sales, stock, and jobs on one screen. Mission control for the shop.",
+  blurb:"Your numbers on one screen — plus the insights hidden in them.",
   body: app("Shop Dashboard",
     `<div class="stats">
        <div class="stat"><div class="lbl">Sales today</div><div class="v tnum">$3,240 <small class="up">▲9%</small></div>${spark([8,10,7,12,9,14,13],"#2f8f5b")}</div>
@@ -483,22 +474,14 @@ const DATA=[
          <div class="jrow"><span>Ortiz delivery</span><span class="pill warn"><span class="d"></span>Due 2pm</span></div>
          <div class="jrow"><span>Kim consult</span><span class="pill mut">4:30pm</span></div>
        </div>
+     </div>
+     <div style="margin-top:16px"><div class="lbl" style="margin-bottom:8px">What your numbers are telling you</div>
+       <div class="grid2" style="grid-template-columns:1fr 1fr 1fr">
+         <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Tuesdays run slow</div><div class="mut" style="font-size:12px">31% below average — try a promo.</div></div>
+         <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Product B = best margin</div><div class="mut" style="font-size:12px">Earns the most per sale.</div></div>
+         <div class="panel" style="border-color:var(--warn)"><div class="lbl" style="color:var(--warn)">Watch</div><div style="margin:6px 0;font-weight:600">Refunds on item C ↑</div><div class="mut" style="font-size:12px">Jumped 3× last month.</div></div>
+       </div>
      </div>`,{tag:"LIVE"})},
-
- {slug:"data-analyzer",group:"Money & Numbers",name:"Data Analyzer",
-  blurb:"Turns your numbers into simple insights.",
-  body: app("sales_2026.csv — 4,812 rows",
-    `<table class="tbl">
-       <tr><th>Date</th><th>Item</th><th class="r">Qty</th><th class="r">Price</th><th class="r">Refund</th></tr>
-       <tr><td class="tnum">2026-01-03</td><td>B-12</td><td class="r tnum">2</td><td class="r tnum">$34.00</td><td class="r">—</td></tr>
-       <tr><td class="tnum">2026-01-03</td><td>C-07</td><td class="r tnum">1</td><td class="r tnum">$18.00</td><td class="r" style="color:var(--bad)">$18.00</td></tr>
-       <tr><td class="mut" colspan="5" style="text-align:center;font-size:11.5px">… 4,810 more rows …</td></tr>
-     </table>
-     <div class="grid2" style="grid-template-columns:1fr 1fr 1fr">
-       <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Tuesdays are slow</div><div class="mut" style="font-size:12px">31% below average. Try a Tue promo.</div></div>
-       <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Product B = best margin</div><div class="mut" style="font-size:12px">Earns most per sale. Push it.</div></div>
-       <div class="panel" style="border-color:var(--warn)"><div class="lbl" style="color:var(--warn)">Watch</div><div style="margin:6px 0;font-weight:600">Refunds on item C ↑</div><div class="mut" style="font-size:12px">Jumped 3× last month.</div></div>
-     </div>`,{tag:"ANALYSIS",action:`<span class="pill good"><span class="d"></span>Done</span>`})},
 
  {slug:"money-forecaster",group:"Money & Numbers",name:"Money Forecaster",
   blurb:"Predicts your future cash flow.",
@@ -572,21 +555,8 @@ const DATA=[
     {tag:"CHECKLIST"})},
 
  /* ---------- PAPERWORK & CONTENT ---------- */
- {slug:"the-contract-manager",group:"Paperwork & Content",name:"The Contract Manager",
-  blurb:"Drafts agreements, tracks dates, flags renewals early.",
-  body: app("Agreements",
-    `<table class="tbl">
-       <tr><th>Contract</th><th>Counterparty</th><th>Renews</th><th>Status</th></tr>
-       <tr class="hl"><td>Supply agreement</td><td>CoolBrew Co.</td><td>in 12 days</td><td><span class="pill bad"><span class="d"></span>Act now</span></td></tr>
-       <tr><td>Studio lease</td><td>231 Norman Ave</td><td>in 4 months</td><td><span class="pill good"><span class="d"></span>Fine</span></td></tr>
-       <tr><td>General liability</td><td>Hartford</td><td>auto-renews Sep 1</td><td><span class="pill warn"><span class="d"></span>Review rate</span></td></tr>
-       <tr><td>Contractor MSA</td><td>Delgado Build</td><td>no end date</td><td><span class="pill mut">Active</span></td></tr>
-     </table>
-     <p class="mut" style="font-size:12px;margin-top:12px;padding:0 2px">It drafts new agreements too — you just answer the questions it asks and it fills the rest.</p>`,
-    {tag:"TRACKER",action:`<span class="btn sm pri">+ New agreement</span>`})},
-
  {slug:"the-paperwork-crew",group:"Paperwork & Content",name:"The Paperwork Crew",
-  blurb:"Invoices, quotes, proposals, and follow-up emails for your approval.",
+  blurb:"Invoices, quotes, contracts, and follow-ups — drafted and tracked for your approval.",
   body: app("Ready for your approval",
     `<div class="split">
        <div class="doc">
@@ -606,7 +576,16 @@ const DATA=[
          </div>
          <div style="margin-top:10px"><span class="btn sm pri">Send</span> <span class="btn sm">Snooze 3 days</span></div>
        </div>
-     </div>`,{tag:"DRAFTS"})},
+     </div>`,{tag:"DRAFTS"}) +
+    app("Contracts — tracked, renewals flagged",
+    `<table class="tbl">
+       <tr><th>Agreement</th><th>Counterparty</th><th>Renews</th><th>Status</th></tr>
+       <tr class="hl"><td>Supply agreement</td><td>CoolBrew Co.</td><td>in 12 days</td><td><span class="pill bad"><span class="d"></span>Act now</span></td></tr>
+       <tr><td>Studio lease</td><td>231 Norman Ave</td><td>in 4 months</td><td><span class="pill good"><span class="d"></span>Fine</span></td></tr>
+       <tr><td>General liability</td><td>Hartford</td><td>auto-renews Sep 1</td><td><span class="pill warn"><span class="d"></span>Review rate</span></td></tr>
+     </table>
+     <p class="mut" style="font-size:12px;margin-top:12px;padding:0 2px">It drafts new agreements too — you answer a few questions and it fills the rest.</p>`,
+    {tag:"CONTRACTS",action:`<span class="btn sm pri">+ New agreement</span>`})},
 
  {slug:"the-content-kitchen",group:"Paperwork & Content",name:"The Content Kitchen",
   blurb:"Phone footage in; branded posts and captions out.",
@@ -657,29 +636,6 @@ function gaugeSVG(score,color){
 }
 
 /* ---------- old-way price (what a pro/agency typically charges) ---------- */
-const PRO={
- "the-new-website":["$8,000","web agency"],
- "the-website-tune-up":["$2,500","SEO consultant"],
- "the-full-world":["$20,000","branding agency"],
- "the-shop":["$12,000","e-commerce dev"],
- "the-brain":["$55,000/yr","full-time assistant"],
- "document-reader":["$350/hr","attorney review"],
- "the-archive":["$5,000","scanning service"],
- "meeting-notes":["$60/hr","note-taker / VA"],
- "efficiency-finder":["$8,000","ops consultant"],
- "task-automator":["$6,000","automation dev"],
- "the-dashboard":["$12,000","BI consultant"],
- "data-analyzer":["$85/hr","data analyst"],
- "money-forecaster":["$5,000/mo","fractional CFO"],
- "feedback-reader":["$6,000","market research"],
- "decision-helper":["$300/hr","mgmt consultant"],
- "competitor-watcher":["$3,500/mo","competitive intel"],
- "rule-checker":["$400/hr","compliance attorney"],
- "the-contract-manager":["$300/hr","attorney"],
- "the-paperwork-crew":["$55/hr","bookkeeper / admin"],
- "the-content-kitchen":["$3,000/mo","social agency"],
-};
-
 /* ---------- render menu ---------- */
 const LEFT=["Websites & Storefront","The Brain","Get More Done"];
 const RIGHT=["Money & Numbers","Decisions","Paperwork & Content"];
@@ -702,8 +658,6 @@ function render(){
     document.getElementById("exEyebrow").textContent=d.group;
     document.getElementById("exTitle").textContent=d.name;
     document.getElementById("exBlurb").textContent=d.blurb;
-    const p=PRO[slug]||["",""];
-    document.getElementById("exCompare").innerHTML=p[0]?`The old way: <b>${p[0]}</b> · <span class="w">${p[1]}</span>`:"";
     document.getElementById("exBody").innerHTML=d.body;
     document.body.classList.add("showing-example");
     window.scrollTo(0,0);
