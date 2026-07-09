@@ -35,16 +35,21 @@
   @media(max-width:760px){.cols{grid-template-columns:1fr;gap:26px}}
   .grp-title{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
     padding-bottom:6px;border-bottom:1.5px solid var(--accent);margin-bottom:4px}
-  .row{display:block;padding:11px 10px 11px 0;border-bottom:1px solid var(--hair);
-    position:relative;transition:background .15s,padding .15s}
+  .row{display:flex;gap:14px;align-items:center;padding:11px 4px 11px 0;border-bottom:1px solid var(--hair);transition:background .15s,padding .15s}
   .row:last-child{border-bottom:none}
+  .row .rmain{flex:1;min-width:0}
   .row .nm{font-size:14px;font-weight:700}
   .row .ds{font-size:12px;color:var(--muted)}
-  .row .go{position:absolute;right:6px;top:50%;transform:translateY(-50%);
-    font-family:var(--mono);font-size:11px;color:var(--accent);opacity:0;transition:opacity .15s,right .15s;white-space:nowrap}
-  .row:hover{background:var(--card);padding-left:12px}
-  .row:hover .go{opacity:1;right:10px}
+  .row .rprice{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);text-align:right;white-space:nowrap;line-height:1.15}
+  .row .rprice span{display:block;font-size:9.5px;font-weight:400;letter-spacing:.2px;color:var(--muted)}
+  .row:hover{background:var(--card);padding-left:10px}
+  .row:hover .nm{color:var(--accent)}
   .row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  /* old-way price compare strip on example */
+  .compare{display:inline-flex;align-items:center;gap:9px;margin-top:16px;font-family:var(--mono);
+    font-size:12px;color:var(--muted);border:1px solid var(--hair);border-radius:8px;padding:9px 13px;background:var(--card)}
+  .compare b{color:var(--accent);font-size:15px}
+  .compare .w{color:var(--muted)}
   .footer{margin-top:40px;padding-top:16px;border-top:3px solid var(--ink);
     display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted)}
   .footer b{color:var(--ink)}
@@ -272,6 +277,7 @@
     <div class="ex-eyebrow" id="exEyebrow"></div>
     <h2 class="ex-title" id="exTitle"></h2>
     <p class="ex-blurb" id="exBlurb"></p>
+    <div class="compare" id="exCompare"></div>
     <div class="ex-hr"></div>
     <div id="exBody"></div>
     <div class="disclaim">Demo build with sample data — your version runs on your own business.</div>
@@ -650,6 +656,30 @@ function gaugeSVG(score,color){
   return `<div class="gauge"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${r}" fill="none" stroke="#efece5" stroke-width="8"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" font-size="20" font-weight="800" fill="#1f1e1c">${score}</text></svg><div class="sc" style="color:${color}">${score<50?'Poor':'Great'}</div></div>`;
 }
 
+/* ---------- old-way price (what a pro/agency typically charges) ---------- */
+const PRO={
+ "the-new-website":["$8,000","web agency"],
+ "the-website-tune-up":["$2,500","SEO consultant"],
+ "the-full-world":["$20,000","branding agency"],
+ "the-shop":["$12,000","e-commerce dev"],
+ "the-brain":["$55,000/yr","full-time assistant"],
+ "document-reader":["$350/hr","attorney review"],
+ "the-archive":["$5,000","scanning service"],
+ "meeting-notes":["$60/hr","note-taker / VA"],
+ "efficiency-finder":["$8,000","ops consultant"],
+ "task-automator":["$6,000","automation dev"],
+ "the-dashboard":["$12,000","BI consultant"],
+ "data-analyzer":["$85/hr","data analyst"],
+ "money-forecaster":["$5,000/mo","fractional CFO"],
+ "feedback-reader":["$6,000","market research"],
+ "decision-helper":["$300/hr","mgmt consultant"],
+ "competitor-watcher":["$3,500/mo","competitive intel"],
+ "rule-checker":["$400/hr","compliance attorney"],
+ "the-contract-manager":["$300/hr","attorney"],
+ "the-paperwork-crew":["$55/hr","bookkeeper / admin"],
+ "the-content-kitchen":["$3,000/mo","social agency"],
+};
+
 /* ---------- render menu ---------- */
 const LEFT=["Websites & Storefront","The Brain","Get More Done"];
 const RIGHT=["Money & Numbers","Decisions","Paperwork & Content"];
@@ -657,9 +687,7 @@ const bySlug=Object.fromEntries(DATA.map(d=>[d.slug,d]));
 function groupHTML(g){
   const items=DATA.filter(d=>d.group===g).map(d=>`
     <a class="row" href="#${d.slug}">
-      <div class="nm">${d.name}</div>
-      <div class="ds">${d.blurb}</div>
-      <div class="go">see example →</div>
+      <div class="rmain"><div class="nm">${d.name}</div><div class="ds">${d.blurb}</div></div>
     </a>`).join("");
   return `<div class="grp"><div class="grp-title">${g}</div>${items}</div>`;
 }
@@ -674,6 +702,8 @@ function render(){
     document.getElementById("exEyebrow").textContent=d.group;
     document.getElementById("exTitle").textContent=d.name;
     document.getElementById("exBlurb").textContent=d.blurb;
+    const p=PRO[slug]||["",""];
+    document.getElementById("exCompare").innerHTML=p[0]?`The old way: <b>${p[0]}</b> · <span class="w">${p[1]}</span>`:"";
     document.getElementById("exBody").innerHTML=d.body;
     document.body.classList.add("showing-example");
     window.scrollTo(0,0);

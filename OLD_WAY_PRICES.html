@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Old Way — Steadyhand</title>
+<style>
+  @page { size: Letter; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  .page { width: 8.5in; height: 11in; padding: 0.7in; display: flex; flex-direction: column; background: #f5f2ea; }
+
+  h1 { font-family: 'Arial Narrow','Helvetica Neue',Arial,sans-serif; font-weight: 800;
+    font-size: 54px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
+  .sub { font-family: Georgia,'Times New Roman',serif; font-style: italic; font-size: 13px; color: #4a4640; margin-top: 12px; }
+  .rule { height: 3px; background: #1c1a17; margin: 16px 0 22px; }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; flex: 1; align-content: start; }
+  .group { margin-bottom: 20px; }
+  .group-title { font-size: 12.5px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    padding-bottom: 6px; border-bottom: 1.5px solid #b0341d; margin-bottom: 6px; }
+
+  .item { display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding: 8px 0; border-bottom: 1px solid #d9d3c6; }
+  .item:last-child { border-bottom: none; }
+  .nm { font-size: 12.5px; font-weight: 700; }
+  .who { font-size: 10px; color: #8a857b; }
+  .pr { font-family: ui-monospace,'Menlo','Consolas',monospace; font-size: 13px; font-weight: 700; white-space: nowrap; }
+
+  .foot { margin-top: 12px; padding-top: 14px; border-top: 3px solid #1c1a17;
+    display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #4a4640; }
+  .foot b { color: #b0341d; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <h1>THE&nbsp;OLD&nbsp;WAY</h1>
+    <div class="sub">What each item on the menu typically costs when a professional or agency does it by hand.</div>
+    <div class="rule"></div>
+
+    <div class="cols">
+      <div>
+        <div class="group">
+          <div class="group-title">Websites &amp; Storefront</div>
+          <div class="item"><span><span class="nm">The New Website</span> <span class="who">— web agency</span></span><span class="pr">$8,000</span></div>
+          <div class="item"><span><span class="nm">The Website Tune-Up</span> <span class="who">— SEO consultant</span></span><span class="pr">$2,500</span></div>
+          <div class="item"><span><span class="nm">The Full World</span> <span class="who">— branding agency</span></span><span class="pr">$20,000</span></div>
+          <div class="item"><span><span class="nm">The Shop</span> <span class="who">— e-commerce developer</span></span><span class="pr">$12,000</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">The Brain</div>
+          <div class="item"><span><span class="nm">The Brain</span> <span class="who">— full-time assistant</span></span><span class="pr">$55,000/yr</span></div>
+          <div class="item"><span><span class="nm">Document Reader</span> <span class="who">— attorney review</span></span><span class="pr">$350/hr</span></div>
+          <div class="item"><span><span class="nm">The Archive</span> <span class="who">— scanning service</span></span><span class="pr">$5,000</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Get More Done</div>
+          <div class="item"><span><span class="nm">Meeting Notes</span> <span class="who">— note-taker / VA</span></span><span class="pr">$60/hr</span></div>
+          <div class="item"><span><span class="nm">Efficiency Finder</span> <span class="who">— ops consultant</span></span><span class="pr">$8,000</span></div>
+          <div class="item"><span><span class="nm">Task Automator</span> <span class="who">— automation developer</span></span><span class="pr">$6,000</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="group">
+          <div class="group-title">Money &amp; Numbers</div>
+          <div class="item"><span><span class="nm">The Dashboard</span> <span class="who">— BI consultant</span></span><span class="pr">$12,000</span></div>
+          <div class="item"><span><span class="nm">Data Analyzer</span> <span class="who">— data analyst</span></span><span class="pr">$85/hr</span></div>
+          <div class="item"><span><span class="nm">Money Forecaster</span> <span class="who">— fractional CFO</span></span><span class="pr">$5,000/mo</span></div>
+          <div class="item"><span><span class="nm">Feedback Reader</span> <span class="who">— market research firm</span></span><span class="pr">$6,000</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Decisions</div>
+          <div class="item"><span><span class="nm">Decision Helper</span> <span class="who">— management consultant</span></span><span class="pr">$300/hr</span></div>
+          <div class="item"><span><span class="nm">Competitor Watcher</span> <span class="who">— competitive intel firm</span></span><span class="pr">$3,500/mo</span></div>
+          <div class="item"><span><span class="nm">Rule Checker</span> <span class="who">— compliance attorney</span></span><span class="pr">$400/hr</span></div>
+        </div>
+
+        <div class="group">
+          <div class="group-title">Paperwork &amp; Content</div>
+          <div class="item"><span><span class="nm">The Contract Manager</span> <span class="who">— attorney</span></span><span class="pr">$300/hr</span></div>
+          <div class="item"><span><span class="nm">The Paperwork Crew</span> <span class="who">— bookkeeper / admin</span></span><span class="pr">$55/hr</span></div>
+          <div class="item"><span><span class="nm">The Content Kitchen</span> <span class="who">— social media agency</span></span><span class="pr">$3,000/mo</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div>Typical U.S. small-business market rates. Your build does the same job — <b>priced at the sit-down</b>.</div>
+      <div><b>ross@steadyhand.ai</b></div>
+    </div>
+  </div>
+</body>
+</html>
