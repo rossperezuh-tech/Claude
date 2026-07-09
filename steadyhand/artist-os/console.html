@@ -258,7 +258,7 @@
   /* ---------- sample data (fictional artist) ---------- */
   const A = { name:"Mara Vance" };
   const songs = [
-    { id:"fire", title:"Fire Escape", status:"Mixing", stagept:5, key:"F#m", bpm:84, splits:"Vance 60 / Okafor 40", isrc:"— pending —", stage:true },
+    { id:"fire", title:"Neon Hours", status:"Mixing", stagept:5, key:"F#m", bpm:84, splits:"Vance 60 / Okafor 40", isrc:"— pending —", stage:true },
     { id:"conc", title:"Concrete Garden", status:"Mastered", stagept:6, key:"Am", bpm:96, splits:"Vance 100", isrc:"US-S1Z-26-001", stage:false },
     { id:"nite", title:"Nightbus", status:"Released", stagept:7, key:"C#m", bpm:120, splits:"Vance 50 / Reyes 50", isrc:"US-S1Z-25-044", stage:false },
     { id:"salt", title:"Saltwater", status:"Tracking", stagept:3, key:"D", bpm:72, splits:"Vance 70 / Okafor 30", isrc:"— pending —", stage:false },
@@ -272,7 +272,7 @@
     { d:"Jun 12", yr:"'26", studio:"Home — The Closet", eng:"self", hrs:"3h", songs:["pape"], did:["Demo","Vox","Nylon gtr"], note:"Late-night demo. Rough but the melody is there. Flagged for a proper tracking session." },
     { d:"May 30", yr:"'26", studio:"Figure Eight, Room B", eng:"D. Okafor", hrs:"5h", songs:["conc"], did:["Mix revisions","Vocal rides"], note:"Mix v4 — pulled the reverb back 20%, rode the last chorus vocal up. Sent for master." },
     { d:"May 18", yr:"'26", studio:"Oxide Room", eng:"P. Hale (mastering)", hrs:"2h", songs:["conc","emb"], did:["Master","Ref check"], note:"Mastered Concrete Garden + re-mastered Ember for the deluxe. -9 LUFS streaming targets." },
-    { d:"Apr 27", yr:"'26", studio:"Greenpoint Loft", eng:"self", hrs:"4h", songs:["fire","holl"], did:["Writing","Voice memos"], note:"Writing session. Fire Escape bridge came out of a Hollow offcut. Kept both." },
+    { d:"Apr 27", yr:"'26", studio:"Greenpoint Loft", eng:"self", hrs:"4h", songs:["fire","holl"], did:["Writing","Voice memos"], note:"Writing session. Neon Hours bridge came out of a Hollow offcut. Kept both." },
   ];
   const mixes = [
     { song:"fire", name:"Rough mix", ver:"v1", status:"revision", dur:"3:41" },
@@ -357,13 +357,13 @@
       <div class="grid2">
         <div class="card"><h3><span class="pip"></span>Needs you<span class="more" data-goto="mixes">All mixes →</span></h3>
           ${approvedPending.map(m=>`<div class="needrow"><div class="ppl">↺</div><div class="txt"><b>${esc(songMap[m.song].title)} — ${esc(m.name)} ${esc(m.ver)}</b><span>waiting on your approval</span></div><button class="go" data-goto="mixes">Review</button></div>`).join('')}
-          <div class="needrow"><div class="ppl">✦</div><div class="txt"><b>Fire Escape — publish a Stage</b><span>v3 is approved · ready for a public page</span></div><button class="go" data-goto="stage">Open</button></div>
+          <div class="needrow"><div class="ppl">✦</div><div class="txt"><b>Neon Hours — publish a Stage</b><span>v3 is approved · ready for a public page</span></div><button class="go" data-goto="stage">Open</button></div>
         </div>
         <div class="card"><h3><span class="pip"></span>The board</h3>
           <div class="mini">
-            <div class="row"><span class="lab">Last session</span><b>Fire Escape</b><span class="mono">Jul 02 · Figure Eight</span></div>
-            <div class="row"><span class="lab">Last mix</span><b>Fire Escape v3</b><span class="mono">approved</span></div>
-            <div class="row"><span class="lab">In mixing</span><b>Fire Escape</b><span class="mono">1 song</span></div>
+            <div class="row"><span class="lab">Last session</span><b>Neon Hours</b><span class="mono">Jul 02 · Figure Eight</span></div>
+            <div class="row"><span class="lab">Last mix</span><b>Neon Hours v3</b><span class="mono">approved</span></div>
+            <div class="row"><span class="lab">In mixing</span><b>Neon Hours</b><span class="mono">1 song</span></div>
             <div class="row"><span class="lab">Next up</span><b>Saltwater</b><span class="mono">tracking → mix</span></div>
             <div class="row"><span class="lab">Latest drop</span><b>Nightbus</b><span class="mono">released</span></div>
           </div>
@@ -460,7 +460,7 @@
       <div class="stagewrap">
         <div class="promo">
           <p class="eye">Featured</p>
-          <h3>Fire Escape — a cinematic single</h3>
+          <h3>Neon Hours — a cinematic single</h3>
           <p>Scroll-driven, dark, the song as the score. One link you send to a fan, a playlist curator, or a music supervisor — they feel the record before they read a word.</p>
           <a class="ibtn" href="${STAGE_URL}" target="_blank" rel="noopener">▶ Open the live stage</a>
         </div>
