@@ -9,24 +9,20 @@
   html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
     -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
-  .page { width: 8.5in; height: 11in; padding: 0.7in 0.75in; display: flex; flex-direction: column; background: #f5f2ea; }
+  .page { width: 8.5in; height: 11in; padding: 0.9in 1.1in; display: flex; flex-direction: column;
+    justify-content: center; background: #f5f2ea; }
 
   h1 { font-family: 'Arial Narrow','Helvetica Neue',Arial,sans-serif; font-weight: 800;
-    font-size: 58px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
-  .rule { height: 3px; background: #1c1a17; margin: 16px 0 22px; }
+    font-size: 64px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
+  .rule { height: 3px; background: #1c1a17; margin: 22px 0 8px; }
 
-  .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 46px; flex: 1; }
-  .col { display: flex; flex-direction: column; justify-content: space-between; }
+  a.item { display: flex; justify-content: space-between; align-items: baseline; gap: 24px;
+    text-decoration: none; color: #1c1a17; padding: 17px 0; border-bottom: 1px solid #d9d3c6; }
+  a.item:last-of-type { border-bottom: none; }
+  .nm { font-size: 18px; font-weight: 800; white-space: nowrap; }
+  .ds { font-size: 12.5px; color: #5a554c; line-height: 1.35; text-align: right; }
 
-  .group-title { font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
-    color: #b0341d; padding-bottom: 5px; border-bottom: 1.5px solid #b0341d; margin-bottom: 6px; }
-
-  a.item { display: block; text-decoration: none; color: #1c1a17; padding: 8px 0; border-bottom: 1px solid #d9d3c6; }
-  a.item:last-child { border-bottom: none; }
-  .nm { font-size: 13.5px; font-weight: 700; }
-  .ds { font-size: 11px; color: #5a554c; line-height: 1.3; margin-top: 1px; }
-
-  .foot { margin-top: 20px; padding-top: 14px; border-top: 3px solid #1c1a17;
+  .foot { margin-top: 10px; padding-top: 16px; border-top: 3px solid #1c1a17;
     display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #4a4640; }
   .foot b { color: #1c1a17; }
   .foot .mail { font-weight: 700; color: #1c1a17; }
@@ -38,52 +34,45 @@
     <h1>THE&nbsp;MENU</h1>
     <div class="rule"></div>
 
-    <div class="cols">
-      <div class="col">
-        <div class="group">
-          <div class="group-title">Websites &amp; Storefront</div>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-new-website"><div class="nm">The New Website</div><div class="ds">Designed and built from scratch, with a dashboard you edit yourself.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-website-tune-up"><div class="nm">The Website Tune-Up</div><div class="ds">Make your current site fast, findable, and wired to the brain.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-full-world"><div class="nm">The Full World</div><div class="ds">Brand, story, design language, and site — the whole treatment.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-shop"><div class="nm">The Shop</div><div class="ds">Online store, bookings, and payments: money while you sleep.</div></a>
-        </div>
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-brain">
+      <span class="nm">The Brain</span>
+      <span class="ds">Your private AI. Voice notes and documents in — answers, summaries, and found files out.</span>
+    </a>
 
-        <div class="group">
-          <div class="group-title">The Brain</div>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-brain"><div class="nm">The Brain</div><div class="ds">Your private AI and voice-note bot. Everything plugs into it.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#document-reader"><div class="nm">Document Reader</div><div class="ds">Upload a document, get a summary with the key parts highlighted.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-archive"><div class="nm">The Archive</div><div class="ds">Old drives and files, digitized and searchable — ask it anything.</div></a>
-        </div>
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-new-website">
+      <span class="nm">The Website</span>
+      <span class="ds">Built new or tuned up — fast, findable, and yours to edit.</span>
+    </a>
 
-        <div class="group">
-          <div class="group-title">Get More Done</div>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#meeting-notes"><div class="nm">Meeting Notes</div><div class="ds">Turns meeting notes into a simple to-do list.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#automation"><div class="nm">Automation</div><div class="ds">Finds where you're wasting time, then automates it away.</div></a>
-        </div>
-      </div>
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-shop">
+      <span class="nm">The Shop</span>
+      <span class="ds">Online store, bookings, and payments: money while you sleep.</span>
+    </a>
 
-      <div class="col">
-        <div class="group">
-          <div class="group-title">Money &amp; Numbers</div>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-dashboard"><div class="nm">The Dashboard</div><div class="ds">Your numbers on one screen — plus the insights hidden in them.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#money-forecaster"><div class="nm">Money Forecaster</div><div class="ds">Predicts your future cash flow.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#feedback-reader"><div class="nm">Feedback Reader</div><div class="ds">Reads your reviews and tells you what customers think.</div></a>
-        </div>
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-full-world">
+      <span class="nm">The Full World</span>
+      <span class="ds">Brand, story, design language, and site — the whole treatment.</span>
+    </a>
 
-        <div class="group">
-          <div class="group-title">Decisions</div>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#decision-helper"><div class="nm">Decision Helper</div><div class="ds">Give it a hard choice, it helps you decide.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#competitor-watcher"><div class="nm">Competitor Watcher</div><div class="ds">Keeps an eye on what competitors are doing.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#rule-checker"><div class="nm">Rule Checker</div><div class="ds">Tells you what rules apply to your situation.</div></a>
-        </div>
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-dashboard">
+      <span class="nm">The Dashboard</span>
+      <span class="ds">Sales, jobs, cash forecast, and customer feedback — one screen.</span>
+    </a>
 
-        <div class="group">
-          <div class="group-title">Paperwork &amp; Content</div>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-paperwork-crew"><div class="nm">The Paperwork Crew</div><div class="ds">Invoices, quotes, contracts, and follow-ups — drafted and tracked for you.</div></a>
-          <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-content-kitchen"><div class="nm">The Content Kitchen</div><div class="ds">Phone footage in; branded posts and captions out.</div></a>
-        </div>
-      </div>
-    </div>
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#decision-helper">
+      <span class="nm">The Advisor</span>
+      <span class="ds">Hard choices weighed, competitors watched, rules checked.</span>
+    </a>
+
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-paperwork-crew">
+      <span class="nm">The Back Office</span>
+      <span class="ds">Invoices, contracts, meeting notes, and busywork — drafted and automated.</span>
+    </a>
+
+    <a class="item" href="https://claude.ai/code/artifact/8603d4ca-3058-4ef3-bfc0-20fa67db352c#the-content-kitchen">
+      <span class="nm">The Content Kitchen</span>
+      <span class="ds">Phone footage in; branded posts and captions out.</span>
+    </a>
 
     <div class="foot">
       <div><b>Tap any item to see it in action.</b></div>
