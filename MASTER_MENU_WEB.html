@@ -287,7 +287,7 @@ const wave=(c,arr)=>`<span class="wave" style="color:${c}">`+arr.map(h=>`<i styl
 
 const DATA=[
  /* ---------- WEBSITES & STOREFRONT ---------- */
- {slug:"the-new-website",group:"Websites & Storefront",name:"The New Website",
+ {slug:"the-new-website",group:"Websites & Storefront",name:"New Website",
   blurb:"Designed and built from scratch, with a dashboard you edit yourself.",
   body: app("greenpointsupply.com",
     `<div class="site">
@@ -302,8 +302,8 @@ const DATA=[
     {tag:"LIVE SITE",action:`<span class="btn sm">Edit page</span>`}) +
     `<p class="mut" style="font-size:12.5px;margin-top:12px">Delivered in 2 weeks. You change text, prices, and photos yourself — no developer, no monthly agency fee.</p>`},
 
- {slug:"the-website-tune-up",group:"Websites & Storefront",name:"The Website Tune-Up",
-  blurb:"Make your current site fast, findable, and wired to the brain.",
+ {slug:"the-website-tune-up",group:"Websites & Storefront",name:"Website Tune-Up",
+  blurb:"Make your current site fast, findable, and easy to update.",
   body: app("Site Report — oldshop.com",
     `<div class="gauges">
        ${gaugeSVG(44,"#c8402f")}
@@ -315,10 +315,10 @@ const DATA=[
        <tr><td>Load time</td><td class="r tnum">6.2s</td><td class="r tnum">0.9s</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
        <tr><td>Google — your own name</td><td class="r">page 3</td><td class="r">page 1, #1</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
        <tr><td>Mobile usability</td><td class="r tnum">44</td><td class="r tnum">98</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
-       <tr><td>Contact form → the brain</td><td class="r mut">none</td><td class="r">connected</td><td class="r"><span class="pill blue"><span class="d"></span>Wired</span></td></tr>
+       <tr><td>Contact form → your AI assistant</td><td class="r mut">none</td><td class="r">connected</td><td class="r"><span class="pill blue"><span class="d"></span>Wired</span></td></tr>
      </table>`,{tag:"AUDIT"})},
 
- {slug:"the-full-world",group:"Websites & Storefront",name:"The Full World",
+ {slug:"the-full-world",group:"Websites & Storefront",name:"Brand & Design",
   blurb:"Brand, story, design language, and site — the whole treatment.",
   body: app("Brand Board — Brooklyn Tiny Farm",
     `<div class="board">
@@ -340,7 +340,7 @@ const DATA=[
        </div>
      </div>`,{tag:"IDENTITY"})},
 
- {slug:"the-shop",group:"Websites & Storefront",name:"The Shop",
+ {slug:"the-shop",group:"Websites & Storefront",name:"Online Store",
   blurb:"Online store, bookings, and payments: money while you sleep.",
   body: app("Orders",
     `<div class="stats" style="grid-template-columns:repeat(3,1fr)">
@@ -357,19 +357,19 @@ const DATA=[
     {tag:"STORE ADMIN",action:`<span class="pill good"><span class="d"></span>Payout Fri, auto</span>`})},
 
  /* ---------- THE BRAIN ---------- */
- {slug:"the-brain",group:"The Brain",name:"The Brain",
-  blurb:"Your private AI and voice-note bot. Everything plugs into it.",
-  body: app("The Brain",
+ {slug:"the-brain",group:"AI Assistant",name:"AI Assistant",
+  blurb:"Your private AI and voice-note bot — it knows your whole business.",
+  body: app("AI Assistant",
     `<div class="chat">
-       <div class="chat-head">${av("B","#b0341d")}<div><div style="font-weight:700;font-size:13px">The Brain</div><div class="mut" style="font-size:11px">online · private to you</div></div></div>
+       <div class="chat-head">${av("B","#b0341d")}<div><div style="font-weight:700;font-size:13px">AI Assistant</div><div class="mut" style="font-size:11px">online · private to you</div></div></div>
        <div class="chat-body">
          <div class="msg me"><div class="vn"><span class="play">▶</span>${wave("#fff",[7,14,9,18,11,20,8,13,6,10])}<span style="font-size:11px">0:06</span></div><span class="t">You · 9:41 AM</span></div>
-         <div class="msg ai">You offered <b>$1.42M</b>, all-cash, 21-day close on the Conley St. warehouse. Seller wanted the forklift left behind — you agreed. Inspection contingency waived.<br><span class="mut" style="font-size:12px">From your note dated Jun 18. Want me to draft the follow-up email?</span><span class="t mut">The Brain · 9:41 AM</span></div>
+         <div class="msg ai">You offered <b>$1.42M</b>, all-cash, 21-day close on the Conley St. warehouse. Seller wanted the forklift left behind — you agreed. Inspection contingency waived.<br><span class="mut" style="font-size:12px">From your note dated Jun 18. Want me to draft the follow-up email?</span><span class="t mut">AI Assistant · 9:41 AM</span></div>
          <div class="msg me">yes, and cc Anna<span class="t">You · 9:42 AM</span></div>
        </div>
      </div>`,{tag:"ASSISTANT"})},
 
- {slug:"document-reader",group:"The Brain",name:"Document Reader",
+ {slug:"document-reader",group:"AI Assistant",name:"Document Reader",
   blurb:"Upload a document, get a summary with the key parts highlighted.",
   body: app("Mutual NDA.pdf",
     `<div class="docview">
@@ -401,7 +401,7 @@ const DATA=[
        </div>
      </div>`,{flush:true,tag:"REVIEW",action:`<span class="mut" style="font-size:11px">Analyzed in 4s</span>`})},
 
- {slug:"the-archive",group:"The Brain",name:"The Archive",
+ {slug:"the-archive",group:"AI Assistant",name:"File Archive",
   blurb:"Old drives and files, digitized and searchable — ask it anything.",
   body: app("Archive Search",
     `<div class="omni">🔍 <span class="q">Henderson invoice from 2019</span></div>
@@ -458,7 +458,7 @@ const DATA=[
      </div>`,{tag:"AUTOMATION",action:`<span class="btn sm pri">On</span>`})},
 
  /* ---------- MONEY & NUMBERS ---------- */
- {slug:"the-dashboard",group:"Money & Numbers",name:"The Dashboard",
+ {slug:"the-dashboard",group:"Money & Numbers",name:"Business Dashboard",
   blurb:"Your numbers on one screen — plus the insights hidden in them.",
   body: app("Shop Dashboard",
     `<div class="stats">
@@ -510,9 +510,9 @@ const DATA=[
      </div>`,{tag:"SENTIMENT"})},
 
  /* ---------- DECISIONS ---------- */
- {slug:"decision-helper",group:"Decisions",name:"Decision Helper",
+ {slug:"decision-helper",group:"Decisions",name:"Business Advisor",
   blurb:"Give it a hard choice, it helps you decide.",
-  body: app("Decision Helper",
+  body: app("Business Advisor",
     `<div style="border:1px solid var(--appline);border-radius:9px;padding:11px 13px;margin-bottom:14px;background:#faf8f4;font-size:13px"><span class="lbl">Your question</span><div style="margin-top:4px;font-weight:600">Hire a salesperson, or use an agency?</div></div>
      <table class="tbl" style="border:1px solid var(--appline);border-radius:9px;overflow:hidden">
        <tr><th></th><th>Hire in-house</th><th>Use an agency</th></tr>
@@ -555,7 +555,7 @@ const DATA=[
     {tag:"CHECKLIST"})},
 
  /* ---------- PAPERWORK & CONTENT ---------- */
- {slug:"the-paperwork-crew",group:"Paperwork & Content",name:"The Paperwork Crew",
+ {slug:"the-paperwork-crew",group:"Paperwork & Content",name:"Paperwork & Admin",
   blurb:"Invoices, quotes, contracts, and follow-ups — drafted and tracked for your approval.",
   body: app("Ready for your approval",
     `<div class="split">
@@ -587,7 +587,7 @@ const DATA=[
      <p class="mut" style="font-size:12px;margin-top:12px;padding:0 2px">It drafts new agreements too — you answer a few questions and it fills the rest.</p>`,
     {tag:"CONTRACTS",action:`<span class="btn sm pri">+ New agreement</span>`})},
 
- {slug:"the-content-kitchen",group:"Paperwork & Content",name:"The Content Kitchen",
+ {slug:"the-content-kitchen",group:"Paperwork & Content",name:"Social Media Content",
   blurb:"Phone footage in; branded posts and captions out.",
   body: app("Content Kitchen",
     `<div class="igwrap">
@@ -637,7 +637,7 @@ function gaugeSVG(score,color){
 
 /* ---------- old-way price (what a pro/agency typically charges) ---------- */
 /* ---------- render menu ---------- */
-const LEFT=["Websites & Storefront","The Brain","Get More Done"];
+const LEFT=["Websites & Storefront","AI Assistant","Get More Done"];
 const RIGHT=["Money & Numbers","Decisions","Paperwork & Content"];
 const bySlug=Object.fromEntries(DATA.map(d=>[d.slug,d]));
 function groupHTML(g){
