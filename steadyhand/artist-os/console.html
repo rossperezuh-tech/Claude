@@ -1,0 +1,512 @@
+<title>Control Room — an artist's command center</title>
+<style>
+  :root{
+    color-scheme:dark;
+    /* warm-charcoal console; cool teal tool-accent; semantic set is separate */
+    --bg:#0d0e10; --bg-2:#101215; --panel:#16181c; --panel-2:#1c1f24; --raise:#22262c;
+    --ink:#ecebe6; --soft:#a7a49b; --mute:#6f6c63;
+    --line:rgba(236,235,230,0.09); --line-2:rgba(236,235,230,0.055);
+    --accent:#46b8c9; --accent-dim:#2b7f8c; --accent-glow:rgba(70,184,201,0.14);
+    --ok:#5cc98a; --warn:#e0a63a; --idle:#8892a0; --alert:#db5b46;
+    --disp:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --body:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --rail:236px;
+  }
+  @media (prefers-color-scheme:light){
+    :root{
+      --bg:#eceae3; --bg-2:#e5e2d9; --panel:#f5f3ec; --panel-2:#eeece3; --raise:#e6e3d9;
+      --ink:#1a1c1e; --soft:#565349; --mute:#84806f;
+      --line:rgba(20,22,24,0.12); --line-2:rgba(20,22,24,0.07);
+      --accent:#1c7d8c; --accent-dim:#4aa3b0; --accent-glow:rgba(28,125,140,0.12);
+      --ok:#2f9c63; --warn:#b6801f; --idle:#6a7482; --alert:#bf4630;
+    }
+  }
+  :root[data-theme="dark"]{color-scheme:dark;
+    --bg:#0d0e10;--bg-2:#101215;--panel:#16181c;--panel-2:#1c1f24;--raise:#22262c;
+    --ink:#ecebe6;--soft:#a7a49b;--mute:#6f6c63;--line:rgba(236,235,230,0.09);--line-2:rgba(236,235,230,0.055);
+    --accent:#46b8c9;--accent-dim:#2b7f8c;--accent-glow:rgba(70,184,201,0.14);
+    --ok:#5cc98a;--warn:#e0a63a;--idle:#8892a0;--alert:#db5b46;}
+  :root[data-theme="light"]{color-scheme:light;
+    --bg:#eceae3;--bg-2:#e5e2d9;--panel:#f5f3ec;--panel-2:#eeece3;--raise:#e6e3d9;
+    --ink:#1a1c1e;--soft:#565349;--mute:#84806f;--line:rgba(20,22,24,0.12);--line-2:rgba(20,22,24,0.07);
+    --accent:#1c7d8c;--accent-dim:#4aa3b0;--accent-glow:rgba(28,125,140,0.12);
+    --ok:#2f9c63;--warn:#b6801f;--idle:#6a7482;--alert:#bf4630;}
+
+  *{box-sizing:border-box;}
+  html,body{margin:0; height:100%;}
+  body{background:var(--bg); color:var(--ink); font-family:var(--body); -webkit-font-smoothing:antialiased;
+    font-size:15px; line-height:1.5;}
+  .mono{font-family:var(--mono);}
+  ::selection{background:var(--accent-glow);}
+  a{color:var(--accent); text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:5px;}
+  h1,h2,h3,h4{margin:0; font-family:var(--disp);}
+
+  /* ---- app shell ---- */
+  .app{display:grid; grid-template-columns:var(--rail) 1fr; grid-template-rows:1fr auto; min-height:100vh;}
+  /* rail */
+  .rail{grid-row:1 / span 2; background:var(--bg-2); border-right:1px solid var(--line); display:flex; flex-direction:column; padding:18px 14px; gap:6px; position:sticky; top:0; height:100vh;}
+  .brand{display:flex; align-items:center; gap:11px; padding:6px 8px 18px; border-bottom:1px solid var(--line); margin-bottom:12px;}
+  .brand .logo{width:30px; height:30px; border-radius:8px; background:linear-gradient(150deg,var(--accent),var(--accent-dim)); display:grid; place-items:center; flex:none;
+    box-shadow:0 0 0 1px var(--line), 0 6px 16px var(--accent-glow);}
+  .brand .logo::after{content:""; width:12px; height:12px; border-radius:50%; border:2.5px solid #0c1416; opacity:.85;}
+  .brand b{font-weight:800; letter-spacing:0.02em; font-size:15px; display:block; line-height:1.1;}
+  .brand span{font-family:var(--mono); font-size:9.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--mute);}
+  .nav{display:flex; flex-direction:column; gap:3px;}
+  .nav button{display:flex; align-items:center; gap:12px; width:100%; text-align:left; background:transparent; border:none;
+    color:var(--soft); padding:10px 10px; border-radius:9px; font-size:14px; letter-spacing:0.01em; transition:background .12s,color .12s;}
+  .nav button .ic{width:17px; height:17px; flex:none; opacity:.85;}
+  .nav button .ct{margin-left:auto; font-family:var(--mono); font-size:11px; color:var(--mute); font-variant-numeric:tabular-nums;}
+  .nav button:hover{background:var(--panel); color:var(--ink);}
+  .nav button.active{background:var(--accent-glow); color:var(--ink);}
+  .nav button.active .ic{opacity:1; color:var(--accent);}
+  .nav button.active .ct{color:var(--accent);}
+  .rail .foot{margin-top:auto; padding-top:14px; border-top:1px solid var(--line);}
+  .artistpick{display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; background:var(--panel); border:1px solid var(--line);}
+  .artistpick .av{width:30px; height:30px; border-radius:50%; flex:none; background:radial-gradient(circle at 30% 25%,#3a4048,#191c20); display:grid; place-items:center; font-family:var(--disp); font-weight:800; font-size:13px; color:var(--ink);}
+  .artistpick .who{line-height:1.15; min-width:0;}
+  .artistpick .who b{font-size:13px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .artistpick .who span{font-family:var(--mono); font-size:10px; color:var(--mute); letter-spacing:0.06em;}
+
+  /* main */
+  main{grid-column:2; padding:0; min-width:0; overflow:hidden;}
+  .view{padding:26px 32px 40px; max-width:1180px;}
+  .vhead{display:flex; align-items:flex-end; gap:16px; margin-bottom:24px; flex-wrap:wrap;}
+  .vhead .eye{font-family:var(--mono); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin:0 0 7px;}
+  .vhead h2{font-size:27px; font-weight:800; letter-spacing:-0.015em;}
+  .vhead p{color:var(--soft); font-size:14px; margin:6px 0 0; max-width:60ch;}
+  .vhead .act{margin-left:auto; display:flex; gap:10px; align-items:center;}
+  .ibtn{display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#08181b; border:1px solid transparent;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; padding:10px 15px; border-radius:9px;}
+  .ibtn.ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+  .ibtn.ghost:hover{border-color:var(--accent);}
+  .ibtn:hover{filter:brightness(1.06);}
+
+  /* ---- overview ---- */
+  .tiles{display:grid; grid-template-columns:repeat(5,1fr); gap:12px; margin-bottom:22px;}
+  .tile{background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:15px 16px; position:relative; overflow:hidden;}
+  .tile .k{font-family:var(--mono); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--mute);}
+  .tile .v{font-size:30px; font-weight:800; letter-spacing:-0.02em; margin-top:8px; font-variant-numeric:tabular-nums;}
+  .tile .sub{font-family:var(--mono); font-size:10.5px; color:var(--soft); margin-top:2px;}
+  .tile canvas{position:absolute; right:8px; bottom:8px; width:64px; height:26px; opacity:.7;}
+  .tile.hot .v{color:var(--accent);}
+
+  .grid2{display:grid; grid-template-columns:1.4fr 1fr; gap:16px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:18px 20px;}
+  .card h3{font-size:13px; font-weight:700; letter-spacing:0.02em; display:flex; align-items:center; gap:9px; margin-bottom:14px;}
+  .card h3 .pip{width:7px; height:7px; border-radius:50%; background:var(--accent);}
+  .card h3 .more{margin-left:auto; font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; color:var(--mute); text-transform:uppercase;}
+  .card h3 .more:hover{color:var(--accent); cursor:pointer;}
+
+  .needrow{display:flex; align-items:center; gap:12px; padding:11px 0; border-top:1px solid var(--line-2);}
+  .needrow:first-of-type{border-top:none;}
+  .needrow .ppl{width:32px; height:32px; border-radius:8px; background:var(--panel-2); border:1px solid var(--line); display:grid; place-items:center; flex:none; color:var(--accent);}
+  .needrow .txt{min-width:0; flex:1;}
+  .needrow .txt b{font-size:13.5px; display:block;}
+  .needrow .txt span{font-family:var(--mono); font-size:11px; color:var(--mute);}
+  .needrow .go{font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent); border:1px solid var(--line); background:transparent; padding:6px 11px; border-radius:8px;}
+  .needrow .go:hover{border-color:var(--accent);}
+
+  .mini{display:flex; flex-direction:column; gap:2px;}
+  .mini .row{display:flex; align-items:baseline; gap:10px; padding:9px 0; border-top:1px solid var(--line-2); font-size:13.5px;}
+  .mini .row:first-child{border-top:none;}
+  .mini .row .lab{color:var(--soft); width:96px; flex:none; font-size:12.5px;}
+  .mini .row b{font-weight:600;}
+  .mini .row .mono{margin-left:auto; color:var(--mute); font-size:12px;}
+
+  /* ---- generic status pill ---- */
+  .pill{font-family:var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; padding:3px 9px; border-radius:999px; border:1px solid; white-space:nowrap;}
+  .st-ok{color:var(--ok); border-color:color-mix(in srgb,var(--ok) 45%, transparent); background:color-mix(in srgb,var(--ok) 12%, transparent);}
+  .st-warn{color:var(--warn); border-color:color-mix(in srgb,var(--warn) 45%, transparent); background:color-mix(in srgb,var(--warn) 12%, transparent);}
+  .st-idle{color:var(--idle); border-color:color-mix(in srgb,var(--idle) 40%, transparent);}
+  .st-live{color:var(--alert); border-color:color-mix(in srgb,var(--alert) 45%, transparent); background:color-mix(in srgb,var(--alert) 12%, transparent);}
+  .st-acc{color:var(--accent); border-color:color-mix(in srgb,var(--accent) 45%, transparent); background:var(--accent-glow);}
+
+  /* ---- sessions ---- */
+  .sess{display:flex; flex-direction:column;}
+  .sess .s{display:grid; grid-template-columns:118px 1fr; gap:22px; padding:18px 0; border-top:1px solid var(--line);}
+  .sess .s:first-child{border-top:none;}
+  .sess .date{font-family:var(--mono); font-size:12px; color:var(--soft);}
+  .sess .date .big{font-size:22px; color:var(--ink); font-weight:800; letter-spacing:-0.02em; display:block; font-family:var(--disp);}
+  .sess .date .hrs{display:block; margin-top:8px; color:var(--accent); font-size:11px; letter-spacing:0.08em;}
+  .sess .body h4{font-size:16px; font-weight:700; letter-spacing:-0.01em;}
+  .sess .body .meta{font-family:var(--mono); font-size:11.5px; color:var(--mute); margin:5px 0 10px; letter-spacing:0.03em; display:flex; gap:14px; flex-wrap:wrap;}
+  .sess .body .meta b{color:var(--soft); font-weight:500;}
+  .sess .body .note{color:var(--soft); font-size:13.5px; max-width:70ch;}
+  .sess .body .chips{display:flex; gap:7px; flex-wrap:wrap; margin-top:11px;}
+  .chip{font-family:var(--mono); font-size:11px; color:var(--soft); background:var(--panel-2); border:1px solid var(--line); border-radius:7px; padding:4px 9px; letter-spacing:0.02em;}
+  .chip .tag{color:var(--accent);}
+
+  /* ---- mixes ---- */
+  .filters{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+  .filters button{background:var(--panel); border:1px solid var(--line); color:var(--soft); font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; padding:7px 13px; border-radius:8px;}
+  .filters button.on{background:var(--accent-glow); color:var(--ink); border-color:color-mix(in srgb,var(--accent) 40%,transparent);}
+  .mixgroup{margin-bottom:22px;}
+  .mixgroup .gh{display:flex; align-items:baseline; gap:12px; margin-bottom:8px;}
+  .mixgroup .gh h4{font-size:15px; font-weight:700;}
+  .mixgroup .gh .gm{font-family:var(--mono); font-size:11px; color:var(--mute); letter-spacing:0.05em;}
+  .mixrow{display:grid; grid-template-columns:26px 150px 1fr 74px 118px 40px; align-items:center; gap:14px; padding:10px 12px; border-radius:10px; border:1px solid transparent;}
+  .mixrow:hover{background:var(--panel); border-color:var(--line);}
+  .mixrow.playing{background:var(--panel); border-color:color-mix(in srgb,var(--accent) 30%,transparent);}
+  .mixrow .pl{width:26px; height:26px; border-radius:50%; border:1px solid var(--line); background:var(--panel-2); color:var(--accent); display:grid; place-items:center; font-size:10px; padding:0;}
+  .mixrow .pl:hover{border-color:var(--accent);}
+  .mixrow .name{font-size:13.5px; font-weight:600;}
+  .mixrow .name span{font-family:var(--mono); font-size:10px; color:var(--mute); display:block; letter-spacing:0.04em; text-transform:uppercase; font-weight:400;}
+  .mixrow canvas.wave{width:100%; height:26px; display:block;}
+  .mixrow .dur{font-family:var(--mono); font-size:12px; color:var(--soft); text-align:right; font-variant-numeric:tabular-nums;}
+  .mixrow .dl{color:var(--mute); text-align:center; font-size:15px;}
+  .mixrow .dl:hover{color:var(--accent);}
+
+  /* ---- catalog ---- */
+  .cat{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px;}
+  .song{background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:17px 18px; display:flex; flex-direction:column; gap:12px;}
+  .song .top{display:flex; align-items:flex-start; gap:10px;}
+  .song h4{font-size:17px; font-weight:800; letter-spacing:-0.015em; line-height:1.1;}
+  .song .top .pill{margin-left:auto;}
+  .song .pipe{display:flex; gap:3px;}
+  .song .pipe i{height:4px; flex:1; border-radius:2px; background:var(--raise);}
+  .song .pipe i.on{background:var(--accent);}
+  .song .stage-pipe i.on{background:var(--ok);}
+  .song .data{display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; font-family:var(--mono); font-size:11.5px;}
+  .song .data div{color:var(--mute);}
+  .song .data b{color:var(--soft); font-weight:500; float:right;}
+  .song .foot{display:flex; align-items:center; gap:8px; margin-top:2px; padding-top:11px; border-top:1px solid var(--line-2); font-family:var(--mono); font-size:11px; color:var(--mute);}
+  .song .foot .stagelink{margin-left:auto; color:var(--accent);}
+
+  /* ---- stage ---- */
+  .stagewrap{display:grid; grid-template-columns:1.3fr 1fr; gap:16px; align-items:start;}
+  .promo{background:linear-gradient(150deg,#12262b,#0f1417); border:1px solid color-mix(in srgb,var(--accent) 26%,transparent); border-radius:15px; padding:26px; position:relative; overflow:hidden;}
+  :root[data-theme="light"] .promo{background:linear-gradient(150deg,#dfeef0,#eef1ea);}
+  .promo::after{content:""; position:absolute; right:-40px; top:-40px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle,var(--accent-glow),transparent 70%);}
+  .promo .eye{font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin:0 0 12px;}
+  .promo h3{font-size:23px; font-weight:800; letter-spacing:-0.02em; margin-bottom:12px; max-width:18ch;}
+  .promo p{color:var(--soft); font-size:14px; max-width:46ch; margin:0 0 20px;}
+  .stagelist{display:flex; flex-direction:column; gap:10px;}
+  .stagecard{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:14px;}
+  .stagecard .th{width:46px; height:46px; border-radius:9px; flex:none; background:radial-gradient(120% 120% at 30% 10%,#1c2b31,#0c0f12); display:grid; place-items:center; color:var(--accent); border:1px solid var(--line);}
+  .stagecard .in{flex:1; min-width:0;}
+  .stagecard .in b{font-size:14.5px;}
+  .stagecard .in span{font-family:var(--mono); font-size:11px; color:var(--mute); display:block; margin-top:2px;}
+
+  /* ---- transport ---- */
+  .transport{grid-column:2; grid-row:2; position:sticky; bottom:0; background:linear-gradient(0deg,var(--bg-2),color-mix(in srgb,var(--bg-2) 82%,transparent)); border-top:1px solid var(--line); display:flex; align-items:center; gap:16px; padding:11px 24px; backdrop-filter:blur(8px); z-index:5;}
+  .transport .pp{width:36px; height:36px; border-radius:50%; border:1px solid color-mix(in srgb,var(--accent) 50%,transparent); background:var(--accent-glow); color:var(--accent); font-size:13px; display:grid; place-items:center; flex:none;}
+  .transport .np{flex:none; min-width:170px; line-height:1.2;}
+  .transport .np b{font-size:13.5px; display:block; white-space:nowrap;}
+  .transport .np span{font-family:var(--mono); font-size:10.5px; color:var(--mute); letter-spacing:0.06em; text-transform:uppercase;}
+  .transport .scrub{flex:1; height:4px; background:var(--raise); border-radius:2px; overflow:hidden; min-width:80px;}
+  .transport .scrub i{display:block; height:100%; width:0%; background:linear-gradient(90deg,var(--accent-dim),var(--accent));}
+  .transport .t{font-family:var(--mono); font-size:11px; color:var(--mute); font-variant-numeric:tabular-nums; flex:none;}
+  .transport .flag{font-family:var(--mono); font-size:9.5px; color:var(--mute); letter-spacing:0.1em; text-transform:uppercase; border:1px solid var(--line); padding:5px 10px; border-radius:999px; flex:none;}
+
+  .hide{display:none !important;}
+
+  /* topbar for mobile */
+  .mtop{display:none;}
+  @media (max-width:960px){
+    .tiles{grid-template-columns:repeat(2,1fr);}
+    .grid2,.stagewrap{grid-template-columns:1fr;}
+    .mixrow{grid-template-columns:26px 1fr 74px 40px;}
+    .mixrow canvas.wave, .mixrow .name span{display:none;}
+  }
+  @media (max-width:780px){
+    :root{--rail:0px;}
+    .app{grid-template-columns:1fr;}
+    .rail{display:none;}
+    main{grid-column:1;}
+    .transport{grid-column:1;}
+    .mtop{display:flex; align-items:center; gap:10px; padding:12px 18px; border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--bg-2); z-index:6; overflow-x:auto;}
+    .mtop button{flex:none; background:var(--panel); border:1px solid var(--line); color:var(--soft); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; padding:7px 12px; border-radius:8px;}
+    .mtop button.active{color:var(--accent); border-color:color-mix(in srgb,var(--accent) 40%,transparent);}
+    .view{padding:20px 18px 40px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important; animation:none!important;}}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div><b>Control Room</b><span>by Steadyhand</span></div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="foot">
+      <div class="artistpick">
+        <div class="av">MV</div>
+        <div class="who"><b>Mara Vance</b><span>indie · Brooklyn</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="mtop" id="mtop"></div>
+
+  <main id="main"></main>
+
+  <div class="transport">
+    <button class="pp" id="pp" aria-label="Play / pause">▶</button>
+    <div class="np"><b id="np-title">Nothing loaded</b><span id="np-sub">select a mix to audition</span></div>
+    <div class="scrub"><i id="scrub"></i></div>
+    <span class="t" id="np-time">0:00 / 0:00</span>
+    <span class="flag">Prototype · sample catalogue</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* ---------- sample data (fictional artist) ---------- */
+  const A = { name:"Mara Vance" };
+  const songs = [
+    { id:"fire", title:"Fire Escape", status:"Mixing", stagept:5, key:"F#m", bpm:84, splits:"Vance 60 / Okafor 40", isrc:"— pending —", stage:true },
+    { id:"conc", title:"Concrete Garden", status:"Mastered", stagept:6, key:"Am", bpm:96, splits:"Vance 100", isrc:"US-S1Z-26-001", stage:false },
+    { id:"nite", title:"Nightbus", status:"Released", stagept:7, key:"C#m", bpm:120, splits:"Vance 50 / Reyes 50", isrc:"US-S1Z-25-044", stage:false },
+    { id:"salt", title:"Saltwater", status:"Tracking", stagept:3, key:"D", bpm:72, splits:"Vance 70 / Okafor 30", isrc:"— pending —", stage:false },
+    { id:"pape", title:"Paper Cranes", status:"Demo", stagept:2, key:"G", bpm:100, splits:"Vance 100", isrc:"—", stage:false },
+    { id:"holl", title:"Hollow", status:"Idea", stagept:1, key:"—", bpm:0, splits:"Vance 100", isrc:"—", stage:false },
+    { id:"emb", title:"Ember", status:"Released", stagept:7, key:"E", bpm:108, splits:"Vance 100", isrc:"US-S1Z-24-118", stage:false },
+  ];
+  const sessions = [
+    { d:"Jul 02", yr:"'26", studio:"Figure Eight, Room A", eng:"D. Okafor", hrs:"6h", songs:["fire"], did:["Lead vocal","Gtr overdub"], note:"Kept take 3 lead vocal — the crack on the 2nd chorus is the whole song. Needs a harmony pass and a doubled hook." },
+    { d:"Jun 24", yr:"'26", studio:"The Bunker", eng:"L. Reyes", hrs:"8h", songs:["salt"], did:["Drums","Bass","Scratch vox"], note:"Full band tracking day. Drums are keepers; bass DI + amp both printed. Saltwater arrangement finally locked." },
+    { d:"Jun 12", yr:"'26", studio:"Home — The Closet", eng:"self", hrs:"3h", songs:["pape"], did:["Demo","Vox","Nylon gtr"], note:"Late-night demo. Rough but the melody is there. Flagged for a proper tracking session." },
+    { d:"May 30", yr:"'26", studio:"Figure Eight, Room B", eng:"D. Okafor", hrs:"5h", songs:["conc"], did:["Mix revisions","Vocal rides"], note:"Mix v4 — pulled the reverb back 20%, rode the last chorus vocal up. Sent for master." },
+    { d:"May 18", yr:"'26", studio:"Oxide Room", eng:"P. Hale (mastering)", hrs:"2h", songs:["conc","emb"], did:["Master","Ref check"], note:"Mastered Concrete Garden + re-mastered Ember for the deluxe. -9 LUFS streaming targets." },
+    { d:"Apr 27", yr:"'26", studio:"Greenpoint Loft", eng:"self", hrs:"4h", songs:["fire","holl"], did:["Writing","Voice memos"], note:"Writing session. Fire Escape bridge came out of a Hollow offcut. Kept both." },
+  ];
+  const mixes = [
+    { song:"fire", name:"Rough mix", ver:"v1", status:"revision", dur:"3:41" },
+    { song:"fire", name:"Mix", ver:"v2", status:"revision", dur:"3:38" },
+    { song:"fire", name:"Mix", ver:"v3", status:"approved", dur:"3:36" },
+    { song:"fire", name:"Instrumental", ver:"TV mix", status:"approved", dur:"3:36" },
+    { song:"fire", name:"Stems bundle", ver:"24 tracks", status:"asset", dur:"—" },
+    { song:"conc", name:"Mix", ver:"v4", status:"approved", dur:"4:02" },
+    { song:"conc", name:"Master", ver:"final", status:"approved", dur:"4:02" },
+    { song:"conc", name:"Instrumental", ver:"TV mix", status:"approved", dur:"4:02" },
+    { song:"nite", name:"Master", ver:"final", status:"approved", dur:"3:12" },
+    { song:"nite", name:"A cappella", ver:"—", status:"asset", dur:"3:12" },
+    { song:"salt", name:"Rough mix", ver:"v1", status:"revision", dur:"4:20" },
+    { song:"emb", name:"Master", ver:"deluxe", status:"approved", dur:"3:48" },
+    { song:"pape", name:"Demo mix", ver:"—", status:"idle", dur:"2:55" },
+  ];
+  const songMap = Object.fromEntries(songs.map(s=>[s.id,s]));
+  const statusClass = { Released:"st-ok", Mastered:"st-ok", Mixing:"st-warn", Tracking:"st-warn", Demo:"st-idle", Idea:"st-idle" };
+  const mixPill = { approved:["st-ok","Approved"], revision:["st-warn","Needs revision"], asset:["st-acc","Deliverable"], idle:["st-idle","Draft"] };
+
+  const STAGE_URL = "https://claude.ai/code/artifact/5bb02907-131e-4f8f-933a-b66f8d8feb83";
+
+  /* ---------- helpers ---------- */
+  const el = (h)=>{ const t=document.createElement('template'); t.innerHTML=h.trim(); return t.content.firstChild; };
+  const esc = (s)=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  function seededWave(canvas, seed, color){
+    const dpr=Math.min(devicePixelRatio||1,2); const w=canvas.clientWidth||120, h=canvas.clientHeight||26;
+    canvas.width=w*dpr; canvas.height=h*dpr; const c=canvas.getContext('2d'); c.scale(dpr,dpr);
+    let s=seed; const rnd=()=>{ s=(s*9301+49297)%233280; return s/233280; };
+    const bars=Math.floor(w/3.2); c.fillStyle=color;
+    for(let i=0;i<bars;i++){ const a=(Math.sin(i*0.35+seed)*0.5+0.5); const v=(0.25+0.75*rnd())*a; const bh=Math.max(2,v*h); c.globalAlpha=0.35+0.5*v; c.fillRect(i*3.2, (h-bh)/2, 1.8, bh); }
+  }
+  function sparkline(canvas, seed, color){
+    const dpr=Math.min(devicePixelRatio||1,2); const w=64,h=26; canvas.width=w*dpr; canvas.height=h*dpr; const c=canvas.getContext('2d'); c.scale(dpr,dpr);
+    let s=seed; const rnd=()=>{ s=(s*9301+49297)%233280; return s/233280; };
+    const pts=10; c.beginPath(); let prev=0.5;
+    for(let i=0;i<pts;i++){ prev=Math.max(0.1,Math.min(0.95,prev+(rnd()-0.42)*0.4)); const x=i/(pts-1)*w, y=h-prev*h; i?c.lineTo(x,y):c.moveTo(x,y); }
+    c.strokeStyle=color; c.lineWidth=1.6; c.globalAlpha=0.85; c.stroke();
+    c.lineTo(w,h); c.lineTo(0,h); c.closePath(); c.globalAlpha=0.10; c.fillStyle=color; c.fill();
+  }
+  const accent = ()=>getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
+  /* ---------- nav ---------- */
+  const VIEWS = [
+    { id:"overview", label:"Overview", ic:"◉" },
+    { id:"sessions", label:"Sessions", ic:"◑", count:()=>"12" },
+    { id:"mixes",    label:"Mixes",    ic:"≣", count:()=>String(mixes.length) },
+    { id:"catalog",  label:"Catalogue",ic:"♫", count:()=>String(songs.length) },
+    { id:"stage",    label:"The Stage",ic:"◈" },
+  ];
+  const nav = document.getElementById('nav'); const mtop=document.getElementById('mtop');
+  VIEWS.forEach(v=>{
+    const b=el(`<button data-v="${v.id}"><span class="ic">${v.ic}</span>${v.label}${v.count?`<span class="ct">${v.count()}</span>`:''}</button>`);
+    b.addEventListener('click',()=>setView(v.id)); nav.appendChild(b);
+    const mb=el(`<button data-v="${v.id}">${v.label}</button>`); mb.addEventListener('click',()=>setView(v.id)); mtop.appendChild(mb);
+  });
+
+  const main = document.getElementById('main');
+  function setView(id){
+    document.querySelectorAll('#nav button, #mtop button').forEach(b=>b.classList.toggle('active', b.dataset.v===id));
+    main.innerHTML=''; main.appendChild(renderers[id]());
+    main.scrollTop=0; window.scrollTo(0,0);
+    if(id==='overview') requestAnimationFrame(drawOverviewCanvases);
+    if(id==='mixes') requestAnimationFrame(drawMixWaves);
+  }
+
+  /* ---------- renderers ---------- */
+  const renderers = {};
+
+  renderers.overview = function(){
+    const approvedPending = mixes.filter(m=>m.status==='revision');
+    const v = el(`<div class="view">
+      <div class="vhead"><div><p class="eye">Everything you've made · one room</p><h2>Overview</h2></div>
+        <div class="act"><button class="ibtn ghost" data-goto="sessions">Log a session</button><button class="ibtn" data-goto="mixes">Upload a mix</button></div></div>
+      <div class="tiles">
+        <div class="tile"><div class="k">Songs</div><div class="v">${songs.length}</div><div class="sub">in catalogue</div><canvas></canvas></div>
+        <div class="tile"><div class="k">Sessions</div><div class="v">12</div><div class="sub">logged '26</div><canvas></canvas></div>
+        <div class="tile hot"><div class="k">Mixes &amp; assets</div><div class="v">${mixes.length}</div><div class="sub">versioned</div><canvas></canvas></div>
+        <div class="tile"><div class="k">Unreleased</div><div class="v">${songs.filter(s=>s.status!=='Released').length}</div><div class="sub">in the vault</div><canvas></canvas></div>
+        <div class="tile"><div class="k">Live stages</div><div class="v">${songs.filter(s=>s.stage).length}</div><div class="sub">public pages</div><canvas></canvas></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3><span class="pip"></span>Needs you<span class="more" data-goto="mixes">All mixes →</span></h3>
+          ${approvedPending.map(m=>`<div class="needrow"><div class="ppl">↺</div><div class="txt"><b>${esc(songMap[m.song].title)} — ${esc(m.name)} ${esc(m.ver)}</b><span>waiting on your approval</span></div><button class="go" data-goto="mixes">Review</button></div>`).join('')}
+          <div class="needrow"><div class="ppl">✦</div><div class="txt"><b>Fire Escape — publish a Stage</b><span>v3 is approved · ready for a public page</span></div><button class="go" data-goto="stage">Open</button></div>
+        </div>
+        <div class="card"><h3><span class="pip"></span>The board</h3>
+          <div class="mini">
+            <div class="row"><span class="lab">Last session</span><b>Fire Escape</b><span class="mono">Jul 02 · Figure Eight</span></div>
+            <div class="row"><span class="lab">Last mix</span><b>Fire Escape v3</b><span class="mono">approved</span></div>
+            <div class="row"><span class="lab">In mixing</span><b>Fire Escape</b><span class="mono">1 song</span></div>
+            <div class="row"><span class="lab">Next up</span><b>Saltwater</b><span class="mono">tracking → mix</span></div>
+            <div class="row"><span class="lab">Latest drop</span><b>Nightbus</b><span class="mono">released</span></div>
+          </div>
+        </div>
+      </div>
+    </div>`);
+    v.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.goto)));
+    return v;
+  };
+  function drawOverviewCanvases(){
+    document.querySelectorAll('.tile canvas').forEach((c,i)=>sparkline(c, 40+i*97, accent()));
+  }
+
+  renderers.sessions = function(){
+    const v = el(`<div class="view">
+      <div class="vhead"><div><p class="eye">Every day in the room</p><h2>Sessions</h2><p>A running log of every studio session — who, where, what got tracked, and the notes you'll want six months from now.</p></div>
+        <div class="act"><button class="ibtn">+ Log session</button></div></div>
+      <div class="sess"></div></div>`);
+    const wrap=v.querySelector('.sess');
+    sessions.forEach(s=>{
+      wrap.appendChild(el(`<div class="s">
+        <div class="date"><span class="mono">${s.yr}</span><span class="big">${esc(s.d)}</span><span class="hrs mono">${esc(s.hrs)} · ${esc(s.eng)==='self'?'solo':'w/ eng'}</span></div>
+        <div class="body">
+          <h4>${s.songs.map(id=>esc(songMap[id].title)).join(' · ')}</h4>
+          <div class="meta"><span><b>Studio</b> ${esc(s.studio)}</span><span><b>Engineer</b> ${esc(s.eng)}</span></div>
+          <p class="note">${esc(s.note)}</p>
+          <div class="chips">${s.did.map(d=>`<span class="chip"><span class="tag">▸</span> ${esc(d)}</span>`).join('')}</div>
+        </div></div>`));
+    });
+    return v;
+  };
+
+  let mixFilter='all';
+  renderers.mixes = function(){
+    const v = el(`<div class="view">
+      <div class="vhead"><div><p class="eye">Every version, never lost</p><h2>Mixes &amp; deliverables</h2><p>All mixes, masters, instrumentals and stems — versioned per song, with what's approved and what's still waiting on you.</p></div>
+        <div class="act"><button class="ibtn">+ Upload mix</button></div></div>
+      <div class="filters" id="filters"></div>
+      <div id="mixlist"></div></div>`);
+    const filters=[['all','All'],['revision','Needs revision'],['approved','Approved'],['asset','Deliverables']];
+    const fb=v.querySelector('#filters');
+    filters.forEach(([k,l])=>{ const b=el(`<button class="${k===mixFilter?'on':''}" data-f="${k}">${l}</button>`); b.addEventListener('click',()=>{mixFilter=k; setView('mixes');}); fb.appendChild(b); });
+    const list=v.querySelector('#mixlist');
+    songs.forEach(song=>{
+      let ms=mixes.filter(m=>m.song===song.id);
+      if(mixFilter!=='all') ms=ms.filter(m=>m.status===mixFilter);
+      if(!ms.length) return;
+      const g=el(`<div class="mixgroup"><div class="gh"><h4>${esc(song.title)}</h4><span class="gm mono">${esc(song.key)} · ${song.bpm?song.bpm+' BPM':'—'} · ${ms.length} file${ms.length>1?'s':''}</span></div></div>`);
+      ms.forEach((m,idx)=>{
+        const [cls,lab]=mixPill[m.status];
+        const row=el(`<div class="mixrow" data-key="${song.id}-${idx}">
+          <button class="pl" aria-label="Audition">▶</button>
+          <div class="name">${esc(m.name)}<span>${esc(m.ver)}</span></div>
+          <canvas class="wave" data-seed="${song.id.charCodeAt(0)*7+idx*31}"></canvas>
+          <div class="dur">${esc(m.dur)}</div>
+          <div><span class="pill ${cls}">${lab}</span></div>
+          <div class="dl" title="Download" role="button">⤓</div></div>`);
+        row.querySelector('.pl').addEventListener('click',()=>playMix(song, m, row));
+        g.appendChild(row);
+      });
+      list.appendChild(g);
+    });
+    if(!list.children.length) list.appendChild(el(`<p style="color:var(--mute);font-family:var(--mono);font-size:13px">No mixes match this filter.</p>`));
+    return v;
+  };
+  function drawMixWaves(){ document.querySelectorAll('canvas.wave').forEach(c=>seededWave(c, +c.dataset.seed||7, accent())); }
+
+  renderers.catalog = function(){
+    const v = el(`<div class="view">
+      <div class="vhead"><div><p class="eye">Idea → demo → tracked → mixed → mastered → released</p><h2>Catalogue</h2><p>Every song and where it sits in the pipeline — with the metadata a supervisor, a distributor, or your future self will ask for.</p></div>
+        <div class="act"><button class="ibtn">+ New song</button></div></div>
+      <div class="cat"></div></div>`);
+    const wrap=v.querySelector('.cat');
+    songs.forEach(s=>{
+      const pipe=Array.from({length:7},(_,i)=>`<i class="${i<s.stagept?'on':''}"></i>`).join('');
+      const card=el(`<div class="song">
+        <div class="top"><h4>${esc(s.title)}</h4><span class="pill ${statusClass[s.status]||'st-idle'}">${esc(s.status)}</span></div>
+        <div class="pipe">${pipe}</div>
+        <div class="data">
+          <div>Key <b>${esc(s.key)}</b></div><div>BPM <b>${s.bpm||'—'}</b></div>
+          <div>ISRC <b>${esc(s.isrc)}</b></div><div>Splits <b>${esc(s.splits)}</b></div>
+        </div>
+        <div class="foot">${s.stage?'<span class="pill st-live">● Stage live</span>':'<span>No public stage yet</span>'}${s.stage?`<a class="stagelink" href="${STAGE_URL}" target="_blank" rel="noopener">Open stage →</a>`:'<a class="stagelink" data-goto="stage" href="#">Publish →</a>'}</div>
+      </div>`);
+      const g=card.querySelector('[data-goto]'); if(g) g.addEventListener('click',(e)=>{e.preventDefault(); setView('stage');});
+      wrap.appendChild(card);
+    });
+    return v;
+  };
+
+  renderers.stage = function(){
+    const v = el(`<div class="view">
+      <div class="vhead"><div><p class="eye">The public face</p><h2>The Stage</h2><p>Turn any finished song into a cinematic, shareable web experience — the artist's own, built from the mixes already in here. Not a template you rent; a page that's yours.</p></div></div>
+      <div class="stagewrap">
+        <div class="promo">
+          <p class="eye">Featured</p>
+          <h3>Fire Escape — a cinematic single</h3>
+          <p>Scroll-driven, dark, the song as the score. One link you send to a fan, a playlist curator, or a music supervisor — they feel the record before they read a word.</p>
+          <a class="ibtn" href="${STAGE_URL}" target="_blank" rel="noopener">▶ Open the live stage</a>
+        </div>
+        <div class="stagelist" id="stagelist"></div>
+      </div></div>`);
+    const list=v.querySelector('#stagelist');
+    songs.filter(s=>['Released','Mastered','Mixing'].includes(s.status)).forEach(s=>{
+      list.appendChild(el(`<div class="stagecard">
+        <div class="th">♪</div>
+        <div class="in"><b>${esc(s.title)}</b><span>${s.stage?'stage live · updated this week':'ready to publish · '+esc(s.status).toLowerCase()}</span></div>
+        ${s.stage?`<a class="pill st-live" href="${STAGE_URL}" target="_blank" rel="noopener" style="text-decoration:none">● Live</a>`:'<span class="pill st-acc">Publish</span>'}
+      </div>`));
+    });
+    return v;
+  };
+
+  /* ---------- transport (simulated audition) ---------- */
+  let playing=false, raf=null, pos=0, len=0, curRow=null;
+  const pp=document.getElementById('pp'), npT=document.getElementById('np-title'), npS=document.getElementById('np-sub'),
+        scrub=document.getElementById('scrub'), npTime=document.getElementById('np-time');
+  function fmt(sec){ sec=Math.max(0,Math.round(sec)); return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); }
+  function parseDur(d){ const m=/(\d+):(\d+)/.exec(d); return m? (+m[1]*60+ +m[2]) : 0; }
+  function tick(t){
+    if(!playing) return;
+    pos += 1/60;
+    if(len && pos>=len){ pos=len; render(); stop(); return; }
+    render(); raf=requestAnimationFrame(tick);
+  }
+  function render(){ const p=len? pos/len:0; scrub.style.width=(p*100).toFixed(1)+'%'; npTime.textContent=fmt(pos)+' / '+fmt(len); }
+  function start(){ playing=true; pp.textContent='❚❚'; raf=requestAnimationFrame(tick); }
+  function stop(){ playing=false; pp.textContent='▶'; if(raf)cancelAnimationFrame(raf); }
+  function playMix(song, mix, row){
+    if(curRow) curRow.classList.remove('playing');
+    curRow=row; if(row) row.classList.add('playing');
+    len=parseDur(mix.dur)||210; pos=0;
+    npT.textContent=`${song.title} — ${mix.name} ${mix.ver}`.trim();
+    npS.textContent='auditioning · '+ (mixPill[mix.status]?mixPill[mix.status][1].toLowerCase():'');
+    render(); start();
+  }
+  pp.addEventListener('click',()=>{ if(!len){ return; } playing?stop():start(); });
+
+  /* watch theme changes to recolor canvases */
+  new MutationObserver(()=>{ drawOverviewCanvases(); drawMixWaves(); })
+    .observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+  window.addEventListener('resize',()=>{ if(document.querySelector('canvas.wave')) drawMixWaves(); if(document.querySelector('.tile canvas')) drawOverviewCanvases(); });
+
+  setView('overview');
+})();
+</script>
