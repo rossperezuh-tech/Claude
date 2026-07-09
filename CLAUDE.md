@@ -33,7 +33,7 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 
 ## Core features (v1 — built)
 
-1. **Home dashboard** — business card grid (open task count, next deadline, status badge), Today panel (due today/overdue across all businesses, priority-sorted), pinned quick-capture input.
+1. **Home dashboard (Mission Control)** — fleet KPI tiles (open / overdue / due today / next 7 days / P1, each deep-linking to filtered `/tasks`), Today panel (due today/overdue across all businesses, priority-sorted), Needs Attention panel (per-venture overdue + P1-due-this-week rollup), pinned quick-capture input, venture card grid (open/overdue counts, next deadline, status badge, open-task pipeline bar, docs/contacts counts).
 2. **Business detail page** (`/business/[slug]`) — tasks kanban (Backlog / This Week / In Progress / Done), documents list, contacts, autosaving markdown scratchpad, key links.
 3. **Tasks** — title, business, due date, priority (P1/P2/P3), status, notes; recurring tasks (completing one spawns the next occurrence); global `/tasks` view filterable by business, priority, due date.
 4. **Documents index** — title, business, category (legal / financial / brand / operations / compliance), URL or file path, notes, date; global search at `/docs`.
