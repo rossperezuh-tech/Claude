@@ -28,23 +28,20 @@
 
   /* ---------------- MENU VIEW ---------------- */
   .mast{border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:6px}
+  .mast .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:700}
   .mast h1{font-family:var(--cond);font-weight:800;font-size:clamp(52px,11vw,92px);
     line-height:.85;letter-spacing:-1px;transform:scaleX(.92);transform-origin:left}
   .mast .sub{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:15px;margin-top:14px}
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:34px 48px;margin-top:26px}
-  @media(max-width:760px){.cols{grid-template-columns:1fr;gap:26px}}
-  .grp-title{font-size:14px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
-    padding-bottom:6px;border-bottom:1.5px solid var(--accent);margin-bottom:4px}
-  .row{display:flex;gap:14px;align-items:center;padding:11px 4px 11px 0;border-bottom:1px solid var(--hair);transition:background .15s,padding .15s}
-  .row:last-child{border-bottom:none}
-  .row .rmain{flex:1;min-width:0}
-  .row .nm{font-size:14px;font-weight:700}
-  .row .ds{font-size:12px;color:var(--muted)}
-  .row .rprice{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);text-align:right;white-space:nowrap;line-height:1.15}
-  .row .rprice span{display:block;font-size:9.5px;font-weight:400;letter-spacing:.2px;color:var(--muted)}
-  .row:hover{background:var(--card);padding-left:10px}
-  .row:hover .nm{color:var(--accent)}
-  .row:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mlist{margin-top:10px}
+  .mrow{display:flex;justify-content:space-between;align-items:baseline;gap:28px;
+    padding:16px 4px;border-bottom:1px solid var(--hair);transition:background .15s,padding .15s}
+  .mrow:last-child{border-bottom:none}
+  .mrow .mnm{font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;white-space:nowrap}
+  .mrow .mds{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--muted);text-align:right}
+  .mrow:hover{background:var(--card);padding-left:12px}
+  .mrow:hover .mnm{color:var(--accent)}
+  .mrow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media(max-width:640px){.mrow{flex-direction:column;align-items:flex-start;gap:2px}.mrow .mds{text-align:left}}
   .footer{margin-top:40px;padding-top:16px;border-top:3px solid var(--ink);
     display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted)}
   .footer b{color:var(--ink)}
@@ -63,6 +60,12 @@
   .ex-blurb{font-size:16px;color:var(--muted);margin-top:12px;max-width:60ch}
   .ex-hr{height:1px;background:var(--hair);margin:24px 0}
   .disclaim{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:20px;text-align:center;letter-spacing:.3px}
+
+  /* section intro between mocks */
+  .sechead{display:flex;align-items:baseline;gap:12px;margin:30px 0 12px;flex-wrap:wrap}
+  .sechead:first-child{margin-top:0}
+  .sechead .t{font-family:var(--cond);font-weight:800;font-size:20px;letter-spacing:-.2px;text-transform:uppercase}
+  .sechead .s{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--muted)}
 
   /* ============ APP MOCK FRAMEWORK ============ */
   .app{background:var(--appbg);border:1px solid var(--appline);border-radius:11px;overflow:hidden;
@@ -196,10 +199,10 @@
   .doc .big{font-family:var(--cond);font-weight:800;font-size:22px;letter-spacing:-.5px}
   .liner{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0ece4;font-size:12.5px}
   .liner.tot{border-bottom:none;border-top:2px solid var(--appink);font-weight:800;margin-top:4px;padding-top:9px}
-  .mail{border:1px solid var(--appline);border-radius:9px;background:#fff;overflow:hidden}
-  .mail .mh{padding:9px 13px;border-bottom:1px solid #f0ece4;font-size:12px;display:flex;gap:8px}
-  .mail .mh .k{color:var(--appmut);width:44px}
-  .mail .mb{padding:13px;font-size:12.5px;color:#3a3934;line-height:1.6}
+  .mail2{border:1px solid var(--appline);border-radius:9px;background:#fff;overflow:hidden}
+  .mail2 .mh{padding:9px 13px;border-bottom:1px solid #f0ece4;font-size:12px;display:flex;gap:8px}
+  .mail2 .mh .k{color:var(--appmut);width:44px}
+  .mail2 .mb{padding:13px;font-size:12.5px;color:#3a3934;line-height:1.6}
 
   /* social */
   .igwrap{display:grid;grid-template-columns:230px 1fr;gap:18px}
@@ -212,6 +215,21 @@
   .ig .cap{padding:0 11px 12px;font-size:12px}
   .capopt{border:1px solid var(--appline);border-radius:9px;padding:11px 12px;background:#fff;margin-bottom:9px;font-size:12.5px;display:flex;gap:9px;align-items:flex-start}
   .capopt:last-child{margin-bottom:0}
+
+  /* content calendar */
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+  @media(max-width:760px){.week{grid-template-columns:repeat(4,1fr)}}
+  .day{border:1px solid var(--appline);border-radius:8px;padding:8px;min-height:92px;background:#fff}
+  .day .dh{font-weight:700;font-size:10px;color:var(--appmut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .post{border-radius:5px;padding:4px 6px;font-size:10px;font-weight:600;margin-bottom:4px;line-height:1.3}
+  .post small{display:block;font-weight:400;opacity:.75;font-size:9px}
+
+  /* product grid (storefront) */
+  .prods{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:640px){.prods{grid-template-columns:1fr}}
+  .prod{border:1px solid var(--appline);border-radius:10px;overflow:hidden;background:#fff}
+  .prod .ph{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;font-size:32px}
+  .prod .in{padding:10px 12px}
 
   /* flow / automation */
   .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
@@ -254,10 +272,11 @@
 <main id="menu">
   <div class="wrap">
     <div class="mast">
+      <div class="eyebrow">Steadyhand</div>
       <h1>THE&nbsp;MENU</h1>
-      <div class="sub">Tap any item to see a real example of what it produces.</div>
+      <div class="sub">Eight things we build. Tap any item to walk through a real example.</div>
     </div>
-    <div class="cols" id="cols"></div>
+    <div class="mlist" id="mlist"></div>
     <div class="footer">
       <div><b>How it works:</b> Pick what you need → 30-minute sit-down → we build it → we teach you to run it.</div>
       <div class="mail">Let's talk — <span>ross@steadyhand.ai</span></div>
@@ -281,97 +300,30 @@
 <script>
 /* ---------- helpers ---------- */
 const app=(title,body,o={})=>`<div class="app"><div class="app-bar"><div class="dots"><i></i><i></i><i></i></div><span class="app-title">${title}</span><span class="demo">${o.tag||'SAMPLE'}</span>${o.action?`<span class="app-actions">${o.action}</span>`:''}</div><div class="app-body${o.flush?' flush':''}">${body}</div></div>`;
+const sec=(t,s)=>`<div class="sechead"><span class="t">${t}</span>${s?`<span class="s">${s}</span>`:''}</div>`;
 const av=(t,c)=>`<span class="av" style="background:${c}">${t}</span>`;
-const stars=n=>'★'.repeat(Math.floor(n))+(n%1?'½':'')+'☆'.repeat(5-Math.ceil(n));
 const wave=(c,arr)=>`<span class="wave" style="color:${c}">`+arr.map(h=>`<i style="height:${h}px"></i>`).join('')+`</span>`;
+const prod=(emoji,bg,name,meta,price)=>`<div class="prod"><div class="ph" style="background:${bg}">${emoji}</div><div class="in"><div style="font-weight:700;font-size:12.5px">${name}</div><div class="mut" style="font-size:11px">${meta}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><b class="tnum">${price}</b><span class="btn sm pri">Add</span></div></div></div>`;
 
 const DATA=[
- /* ---------- WEBSITES & STOREFRONT ---------- */
- {slug:"the-new-website",group:"Websites & Storefront",name:"New Website",
-  blurb:"Designed and built from scratch, with a dashboard you edit yourself.",
-  body: app("greenpointsupply.com",
-    `<div class="site">
-       <div class="nav"><span class="brand">GREENPOINT SUPPLY</span><span class="mut">Shop &nbsp; About &nbsp; Contact &nbsp; <span class="btn sm pri" style="padding:5px 11px">Cart · 2</span></span></div>
-       <div class="hero"><h3>Built for the way you work.</h3><p>Tools, hardware, and same-day delivery across North Brooklyn.</p><span class="cta">Shop the store →</span></div>
-       <div class="feats">
-         <div class="feat"><div class="fi">🚚</div>Same-day local delivery</div>
-         <div class="feat"><div class="fi">🔧</div>1,200+ pro-grade items</div>
-         <div class="feat"><div class="fi">↩️</div>No-hassle returns</div>
-       </div>
-     </div>`,
-    {tag:"LIVE SITE",action:`<span class="btn sm">Edit page</span>`}) +
-    `<p class="mut" style="font-size:12.5px;margin-top:12px">Delivered in 2 weeks. You change text, prices, and photos yourself — no developer, no monthly agency fee.</p>`},
 
- {slug:"the-website-tune-up",group:"Websites & Storefront",name:"Website Tune-Up",
-  blurb:"Make your current site fast, findable, and easy to update.",
-  body: app("Site Report — oldshop.com",
-    `<div class="gauges">
-       ${gaugeSVG(44,"#c8402f")}
-       <div style="font-size:26px;color:#c5bfb2">→</div>
-       ${gaugeSVG(98,"#2f8f5b")}
-     </div>
-     <table class="tbl" style="margin-top:8px">
-       <tr><th>Check</th><th class="r">Before</th><th class="r">After</th><th></th></tr>
-       <tr><td>Load time</td><td class="r tnum">6.2s</td><td class="r tnum">0.9s</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
-       <tr><td>Google — your own name</td><td class="r">page 3</td><td class="r">page 1, #1</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
-       <tr><td>Mobile usability</td><td class="r tnum">44</td><td class="r tnum">98</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
-       <tr><td>Contact form → your AI assistant</td><td class="r mut">none</td><td class="r">connected</td><td class="r"><span class="pill blue"><span class="d"></span>Wired</span></td></tr>
-     </table>`,{tag:"AUDIT"})},
-
- {slug:"the-full-world",group:"Websites & Storefront",name:"Brand & Design",
-  blurb:"Brand, story, design language, and site — the whole treatment.",
-  body: app("Brand Board — Brooklyn Tiny Farm",
-    `<div class="board">
-       <div>
-         <div class="lbl">Wordmark</div>
-         <div style="font-family:var(--cond);font-weight:800;font-size:32px;letter-spacing:-1px;margin:6px 0 4px">BROOKLYN TINY FARM</div>
-         <div style="font-family:var(--serif);font-style:italic;color:var(--appmut);margin-bottom:16px">"Greens, cut this morning. Ten minutes from your door."</div>
-         <div class="lbl">Palette</div>
-         <div class="sw" style="margin-top:8px">
-           <div><i style="background:#2f5233"></i><small>#2F5233</small></div>
-           <div><i style="background:#a7c957"></i><small>#A7C957</small></div>
-           <div><i style="background:#f2e8cf"></i><small>#F2E8CF</small></div>
-           <div><i style="background:#1c1a17"></i><small>#1C1A17</small></div>
-         </div>
-       </div>
-       <div class="card-mock">
-         <div style="font-family:var(--cond);font-weight:800;font-size:19px">BTF</div>
-         <div><div style="font-size:12px">Rosa Perez</div><div style="font-size:10px;opacity:.75">rosa@brooklyntinyfarm.com</div></div>
-       </div>
-     </div>`,{tag:"IDENTITY"})},
-
- {slug:"the-shop",group:"Websites & Storefront",name:"Online Store",
-  blurb:"Online store, bookings, and payments: money while you sleep.",
-  body: app("Orders",
-    `<div class="stats" style="grid-template-columns:repeat(3,1fr)">
-       <div class="stat"><div class="lbl">This week</div><div class="v tnum">$2,417 <small class="up">▲12%</small></div></div>
-       <div class="stat"><div class="lbl">Orders</div><div class="v tnum">34</div></div>
-       <div class="stat"><div class="lbl">Bookings</div><div class="v tnum">11</div></div>
-     </div>
-     <table class="tbl" style="margin-top:14px">
-       <tr><th>Order</th><th>Customer</th><th>Items</th><th class="r">Total</th><th>Status</th></tr>
-       <tr class="hl"><td class="tnum">#1043</td><td>— <span class="mut">3:12am</span></td><td>2× Sampler Box</td><td class="r tnum">$68.00</td><td><span class="pill good"><span class="d"></span>Paid · Label printed</span></td></tr>
-       <tr><td class="tnum">#1042</td><td>M. Ortiz</td><td>Weekly veg share</td><td class="r tnum">$45.00</td><td><span class="pill good"><span class="d"></span>Fulfilled</span></td></tr>
-       <tr><td class="tnum">#1041</td><td>J. Kim</td><td>Consult booking</td><td class="r tnum">$120.00</td><td><span class="pill blue"><span class="d"></span>Scheduled</span></td></tr>
-     </table>`,
-    {tag:"STORE ADMIN",action:`<span class="pill good"><span class="d"></span>Payout Fri, auto</span>`})},
-
- /* ---------- THE BRAIN ---------- */
- {slug:"the-brain",group:"AI Assistant",name:"AI Assistant",
-  blurb:"Your private AI and voice-note bot — it knows your whole business.",
-  body: app("AI Assistant",
+/* ============ 1 · AI ASSISTANT ============ */
+{slug:"the-brain",name:"AI Assistant",
+ blurb:"Your private AI — voice notes in, answers and found files out. It knows your whole business and never forgets a detail.",
+ body:
+  sec("Ask it anything","Send a voice note from the truck. It answers from your own records.")+
+  app("AI Assistant",
     `<div class="chat">
-       <div class="chat-head">${av("B","#b0341d")}<div><div style="font-weight:700;font-size:13px">AI Assistant</div><div class="mut" style="font-size:11px">online · private to you</div></div></div>
+       <div class="chat-head">${av("AI","#b0341d")}<div><div style="font-weight:700;font-size:13px">AI Assistant</div><div class="mut" style="font-size:11px">online · private to you</div></div></div>
        <div class="chat-body">
-         <div class="msg me"><div class="vn"><span class="play">▶</span>${wave("#fff",[7,14,9,18,11,20,8,13,6,10])}<span style="font-size:11px">0:06</span></div><span class="t">You · 9:41 AM</span></div>
+         <div class="msg me"><div class="vn"><span class="play">▶</span>${wave("#fff",[7,14,9,18,11,20,8,13,6,10])}<span style="font-size:11px">0:06</span></div><span class="t">You · 9:41 AM — "what did we offer on the warehouse again?"</span></div>
          <div class="msg ai">You offered <b>$1.42M</b>, all-cash, 21-day close on the Conley St. warehouse. Seller wanted the forklift left behind — you agreed. Inspection contingency waived.<br><span class="mut" style="font-size:12px">From your note dated Jun 18. Want me to draft the follow-up email?</span><span class="t mut">AI Assistant · 9:41 AM</span></div>
          <div class="msg me">yes, and cc Anna<span class="t">You · 9:42 AM</span></div>
+         <div class="msg ai">Drafted and sitting in your outbox — Anna's cc'd. One more thing: the seller's agent asked for proof of funds <b>by Friday</b>. Want me to pull the bank letter from March?<span class="t mut">AI Assistant · 9:42 AM</span></div>
        </div>
-     </div>`,{tag:"ASSISTANT"})},
-
- {slug:"document-reader",group:"AI Assistant",name:"Document Reader",
-  blurb:"Upload a document, get a summary with the key parts highlighted.",
-  body: app("Mutual NDA.pdf",
+     </div>`,{tag:"ASSISTANT",flush:true})+
+  sec("Hand it any document","A 14-page NDA goes in. Plain English comes out — with the traps flagged.")+
+  app("Mutual NDA.pdf",
     `<div class="docview">
        <div class="pages">
          <div class="paper">
@@ -399,11 +351,9 @@ const DATA=[
            </ul>
          </div>
        </div>
-     </div>`,{flush:true,tag:"REVIEW",action:`<span class="mut" style="font-size:11px">Analyzed in 4s</span>`})},
-
- {slug:"the-archive",group:"AI Assistant",name:"File Archive",
-  blurb:"Old drives and files, digitized and searchable — ask it anything.",
-  body: app("Archive Search",
+     </div>`,{flush:true,tag:"REVIEW",action:`<span class="mut" style="font-size:11px">Analyzed in 4s</span>`})+
+  sec("It finds anything you've ever filed","Old drives, scanned boxes, email — one search across all of it.")+
+  app("Archive Search",
     `<div class="omni">🔍 <span class="q">Henderson invoice from 2019</span></div>
      <div class="chips"><span class="chip2 on">All drives</span><span class="chip2">Invoices</span><span class="chip2">2019</span><span class="mut" style="font-size:11px;align-self:center;margin-left:auto">3 results · 1.2s</span></div>
      <div class="res"><span class="ficon" style="background:#c8402f">PDF</span><div style="flex:1"><div style="font-weight:600">Henderson_final_inv.pdf</div><div class="mut" style="font-size:11.5px">Old Drive → 2019 → Clients · scanned box #4, p.212</div></div><div class="r"><div style="font-weight:700" class="tnum">$8,450</div><div class="mut" style="font-size:11px">Mar 2019</div></div></div>
@@ -411,56 +361,122 @@ const DATA=[
      <div class="res"><span class="ficon" style="background:#6b6a66">EML</span><div style="flex:1"><div style="font-weight:600">Re: final invoice — approved</div><div class="mut" style="font-size:11.5px">Email · from a.henderson@…</div></div><div class="r"><span class="pill mut">related</span></div></div>`,
     {tag:"ARCHIVE"})},
 
- /* ---------- GET MORE DONE ---------- */
- {slug:"meeting-notes",group:"Get More Done",name:"Meeting Notes",
-  blurb:"Turns meeting notes into a simple to-do list.",
-  body: app("Team sync — Jul 8",
-    `<div class="grid2">
-       <div class="panel"><h5>Transcript · 38 min</h5>
-         <div style="font-size:12px;line-height:1.7;color:#3a3934">
-           <b>You:</b> Let's push the launch to the 15th.<br>
-           <b>Anna:</b> I'll lock in the supplier by Friday.<br>
-           <b>You:</b> We still need the insurance quote.<br>
-           <span class="mut">… 34 more min …</span>
+/* ============ 2 · WEBSITE ============ */
+{slug:"the-new-website",name:"Website",
+ blurb:"Built new or tuned up — fast, findable, and yours to edit. No developer on retainer, no monthly agency fee.",
+ body:
+  sec("Built new","A real storefront for a Greenpoint hardware supplier — live in 2 weeks.")+
+  app("greenpointsupply.com",
+    `<div class="site">
+       <div class="nav"><span class="brand">GREENPOINT SUPPLY</span><span class="mut">Shop &nbsp; About &nbsp; Contact &nbsp; <span class="btn sm pri" style="padding:5px 11px">Cart · 2</span></span></div>
+       <div class="hero"><h3>Built for the way you work.</h3><p>Tools, hardware, and same-day delivery across North Brooklyn.</p><span class="cta">Shop the store →</span></div>
+       <div class="feats">
+         <div class="feat"><div class="fi">🚚</div>Same-day local delivery</div>
+         <div class="feat"><div class="fi">🔧</div>1,200+ pro-grade items</div>
+         <div class="feat"><div class="fi">↩️</div>No-hassle returns</div>
+       </div>
+     </div>`,
+    {tag:"LIVE SITE",flush:true,action:`<span class="btn sm">Edit page</span>`})+
+  `<p class="mut" style="font-size:12.5px;margin-top:12px">That "Edit page" button is yours — change text, prices, and photos yourself.</p>`+
+  sec("Or your current site, tuned up","Same site, one week later. Every fix measured.")+
+  app("Site Report — oldshop.com",
+    `<div class="gauges">
+       ${gaugeSVG(44,"#c8402f")}
+       <div style="font-size:26px;color:#c5bfb2">→</div>
+       ${gaugeSVG(98,"#2f8f5b")}
+     </div>
+     <table class="tbl" style="margin-top:8px">
+       <tr><th>Check</th><th class="r">Before</th><th class="r">After</th><th></th></tr>
+       <tr><td>Load time</td><td class="r tnum">6.2s</td><td class="r tnum">0.9s</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
+       <tr><td>Google — your own name</td><td class="r">page 3</td><td class="r">page 1, #1</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
+       <tr><td>Mobile usability</td><td class="r tnum">44</td><td class="r tnum">98</td><td class="r"><span class="pill good"><span class="d"></span>Passed</span></td></tr>
+       <tr><td>Contact form → your AI assistant</td><td class="r mut">none</td><td class="r">connected</td><td class="r"><span class="pill blue"><span class="d"></span>Wired</span></td></tr>
+     </table>`,{tag:"AUDIT"})},
+
+/* ============ 3 · ONLINE STORE ============ */
+{slug:"the-shop",name:"Online Store",
+ blurb:"Store, bookings, and payments: money while you sleep. Customers buy and book on their own — you just fulfill.",
+ body:
+  sec("What your customers see","Products, real prices, and a booking calendar — open 24/7.")+
+  app("brooklyntinyfarm.com/shop",
+    `<div class="prods">
+       ${prod("🌱","linear-gradient(135deg,#eef2e6,#dde8cf)","Microgreens Sampler","4 varieties · cut to order","$34.00")}
+       ${prod("🥬","linear-gradient(135deg,#e6efd8,#d2e3bd)","Weekly Veg Share","Subscription · pause anytime","$45/wk")}
+       ${prod("📦","linear-gradient(135deg,#f2ede0,#e7dfc9)","Restaurant Flat","10 trays · wholesale","$120.00")}
+     </div>
+     <div style="border:1px solid var(--appline);border-radius:9px;padding:13px 14px;margin-top:14px;background:#faf8f4">
+       <div class="lbl" style="margin-bottom:8px">Book a farm consult — Tuesday</div>
+       <div style="display:flex;gap:8px;flex-wrap:wrap">
+         <span class="btn sm">10:00</span><span class="btn sm pri">11:30</span><span class="btn sm">2:00</span><span class="btn sm">4:30</span>
+         <span class="mut" style="font-size:11.5px;align-self:center">$120 · paid at booking</span>
+       </div>
+     </div>`,{tag:"STOREFRONT"})+
+  sec("What you see","The 3:12am order is the whole point.")+
+  app("Orders",
+    `<div class="stats" style="grid-template-columns:repeat(3,1fr)">
+       <div class="stat"><div class="lbl">This week</div><div class="v tnum">$2,417 <small class="up">▲12%</small></div></div>
+       <div class="stat"><div class="lbl">Orders</div><div class="v tnum">34</div></div>
+       <div class="stat"><div class="lbl">Bookings</div><div class="v tnum">11</div></div>
+     </div>
+     <table class="tbl" style="margin-top:14px">
+       <tr><th>Order</th><th>Customer</th><th>Items</th><th class="r">Total</th><th>Status</th></tr>
+       <tr class="hl"><td class="tnum">#1043</td><td>— <span class="mut">3:12am</span></td><td>2× Sampler Box</td><td class="r tnum">$68.00</td><td><span class="pill good"><span class="d"></span>Paid · Label printed</span></td></tr>
+       <tr><td class="tnum">#1042</td><td>M. Ortiz</td><td>Weekly veg share</td><td class="r tnum">$45.00</td><td><span class="pill good"><span class="d"></span>Fulfilled</span></td></tr>
+       <tr><td class="tnum">#1041</td><td>J. Kim</td><td>Consult booking</td><td class="r tnum">$120.00</td><td><span class="pill blue"><span class="d"></span>Scheduled</span></td></tr>
+     </table>`,
+    {tag:"STORE ADMIN",action:`<span class="pill good"><span class="d"></span>Payout Fri, auto</span>`})},
+
+/* ============ 4 · BRAND & DESIGN ============ */
+{slug:"the-full-world",name:"Brand & Design",
+ blurb:"Logo, story, design language, and site — the whole treatment. Decided once, then applied everywhere automatically.",
+ body:
+  sec("Your identity, decided","Wordmark, story line, and a palette that's yours.")+
+  app("Brand Board — Brooklyn Tiny Farm",
+    `<div class="board">
+       <div>
+         <div class="lbl">Wordmark</div>
+         <div style="font-family:var(--cond);font-weight:800;font-size:32px;letter-spacing:-1px;margin:6px 0 4px">BROOKLYN TINY FARM</div>
+         <div style="font-family:var(--serif);font-style:italic;color:var(--appmut);margin-bottom:16px">"Greens, cut this morning. Ten minutes from your door."</div>
+         <div class="lbl">Palette</div>
+         <div class="sw" style="margin-top:8px">
+           <div><i style="background:#2f5233"></i><small>#2F5233</small></div>
+           <div><i style="background:#a7c957"></i><small>#A7C957</small></div>
+           <div><i style="background:#f2e8cf"></i><small>#F2E8CF</small></div>
+           <div><i style="background:#1c1a17"></i><small>#1C1A17</small></div>
          </div>
        </div>
-       <div class="panel"><h5>Action items <span class="pill mut" style="margin-left:6px">auto</span></h5>
-         <div class="chk"><div class="box"></div><div><div>Move launch to the 15th</div><div class="sub">You · no date</div></div></div>
-         <div class="chk"><div class="box"></div><div><div>Line up the supplier</div><div class="sub">${'Anna'} · due Fri</div></div></div>
-         <div class="chk"><div class="box"></div><div><div>Get insurance quote</div><div class="sub">You · due Wed</div></div></div>
+       <div class="card-mock">
+         <div style="font-family:var(--cond);font-weight:800;font-size:19px">BTF</div>
+         <div><div style="font-size:12px">Rosa Perez</div><div style="font-size:10px;opacity:.75">rosa@brooklyntinyfarm.com</div></div>
        </div>
-     </div>`,{tag:"NOTES"})},
+     </div>`,{tag:"IDENTITY"})+
+  sec("Applied everywhere","The same identity lands on the site, the feed, and the label — without redesigning each time.")+
+  app("One brand, every surface",
+    `<div class="split" style="align-items:start">
+       <div style="border:1px solid var(--appline);border-radius:10px;overflow:hidden;background:#fff">
+         <div style="padding:26px 18px;text-align:center;background:linear-gradient(160deg,#2f5233,#3d6a42);color:#f2e8cf">
+           <div style="font-family:var(--cond);font-weight:800;font-size:22px;letter-spacing:-.3px">BROOKLYN TINY FARM</div>
+           <div style="font-family:var(--serif);font-style:italic;font-size:12px;opacity:.85;margin:6px 0 12px">Greens, cut this morning.</div>
+           <span style="display:inline-block;background:#a7c957;color:#1c1a17;font-size:11.5px;font-weight:700;padding:8px 16px;border-radius:7px">Order a share →</span>
+         </div>
+         <div class="mut" style="padding:9px 12px;font-size:11px;border-top:1px solid var(--appline)">Website — same palette, same voice</div>
+       </div>
+       <div>
+         <div class="ig">
+           <div class="top">${av("BTF","#2f5233")}<div style="font-size:12px;font-weight:600">brooklyntinyfarm</div></div>
+           <div class="img" style="aspect-ratio:16/9"></div>
+           <div class="cap" style="padding-top:9px"><b>brooklyntinyfarm</b> Ten minutes from your door 🌱</div>
+         </div>
+         <div class="mut" style="padding:9px 2px;font-size:11px">Social templates — on brand by default</div>
+       </div>
+     </div>`,{tag:"ROLLOUT"})},
 
- {slug:"automation",group:"Get More Done",name:"Automation",
-  blurb:"Finds where you're wasting time, then automates it away.",
-  body: app("Workflow Audit — Order handling",
-    `<div class="flow">
-       <div class="node"><div class="ic" style="background:#e7eff7">📧</div><b>Email order</b><div class="mut" style="font-size:11.5px;margin-top:3px">arrives</div></div>
-       <div class="arrow">→</div>
-       <div class="node flag"><div class="ic" style="background:#f8e7e4">⌨️</div><b>Re-typed 3×</b><div class="mut" style="font-size:11.5px;margin-top:3px">email → sheet → books</div><span class="pill bad" style="margin-top:7px"><span class="d"></span>Bottleneck found</span></div>
-       <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#e5f2ea">📦</div><b>Ship + text</b><div class="mut" style="font-size:11.5px;margin-top:3px">tracking sent</div></div>
-     </div>
-     <div class="callout"><div class="h">Step 1 — we spot the waste</div>You're typing the same order three times. That's <b>~6 hrs/week</b> gone.</div>`,{tag:"AUDIT"}) +
-    app("Automation built — Order → everywhere",
-    `<div class="flow">
-       <div class="node"><div class="ic" style="background:#f7e9e5">📨</div><div class="lbl">When</div><b>Order arrives</b></div>
-       <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#e7eff7">📊</div><div class="lbl">Then</div><b>Fill the sheet</b></div>
-       <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#e5f2ea">📚</div><div class="lbl">Then</div><b>Post to books</b></div>
-       <div class="arrow">→</div>
-       <div class="node"><div class="ic" style="background:#f7efdf">💬</div><div class="lbl">Finally</div><b>Text the customer</b></div>
-     </div>
-     <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
-       <span class="pill good"><span class="d"></span>Automation on</span>
-       <span class="mut" style="font-size:12.5px">Step 2 — one entry now feeds all three. <b style="color:var(--appink)">~6 hrs/week</b> back.</span>
-     </div>`,{tag:"AUTOMATION",action:`<span class="btn sm pri">On</span>`})},
-
- /* ---------- MONEY & NUMBERS ---------- */
- {slug:"the-dashboard",group:"Money & Numbers",name:"Business Dashboard",
-  blurb:"Your numbers on one screen — plus the insights hidden in them.",
-  body: app("Shop Dashboard",
+/* ============ 5 · BUSINESS DASHBOARD ============ */
+{slug:"the-dashboard",name:"Business Dashboard",
+ blurb:"Sales, jobs, cash forecast, and customer feedback — one screen. It doesn't just show the numbers; it tells you what they mean.",
+ body:
+  sec("Today, live","Open it with your coffee. Everything that matters, nothing that doesn't.")+
+  app("Shop Dashboard",
     `<div class="stats">
        <div class="stat"><div class="lbl">Sales today</div><div class="v tnum">$3,240 <small class="up">▲9%</small></div>${spark([8,10,7,12,9,14,13],"#2f8f5b")}</div>
        <div class="stat"><div class="lbl">Open jobs</div><div class="v tnum">7</div><div class="mut" style="font-size:11px;margin-top:6px">2 due today</div></div>
@@ -481,18 +497,14 @@ const DATA=[
          <div class="panel"><div class="lbl">Insight</div><div style="margin:6px 0;font-weight:600">Product B = best margin</div><div class="mut" style="font-size:12px">Earns the most per sale.</div></div>
          <div class="panel" style="border-color:var(--warn)"><div class="lbl" style="color:var(--warn)">Watch</div><div style="margin:6px 0;font-weight:600">Refunds on item C ↑</div><div class="mut" style="font-size:12px">Jumped 3× last month.</div></div>
        </div>
-     </div>`,{tag:"LIVE"})},
-
- {slug:"money-forecaster",group:"Money & Numbers",name:"Money Forecaster",
-  blurb:"Predicts your future cash flow.",
-  body: app("Cash forecast — next 6 months",
+     </div>`,{tag:"LIVE"})+
+  sec("Where cash is headed","Six months out — so December never surprises you again.")+
+  app("Cash forecast — next 6 months",
     `${areaChart()}
      <div class="callout" style="border-left-color:var(--warn)"><div class="h">⚠ Heads up — December</div>Cash dips to <b>$18k</b>, your seasonal slow month. Set aside a buffer now while summer is strong.</div>`,
-    {tag:"FORECAST",action:`<span class="pill blue"><span class="d"></span>Projected</span>`})},
-
- {slug:"feedback-reader",group:"Money & Numbers",name:"Feedback Reader",
-  blurb:"Reads your reviews and tells you what customers think.",
-  body: app("Reviews — Google + Yelp",
+    {tag:"FORECAST",action:`<span class="pill blue"><span class="d"></span>Projected</span>`})+
+  sec("What customers are saying","Every review, read and sorted into themes — with the fix suggested.")+
+  app("Reviews — Google + Yelp",
     `<div class="revwrap">
        <div>
          <div class="bigscore">4.3<span style="font-size:18px;color:var(--appmut)">/5</span></div>
@@ -509,10 +521,12 @@ const DATA=[
        </div>
      </div>`,{tag:"SENTIMENT"})},
 
- /* ---------- DECISIONS ---------- */
- {slug:"decision-helper",group:"Decisions",name:"Business Advisor",
-  blurb:"Give it a hard choice, it helps you decide.",
-  body: app("Business Advisor",
+/* ============ 6 · BUSINESS ADVISOR ============ */
+{slug:"decision-helper",name:"Business Advisor",
+ blurb:"Hard choices weighed, competitors watched, rules checked. Like a consultant on retainer — minus the retainer.",
+ body:
+  sec("A hard call, weighed","You bring the question. It brings the trade-offs and a recommendation.")+
+  app("Business Advisor",
     `<div style="border:1px solid var(--appline);border-radius:9px;padding:11px 13px;margin-bottom:14px;background:#faf8f4;font-size:13px"><span class="lbl">Your question</span><div style="margin-top:4px;font-weight:600">Hire a salesperson, or use an agency?</div></div>
      <table class="tbl" style="border:1px solid var(--appline);border-radius:9px;overflow:hidden">
        <tr><th></th><th>Hire in-house</th><th>Use an agency</th></tr>
@@ -522,11 +536,9 @@ const DATA=[
        <tr><td class="lbl">Risk if it flops</td><td class="mut">severance, months lost</td><td>cancel the contract</td></tr>
      </table>
      <div class="callout"><div class="h">Recommendation <span class="pill blue" style="margin-left:6px"><span class="d"></span>Confidence: High</span></div>Start with the agency for 90 days. If the leads hold up, hire. Lower risk, faster proof, and you learn what "good" looks like before you commit to payroll.</div>`,
-    {tag:"ADVISOR"})},
-
- {slug:"competitor-watcher",group:"Decisions",name:"Competitor Watcher",
-  blurb:"Keeps an eye on what competitors are doing.",
-  body: app("Competitor Watch",
+    {tag:"ADVISOR"})+
+  sec("Competitors, watched","It noticed before you did — and came with options, not just news.")+
+  app("Competitor Watch",
     `<div style="display:flex;gap:11px;align-items:flex-start;border:1px solid var(--bad);background:var(--bad-weak);border-radius:9px;padding:12px 14px;margin-bottom:14px">
        <span style="font-size:16px">🔔</span><div><div style="font-weight:700;font-size:12.5px">Price change detected · today 8:04am</div><div style="font-size:12.5px;margin-top:2px">Riverside Co. dropped their starter plan to <b>$49</b> (was $59) and added free delivery.</div></div></div>
      <table class="tbl" style="border:1px solid var(--appline);border-radius:9px;overflow:hidden">
@@ -541,11 +553,9 @@ const DATA=[
          <span class="btn sm">Match $49 on starter only</span>
          <span class="btn sm pri">Bundle to beat them</span>
        </div>
-     </div>`,{tag:"MONITOR"})},
-
- {slug:"rule-checker",group:"Decisions",name:"Rule Checker",
-  blurb:"Tells you what rules apply to your situation.",
-  body: app("Compliance — Food stall, Brooklyn",
+     </div>`,{tag:"MONITOR"})+
+  sec("Rules, checked","Every license and requirement for your exact situation — as a to-do list, not a law library.")+
+  app("Compliance — Food stall, Brooklyn",
     `<div style="display:flex;justify-content:space-between;align-items:center;font-size:12.5px"><span>3 of 4 still to do</span><span class="mut">est. 2–3 weeks</span></div>
      <div class="prog"><i style="width:25%"></i></div>
      <div class="chk"><div class="box done">✓</div><div><div>Sales tax ID</div><div class="sub">You already have this.</div></div></div>
@@ -554,10 +564,12 @@ const DATA=[
      <div class="chk"><div class="box"></div><div><div>Commissary kitchen agreement</div><div class="sub">Required for storage/prep</div></div><span class="pill bad" style="align-self:center;margin-left:auto"><span class="d"></span>Required</span></div>`,
     {tag:"CHECKLIST"})},
 
- /* ---------- PAPERWORK & CONTENT ---------- */
- {slug:"the-paperwork-crew",group:"Paperwork & Content",name:"Paperwork & Admin",
-  blurb:"Invoices, quotes, contracts, and follow-ups — drafted and tracked for your approval.",
-  body: app("Ready for your approval",
+/* ============ 7 · PAPERWORK & ADMIN ============ */
+{slug:"the-paperwork-crew",name:"Paperwork & Admin",
+ blurb:"Invoices, contracts, and busywork — drafted and automated. Nothing goes out without your OK; nothing slips through the cracks.",
+ body:
+  sec("Drafted for your approval","Wake up to finished paperwork. You just hit send.")+
+  app("Ready for your approval",
     `<div class="split">
        <div class="doc">
          <div class="hd"><div class="big">INVOICE</div><div class="r" style="text-align:right"><div class="tnum" style="font-weight:700">#1044</div><div class="mut" style="font-size:11px">Due in 14 days</div></div></div>
@@ -569,27 +581,55 @@ const DATA=[
        </div>
        <div>
          <div class="lbl" style="margin-bottom:8px">Follow-up drafted</div>
-         <div class="mail">
+         <div class="mail2">
            <div class="mh"><span class="k">To</span><span>maria@…</span></div>
            <div class="mh"><span class="k">Re</span><span>Invoice #1031 — friendly reminder</span></div>
            <div class="mb">Hi Maria — just a quick note that invoice #1031 ($1,850) was due last week. Here's the link to pay whenever you get a moment. Thanks again for the great project!<br><br>— Ross</div>
          </div>
          <div style="margin-top:10px"><span class="btn sm pri">Send</span> <span class="btn sm">Snooze 3 days</span></div>
        </div>
-     </div>`,{tag:"DRAFTS"}) +
-    app("Contracts — tracked, renewals flagged",
+     </div>`,{tag:"DRAFTS"})+
+  sec("Contracts, tracked","Renewals flagged before they bite. It drafts new agreements too.")+
+  app("Contracts",
     `<table class="tbl">
        <tr><th>Agreement</th><th>Counterparty</th><th>Renews</th><th>Status</th></tr>
        <tr class="hl"><td>Supply agreement</td><td>CoolBrew Co.</td><td>in 12 days</td><td><span class="pill bad"><span class="d"></span>Act now</span></td></tr>
        <tr><td>Studio lease</td><td>231 Norman Ave</td><td>in 4 months</td><td><span class="pill good"><span class="d"></span>Fine</span></td></tr>
        <tr><td>General liability</td><td>Hartford</td><td>auto-renews Sep 1</td><td><span class="pill warn"><span class="d"></span>Review rate</span></td></tr>
      </table>
-     <p class="mut" style="font-size:12px;margin-top:12px;padding:0 2px">It drafts new agreements too — you answer a few questions and it fills the rest.</p>`,
-    {tag:"CONTRACTS",action:`<span class="btn sm pri">+ New agreement</span>`})},
+     <p class="mut" style="font-size:12px;margin-top:12px;padding:0 2px">You answer a few questions; it fills in the rest.</p>`,
+    {tag:"CONTRACTS",action:`<span class="btn sm pri">+ New agreement</span>`})+
+  sec("The busywork, automated","First we find where the hours leak. Then we plug it — permanently.")+
+  app("Workflow Audit — Order handling",
+    `<div class="flow">
+       <div class="node"><div class="ic" style="background:#e7eff7">📧</div><b>Email order</b><div class="mut" style="font-size:11.5px;margin-top:3px">arrives</div></div>
+       <div class="arrow">→</div>
+       <div class="node flag"><div class="ic" style="background:#f8e7e4">⌨️</div><b>Re-typed 3×</b><div class="mut" style="font-size:11.5px;margin-top:3px">email → sheet → books</div><span class="pill bad" style="margin-top:7px"><span class="d"></span>Bottleneck found</span></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#e5f2ea">📦</div><b>Ship + text</b><div class="mut" style="font-size:11.5px;margin-top:3px">tracking sent</div></div>
+     </div>
+     <div class="callout"><div class="h">Found it</div>You're typing the same order three times. That's <b>~6 hrs/week</b> gone.</div>`,{tag:"AUDIT"})+
+  app("Automation built — Order → everywhere",
+    `<div class="flow">
+       <div class="node"><div class="ic" style="background:#f7e9e5">📨</div><div class="lbl">When</div><b>Order arrives</b></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#e7eff7">📊</div><div class="lbl">Then</div><b>Fill the sheet</b></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#e5f2ea">📚</div><div class="lbl">Then</div><b>Post to books</b></div>
+       <div class="arrow">→</div>
+       <div class="node"><div class="ic" style="background:#f7efdf">💬</div><div class="lbl">Finally</div><b>Text the customer</b></div>
+     </div>
+     <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+       <span class="pill good"><span class="d"></span>Automation on</span>
+       <span class="mut" style="font-size:12.5px">One entry now feeds all three. <b style="color:var(--appink)">~6 hrs/week</b> back.</span>
+     </div>`,{tag:"AUTOMATION",action:`<span class="btn sm pri">On</span>`})},
 
- {slug:"the-content-kitchen",group:"Paperwork & Content",name:"Social Media Content",
-  blurb:"Phone footage in; branded posts and captions out.",
-  body: app("Content Kitchen",
+/* ============ 8 · SOCIAL MEDIA CONTENT ============ */
+{slug:"the-content-kitchen",name:"Social Media Content",
+ blurb:"Phone footage in; branded posts and captions out. Shoot 20 seconds on the floor — a week of content comes back.",
+ body:
+  sec("Footage in, post out","One rough clip becomes a finished post with three captions to pick from.")+
+  app("Content Kitchen",
     `<div class="igwrap">
        <div class="ig">
          <div class="top">${av("BTF","#2f5233")}<div style="font-size:12px;font-weight:600">brooklyntinyfarm</div></div>
@@ -604,7 +644,20 @@ const DATA=[
          <div class="capopt">${av("3","#2f8f5b")}<div>"New drop Friday. Set a reminder."</div></div>
          <div style="display:flex;align-items:center;gap:9px;margin-top:12px"><span class="btn sm pri">Schedule</span><span class="mut" style="font-size:12px">Cropped &amp; sized for IG, TikTok, FB</span></div>
        </div>
-     </div>`,{tag:"STUDIO"})},
+     </div>`,{tag:"STUDIO"})+
+  sec("A week, scheduled","Every post queued and sized per platform. You film; it handles the rest.")+
+  app("This week's queue",
+    `<div class="week">
+       <div class="day"><div class="dh">Mon</div><div class="post" style="background:var(--pri-weak);color:#8f2a17">IG Reel<small>6am harvest, 0:18</small></div></div>
+       <div class="day"><div class="dh">Tue</div></div>
+       <div class="day"><div class="dh">Wed</div><div class="post" style="background:#efece7;color:#3a3934">TikTok<small>Behind the bench</small></div></div>
+       <div class="day"><div class="dh">Thu</div><div class="post" style="background:var(--blue-weak);color:#255a8f">FB post<small>"New drop Friday"</small></div></div>
+       <div class="day"><div class="dh">Fri</div><div class="post" style="background:var(--pri-weak);color:#8f2a17">IG post<small>Drop day 🌱</small></div><div class="post" style="background:var(--good-weak);color:#1f6f47">Story<small>Sold-out timer</small></div></div>
+       <div class="day"><div class="dh">Sat</div><div class="post" style="background:var(--blue-weak);color:#255a8f">FB recap<small>Week in photos</small></div></div>
+       <div class="day"><div class="dh">Sun</div></div>
+     </div>
+     <div style="display:flex;align-items:center;gap:10px;margin-top:12px"><span class="pill good"><span class="d"></span>6 posts queued</span><span class="mut" style="font-size:12px">All from two clips you filmed Monday.</span></div>`,
+    {tag:"SCHEDULE"})},
 ];
 
 /* ---------- tiny inline charts ---------- */
@@ -635,27 +688,27 @@ function gaugeSVG(score,color){
   return `<div class="gauge"><svg width="84" height="84" viewBox="0 0 84 84"><circle cx="42" cy="42" r="${r}" fill="none" stroke="#efece5" stroke-width="8"/><circle cx="42" cy="42" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 42 42)"/><text x="42" y="48" text-anchor="middle" font-size="20" font-weight="800" fill="#1f1e1c">${score}</text></svg><div class="sc" style="color:${color}">${score<50?'Poor':'Great'}</div></div>`;
 }
 
-/* ---------- old-way price (what a pro/agency typically charges) ---------- */
 /* ---------- render menu ---------- */
-const LEFT=["Websites & Storefront","AI Assistant","Get More Done"];
-const RIGHT=["Money & Numbers","Decisions","Paperwork & Content"];
 const bySlug=Object.fromEntries(DATA.map(d=>[d.slug,d]));
-function groupHTML(g){
-  const items=DATA.filter(d=>d.group===g).map(d=>`
-    <a class="row" href="#${d.slug}">
-      <div class="rmain"><div class="nm">${d.name}</div><div class="ds">${d.blurb}</div></div>
-    </a>`).join("");
-  return `<div class="grp"><div class="grp-title">${g}</div>${items}</div>`;
-}
-document.getElementById("cols").innerHTML=
-  `<div>${LEFT.map(groupHTML).join("")}</div><div>${RIGHT.map(groupHTML).join("")}</div>`;
+/* retired anchors from earlier menus still land somewhere sensible */
+const ALIAS={"the-website-tune-up":"the-new-website","document-reader":"the-brain","the-archive":"the-brain",
+  "knowledge-search":"the-brain","meeting-notes":"the-paperwork-crew","automation":"the-paperwork-crew",
+  "money-forecaster":"the-dashboard","feedback-reader":"the-dashboard","data-analyzer":"the-dashboard",
+  "competitor-watcher":"decision-helper","rule-checker":"decision-helper","writing-helper":"the-paperwork-crew"};
+document.getElementById("mlist").innerHTML=DATA.map(d=>`
+  <a class="mrow" href="#${d.slug}">
+    <span class="mnm">${d.name}</span>
+    <span class="mds">${d.blurb.split(". ")[0].replace(/\.$/,"")}.</span>
+  </a>`).join("");
 
 /* ---------- router ---------- */
 function render(){
-  const slug=location.hash.replace(/^#/,"");
+  const raw=location.hash.replace(/^#/,"");
+  const slug=ALIAS[raw]||raw;
   const d=bySlug[slug];
   if(d){
-    document.getElementById("exEyebrow").textContent=d.group;
+    const n=DATA.indexOf(d)+1;
+    document.getElementById("exEyebrow").textContent=`Steadyhand · Example ${n} of ${DATA.length}`;
     document.getElementById("exTitle").textContent=d.name;
     document.getElementById("exBlurb").textContent=d.blurb;
     document.getElementById("exBody").innerHTML=d.body;
