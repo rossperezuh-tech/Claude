@@ -6,14 +6,14 @@
 <style>
   @page { size: Letter; margin: 0; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
+  html, body { font-family: 'Liberation Sans', Arial, sans-serif; color: #1c1a17; background: #f5f2ea;
     -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 
   .page { width: 8.5in; height: 11in; padding: 0.6in 0.7in; display: flex; flex-direction: column; background: #f5f2ea; }
 
-  h1 { font-family: 'Arial Narrow','Helvetica Neue',Arial,sans-serif; font-weight: 800;
-    font-size: 50px; line-height: .85; letter-spacing: -1px; transform: scaleX(.92); transform-origin: left; }
-  .sub { font-family: Georgia,'Times New Roman',serif; font-style: italic; font-size: 12px; color: #4a4640; margin-top: 10px; }
+  h1 { font-weight: 900; font-size: 50px; line-height: .85; letter-spacing: -1px;
+    transform: scaleX(.82); transform-origin: left; }
+  .sub { font-family: 'Bitstream Charter', Georgia, serif; font-style: italic; font-size: 12px; color: #4a4640; margin-top: 10px; }
   .rule { height: 3px; background: #1c1a17; margin: 13px 0 18px; }
 
   .cols { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; flex: 1; }
@@ -34,13 +34,13 @@
   .pr { flex: none; display: flex; flex-direction: column; gap: 3px; text-align: right; padding-top: 1px; }
   .pr .ln { display: grid; grid-template-columns: 22px auto; gap: 7px; align-items: baseline; justify-content: end; }
   .pr .pl { font-size: 8px; letter-spacing: .5px; color: #a39d90; font-weight: 700; text-align: left; }
-  .pr .pv { font-family: ui-monospace,'Menlo','Consolas',monospace; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .pr .pv { font-family: 'Liberation Mono','Menlo','Consolas',monospace; font-size: 11px; font-weight: 700; white-space: nowrap; }
   .pr .nyc .pv { color: #b0341d; }
 
   .foot { margin-top: 13px; padding-top: 12px; border-top: 3px solid #1c1a17;
     display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #4a4640; }
   .foot b { color: #b0341d; }
-  .foot .note { font-family: Georgia, serif; font-style: italic; }
+  .foot .note { font-family: 'Bitstream Charter', Georgia, serif; font-style: italic; }
 </style>
 </head>
 <body>
