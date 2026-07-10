@@ -12,6 +12,7 @@ import {
 } from "@/components/BusinessForms";
 import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
+import { safeHref } from "@/lib/url";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +54,7 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           {business.links.map((l) => (
             <span key={l.id} className="inline-flex items-center gap-1 rounded border border-surface-edge bg-surface-overlay px-2 py-1">
               <a
-                href={l.url}
+                href={safeHref(l.url)}
                 target="_blank"
                 rel="noreferrer"
                 className="hover:underline"
@@ -102,7 +103,7 @@ export default async function BusinessPage({ params }: { params: { slug: string 
                   {d.category}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <a href={d.url} target="_blank" rel="noreferrer" className="block truncate text-sm hover:underline">
+                  <a href={safeHref(d.url)} target="_blank" rel="noreferrer" className="block truncate text-sm hover:underline">
                     {d.title}
                   </a>
                   {d.notes && <p className="truncate text-xs text-ink-faint">{d.notes}</p>}

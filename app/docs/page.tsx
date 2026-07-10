@@ -2,6 +2,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { DOC_CATEGORIES } from "@/lib/constants";
+import { safeHref } from "@/lib/url";
 
 export const dynamic = "force-dynamic";
 
@@ -112,7 +113,7 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
                   {d.category}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <a href={d.url} target="_blank" rel="noreferrer" className="block truncate text-sm hover:underline">
+                  <a href={safeHref(d.url)} target="_blank" rel="noreferrer" className="block truncate text-sm hover:underline">
                     {d.title}
                   </a>
                   {d.notes && <p className="truncate text-xs text-ink-faint">{d.notes}</p>}
