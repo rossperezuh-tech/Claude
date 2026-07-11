@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id              String   @id @default(cuid())
+  date            String   // YYYY-MM-DD (class date)
+  slotId          String   // weekly template slot id, e.g. "mon-1900-intro"
+  className      String
+  startTime       String   // "19:00"
+  endTime         String   // "19:30"
+  name            String
+  email           String
+  phone           String?
+  priceCents      Int
+  status          String   @default("pending_payment") // pending_payment | confirmed | cancelled
+  stripeSessionId String?  @unique
+  createdAt       DateTime @default(now())
+
+  @@unique([date, slotId, email])
+  @@index([date, slotId])
+}
