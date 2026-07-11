@@ -35,40 +35,41 @@ const STATUS = {
 const businesses = [
   { name: "Brooklyn Tea Cigs", color: "#34d399", status: "active", icon: "leaf",
     desc: "Herbal tea cigarettes — 100% tobacco- and nicotine-free consumer product.",
-    fact: "Small-batch · Brooklyn · with Anna & Paulina" },
+    fact: "Small-batch · Brooklyn · with Anna & Paulina", url: "https://brooklynteacigs.com" },
   { name: "Penthouse Yoga", color: "#f472b6", status: "active", icon: "sun",
     desc: "Rooftop yoga studio with open-air skyline classes.",
-    fact: "231 Norman Ave, Greenpoint · opened July 2026" },
+    fact: "231 Norman Ave, Greenpoint · opened July 2026", url: "https://penthouseyoga.example.com" },
   { name: "Clean Plate NYC", color: "#a3e635", status: "active", icon: "plate",
     desc: "Organic meal delivery in returnable glass containers — zero plastic.",
-    fact: "NYC · weekly chef-prepared subscription" },
+    fact: "NYC · weekly chef-prepared subscription", url: "https://cleanplatenyc.com" },
   { name: "Brooklyn Vintage Watches", color: "#fbbf24", status: "back-burner", icon: "watch",
     desc: "Curated two-tone Rolex with a lab-grown diamond configurator.",
-    fact: "Datejust-first · configure online" },
+    fact: "Datejust-first · configure online", url: "https://brooklynvintagewatches.com" },
   { name: "Green Shoots Studio", color: "#4ade80", status: "active", icon: "play",
     desc: "Content production for wellness brands — reels, brand films, social.",
-    fact: "Retainer model · wellness-native" },
+    fact: "Retainer model · wellness-native", url: "https://greenshootsstudio.com" },
   { name: "Nativos", color: "#fb923c", status: "back-burner", icon: "shirt",
     desc: "Organic cotton clothing — fewer, better everyday basics.",
-    fact: "Certified organic · transparent sourcing" },
+    fact: "Certified organic · transparent sourcing", url: "https://nativos.com" },
   { name: "Vesta / Nexus Capital", color: "#818cf8", status: "launching", icon: "tower",
     desc: "Commercial real estate tokenization platform for accredited investors.",
-    fact: "SEC Reg D 506(c) · PPM finalized June 2026" },
+    fact: "SEC Reg D 506(c) · PPM finalized June 2026", url: "https://vestanexus.com" },
   { name: "CRE Direct Buying", color: "#38bdf8", status: "active", icon: "warehouse",
     desc: "Direct warehouse & commercial acquisitions — cash offers, as-is, fast close.",
-    fact: "SellYourWarehouseDirect.com · CommercialCashOffer · Houston" },
+    fact: "SellYourWarehouseDirect.com · CommercialCashOffer · Houston",
+    url: "https://sellyourwarehousedirect.com" },
   { name: "Steadyhand AI Consulting", color: "#2dd4bf", status: "active", icon: "node",
     desc: "Practical AI adoption for established businesses — automation that pays for itself.",
-    fact: "Discovery → pilot → rollout" },
+    fact: "Discovery → pilot → rollout", url: "https://steadyhandai.com" },
   { name: "The Prompt Sherpa", color: "#c084fc", status: "launching", icon: "flag",
     desc: "Claude Code consulting for startup creators — from idea to shipped product.",
-    fact: "1:1 sessions & small cohorts" },
+    fact: "1:1 sessions & small cohorts", url: "https://promptsherpa.example.com" },
   { name: "All In One Health Shop", color: "#f87171", status: "back-burner", icon: "cross",
     desc: "Curated online storefront for everyday health goods.",
-    fact: "One shop, one standard, everything vetted" },
+    fact: "One shop, one standard, everything vetted", url: "https://allinonehealth.com" },
   { name: "Brooklyn Tiny Farm", color: "#84cc16", status: "active", icon: "sprout",
     desc: "Microgreens grown in the borough, delivered within days of harvest.",
-    fact: "DTC + restaurant accounts · weekly harvest" },
+    fact: "DTC + restaurant accounts · weekly harvest", url: "https://brooklyntinyfarm.com" },
 ];
 
 const icons = {
@@ -105,7 +106,7 @@ const cards = businesses
   .map((b) => {
     const s = STATUS[b.status];
     return `
-    <div class="card" style="border-left:3px solid ${b.color}">
+    <a href="${b.url}" class="card" style="border-left:3px solid ${b.color}">
       <div class="card-top">
         <div class="card-icon" style="background:${b.color}1f;border:1px solid ${b.color}45">${iconSvg(b.icon, b.color)}</div>
         <div class="card-name">${b.name}</div>
@@ -113,7 +114,7 @@ const cards = businesses
       </div>
       <p class="card-desc">${b.desc}</p>
       <div class="card-fact" style="color:${b.color}">${b.fact}</div>
-    </div>`;
+    </a>`;
   })
   .join("");
 
@@ -142,7 +143,7 @@ h1 .accent{background:linear-gradient(90deg,#818cf8,#38bdf8);-webkit-background-
 .stat .dot{width:7px;height:7px;border-radius:99px;align-self:center;}
 
 .grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:12px;padding:0 44px;}
-.card{background:${T.raised};border:1px solid ${T.edge};border-radius:9px;padding:14px 15px;display:flex;flex-direction:column;}
+.card{background:${T.raised};border:1px solid ${T.edge};border-radius:9px;padding:14px 15px;display:flex;flex-direction:column;text-decoration:none;color:inherit;cursor:pointer;transition:background .2s;}
 .card-top{display:flex;align-items:center;gap:9px;}
 .card-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .card-name{font-size:13px;font-weight:700;line-height:1.2;flex:1;}
