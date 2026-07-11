@@ -1,11 +1,29 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import "./globals.css";
+import BottomNav from "@/components/BottomNav";
 import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: `${SITE.name} — Book Muay Thai Classes`,
   description: SITE.description,
+  manifest: "/manifest.webmanifest",
+  icons: {
+    icon: "/icons/icon-192.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    title: SITE.shortName,
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  viewportFit: "cover",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -21,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="hidden sm:inline">{SITE.name}</span>
               <span className="sm:hidden">{SITE.shortName}</span>
             </Link>
-            <nav className="flex items-center gap-4 text-sm">
+            <nav className="hidden items-center gap-4 text-sm sm:flex">
               <Link href="/#schedule" className="text-zinc-400 hover:text-white">
                 Schedule
               </Link>
@@ -37,8 +55,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
           </div>
         </header>
-        <main className="flex-1">{children}</main>
-        <footer className="border-t border-zinc-800 py-8 text-center text-sm text-zinc-500">
+        <main className="flex-1 pb-16 sm:pb-0">{children}</main>
+        <BottomNav />
+        <footer className="border-t border-zinc-800 py-8 pb-24 text-center text-sm text-zinc-500 sm:pb-8">
           <p className="font-medium text-zinc-400">{SITE.name}</p>
           <p>
             {SITE.address} · {SITE.city}

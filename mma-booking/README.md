@@ -25,6 +25,15 @@ Without a Stripe key the site runs in **demo mode**: bookings confirm instantly 
 
 Test cards: `4242 4242 4242 4242`, any future expiry, any CVC.
 
+## Mobile app (PWA)
+
+The site is an installable Progressive Web App. Once deployed over HTTPS, clients can add it to their phone like a native app — it opens full-screen with its own icon and bottom navigation, and uses the same bookings + Stripe checkout as the website:
+
+- **iPhone**: open the site in Safari → Share → **Add to Home Screen**
+- **Android**: open in Chrome → the **Install app** prompt (or ⋮ → Add to Home screen)
+
+App name/icon come from `app/manifest.ts` and `public/icons/`.
+
 ## Pages
 
 | Route | What it is |
