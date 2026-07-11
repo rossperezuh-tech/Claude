@@ -7,6 +7,7 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 CHROME="${CHROME:-/opt/pw-browsers/chromium}"
 
 node "$DIR/generate.mjs"
+node "$DIR/portfolio.mjs"
 mkdir -p "$DIR/pdf"
 
 for html in "$DIR"/html/*.html; do
