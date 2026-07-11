@@ -1,12 +1,29 @@
+import { cookies } from "next/headers";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { formatPrice, formatTime } from "@/lib/schedule";
 import { formatYmd, todayYmd } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
 
-// Simple instructor view of upcoming bookings. NOTE: no auth — do not expose
-// this route publicly without adding protection (e.g. basic auth middleware).
 export default async function AdminPage() {
+  const cookieStore = await cookies();
+  const isAuthed = cookieStore.get("admin_auth")?.value === "true";
+
+  if (!isAuthed && process.env.ADMIN_PASSWORD) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-20 text-center">
+        <h1 className="text-2xl font-bold">Access Denied</h1>
+        <p className="mt-3 text-zinc-400">You need to log in to view bookings.</p>
+        <Link
+          href="/admin/login"
+          className="mt-6 inline-block rounded-md bg-red-600 px-6 py-3 font-bold hover:bg-red-500"
+        >
+          Go to Login
+        </Link>
+      </div>
+    );
+  }
   const today = todayYmd();
   const bookings = await prisma.booking.findMany({
     where: { date: { gte: today }, status: { not: "cancelled" } },

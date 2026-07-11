@@ -59,6 +59,15 @@ App name/icon come from `app/manifest.ts` and `public/icons/`.
 | Sat | Open Mat 11:30 AM–12:30 PM |
 | Sun | Women's Only 11:30 AM–12:30 PM |
 
-## Deploying
+## Deploying to Vercel (recommended)
 
-Works on any Node host. For Vercel: set the project root to `mma-booking/`, add the env vars, and swap SQLite for a hosted DB (e.g. Turso or Postgres — change `datasource` in `prisma/schema.prisma`) since Vercel's filesystem is ephemeral.
+1. Push your repo to GitHub.
+2. Go to [vercel.com](https://vercel.com) and import the repository.
+3. Set the project root to `mma-booking/`.
+4. Add environment variables:
+   - `STRIPE_SECRET_KEY` — your Stripe secret key
+   - `NEXT_PUBLIC_BASE_URL` — your deployed domain (e.g., `https://yourdomain.com`)
+   - `ADMIN_PASSWORD` — a strong password to protect `/admin`
+5. Deploy.
+
+**Database note:** SQLite works locally; for production on Vercel, swap it for a hosted DB (Turso or Postgres) since Vercel's filesystem is ephemeral. Change `datasource` in `prisma/schema.prisma` and update `DATABASE_URL` to a connection string.
