@@ -100,8 +100,6 @@ const fontsCss = [400, 500, 600, 700, 800]
   .map((w) => fontFace(w, `inter-latin-${w}-normal.woff2`))
   .join("\n");
 
-const counts = businesses.reduce((m, b) => ((m[b.status] = (m[b.status] || 0) + 1), m), {});
-
 const cards = businesses
   .map((b) => {
     const s = STATUS[b.status];
@@ -170,9 +168,6 @@ h1 .accent{background:linear-gradient(90deg,#818cf8,#38bdf8);-webkit-background-
   </div>
   <div class="stats">
     <div class="stat"><b>${businesses.length}</b><span>Ventures</span></div>
-    <div class="stat"><span class="dot" style="background:#34d399"></span><b>${counts.active}</b><span>Active</span></div>
-    <div class="stat"><span class="dot" style="background:#38bdf8"></span><b>${counts.launching}</b><span>Launching</span></div>
-    <div class="stat"><span class="dot" style="background:#a1a1aa"></span><b>${counts["back-burner"]}</b><span>Back-burner</span></div>
   </div>
   <div class="grid">${cards}</div>
   <div class="foot">
