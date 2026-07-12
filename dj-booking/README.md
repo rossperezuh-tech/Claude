@@ -88,13 +88,16 @@ components/
 
 ## Hero media
 
-The homepage hero auto-detects its media:
-- Drop **`public/hero.mp4`** in and it renders an autoplaying, muted, looping,
-  inline video (the still image becomes the poster/fallback). Keep it short
-  (5–15s) and small (~5 MB) — H.264/MP4, ideally 16:9.
-- With no video present, it shows the still image (`public/xdj-rx3.png`).
+The homepage hero auto-detects its media (server-side `fs.existsSync`):
+- When **`public/hero.mp4`** exists it renders an autoplaying, muted, looping,
+  inline `<video>` with `public/hero.webm` as the first source and
+  `public/hero-poster.jpg` as the poster. Currently a real clip of the
+  OPUS-QUAD (encoded from the owner's screen recording, audio stripped).
+- With no `hero.mp4`, it falls back to the still image (`public/xdj-rx3.png`).
 
-No code change needed to switch — just add or remove the file.
+No code change needed to switch — just add or remove the file. To refresh the
+clip: re-encode with ffmpeg to MP4 (H.264) + WebM (VP9), strip audio (`-an`),
+keep it short and small, and replace the three `hero.*` files.
 
 ```
   RoomScene.tsx         abstract room illustration (photo placeholder)
