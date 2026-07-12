@@ -9,6 +9,9 @@ import {
   CreateListingForm,
   PartnershipActions,
 } from "@/components/DashboardActions";
+import { CoachProfileForm, GymProfileForm } from "@/components/ProfileForms";
+import ConnectPayoutsButton from "@/components/ConnectPayoutsButton";
+import type { CoachProfile, GymProfile } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +20,9 @@ export default async function DashboardPage() {
   if (!user) redirect("/login");
 
   return user.coachProfile ? (
-    <CoachDashboard coachId={user.coachProfile.id} name={user.coachProfile.displayName} />
+    <CoachDashboard profile={user.coachProfile} />
   ) : user.gymProfile ? (
-    <GymDashboard gymId={user.gymProfile.id} name={user.gymProfile.gymName} />
+    <GymDashboard profile={user.gymProfile} />
   ) : (
     <div className="mx-auto max-w-4xl px-4 py-10">No profile found for this account.</div>
   );
@@ -27,7 +30,9 @@ export default async function DashboardPage() {
 
 // ---------- Coach ----------
 
-async function CoachDashboard({ coachId, name }: { coachId: string; name: string }) {
+async function CoachDashboard({ profile }: { profile: CoachProfile }) {
+  const coachId = profile.id;
+  const name = profile.displayName;
   const [partnerships, listings] = await Promise.all([
     prisma.partnership.findMany({
       where: { coachId },
@@ -61,6 +66,13 @@ async function CoachDashboard({ coachId, name }: { coachId: string; name: string
         <Stat label="Confirmed bookings" value={String(allBookings.length)} />
         <Stat label="Partner gyms" value={String(approvedGyms.length)} />
       </div>
+
+      <Section title="Your Profile">
+        <div className="space-y-4">
+          <CoachProfileForm profile={profile} />
+          <ConnectPayoutsButton connected={!!profile.stripeAccountId} />
+        </div>
+      </Section>
 
       <Section title="Post a Session">
         <CreateListingForm gyms={approvedGyms} />
@@ -145,7 +157,9 @@ async function CoachDashboard({ coachId, name }: { coachId: string; name: string
 
 // ---------- Gym ----------
 
-async function GymDashboard({ gymId, name }: { gymId: string; name: string }) {
+async function GymDashboard({ profile }: { profile: GymProfile }) {
+  const gymId = profile.id;
+  const name = profile.gymName;
   const [requests, listings] = await Promise.all([
     prisma.partnership.findMany({
       where: { gymId },
@@ -174,6 +188,13 @@ async function GymDashboard({ gymId, name }: { gymId: string; name: string }) {
         <Stat label="Sessions hosted" value={String(listings.length)} />
         <Stat label="Pending coach requests" value={String(pending.length)} accent={pending.length ? "text-amber-400" : undefined} />
       </div>
+
+      <Section title="Your Profile">
+        <div className="space-y-4">
+          <GymProfileForm profile={profile} />
+          <ConnectPayoutsButton connected={!!profile.stripeAccountId} />
+        </div>
+      </Section>
 
       <Section title="Coach Requests">
         {requests.length === 0 ? (

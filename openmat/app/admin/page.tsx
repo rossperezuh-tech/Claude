@@ -69,6 +69,7 @@ export default async function AdminPage() {
                 <th className="px-4 py-2.5">Client</th>
                 <th className="px-4 py-2.5 text-right">Price</th>
                 <th className="px-4 py-2.5 text-right">Your fee</th>
+                <th className="px-4 py-2.5">Payout</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-800/60">
@@ -82,6 +83,19 @@ export default async function AdminPage() {
                   <td className="px-4 py-2.5 text-right">{formatPrice(b.priceCents)}</td>
                   <td className="px-4 py-2.5 text-right font-semibold text-orange-400">
                     {formatPrice(b.platformFeeCents)}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                        b.payoutStatus === "transferred"
+                          ? "bg-emerald-500/15 text-emerald-400"
+                          : b.payoutStatus === "partial"
+                            ? "bg-amber-500/15 text-amber-400"
+                            : "bg-zinc-500/15 text-zinc-400"
+                      }`}
+                    >
+                      {b.payoutStatus}
+                    </span>
                   </td>
                 </tr>
               ))}

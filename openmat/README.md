@@ -59,7 +59,11 @@ The seed includes approved partnerships, upcoming sessions, one pending coach re
 
 Without `STRIPE_SECRET_KEY` the app runs in **demo mode** — bookings confirm instantly so you can exercise the whole flow. With a key set, clients pay through Stripe Checkout and bookings confirm on payment (via `/confirm` verification and optionally the `/api/webhook` endpoint).
 
-**Production payouts:** today, all money lands in your Stripe account and the per-booking split is recorded in the database — you'd pay gyms and coaches out manually (weekly transfer, Zelle, etc.). The real upgrade path is **Stripe Connect** (Express accounts): coaches and gyms onboard once, and Stripe automatically routes each payment three ways using the same split fields this app already computes (`platformFeeCents`, `gymCutCents`, `coachNetCents`). The schema is ready for it.
+### Automatic payouts (Stripe Connect)
+
+Coaches and gyms connect a payout account from their dashboard ("Connect payouts" → Stripe Express onboarding). Once connected, every paid booking automatically transfers the gym's space share and the coach's cut to their accounts — your platform fee stays in your balance. This uses Stripe's separate-charges-and-transfers pattern (`lib/payouts.ts`), anchored to the original charge, and is idempotent.
+
+Recipients who haven't connected yet are simply skipped: the booking's `payoutStatus` shows `manual` or `partial` in `/admin`, and you pay those out by hand from the recorded splits. **Note:** Connect must be enabled on your Stripe account (Dashboard → Connect → Get started) before onboarding links will work.
 
 ## Config
 

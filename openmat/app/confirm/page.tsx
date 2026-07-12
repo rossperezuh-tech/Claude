@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
 import { formatPrice, formatTime, formatYmd, PLATFORM } from "@/lib/site";
+import { settleBookingPayouts } from "@/lib/payouts";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,7 @@ async function resolveBooking(searchParams: { session_id?: string; booking_id?: 
         where: { id: bookingId, status: "pending_payment" },
         data: { status: "confirmed" },
       });
+      await settleBookingPayouts(bookingId, session);
     }
     return prisma.booking.findUnique({
       where: { id: bookingId },

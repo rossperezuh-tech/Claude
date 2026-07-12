@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { prisma } from "@/lib/prisma";
 import { getStripe } from "@/lib/stripe";
+import { settleBookingPayouts } from "@/lib/payouts";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +31,7 @@ export async function POST(req: NextRequest) {
         where: { id: bookingId, status: "pending_payment" },
         data: { status: "confirmed" },
       });
+      await settleBookingPayouts(bookingId, session);
     }
   } else if (event.type === "checkout.session.expired") {
     const session = event.data.object as Stripe.Checkout.Session;

@@ -3,8 +3,78 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
-import { DISCIPLINES } from "@/lib/site";
+import { BOROUGHS, DISCIPLINES } from "@/lib/site";
 import { isValidYmd, todayYmd } from "@/lib/dates";
+
+// --- Profile editing ---
+
+export async function updateCoachProfile(input: {
+  displayName: string;
+  discipline: string;
+  borough: string;
+  yearsExperience: number;
+  accolades: string;
+  bio: string;
+}) {
+  const user = await getCurrentUser();
+  if (!user?.coachProfile) return { error: "Log in as a coach first" };
+
+  const displayName = input.displayName.trim().slice(0, 100);
+  if (!displayName) return { error: "Enter a display name" };
+
+  await prisma.coachProfile.update({
+    where: { id: user.coachProfile.id },
+    data: {
+      displayName,
+      discipline: DISCIPLINES.includes(input.discipline)
+        ? input.discipline
+        : user.coachProfile.discipline,
+      borough: BOROUGHS.includes(input.borough) ? input.borough : user.coachProfile.borough,
+      yearsExperience: Math.max(0, Math.min(60, Math.floor(Number(input.yearsExperience)) || 0)),
+      accolades: input.accolades.trim().slice(0, 300) || null,
+      bio: input.bio.trim().slice(0, 2000),
+    },
+  });
+  revalidatePath("/dashboard");
+  revalidatePath(`/coaches/${user.coachProfile.id}`);
+  revalidatePath("/coaches");
+  return { ok: true };
+}
+
+export async function updateGymProfile(input: {
+  gymName: string;
+  address: string;
+  borough: string;
+  description: string;
+  amenities: string;
+  spaceSharePct: number;
+}) {
+  const user = await getCurrentUser();
+  if (!user?.gymProfile) return { error: "Log in as a gym first" };
+
+  const gymName = input.gymName.trim().slice(0, 120);
+  if (!gymName) return { error: "Enter the gym name" };
+  const spaceSharePct = Math.floor(Number(input.spaceSharePct));
+  if (!Number.isFinite(spaceSharePct) || spaceSharePct < 5 || spaceSharePct > 50) {
+    return { error: "Space share must be between 5% and 50%" };
+  }
+
+  await prisma.gymProfile.update({
+    where: { id: user.gymProfile.id },
+    data: {
+      gymName,
+      address: input.address.trim().slice(0, 200),
+      borough: BOROUGHS.includes(input.borough) ? input.borough : user.gymProfile.borough,
+      description: input.description.trim().slice(0, 2000),
+      amenities: input.amenities.trim().slice(0, 500),
+      spaceSharePct, // applies to future bookings only — past splits are locked in
+    },
+  });
+  revalidatePath("/dashboard");
+  revalidatePath(`/gyms/${user.gymProfile.id}`);
+  revalidatePath("/gyms");
+  return { ok: true };
+}
 
 // --- Coach: request a partnership with a gym ---
 

@@ -29,6 +29,7 @@ model CoachProfile {
   borough         String           // Staten Island, Brooklyn, Queens, Manhattan, Bronx
   yearsExperience Int
   accolades       String?
+  stripeAccountId String?          // Stripe Connect Express account for payouts
   partnerships    Partnership[]
   listings        SessionListing[]
 }
@@ -43,6 +44,7 @@ model GymProfile {
   description   String
   amenities     String           // comma-separated
   spaceSharePct Int              @default(20) // gym's % cut of sessions hosted there
+  stripeAccountId String?        // Stripe Connect Express account for payouts
   partnerships  Partnership[]
   listings      SessionListing[]
 }
@@ -97,6 +99,11 @@ model Booking {
   coachNetCents    Int            // what the coach earns
   status           String         @default("pending_payment") // pending_payment | confirmed | cancelled
   stripeSessionId  String?        @unique
+  // Stripe Connect payout tracking. "manual" = pay out by hand; "transferred"
+  // = both transfers sent; "partial" = one recipient wasn't connected yet.
+  payoutStatus     String         @default("manual")
+  coachTransferId  String?
+  gymTransferId    String?
   createdAt        DateTime       @default(now())
 
   @@unique([listingId, clientEmail])
