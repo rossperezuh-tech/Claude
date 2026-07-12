@@ -1,7 +1,14 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
 import Wordmark from "@/components/Wordmark";
 import RoomScene from "@/components/RoomScene";
 import { LOCATIONS, formatMoney, formatHour } from "@/lib/locations";
+
+// Use an autoplaying loop if public/hero.mp4 exists; otherwise the still image.
+const HAS_HERO_VIDEO = fs.existsSync(
+  path.join(process.cwd(), "public", "hero.mp4")
+);
 
 const FAQ: { q: string; a: string }[] = [
   {
@@ -108,12 +115,26 @@ export default function Home() {
         </div>
         <div className="container-x relative mt-10 pb-40 sm:mt-6">
           <div className="relative mx-auto w-full max-w-4xl">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/xdj-rx3.png"
-              alt="Pioneer DJ OPUS-QUAD 4-channel all-in-one DJ system"
-              className="relative z-10 w-full drop-shadow-[0_50px_90px_rgba(0,0,0,0.85)]"
-            />
+            {HAS_HERO_VIDEO ? (
+              <video
+                className="relative z-10 w-full rounded-2xl drop-shadow-[0_50px_90px_rgba(0,0,0,0.85)]"
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/xdj-rx3.png"
+                aria-label="Pioneer DJ OPUS-QUAD in the room"
+              >
+                <source src="/hero.mp4" type="video/mp4" />
+              </video>
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src="/xdj-rx3.png"
+                alt="Pioneer DJ OPUS-QUAD 4-channel all-in-one DJ system"
+                className="relative z-10 w-full drop-shadow-[0_50px_90px_rgba(0,0,0,0.85)]"
+              />
+            )}
             <div className="absolute inset-x-[8%] bottom-[-8%] h-24 rounded-[100%] bg-black/70 blur-3xl" />
             <div className="absolute inset-x-[24%] bottom-[-5%] h-16 rounded-[100%] bg-acid/10 blur-3xl" />
           </div>

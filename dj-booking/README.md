@@ -83,7 +83,20 @@ app/
 components/
   BookingFlow.tsx       client-side booking UI
   DeckVisual.tsx        animated SVG model of the OPUS-QUAD (unused — hero now
-                        uses public/opus-quad.png, background knocked out)
+                        uses a photo/video)
+```
+
+## Hero media
+
+The homepage hero auto-detects its media:
+- Drop **`public/hero.mp4`** in and it renders an autoplaying, muted, looping,
+  inline video (the still image becomes the poster/fallback). Keep it short
+  (5–15s) and small (~5 MB) — H.264/MP4, ideally 16:9.
+- With no video present, it shows the still image (`public/xdj-rx3.png`).
+
+No code change needed to switch — just add or remove the file.
+
+```
   RoomScene.tsx         abstract room illustration (photo placeholder)
 lib/
   locations.ts          ← rates, hours, copy (edit me)
