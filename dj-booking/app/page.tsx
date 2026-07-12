@@ -71,14 +71,16 @@ export default function Home() {
     <main>
       {/* nav */}
       <header className="sticky top-0 z-40 border-b border-line bg-ink-950/80 backdrop-blur-md">
-        <div className="container-x flex h-16 items-center justify-between">
-          <Wordmark />
+        <div className="container-x grid h-16 grid-cols-[1fr_auto_1fr] items-center">
+          <div className="justify-self-start">
+            <Wordmark />
+          </div>
           <nav className="hidden items-center gap-8 text-sm text-fg-mid sm:flex">
             <a href="#spaces" className="transition hover:text-fg">Spaces</a>
             <a href="#gear" className="transition hover:text-fg">The gear</a>
             <a href="#faq" className="transition hover:text-fg">FAQ</a>
           </nav>
-          <a href="#spaces" className="btn-primary !px-4 !py-2 text-[13px]">
+          <a href="#spaces" className="btn-primary !px-4 !py-2 text-[13px] justify-self-end col-start-3">
             Book a room
           </a>
         </div>

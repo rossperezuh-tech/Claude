@@ -38,11 +38,14 @@
       align-items: center;
     }
     .header-inner {
-      display: flex;
+      display: grid;
       width: 100%;
-      justify-content: space-between;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
     }
+    .header-inner .wordmark { justify-self: start; }
+    .header-inner .nav { justify-self: center; }
+    .header-inner .btn { justify-self: end; }
     .wordmark {
       font-weight: 600;
       letter-spacing: -0.04em;
