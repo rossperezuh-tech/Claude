@@ -25,7 +25,7 @@ export async function sendBookingEmails(booking: Booking): Promise<void> {
     `Session: ${booking.hours} hour${booking.hours > 1 ? "s" : ""}`,
     `Paid: ${formatMoney(booking.amount_cents)}`,
     ``,
-    `The room includes an AlphaTheta DJ-RX3 and tuned monitors — bring USB sticks or your laptop.`,
+    `The room includes a Pioneer DJ XDJ-RX3 and tuned monitors — bring USB sticks or your laptop.`,
     `Door code and arrival details will be sent the morning of your session.`,
     ``,
     `Booking ref: ${booking.id.slice(0, 8).toUpperCase()}`,

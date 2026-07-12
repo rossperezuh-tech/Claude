@@ -6,7 +6,7 @@ import { LOCATIONS, formatMoney, formatHour } from "@/lib/locations";
 const FAQ: { q: string; a: string }[] = [
   {
     q: "What do I need to bring?",
-    a: "USB sticks with your music, or a laptop. The room has the DJ-RX3, monitors, cabling, and a stand — nothing else to carry.",
+    a: "USB sticks with your music, or a laptop. The room has the XDJ-RX3, monitors, cabling, and a stand — nothing else to carry.",
   },
   {
     q: "How do I get in?",
@@ -87,7 +87,7 @@ export default function Home() {
             Practice on the real thing
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-fg-mid sm:text-lg">
-            Private, sound-treated rooms with an Pioneer DJ XDJ-RX3 and tuned
+            Private, sound-treated rooms with a Pioneer DJ XDJ-RX3 and tuned
             monitors. Book by the hour, let yourself in, play loud. No
             membership, no gear to carry.
           </p>
@@ -160,7 +160,7 @@ export default function Home() {
               The same system in both rooms.
             </h2>
             <p className="mt-5 max-w-md leading-relaxed text-fg-mid">
-              Every session runs on an Pioneer DJ XDJ-RX3 — a 2-channel
+              Every session runs on a Pioneer DJ XDJ-RX3 — a 2-channel
               all-in-one performance system. Practice exactly what you&apos;ll
               play out on: real jogs, real pads, real screen. It&apos;s wired
               into monitors tuned for the room, so what you hear is what the
@@ -227,6 +227,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* refer a friend */}
+      <section id="refer" className="border-t border-line">
+        <div className="container-x py-16 sm:py-20">
+          <div className="card card-sheen mx-auto flex max-w-3xl flex-col items-center gap-6 p-8 text-center sm:p-10">
+            <p className="kicker">Refer a friend</p>
+            <h2 className="max-w-md text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
+              Know a DJ? Send them in.
+            </h2>
+            <p className="max-w-md text-sm leading-relaxed text-fg-mid">
+              Give a friend the code below — they get{" "}
+              <span className="text-fg">20% off their first session</span> at
+              either room. DJs talk; that&apos;s the whole marketing plan.
+            </p>
+            <p className="rounded-xl border border-acid/40 bg-acid/10 px-6 py-3 font-mono text-xl tracking-[0.2em] text-acid">
+              REFER20
+            </p>
+            <p className="font-mono text-[11px] text-fg-dim">
+              Applied at checkout · one use per new booker
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* footer cta */}
       <section className="border-t border-line">
         <div className="container-x py-16 text-center sm:py-24">
@@ -244,7 +267,10 @@ export default function Home() {
         <div className="container-x flex flex-col items-start justify-between gap-4 py-8 sm:flex-row sm:items-center">
           <Wordmark />
           <p className="font-mono text-xs text-fg-dim">
-            Greenpoint, BK · Lower East Side, MHTN ·{" "}
+            <Link href="/learn-to-dj-nyc" className="hover:text-fg-mid">Learn to DJ in NYC</Link>
+            {" · "}
+            <Link href="/dj-practice-space-brooklyn" className="hover:text-fg-mid">Brooklyn practice space</Link>
+            {" · "}
             <a href="mailto:book@deckroom.nyc" className="hover:text-fg-mid">book@deckroom.nyc</a>
           </p>
         </div>

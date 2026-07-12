@@ -47,7 +47,7 @@ export default function BookPage({
           </h1>
           <p className="font-mono text-sm text-fg-mid">
             <span className="text-fg">{formatMoney(loc.hourlyRateCents)}</span>
-            /hour · DJ-RX3 + monitors included
+            /hour · XDJ-RX3 + monitors included
           </p>
         </div>
         <p className="mt-2 text-sm text-fg-mid">

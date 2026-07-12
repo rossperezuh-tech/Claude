@@ -10,6 +10,7 @@ import { isLocationId, LOCATIONS, MAX_HOURS, formatHour } from "@/lib/locations"
 import { isValidBookableDate, formatDateLong, nyNow } from "@/lib/dates";
 import { getStripe } from "@/lib/stripe";
 import { sendBookingEmails } from "@/lib/email";
+import { applyPromo, lookupPromo } from "@/lib/promo";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,7 @@ interface CheckoutBody {
   name?: string;
   email?: string;
   phone?: string;
+  promoCode?: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -31,7 +33,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Bad request" }, { status: 400 });
   }
 
-  const { location = "", date = "", startHour, hours, name, email, phone } = body;
+  const { location = "", date = "", startHour, hours, name, email, phone, promoCode } = body;
 
   if (!isLocationId(location))
     return NextResponse.json({ error: "Unknown location" }, { status: 400 });
@@ -64,7 +66,12 @@ export async function POST(req: NextRequest) {
   if (cleanPhone.length < 7)
     return NextResponse.json({ error: "Please enter a phone number" }, { status: 400 });
 
-  const amountCents = loc.hourlyRateCents * nHours;
+  // A mistyped code is rejected rather than silently charged full price.
+  if (promoCode && String(promoCode).trim() !== "" && !lookupPromo(String(promoCode))) {
+    return NextResponse.json({ error: "That promo code isn't valid" }, { status: 400 });
+  }
+  const promo = lookupPromo(promoCode ? String(promoCode) : null);
+  const amountCents = applyPromo(loc.hourlyRateCents * nHours, promo);
 
   let booking;
   try {
@@ -77,6 +84,7 @@ export async function POST(req: NextRequest) {
       email: cleanEmail,
       phone: cleanPhone,
       amountCents,
+      promoCode: promo?.code,
     });
   } catch (err) {
     if (err instanceof SlotTakenError) {
@@ -115,7 +123,7 @@ export async function POST(req: NextRequest) {
             unit_amount: amountCents,
             product_data: {
               name: `${loc.name} session — ${formatDateLong(date)}`,
-              description: `${formatHour(start)}–${formatHour(endHour)} · DJ-RX3 + monitors included`,
+              description: `${formatHour(start)}–${formatHour(endHour)} · XDJ-RX3 + monitors included${promo ? ` · ${promo.label}` : ""}`,
             },
           },
         },

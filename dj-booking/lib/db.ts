@@ -22,6 +22,7 @@ export interface Booking {
   email: string;
   phone: string;
   amount_cents: number;
+  promo_code: string;
   stripe_session_id: string | null;
   stripe_payment_intent: string | null;
   status: BookingStatus;
@@ -72,6 +73,11 @@ function getDb(): Database.Database {
     CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status);
     CREATE INDEX IF NOT EXISTS idx_slots_booking ON booking_slots(booking_id);
   `);
+  try {
+    db.exec(`ALTER TABLE bookings ADD COLUMN promo_code TEXT NOT NULL DEFAULT ''`);
+  } catch {
+    /* column already exists */
+  }
   return db;
 }
 
@@ -113,6 +119,7 @@ export function createPendingBooking(input: {
   email: string;
   phone: string;
   amountCents: number;
+  promoCode?: string;
 }): Booking {
   const d = getDb();
   const id = randomUUID();
@@ -122,8 +129,8 @@ export function createPendingBooking(input: {
   const tx = d.transaction(() => {
     cleanupExpired(d);
     d.prepare(
-      `INSERT INTO bookings (id, location, date, start_hour, hours, name, email, phone, amount_cents, status, created_at, expires_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)`
+      `INSERT INTO bookings (id, location, date, start_hour, hours, name, email, phone, amount_cents, promo_code, status, created_at, expires_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)`
     ).run(
       id,
       input.location,
@@ -134,6 +141,7 @@ export function createPendingBooking(input: {
       input.email,
       input.phone,
       input.amountCents,
+      input.promoCode ?? "",
       now.toISOString(),
       expires.toISOString()
     );

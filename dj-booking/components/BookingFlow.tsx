@@ -28,6 +28,9 @@ export default function BookingFlow({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [promoInput, setPromoInput] = useState("");
+  const [promo, setPromo] = useState<{ code: string; pctOff: number } | null>(null);
+  const [promoStatus, setPromoStatus] = useState<"idle" | "checking" | "invalid">("idle");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
@@ -83,8 +86,29 @@ export default function BookingFlow({
     if (hours > maxRun) setHours(maxRun);
   }, [maxRun, hours]);
 
+  async function applyPromoCode() {
+    const code = promoInput.trim();
+    if (!code) return;
+    setPromoStatus("checking");
+    try {
+      const res = await fetch(`/api/promo?code=${encodeURIComponent(code)}`);
+      if (res.ok) {
+        const data = await res.json();
+        setPromo({ code: data.code, pctOff: data.pctOff });
+        setPromoStatus("idle");
+      } else {
+        setPromo(null);
+        setPromoStatus("invalid");
+      }
+    } catch {
+      setPromo(null);
+      setPromoStatus("invalid");
+    }
+  }
+
   const selectedDay = days.find((d) => d.date === date)!;
-  const total = hourlyRateCents * hours;
+  const subtotal = hourlyRateCents * hours;
+  const total = promo ? Math.round((subtotal * (100 - promo.pctOff)) / 100) : subtotal;
   const endHour = startHour !== null ? startHour + hours : null;
   const formValid =
     startHour !== null &&
@@ -108,6 +132,7 @@ export default function BookingFlow({
           name: name.trim(),
           email: email.trim(),
           phone: phone.trim(),
+          promoCode: promo?.code,
         }),
       });
       const data = await res.json();
@@ -261,6 +286,39 @@ export default function BookingFlow({
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <div className="flex gap-2 sm:col-span-2">
+            <input
+              className={`${inputCls} flex-1 font-mono uppercase placeholder:normal-case placeholder:font-sans`}
+              placeholder="Promo code (optional)"
+              value={promoInput}
+              onChange={(e) => {
+                setPromoInput(e.target.value);
+                setPromoStatus("idle");
+                if (promo) setPromo(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") applyPromoCode();
+              }}
+            />
+            <button
+              type="button"
+              onClick={applyPromoCode}
+              disabled={!promoInput.trim() || promoStatus === "checking"}
+              className="btn-ghost !px-4 !py-2.5 text-[13px] disabled:opacity-40"
+            >
+              {promoStatus === "checking" ? "…" : "Apply"}
+            </button>
+          </div>
+          {promoStatus === "invalid" && (
+            <p className="font-mono text-xs text-red-300 sm:col-span-2">
+              That code isn&apos;t valid.
+            </p>
+          )}
+          {promo && (
+            <p className="font-mono text-xs text-acid sm:col-span-2">
+              {promo.code} applied — {promo.pctOff}% off
+            </p>
+          )}
         </div>
 
         <div className="card card-sheen mt-6 p-5">
@@ -279,10 +337,16 @@ export default function BookingFlow({
                 )}
               </p>
               <p className="mt-1 font-mono text-xs text-fg-dim">
-                {hours} hr × {formatMoney(hourlyRateCents)} · room + DJ-RX3 + monitors
+                {hours} hr × {formatMoney(hourlyRateCents)} · room + XDJ-RX3 + monitors
+                {promo && ` · ${promo.code} −${promo.pctOff}%`}
               </p>
             </div>
             <p className="text-2xl font-semibold tracking-tight">
+              {promo && (
+                <span className="mr-2 text-base font-normal text-fg-dim line-through">
+                  {formatMoney(subtotal)}
+                </span>
+              )}
               {formatMoney(total)}
             </p>
           </div>

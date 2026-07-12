@@ -136,6 +136,9 @@ export default function AdminPage() {
                 </td>
                 <td className="px-5 py-3.5 text-right font-mono">
                   {formatMoney(b.amount_cents)}
+                  {b.promo_code && (
+                    <p className="text-[11px] text-acid/80">{b.promo_code}</p>
+                  )}
                 </td>
                 <td className="px-5 py-3.5 text-right">
                   <span
