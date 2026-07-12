@@ -25,14 +25,14 @@ async function resolveBooking(searchParams: {
   const { session_id, bid } = searchParams;
 
   if (session_id) {
-    let booking = getBookingByStripeSession(session_id);
+    let booking = await getBookingByStripeSession(session_id);
     if (booking && booking.status === "pending") {
       const stripe = getStripe();
       if (stripe) {
         try {
           const session = await stripe.checkout.sessions.retrieve(session_id);
           if (session.payment_status === "paid") {
-            const confirmed = confirmBooking(booking.id, {
+            const confirmed = await confirmBooking(booking.id, {
               paymentIntent:
                 typeof session.payment_intent === "string"
                   ? session.payment_intent
@@ -52,7 +52,7 @@ async function resolveBooking(searchParams: {
     return booking;
   }
 
-  if (bid) return getBookingById(bid);
+  if (bid) return await getBookingById(bid);
   return null;
 }
 

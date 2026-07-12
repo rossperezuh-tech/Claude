@@ -5,7 +5,7 @@ import { isValidBookableDate, nyNow } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
 
-export function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const location = req.nextUrl.searchParams.get("location") ?? "";
   const date = req.nextUrl.searchParams.get("date") ?? "";
 
@@ -17,7 +17,7 @@ export function GET(req: NextRequest) {
   }
 
   const loc = LOCATIONS[location];
-  const booked = getBookedHours(location, date);
+  const booked = await getBookedHours(location, date);
   const now = nyNow();
   // On the current day, hours that already started are gone.
   const minHour = date === now.date ? now.hour + 1 : loc.openHour;

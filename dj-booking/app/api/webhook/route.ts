@@ -37,11 +37,11 @@ export async function POST(req: NextRequest) {
   ) {
     const session = event.data.object as Stripe.Checkout.Session;
     const bookingId = session.metadata?.bookingId;
-    if (bookingId && getBookingById(bookingId)) {
+    const existing = bookingId ? await getBookingById(bookingId) : null;
+    if (bookingId && existing) {
       if (event.type === "checkout.session.completed") {
-        const existing = getBookingById(bookingId);
-        const alreadyConfirmed = existing?.status === "confirmed";
-        const booking = confirmBooking(bookingId, {
+        const alreadyConfirmed = existing.status === "confirmed";
+        const booking = await confirmBooking(bookingId, {
           paymentIntent:
             typeof session.payment_intent === "string"
               ? session.payment_intent
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
         });
         if (booking && !alreadyConfirmed) await sendBookingEmails(booking);
       } else {
-        releaseBooking(bookingId);
+        await releaseBooking(bookingId);
       }
     }
   }

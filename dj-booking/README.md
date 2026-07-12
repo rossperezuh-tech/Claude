@@ -61,13 +61,26 @@ works even before webhooks are configured.
 
 ## Deploying
 
-Built to deploy on **Vercel** (set the project root to `dj-booking/`) or any
-Node host. One caveat: **SQLite needs a persistent disk.** On Vercel's
-serverless runtime the filesystem is ephemeral, so before real traffic swap
-the store in `lib/db.ts` for Turso (SQLite-compatible, has a free tier) or
-Vercel Postgres — the data layer is isolated in that one file on purpose.
-Alternatively deploy to a small VM/Fly.io/Railway instance where the
-`data/` directory persists, and it works as-is.
+Storage is **libSQL** (`lib/db.ts`), which runs two ways with no code change:
+
+- **Local dev / persistent-disk hosts (Fly, Railway, a VM):** with no env vars
+  it uses a local SQLite file at `data/bookings.db`. Works as-is.
+- **Vercel / serverless:** the filesystem is read-only, so point it at a
+  hosted **Turso** database by setting two env vars in the Vercel project:
+
+  ```
+  TURSO_DATABASE_URL=libsql://your-db-name.turso.io
+  TURSO_AUTH_TOKEN=...
+  ```
+
+  Get both free in ~3 minutes: create a database at turso.tech (or
+  `turso db create deckroom` + `turso db show --url` + `turso db tokens
+  create`), paste the two values into Vercel → Settings → Environment
+  Variables, and redeploy. Tables self-create on first request.
+
+Set the Vercel project root to `dj-booking/`. Without the Turso vars, the
+booking API will fail on Vercel because it can't write its database file —
+that is the single required step to make bookings work in production.
 
 ## Map
 

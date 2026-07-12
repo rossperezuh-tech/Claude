@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
 
   let booking;
   try {
-    booking = createPendingBooking({
+    booking = await createPendingBooking({
       location,
       date,
       startHour: start,
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
   // No Stripe key (local dev): simulate a successful payment so the whole
   // flow — hold, confirm, email, admin view — still works end to end.
   if (!stripe) {
-    confirmBooking(booking.id);
+    await confirmBooking(booking.id);
     await sendBookingEmails({ ...booking, status: "confirmed" });
     return NextResponse.json({
       url: `${origin}/confirmed?bid=${booking.id}&dev=1`,
@@ -133,10 +133,10 @@ export async function POST(req: NextRequest) {
       success_url: `${origin}/confirmed?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/book/${location}?released=${booking.id}`,
     });
-    attachStripeSession(booking.id, session.id);
+    await attachStripeSession(booking.id, session.id);
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    releaseBooking(booking.id);
+    await releaseBooking(booking.id);
     console.error("Stripe checkout failed:", err);
     return NextResponse.json(
       { error: "Payment could not be started — try again in a moment" },

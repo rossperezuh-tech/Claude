@@ -1,11 +1,19 @@
-import Database from "better-sqlite3";
+import { createClient, type Client, type Row } from "@libsql/client";
 import { randomUUID } from "crypto";
 import path from "path";
-import fs from "fs";
 import { LocationId } from "./locations";
 
-const DB_DIR = process.env.DATA_DIR || path.join(process.cwd(), "data");
-const DB_PATH = path.join(DB_DIR, "bookings.db");
+/**
+ * Storage on libSQL (SQLite-compatible).
+ *  - Local dev / persistent-disk hosts: a local file (no env vars needed).
+ *  - Vercel & other serverless: set TURSO_DATABASE_URL (+ TURSO_AUTH_TOKEN)
+ *    to a hosted Turso database, since serverless filesystems are read-only.
+ */
+function resolveUrl(): string {
+  if (process.env.TURSO_DATABASE_URL) return process.env.TURSO_DATABASE_URL;
+  const dir = process.env.DATA_DIR || path.join(process.cwd(), "data");
+  return `file:${path.join(dir, "bookings.db")}`;
+}
 
 /** Minutes a checkout hold keeps slots reserved before payment. */
 const HOLD_MINUTES = 30;
@@ -38,79 +46,116 @@ export class SlotTakenError extends Error {
   }
 }
 
-let db: Database.Database | null = null;
+let client: Client | null = null;
+let ready: Promise<Client> | null = null;
 
-function getDb(): Database.Database {
-  if (db) return db;
-  fs.mkdirSync(DB_DIR, { recursive: true });
-  db = new Database(DB_PATH);
-  db.pragma("journal_mode = WAL");
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS bookings (
-      id TEXT PRIMARY KEY,
-      location TEXT NOT NULL,
-      date TEXT NOT NULL,
-      start_hour INTEGER NOT NULL,
-      hours INTEGER NOT NULL,
-      name TEXT NOT NULL DEFAULT '',
-      email TEXT NOT NULL DEFAULT '',
-      phone TEXT NOT NULL DEFAULT '',
-      amount_cents INTEGER NOT NULL DEFAULT 0,
-      stripe_session_id TEXT,
-      stripe_payment_intent TEXT,
-      status TEXT NOT NULL DEFAULT 'pending',
-      created_at TEXT NOT NULL,
-      confirmed_at TEXT,
-      expires_at TEXT
-    );
-    CREATE TABLE IF NOT EXISTS booking_slots (
-      location TEXT NOT NULL,
-      date TEXT NOT NULL,
-      hour INTEGER NOT NULL,
-      booking_id TEXT NOT NULL REFERENCES bookings(id),
-      UNIQUE (location, date, hour)
-    );
-    CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status);
-    CREATE INDEX IF NOT EXISTS idx_slots_booking ON booking_slots(booking_id);
-  `);
-  try {
-    db.exec(`ALTER TABLE bookings ADD COLUMN promo_code TEXT NOT NULL DEFAULT ''`);
-  } catch {
-    /* column already exists */
-  }
-  return db;
+async function getClient(): Promise<Client> {
+  if (client) return client;
+  if (!ready) ready = init();
+  client = await ready;
+  return client;
+}
+
+async function init(): Promise<Client> {
+  const c = createClient({
+    url: resolveUrl(),
+    authToken: process.env.TURSO_AUTH_TOKEN,
+    intMode: "number",
+  });
+  await c.batch(
+    [
+      `CREATE TABLE IF NOT EXISTS bookings (
+        id TEXT PRIMARY KEY,
+        location TEXT NOT NULL,
+        date TEXT NOT NULL,
+        start_hour INTEGER NOT NULL,
+        hours INTEGER NOT NULL,
+        name TEXT NOT NULL DEFAULT '',
+        email TEXT NOT NULL DEFAULT '',
+        phone TEXT NOT NULL DEFAULT '',
+        amount_cents INTEGER NOT NULL DEFAULT 0,
+        promo_code TEXT NOT NULL DEFAULT '',
+        stripe_session_id TEXT,
+        stripe_payment_intent TEXT,
+        status TEXT NOT NULL DEFAULT 'pending',
+        created_at TEXT NOT NULL,
+        confirmed_at TEXT,
+        expires_at TEXT
+      )`,
+      `CREATE TABLE IF NOT EXISTS booking_slots (
+        location TEXT NOT NULL,
+        date TEXT NOT NULL,
+        hour INTEGER NOT NULL,
+        booking_id TEXT NOT NULL REFERENCES bookings(id),
+        UNIQUE (location, date, hour)
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_bookings_status ON bookings(status)`,
+      `CREATE INDEX IF NOT EXISTS idx_slots_booking ON booking_slots(booking_id)`,
+    ],
+    "write"
+  );
+  return c;
+}
+
+function rowToBooking(row: Row): Booking {
+  return {
+    id: row.id as string,
+    location: row.location as LocationId,
+    date: row.date as string,
+    start_hour: Number(row.start_hour),
+    hours: Number(row.hours),
+    name: row.name as string,
+    email: row.email as string,
+    phone: row.phone as string,
+    amount_cents: Number(row.amount_cents),
+    promo_code: (row.promo_code as string) ?? "",
+    stripe_session_id: (row.stripe_session_id as string | null) ?? null,
+    stripe_payment_intent: (row.stripe_payment_intent as string | null) ?? null,
+    status: row.status as BookingStatus,
+    created_at: row.created_at as string,
+    confirmed_at: (row.confirmed_at as string | null) ?? null,
+    expires_at: (row.expires_at as string | null) ?? null,
+  };
 }
 
 /** Release slots held by pending bookings whose hold window has lapsed. */
-function cleanupExpired(d: Database.Database) {
+async function cleanupExpired(c: Client): Promise<void> {
   const now = new Date().toISOString();
-  const stale = d
-    .prepare(
-      `SELECT id FROM bookings WHERE status = 'pending' AND expires_at IS NOT NULL AND expires_at < ?`
-    )
-    .all(now) as { id: string }[];
-  if (stale.length === 0) return;
-  const delSlots = d.prepare(`DELETE FROM booking_slots WHERE booking_id = ?`);
-  const expire = d.prepare(`UPDATE bookings SET status = 'expired' WHERE id = ?`);
-  for (const { id } of stale) {
-    delSlots.run(id);
-    expire.run(id);
+  const stale = await c.execute({
+    sql: `SELECT id FROM bookings WHERE status = 'pending' AND expires_at IS NOT NULL AND expires_at < ?`,
+    args: [now],
+  });
+  if (stale.rows.length === 0) return;
+  const stmts = [];
+  for (const r of stale.rows) {
+    const id = r.id as string;
+    stmts.push({
+      sql: `DELETE FROM booking_slots WHERE booking_id = ?`,
+      args: [id],
+    });
+    stmts.push({
+      sql: `UPDATE bookings SET status = 'expired' WHERE id = ?`,
+      args: [id],
+    });
   }
+  await c.batch(stmts, "write");
 }
 
 /** Hours already taken (paid or actively held) for a location + date. */
-export function getBookedHours(location: LocationId, date: string): number[] {
-  const d = getDb();
-  const tx = d.transaction(() => {
-    cleanupExpired(d);
-    return d
-      .prepare(`SELECT hour FROM booking_slots WHERE location = ? AND date = ?`)
-      .all(location, date) as { hour: number }[];
+export async function getBookedHours(
+  location: LocationId,
+  date: string
+): Promise<number[]> {
+  const c = await getClient();
+  await cleanupExpired(c);
+  const res = await c.execute({
+    sql: `SELECT hour FROM booking_slots WHERE location = ? AND date = ?`,
+    args: [location, date],
   });
-  return tx().map((r) => r.hour);
+  return res.rows.map((r) => Number(r.hour));
 }
 
-export function createPendingBooking(input: {
+export async function createPendingBooking(input: {
   location: LocationId;
   date: string;
   startHour: number;
@@ -120,115 +165,136 @@ export function createPendingBooking(input: {
   phone: string;
   amountCents: number;
   promoCode?: string;
-}): Booking {
-  const d = getDb();
+}): Promise<Booking> {
+  const c = await getClient();
+  await cleanupExpired(c);
+
   const id = randomUUID();
   const now = new Date();
   const expires = new Date(now.getTime() + HOLD_MINUTES * 60 * 1000);
 
-  const tx = d.transaction(() => {
-    cleanupExpired(d);
-    d.prepare(
-      `INSERT INTO bookings (id, location, date, start_hour, hours, name, email, phone, amount_cents, promo_code, status, created_at, expires_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)`
-    ).run(
-      id,
-      input.location,
-      input.date,
-      input.startHour,
-      input.hours,
-      input.name,
-      input.email,
-      input.phone,
-      input.amountCents,
-      input.promoCode ?? "",
-      now.toISOString(),
-      expires.toISOString()
-    );
-    const insSlot = d.prepare(
-      `INSERT INTO booking_slots (location, date, hour, booking_id) VALUES (?, ?, ?, ?)`
-    );
-    for (let h = input.startHour; h < input.startHour + input.hours; h++) {
-      insSlot.run(input.location, input.date, h, id);
-    }
-  });
-
+  const tx = await c.transaction("write");
   try {
-    tx();
+    await tx.execute({
+      sql: `INSERT INTO bookings (id, location, date, start_hour, hours, name, email, phone, amount_cents, promo_code, status, created_at, expires_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, ?)`,
+      args: [
+        id,
+        input.location,
+        input.date,
+        input.startHour,
+        input.hours,
+        input.name,
+        input.email,
+        input.phone,
+        input.amountCents,
+        input.promoCode ?? "",
+        now.toISOString(),
+        expires.toISOString(),
+      ],
+    });
+    for (let h = input.startHour; h < input.startHour + input.hours; h++) {
+      await tx.execute({
+        sql: `INSERT INTO booking_slots (location, date, hour, booking_id) VALUES (?, ?, ?, ?)`,
+        args: [input.location, input.date, h, id],
+      });
+    }
+    await tx.commit();
   } catch (err: unknown) {
+    await tx.rollback().catch(() => {});
     if (
       err instanceof Error &&
-      err.message.includes("UNIQUE constraint failed")
+      /UNIQUE constraint failed/i.test(err.message)
     ) {
       throw new SlotTakenError();
     }
     throw err;
   }
-  return getBookingById(id)!;
+  return (await getBookingById(id))!;
 }
 
-export function attachStripeSession(bookingId: string, sessionId: string) {
-  getDb()
-    .prepare(`UPDATE bookings SET stripe_session_id = ? WHERE id = ?`)
-    .run(sessionId, bookingId);
+export async function attachStripeSession(
+  bookingId: string,
+  sessionId: string
+): Promise<void> {
+  const c = await getClient();
+  await c.execute({
+    sql: `UPDATE bookings SET stripe_session_id = ? WHERE id = ?`,
+    args: [sessionId, bookingId],
+  });
 }
 
-export function confirmBooking(
+export async function confirmBooking(
   bookingId: string,
   opts: { paymentIntent?: string | null; amountCents?: number | null } = {}
-): Booking | null {
-  const d = getDb();
-  d.prepare(
-    `UPDATE bookings
-     SET status = 'confirmed',
-         confirmed_at = COALESCE(confirmed_at, ?),
-         expires_at = NULL,
-         stripe_payment_intent = COALESCE(?, stripe_payment_intent),
-         amount_cents = COALESCE(?, amount_cents)
-     WHERE id = ? AND status IN ('pending', 'confirmed')`
-  ).run(
-    new Date().toISOString(),
-    opts.paymentIntent ?? null,
-    opts.amountCents ?? null,
-    bookingId
-  );
+): Promise<Booking | null> {
+  const c = await getClient();
+  await c.execute({
+    sql: `UPDATE bookings
+          SET status = 'confirmed',
+              confirmed_at = COALESCE(confirmed_at, ?),
+              expires_at = NULL,
+              stripe_payment_intent = COALESCE(?, stripe_payment_intent),
+              amount_cents = COALESCE(?, amount_cents)
+          WHERE id = ? AND status IN ('pending', 'confirmed')`,
+    args: [
+      new Date().toISOString(),
+      opts.paymentIntent ?? null,
+      opts.amountCents ?? null,
+      bookingId,
+    ],
+  });
   return getBookingById(bookingId);
 }
 
-export function releaseBooking(bookingId: string) {
-  const d = getDb();
-  const tx = d.transaction(() => {
-    const b = getBookingById(bookingId);
-    if (!b || b.status !== "pending") return;
-    d.prepare(`DELETE FROM booking_slots WHERE booking_id = ?`).run(bookingId);
-    d.prepare(`UPDATE bookings SET status = 'cancelled' WHERE id = ?`).run(
-      bookingId
-    );
+export async function releaseBooking(bookingId: string): Promise<void> {
+  const c = await getClient();
+  const existing = await getBookingById(bookingId);
+  if (!existing || existing.status !== "pending") return;
+  await c.batch(
+    [
+      {
+        sql: `DELETE FROM booking_slots WHERE booking_id = ?`,
+        args: [bookingId],
+      },
+      {
+        sql: `UPDATE bookings SET status = 'cancelled' WHERE id = ?`,
+        args: [bookingId],
+      },
+    ],
+    "write"
+  );
+}
+
+export async function getBookingById(id: string): Promise<Booking | null> {
+  const c = await getClient();
+  const res = await c.execute({
+    sql: `SELECT * FROM bookings WHERE id = ?`,
+    args: [id],
   });
-  tx();
+  return res.rows[0] ? rowToBooking(res.rows[0]) : null;
 }
 
-export function getBookingById(id: string): Booking | null {
-  return (getDb()
-    .prepare(`SELECT * FROM bookings WHERE id = ?`)
-    .get(id) ?? null) as Booking | null;
+export async function getBookingByStripeSession(
+  sessionId: string
+): Promise<Booking | null> {
+  const c = await getClient();
+  const res = await c.execute({
+    sql: `SELECT * FROM bookings WHERE stripe_session_id = ?`,
+    args: [sessionId],
+  });
+  return res.rows[0] ? rowToBooking(res.rows[0]) : null;
 }
 
-export function getBookingByStripeSession(sessionId: string): Booking | null {
-  return (getDb()
-    .prepare(`SELECT * FROM bookings WHERE stripe_session_id = ?`)
-    .get(sessionId) ?? null) as Booking | null;
-}
-
-export function listBookings(limit = 200): Booking[] {
-  const d = getDb();
-  cleanupExpired(d);
-  return d
-    .prepare(
-      `SELECT * FROM bookings
-       WHERE status IN ('confirmed', 'pending')
-       ORDER BY date DESC, start_hour DESC
-       LIMIT ?`
-    )
-    .all(limit) as Booking[];
+export async function listBookings(limit = 200): Promise<Booking[]> {
+  const c = await getClient();
+  await cleanupExpired(c);
+  const res = await c.execute({
+    sql: `SELECT * FROM bookings
+          WHERE status IN ('confirmed', 'pending')
+          ORDER BY date DESC, start_hour DESC
+          LIMIT ?`,
+    args: [limit],
+  });
+  return res.rows.map(rowToBooking);
 }

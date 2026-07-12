@@ -47,7 +47,7 @@ async function logout() {
   revalidatePath("/admin");
 }
 
-export default function AdminPage() {
+export default async function AdminPage() {
   if (!isAuthed()) {
     return (
       <Shell>
@@ -69,7 +69,7 @@ export default function AdminPage() {
     );
   }
 
-  const bookings = listBookings();
+  const bookings = await listBookings();
   const confirmed = bookings.filter((b) => b.status === "confirmed");
   const revenue = confirmed.reduce((s, b) => s + b.amount_cents, 0);
 

@@ -8,7 +8,7 @@ import { releaseBooking } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default function BookPage({
+export default async function BookPage({
   params,
   searchParams,
 }: {
@@ -22,7 +22,7 @@ export default function BookPage({
   // instead of waiting out the 30-minute hold.
   if (searchParams.released) {
     try {
-      releaseBooking(searchParams.released);
+      await releaseBooking(searchParams.released);
     } catch {
       /* already released/expired — nothing to do */
     }
