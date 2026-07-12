@@ -9,7 +9,7 @@
 **Headline 3:** Book by the Hour
 
 **Description:**
-Sound-treated room with Pioneer DJ XDJ-RX3. Greenpoint & LES. $45–60/hr. 
+Sound-treated room with Pioneer DJ OPUS-QUAD. Greenpoint & LES. $45–60/hr. 
 Keypad entry. Confirm in 2 minutes.
 
 **Landing page:** deckroom.nyc/book/[location]
@@ -17,7 +17,7 @@ Keypad entry. Confirm in 2 minutes.
 **Keywords to target:**
 - DJ practice space NYC
 - DJ rehearsal space Brooklyn
-- XDJ practice room
+- OPUS-QUAD practice room
 - DJ room rental NYC
 - Sound treated room Brooklyn
 - DJ studio NYC hourly
@@ -27,7 +27,7 @@ Keypad entry. Confirm in 2 minutes.
 ### Ad 2: Learning to DJ
 
 **Headline 1:** Real Gear for Real Learning
-**Headline 2:** Club-Standard XDJ-RX3
+**Headline 2:** Club-Standard OPUS-QUAD
 **Headline 3:** No Toy Controllers
 
 **Description:**
@@ -38,7 +38,7 @@ Practice on professional equipment. Private room. Tuned monitors. Greenpoint
 - Learn to DJ NYC
 - DJ lesson room
 - DJ practice studio
-- XDJ training space
+- OPUS-QUAD training space
 - DJ coaching room
 
 ---
@@ -47,7 +47,7 @@ Practice on professional equipment. Private room. Tuned monitors. Greenpoint
 
 **Headline 1:** One Hour. Sound-Treated Room.
 **Headline 2:** Play Before You Play Out
-**Headline 3:** Real XDJ-RX3. Real Monitors.
+**Headline 3:** Real OPUS-QUAD. Real Monitors.
 
 **Description:**
 Run your set loud, isolated, ready. Greenpoint or LES. Same-day confirmation. 
@@ -65,14 +65,14 @@ Door code by email. $45–60/hr.
 
 ### Ad Creative 1: "Before You Play"
 
-**Visual:** Split screen — left side: person on laptop at home; right side: XDJ-RX3 
+**Visual:** Split screen — left side: person on laptop at home; right side: OPUS-QUAD 
 in room with LED strips
 
 **Copy:**
 ```
 Practice on real gear.
 
-Club-standard XDJ-RX3. Tuned monitors. Sound-treated room.
+Club-standard OPUS-QUAD. Tuned monitors. Sound-treated room.
 
 1–4 hours. $45–60/hr. No membership.
 
@@ -87,7 +87,7 @@ Greenpoint & Lower East Side.
 
 ### Ad Creative 2: "The Setup"
 
-**Visual:** 15-second video of someone entering room → XDJ-RX3 close-up → 
+**Visual:** 15-second video of someone entering room → OPUS-QUAD close-up → 
 person loading tracks → beat drops
 
 **Copy:**
@@ -105,7 +105,7 @@ Deckroom. Greenpoint & LES. Real gear. No membership.
 
 ### Ad Creative 3: "No Toy Controllers"
 
-**Visual:** Split screen — left: generic home DJ setup; right: XDJ-RX3 in 
+**Visual:** Split screen — left: generic home DJ setup; right: OPUS-QUAD in 
 professional room
 
 **Copy:**
@@ -123,7 +123,7 @@ Deckroom: $45–60/hr. Greenpoint & LES.
 
 ### Ad Creative 4: "Quiet Room"
 
-**Visual:** Overhead shot of XDJ-RX3 with waveforms on screen, calm lighting
+**Visual:** Overhead shot of OPUS-QUAD with waveforms on screen, calm lighting
 
 **Copy:**
 ```
@@ -146,7 +146,7 @@ Greenpoint: $45/hr · LES: $60/hr
 [Show: person practicing at home on a controller]
 Voiceover: "This won't cut it."
 
-[Cut to: XDJ-RX3, waveforms, tuned monitors]
+[Cut to: OPUS-QUAD, waveforms, tuned monitors]
 Voiceover: "This will."
 
 [Text overlay: "Deckroom"]
@@ -163,7 +163,7 @@ CTA: "Book at deckroom.nyc"
 [Scene: Entering room via keypad]
 Voiceover: "You have one hour before you play out."
 
-[Scene: XDJ-RX3, loading USB]
+[Scene: OPUS-QUAD, loading USB]
 Voiceover: "You have sound-treated space and real gear."
 
 [Scene: Person playing, confident]

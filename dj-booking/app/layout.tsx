@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://deckroom.nyc"),
   title: "Deckroom — private DJ practice rooms, NYC",
   description:
-    "Book a private, sound-treated room with a Pioneer DJ XDJ-RX3 and tuned monitors. Greenpoint and Manhattan. By the hour, no membership.",
+    "Book a private, sound-treated room with a Pioneer DJ OPUS-QUAD and tuned monitors. Greenpoint and Manhattan. By the hour, no membership.",
 };
 
 export default function RootLayout({

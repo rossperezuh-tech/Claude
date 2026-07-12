@@ -337,7 +337,7 @@ export default function BookingFlow({
                 )}
               </p>
               <p className="mt-1 font-mono text-xs text-fg-dim">
-                {hours} hr × {formatMoney(hourlyRateCents)} · room + XDJ-RX3 + monitors
+                {hours} hr × {formatMoney(hourlyRateCents)} · room + OPUS-QUAD + monitors
                 {promo && ` · ${promo.code} −${promo.pctOff}%`}
               </p>
             </div>

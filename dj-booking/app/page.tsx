@@ -6,7 +6,7 @@ import { LOCATIONS, formatMoney, formatHour } from "@/lib/locations";
 const FAQ: { q: string; a: string }[] = [
   {
     q: "What do I need to bring?",
-    a: "USB sticks with your music, or a laptop. The room has the XDJ-RX3, monitors, cabling, and a stand — nothing else to carry.",
+    a: "USB sticks with your music, or a laptop. The room has the OPUS-QUAD, monitors, cabling, and a stand — nothing else to carry.",
   },
   {
     q: "How do I get in?",
@@ -87,7 +87,7 @@ export default function Home() {
             Practice on the real thing
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-fg-mid sm:text-lg">
-            Private, sound-treated rooms with a Pioneer DJ XDJ-RX3 and tuned
+            Private, sound-treated rooms with a Pioneer DJ OPUS-QUAD and tuned
             monitors. Book by the hour, let yourself in, play loud. No
             membership, no gear to carry.
           </p>
@@ -111,7 +111,7 @@ export default function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/xdj-rx3.png"
-              alt="Pioneer DJ XDJ-RX3 2-channel all-in-one DJ system"
+              alt="Pioneer DJ OPUS-QUAD 4-channel all-in-one DJ system"
               className="relative z-10 w-full drop-shadow-[0_50px_90px_rgba(0,0,0,0.85)]"
             />
             <div className="absolute inset-x-[8%] bottom-[-8%] h-24 rounded-[100%] bg-black/70 blur-3xl" />
@@ -160,18 +160,18 @@ export default function Home() {
               The same system in both rooms.
             </h2>
             <p className="mt-5 max-w-md leading-relaxed text-fg-mid">
-              Every session runs on a Pioneer DJ XDJ-RX3 — a 2-channel
-              all-in-one performance system. Practice exactly what you&apos;ll
-              play out on: real jogs, real pads, real screen. It&apos;s wired
-              into monitors tuned for the room, so what you hear is what the
-              floor would hear.
+              Every session runs on a Pioneer DJ OPUS-QUAD — the 4-channel
+              all-in-one flagship. Ten-inch touchscreen, touch-sensitive jog
+              wheels, four standalone decks, Beat FX and the XY-pad. Practice
+              exactly what you&apos;ll play out on, wired into monitors tuned for
+              the room — so what you hear is what the floor would hear.
             </p>
             <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 max-w-md">
               {[
-                ["Player", "Pioneer DJ XDJ-RX3, 2-channel all-in-one"],
-                ["Sound", "Powered monitors, room-tuned"],
-                ["Sources", "USB sticks, laptop over USB"],
-                ["Extras", "Booth stand, cabling, spare headphones"],
+                ["Player", "Pioneer DJ OPUS-QUAD, 4-channel all-in-one"],
+                ["Screen", "10.1\" touchscreen + on-jog displays"],
+                ["Sources", "4× USB, rekordbox & Serato, Wi-Fi/Bluetooth"],
+                ["Sound", "ESS 32-bit DAC into room-tuned monitors"],
               ].map(([t, d]) => (
                 <div key={t}>
                   <dt className="kicker">{t}</dt>
@@ -186,7 +186,7 @@ export default function Home() {
               {[
                 ["Working DJs", "Run tomorrow's set at full volume before you're in front of people."],
                 ["Learning to DJ", "Stop practicing on a toy controller. An hour a week on club-standard gear compounds fast."],
-                ["Recording sets", "Quiet room, clean signal out of the RX3, no bar noise in your mix recording."],
+                ["Recording sets", "Quiet room, clean signal out of the OPUS-QUAD, no bar noise in your mix recording."],
               ].map(([t, d]) => (
                 <li key={t} className="py-4 first:pt-0 last:pb-0">
                   <p className="text-sm font-semibold">{t}</p>

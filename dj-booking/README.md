@@ -1,7 +1,7 @@
 # Deckroom — DJ session booking site
 
 Booking site for two private DJ practice/performance rooms (Greenpoint,
-Brooklyn and Lower East Side, Manhattan), each with an Pioneer DJ XDJ-RX3 and
+Brooklyn and Lower East Side, Manhattan), each with an Pioneer DJ OPUS-QUAD and
 tuned monitors bundled into the room. Book by the hour, pay with Stripe, no
 account needed.
 
@@ -82,8 +82,8 @@ app/
   api/webhook           Stripe events → confirm/release
 components/
   BookingFlow.tsx       client-side booking UI
-  DeckVisual.tsx        animated SVG model of the DJ-RX3 (unused — hero now
-                        uses public/xdj-rx3.png, background knocked out)
+  DeckVisual.tsx        animated SVG model of the OPUS-QUAD (unused — hero now
+                        uses public/opus-quad.png, background knocked out)
   RoomScene.tsx         abstract room illustration (photo placeholder)
 lib/
   locations.ts          ← rates, hours, copy (edit me)

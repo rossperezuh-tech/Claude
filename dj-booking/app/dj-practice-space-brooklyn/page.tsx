@@ -7,18 +7,18 @@ import { LOCATIONS, formatHour, formatMoney } from "@/lib/locations";
 export const metadata: Metadata = {
   title: "DJ Practice Space in Brooklyn — private room, gear included | Deckroom",
   description:
-    "Private, sound-treated DJ practice room in Greenpoint, Brooklyn with a Pioneer DJ XDJ-RX3 and tuned monitors. $45/hour, no membership, book online in under a minute.",
+    "Private, sound-treated DJ practice room in Greenpoint, Brooklyn with a Pioneer DJ OPUS-QUAD and tuned monitors. $45/hour, no membership, book online in under a minute.",
   alternates: { canonical: "/dj-practice-space-brooklyn" },
   openGraph: {
     title: "DJ Practice Space in Brooklyn — private room, gear included",
     description:
-      "Sound-treated room in Greenpoint with a Pioneer DJ XDJ-RX3 and tuned monitors. $45/hour, no membership.",
+      "Sound-treated room in Greenpoint with a Pioneer DJ OPUS-QUAD and tuned monitors. $45/hour, no membership.",
   },
 };
 
 const COMPARISON: { option: string; cost: string; catch: string }[] = [
   {
-    option: "Deckroom (private room + XDJ-RX3)",
+    option: "Deckroom (private room + OPUS-QUAD)",
     cost: "$45/hr",
     catch: "Only catch: two rooms, so prime evening slots go first",
   },
@@ -28,8 +28,8 @@ const COMPARISON: { option: string; cost: string; catch: string }[] = [
     catch: "No DJ gear — you haul and cable your own setup every time",
   },
   {
-    option: "Buying an XDJ-RX3 for your apartment",
-    cost: "$1,700+ up front",
+    option: "Buying an OPUS-QUAD for your apartment",
+    cost: "~$3,300 up front",
     catch: "Your neighbors set your monitor volume, not you",
   },
   {
@@ -47,7 +47,7 @@ export default function BrooklynPracticePage() {
     "@type": "LocalBusiness",
     name: "Deckroom — Greenpoint",
     description:
-      "Private, sound-treated DJ practice room with Pioneer DJ XDJ-RX3 and tuned monitors, bookable by the hour.",
+      "Private, sound-treated DJ practice room with Pioneer DJ OPUS-QUAD and tuned monitors, bookable by the hour.",
     areaServed: "Brooklyn, NY",
     address: {
       "@type": "PostalAddress",
@@ -82,7 +82,7 @@ export default function BrooklynPracticePage() {
         </h1>
         <p className="mt-6 text-base leading-relaxed text-fg-mid sm:text-lg">
           A private, sound-treated room off Manhattan Ave in Greenpoint with a
-          Pioneer DJ XDJ-RX3 wired into tuned monitors.{" "}
+          Pioneer DJ OPUS-QUAD wired into tuned monitors.{" "}
           {formatMoney(loc.hourlyRateCents)}/hour, one to four hours at a time,
           keypad entry, no membership. Bring USB sticks; everything else is
           there.

@@ -26,11 +26,11 @@ const STEPS: { title: string; body: string }[] = [
   },
   {
     title: "Book hours on club-standard gear",
-    body: "This is the step NYC makes easy. Instead of $1,700+ for your own XDJ-RX3, book a private room that has one wired into tuned monitors. An hour or two a week compounds fast because every minute is on the real interface — loading tracks from USB, setting cues on the screen, riding real faders at volume.",
+    body: "This is the step NYC makes easy. Instead of $3,000+ for your own OPUS-QUAD, book a private room that has one wired into tuned monitors. An hour or two a week compounds fast because every minute is on the real interface — loading tracks from USB, setting cues on the touchscreen, riding real faders across four decks at volume.",
   },
   {
     title: "Record every session and listen back",
-    body: "The XDJ-RX3 records your mix to the same USB stick your music lives on. Play a 30-minute set, ride the train home, listen to it. You'll hear every rushed transition and every EQ clash. Nothing improves a DJ faster than being their own harshest listener.",
+    body: "The OPUS-QUAD records your mix to the same USB stick your music lives on. Play a 30-minute set, ride the train home, listen to it. You'll hear every rushed transition and every EQ clash. Nothing improves a DJ faster than being their own harshest listener.",
   },
   {
     title: "Play for people as soon as you're not embarrassing",
@@ -45,7 +45,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Do I need to buy DJ equipment to learn?",
-    a: "No. In NYC it's cheaper to rent time on professional equipment than to own mid-range gear that you'll outgrow. A Pioneer DJ XDJ-RX3 costs around $1,700 new; at Deckroom you practice on one for $45–60/hour, monitors and room included.",
+    a: "No. In NYC it's cheaper to rent time on professional equipment than to buy a flagship you'll only run a few hours a week. A Pioneer DJ OPUS-QUAD costs around $3,299 new; at Deckroom you practice on one for $45–60/hour, monitors and room included.",
   },
   {
     q: "How much does it cost to learn to DJ in NYC?",
@@ -57,7 +57,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Should I learn on CDJs or a controller?",
-    a: "Learn on whatever standalone club-style gear you can get hands on. An all-in-one like the XDJ-RX3 uses the same layout, screen logic, and workflow as the CDJ + mixer booths in clubs, so everything transfers. A laptop-tethered controller teaches you a layout most venues don't have.",
+    a: "Learn on whatever standalone club-style gear you can get hands on. An all-in-one like the OPUS-QUAD uses the same layout, screen logic, and workflow as the CDJ + mixer booths in clubs, so everything transfers. A laptop-tethered controller teaches you a layout most venues don't have.",
   },
 ];
 
@@ -121,7 +121,7 @@ export default function LearnToDjPage() {
             ({formatMoney(LOCATIONS.greenpoint.hourlyRateCents)}/hr) and the
             Lower East Side, Manhattan (
             {formatMoney(LOCATIONS.manhattan.hourlyRateCents)}/hr) — each with a
-            Pioneer DJ XDJ-RX3 and tuned monitors. No membership, no gear to
+            Pioneer DJ OPUS-QUAD and tuned monitors. No membership, no gear to
             carry, book in under a minute.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">

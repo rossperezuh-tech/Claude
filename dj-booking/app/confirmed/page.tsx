@@ -118,7 +118,7 @@ export default async function ConfirmedPage({
         <div className="mt-6 rounded-2xl border border-line bg-ink-900/60 p-5 text-sm leading-relaxed text-fg-mid">
           <p className="kicker mb-2">What happens next</p>
           Your door code arrives by email the morning of your session. Bring
-          USB sticks or a laptop — the XDJ-RX3, monitors, and cabling are
+          USB sticks or a laptop — the OPUS-QUAD, monitors, and cabling are
           already in the room. Need to move it? Email{" "}
           <a href="mailto:book@deckroom.nyc" className="text-fg underline decoration-fg-dim underline-offset-4">
             book@deckroom.nyc

@@ -18,7 +18,7 @@ paid session → REFER20 turns them into a recruiter.**
 
 **Do these once the domain is live (day 1, ~2 hours, all free):**
 1. **Google Search Console** — verify deckroom.nyc, submit `/sitemap.xml`. This is how you see which queries you rank for.
-2. **Google Business Profile** — one per location ("Deckroom Greenpoint", "Deckroom LES"), category *Recording studio / Rehearsal space*, photos of the room + XDJ-RX3, hours, booking link. **This is the single highest-leverage free thing you can do** — "DJ practice space near me" searches show the map pack first.
+2. **Google Business Profile** — one per location ("Deckroom Greenpoint", "Deckroom LES"), category *Recording studio / Rehearsal space*, photos of the room + OPUS-QUAD, hours, booking link. **This is the single highest-leverage free thing you can do** — "DJ practice space near me" searches show the map pack first.
 3. Ask every early customer for a Google review. 10 reviews with the word "DJ" in them beats $500 of ads for map-pack ranking.
 
 ---
@@ -32,7 +32,7 @@ Priority order, by search intent:
 | ~~learn to dj nyc~~ | ✅ built | Learner, early |
 | ~~dj practice space brooklyn~~ | ✅ built | Ready to book |
 | dj practice space manhattan / les | `/dj-practice-space-manhattan` (mirror of Brooklyn page) | Ready to book |
-| xdj-rx3 rental nyc | short page: "Practice on an XDJ-RX3 in NYC" | Gear-specific, high intent |
+| opus-quad rental nyc | short page: "Practice on an OPUS-QUAD in NYC" | Gear-specific, high intent |
 | how to practice djing in an apartment | guide: apartment problem → treated room answer | Learner, pain-point |
 | open decks nyc / where to play first dj set | guide: list real open-decks nights, position Deckroom as the prep step | Learner, community — earns backlinks |
 | dj lessons brooklyn | guide comparing lessons vs. self-taught + practice hours; later, partner page with an instructor | Learner, commercial |
@@ -58,11 +58,11 @@ up the moment someone searches.
 ### Ad group 1 — "practice space" (highest intent, most budget)
 Keywords (phrase match): `dj practice space nyc`, `dj practice room brooklyn`,
 `dj rehearsal space nyc`, `dj studio rental brooklyn`, `rent cdj time nyc`,
-`xdj rental nyc`
+`opus quad rental nyc`
 → Landing page: `/dj-practice-space-brooklyn`
 
 **Ad copy:**
-- H: *DJ Practice Room — Brooklyn* / *XDJ-RX3 + Monitors Included* / *$45/hr, No Membership*
+- H: *DJ Practice Room — Brooklyn* / *OPUS-QUAD + Monitors Included* / *$45/hr, No Membership*
 - D: *Private, sound-treated room in Greenpoint. Book online in under a minute, keypad entry, play loud. 20% off your first session with code REFER20.*
 
 ### Ad group 2 — "learn to dj" (bigger volume, lower intent, smaller budget)
@@ -72,7 +72,7 @@ Keywords: `learn to dj nyc`, `dj lessons brooklyn`, `how to learn dj`,
 
 **Ad copy:**
 - H: *Learning to DJ in NYC?* / *Practice on Club Gear, $45/hr* / *Skip the Toy Controller*
-- D: *An hour a week on a real XDJ-RX3 beats a year on a starter controller. Private treated room in Greenpoint. Book by the hour.*
+- D: *An hour a week on a real OPUS-QUAD beats a year on a starter controller. Private treated room in Greenpoint. Book by the hour.*
 
 ### Negative keywords (add day 1, saves real money)
 `free`, `jobs`, `hire a dj`, `dj for party`, `dj for wedding`, `equipment
@@ -89,8 +89,8 @@ empty account convert badly).
 - **Audience:** NYC + 10mi, ages 20–45, interests: DJing, Pioneer DJ, rekordbox, Serato, Boiler Room, house/techno
 - **Placement:** Reels + Stories only (skip feed/audience network)
 - **Creative (use the assets in this repo + phone video):**
-  1. **Room reveal** — keypad → door opens → lights → XDJ-RX3 on. Text: "Private DJ room. $45/hr. Greenpoint." *(strongest hook, film this first)*
-  2. Hero product shot (`public/xdj-rx3.png`) + "Practice on the real thing — book by the hour"
+  1. **Room reveal** — keypad → door opens → lights → OPUS-QUAD on. Text: "Private DJ room. $45/hr. Greenpoint." *(strongest hook, film this first)*
+  2. Hero product shot (`public/opus-quad.png`) + "Practice on the real thing — book by the hour"
   3. POV: hands on jogs at volume. Text: "Your apartment can't do this."
 - **Retargeting** (once pixel has data): anyone who visited `/book/*` but no `/confirmed` in 7 days → "Your slot's still open. REFER20 gets you 20% off."
 

@@ -12,7 +12,7 @@ Your Deckroom session is confirmed:
 Thursday, July 11 · 8 PM–10 PM
 Door Code: [CODE]
 
-Your XDJ-RX3 and monitors are ready inside. Just you and the gear.
+Your OPUS-QUAD and monitors are ready inside. Just you and the gear.
 
 **What to bring:**
 - USB sticks or a laptop
@@ -37,7 +37,7 @@ See you soon.
 Hi,
 
 We're opening Deckroom: two private, sound-treated rooms with Pioneer DJ 
-XDJ-RX3 systems. For people who practice serious.
+OPUS-QUAD systems. For people who practice serious.
 
 **The deal:**
 - Book by the hour (1–4 hours max)
@@ -112,7 +112,7 @@ DJs.
 
 Hi [Name],
 
-It's been a minute since you booked with us. The XDJ-RX3 is waiting. The 
+It's been a minute since you booked with us. The OPUS-QUAD is waiting. The 
 room is ready.
 
 **[LOCATION]** is available [UPCOMING SLOTS].
@@ -155,7 +155,7 @@ Address: [ADDRESS]. See you soon. —Deckroom
 ```
 🎛️ Deckroom is open.
 
-Sound-treated room. XDJ-RX3. Real monitors. Greenpoint & LES.
+Sound-treated room. OPUS-QUAD. Real monitors. Greenpoint & LES.
 
 Book by the hour, no membership. $45–60/hr. Keypad entry.
 

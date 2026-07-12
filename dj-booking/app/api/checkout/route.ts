@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
             unit_amount: amountCents,
             product_data: {
               name: `${loc.name} session — ${formatDateLong(date)}`,
-              description: `${formatHour(start)}–${formatHour(endHour)} · XDJ-RX3 + monitors included${promo ? ` · ${promo.label}` : ""}`,
+              description: `${formatHour(start)}–${formatHour(endHour)} · OPUS-QUAD + monitors included${promo ? ` · ${promo.label}` : ""}`,
             },
           },
         },

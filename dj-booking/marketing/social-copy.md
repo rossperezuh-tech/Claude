@@ -4,7 +4,7 @@
 
 ### Post 1: The Gear
 ```
-No toy controllers. No YouTube tutorials. Just you, the XDJ-RX3, and two 
+No toy controllers. No YouTube tutorials. Just you, the OPUS-QUAD, and two 
 hours to get ready.
 
 Deckroom is sound-treated practice space with club-standard gear. Book by 
@@ -20,7 +20,7 @@ what the floor will hear.
 
 That's what Deckroom is for.
 
-Keypad entry. Door code in your email. Pioneer DJ XDJ-RX3 waiting inside.
+Keypad entry. Door code in your email. Pioneer DJ OPUS-QUAD waiting inside.
 1–4 hours. $45–60/hr.
 
 Book: link in bio
@@ -61,7 +61,7 @@ deckroom.nyc — link in bio
 
 ```
 No membership. No DJ booth rental + gear rental nonsense. One booking covers 
-the room + the XDJ-RX3.
+the room + the OPUS-QUAD.
 
 Deckroom. Greenpoint & LES. → deckroom.nyc
 ```
@@ -89,7 +89,7 @@ That's a Deckroom session.
 You: *practicing at home on a controller*
 Also you: *playing out tomorrow on different gear*
 
-Cut to: [XDJ-RX3 photo]
+Cut to: [OPUS-QUAD photo]
 Voiceover: "Practice on what you'll actually play."
 
 Deckroom. Greenpoint & Manhattan. Book below.
@@ -101,7 +101,7 @@ Deckroom. Greenpoint & Manhattan. Book below.
 Voiceover: "You booked 2 hours. You got in via keypad. The room is silent."
 
 [Shots of equipment]
-"Pioneer DJ XDJ-RX3. Tuned monitors. That's it. That's all you need."
+"Pioneer DJ OPUS-QUAD. Tuned monitors. That's it. That's all you need."
 
 [DJ loading tracks]
 "Now play. No distractions. No watching. Just you and real gear."
@@ -126,7 +126,7 @@ Your set is tomorrow—practice today
 ```
 
 ```
-Sound-treated room. XDJ-RX3. $45/hr.
+Sound-treated room. OPUS-QUAD. $45/hr.
 ```
 
 ---
@@ -142,7 +142,7 @@ probably want to practice on the actual thing you'll be playing out on.
 
 Deckroom is two private, sound-treated rooms in Greenpoint (Brooklyn) and 
 the Lower East Side (Manhattan). Both have the same gear: Pioneer DJ 
-XDJ-RX3, tuned monitors, nothing else you need to carry.
+OPUS-QUAD, tuned monitors, nothing else you need to carry.
 
 Book by the hour. $45/hr in Greenpoint, $60/hr in Manhattan. No membership. 
 No surprise fees. You play, you pay.
@@ -171,7 +171,7 @@ Book by the Hour
 ### Headline 2
 ```
 Play Before You Perform
-Real XDJ-RX3. Real Monitors.
+Real OPUS-QUAD. Real Monitors.
 Greenpoint & LES. $45–60/hr.
 ```
 
@@ -184,7 +184,7 @@ Practice Like You Mean It.
 
 ### Description
 ```
-Book a sound-treated room with Pioneer DJ XDJ-RX3 + tuned monitors. 1–4 
+Book a sound-treated room with Pioneer DJ OPUS-QUAD + tuned monitors. 1–4 
 hours. No membership. Keypad entry. Confirmation email + door code same day.
 ```
 

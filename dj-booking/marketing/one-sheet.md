@@ -2,7 +2,7 @@
 
 ## THE PITCH
 
-**Private sound-treated rooms. Pioneer DJ XDJ-RX3. Book by the hour. No membership.**
+**Private sound-treated rooms. Pioneer DJ OPUS-QUAD. Book by the hour. No membership.**
 
 Deckroom is practice space for working DJs and people learning to DJ in NYC. 
 Two locations (Greenpoint, Brooklyn & Lower East Side, Manhattan). Same 
@@ -28,7 +28,7 @@ professional gear in both. Fast booking, immediate confirmation, keypad entry.
 
 ## THE GEAR (BOTH ROOMS)
 
-- **Player:** Pioneer DJ XDJ-RX3 (2-channel all-in-one system)
+- **Player:** Pioneer DJ OPUS-QUAD (4-channel all-in-one flagship, 10.1" touchscreen)
 - **Sound:** Powered monitors, tuned to the room
 - **Inputs:** USB sticks, laptop over USB
 - **Extras:** Booth stand, cabling, spare headphones

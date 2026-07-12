@@ -1,5 +1,5 @@
 /**
- * Custom-built SVG model of a 2-channel all-in-one DJ system (DJ-RX3 class),
+ * Custom-built SVG model of an all-in-one DJ system (OPUS-QUAD class),
  * rendered in CSS 3D perspective. Jog wheels spin, VU meters pulse, and a
  * pad blinks — all pure CSS, honoring prefers-reduced-motion.
  */
