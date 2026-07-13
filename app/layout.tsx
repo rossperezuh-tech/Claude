@@ -36,6 +36,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Link href="/docs" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                 Docs
               </Link>
+              <Link href="/tools" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
+                Tools
+              </Link>
             </nav>
             <div className="ml-auto hidden text-xs text-ink-faint sm:block">
               <kbd className="rounded border border-surface-edge bg-surface-overlay px-1.5 py-0.5">⌘K</kbd>{" "}
