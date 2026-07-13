@@ -194,3 +194,40 @@ export async function createTasksBulk(
   revalidateAll();
   return data.length;
 }
+
+// ---- Tools: Contract Manager ----
+
+export async function createContract(input: {
+  businessId: string;
+  title: string;
+  counterparty?: string;
+  effectiveDate?: string | null;
+  endDate?: string | null;
+  autoRenews?: boolean;
+  renewalNoticeDate?: string | null;
+  summary?: string;
+  notes?: string;
+}) {
+  const title = input.title.trim();
+  if (!title) return;
+  const toDate = (d?: string | null) => (d ? new Date(d + "T09:00:00") : null);
+  await prisma.contract.create({
+    data: {
+      businessId: input.businessId,
+      title,
+      counterparty: input.counterparty ?? "",
+      effectiveDate: toDate(input.effectiveDate),
+      endDate: toDate(input.endDate),
+      autoRenews: input.autoRenews ?? false,
+      renewalNoticeDate: toDate(input.renewalNoticeDate),
+      summary: input.summary ?? "",
+      notes: input.notes ?? "",
+    },
+  });
+  revalidateAll();
+}
+
+export async function deleteContract(id: string) {
+  await prisma.contract.delete({ where: { id } });
+  revalidateAll();
+}

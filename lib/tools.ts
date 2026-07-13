@@ -9,7 +9,7 @@ export const TOOLS = [
     slug: "contract-manager",
     name: "The Contract Manager",
     description: "Drafts agreements, tracks dates, flags renewals and deadlines early.",
-    status: "soon",
+    status: "live",
   },
   {
     slug: "meeting-notes",

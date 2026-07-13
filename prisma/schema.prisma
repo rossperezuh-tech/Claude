@@ -25,6 +25,7 @@ model Business {
   links     Link[]
   deals     Deal[]
   ledger    LedgerEntry[]
+  contracts Contract[]
 }
 
 model Task {
@@ -121,4 +122,27 @@ model LedgerEntry {
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
   @@index([businessId, date])
+}
+
+// Tracked agreements from the Contract Manager tool (/tools/contract-manager).
+model Contract {
+  id                String    @id @default(cuid())
+  title             String
+  counterparty      String    @default("")
+  status            String    @default("active") // draft | active | expired | terminated
+  effectiveDate     DateTime?
+  endDate           DateTime?
+  autoRenews        Boolean   @default(false)
+  // Last day to send a non-renewal / termination notice before auto-renewal locks in.
+  renewalNoticeDate DateTime?
+  summary           String    @default("")
+  notes             String    @default("")
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId])
+  @@index([renewalNoticeDate])
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import type Anthropic from "@anthropic-ai/sdk";
+import { missingKeyResponse, runStructured } from "@/lib/claude";
 
 export const maxDuration = 300;
 
@@ -70,33 +71,9 @@ type AnalyzeBody =
   | { kind: "text"; text: string; filename?: string }
   | { kind: "pdf"; base64: string; filename?: string };
 
-function userContent(body: AnalyzeBody): Anthropic.ContentBlockParam[] {
-  const ask = {
-    type: "text" as const,
-    text: `Analyze this document${body.filename ? ` (${body.filename})` : ""}.`,
-  };
-  if (body.kind === "pdf") {
-    return [
-      {
-        type: "document",
-        source: { type: "base64", media_type: "application/pdf", data: body.base64 },
-      },
-      ask,
-    ];
-  }
-  return [
-    { type: "document", source: { type: "text", media_type: "text/plain", data: body.text } },
-    ask,
-  ];
-}
-
 export async function POST(req: NextRequest) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return NextResponse.json(
-      { error: "ANTHROPIC_API_KEY is not set. Add it to .env and restart the dev server." },
-      { status: 500 },
-    );
-  }
+  const missingKey = missingKeyResponse();
+  if (missingKey) return missingKey;
 
   let body: AnalyzeBody;
   try {
@@ -105,9 +82,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  if (body.kind === "text" && !body.text?.trim()) {
-    return NextResponse.json({ error: "No document text provided." }, { status: 400 });
-  }
+  const ask = {
+    type: "text" as const,
+    text: `Analyze this document${body.filename ? ` (${body.filename})` : ""}.`,
+  };
+  let content: Anthropic.ContentBlockParam[];
   if (body.kind === "pdf") {
     if (!body.base64) {
       return NextResponse.json({ error: "No PDF data provided." }, { status: 400 });
@@ -115,62 +94,24 @@ export async function POST(req: NextRequest) {
     if (body.base64.length * 0.75 > MAX_UPLOAD_BYTES) {
       return NextResponse.json({ error: "PDF is too large (32 MB max)." }, { status: 400 });
     }
+    content = [
+      {
+        type: "document",
+        source: { type: "base64", media_type: "application/pdf", data: body.base64 },
+      },
+      ask,
+    ];
+  } else {
+    if (!body.text?.trim()) {
+      return NextResponse.json({ error: "No document text provided." }, { status: 400 });
+    }
+    content = [
+      { type: "document", source: { type: "text", media_type: "text/plain", data: body.text } },
+      ask,
+    ];
   }
 
-  const client = new Anthropic();
-
-  try {
-    const response = await client.messages
-      .stream({
-        model: "claude-opus-4-8",
-        max_tokens: 16000,
-        thinking: { type: "adaptive" },
-        system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
-        output_config: { format: { type: "json_schema", schema: ANALYSIS_SCHEMA } },
-        messages: [{ role: "user", content: userContent(body) }],
-      })
-      .finalMessage();
-
-    if (response.stop_reason === "refusal") {
-      return NextResponse.json(
-        { error: "The model declined to analyze this document." },
-        { status: 422 },
-      );
-    }
-    if (response.stop_reason === "max_tokens") {
-      return NextResponse.json(
-        { error: "The document is too long for a single analysis. Try a shorter excerpt." },
-        { status: 422 },
-      );
-    }
-
-    const textBlock = response.content.find(
-      (b): b is Anthropic.TextBlock => b.type === "text",
-    );
-    if (!textBlock) {
-      return NextResponse.json({ error: "The model returned no analysis." }, { status: 502 });
-    }
-
-    return NextResponse.json({ analysis: JSON.parse(textBlock.text) });
-  } catch (error) {
-    if (error instanceof Anthropic.AuthenticationError) {
-      return NextResponse.json({ error: "Invalid ANTHROPIC_API_KEY." }, { status: 500 });
-    }
-    if (error instanceof Anthropic.RateLimitError) {
-      return NextResponse.json(
-        { error: "Rate limited by the Claude API. Wait a minute and retry." },
-        { status: 429 },
-      );
-    }
-    if (error instanceof Anthropic.APIConnectionError) {
-      return NextResponse.json(
-        { error: "Could not reach the Claude API. Check your network." },
-        { status: 502 },
-      );
-    }
-    if (error instanceof Anthropic.APIError) {
-      return NextResponse.json({ error: `Claude API error: ${error.message}` }, { status: 502 });
-    }
-    throw error;
-  }
+  const result = await runStructured({ system: SYSTEM_PROMPT, schema: ANALYSIS_SCHEMA, content });
+  if ("errorResponse" in result) return result.errorResponse;
+  return NextResponse.json({ analysis: result.data });
 }

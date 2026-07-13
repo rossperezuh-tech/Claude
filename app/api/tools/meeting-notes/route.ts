@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+import { missingKeyResponse, runStructured } from "@/lib/claude";
 
 export const maxDuration = 300;
 
@@ -41,12 +41,8 @@ const NOTES_SCHEMA = {
 };
 
 export async function POST(req: NextRequest) {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    return NextResponse.json(
-      { error: "ANTHROPIC_API_KEY is not set. Add it to .env and restart the dev server." },
-      { status: 500 },
-    );
-  }
+  const missingKey = missingKeyResponse();
+  if (missingKey) return missingKey;
 
   let body: { notes?: string };
   try {
@@ -59,65 +55,11 @@ export async function POST(req: NextRequest) {
   }
 
   const today = new Date().toISOString().slice(0, 10);
-  const client = new Anthropic();
-
-  try {
-    const response = await client.messages
-      .stream({
-        model: "claude-opus-4-8",
-        max_tokens: 16000,
-        thinking: { type: "adaptive" },
-        system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
-        output_config: { format: { type: "json_schema", schema: NOTES_SCHEMA } },
-        messages: [
-          {
-            role: "user",
-            content: `Today's date: ${today}\n\nMeeting notes:\n\n${body.notes}`,
-          },
-        ],
-      })
-      .finalMessage();
-
-    if (response.stop_reason === "refusal") {
-      return NextResponse.json(
-        { error: "The model declined to process these notes." },
-        { status: 422 },
-      );
-    }
-    if (response.stop_reason === "max_tokens") {
-      return NextResponse.json(
-        { error: "The notes are too long for a single pass. Try splitting them." },
-        { status: 422 },
-      );
-    }
-
-    const textBlock = response.content.find(
-      (b): b is Anthropic.TextBlock => b.type === "text",
-    );
-    if (!textBlock) {
-      return NextResponse.json({ error: "The model returned no result." }, { status: 502 });
-    }
-
-    return NextResponse.json({ result: JSON.parse(textBlock.text) });
-  } catch (error) {
-    if (error instanceof Anthropic.AuthenticationError) {
-      return NextResponse.json({ error: "Invalid ANTHROPIC_API_KEY." }, { status: 500 });
-    }
-    if (error instanceof Anthropic.RateLimitError) {
-      return NextResponse.json(
-        { error: "Rate limited by the Claude API. Wait a minute and retry." },
-        { status: 429 },
-      );
-    }
-    if (error instanceof Anthropic.APIConnectionError) {
-      return NextResponse.json(
-        { error: "Could not reach the Claude API. Check your network." },
-        { status: 502 },
-      );
-    }
-    if (error instanceof Anthropic.APIError) {
-      return NextResponse.json({ error: `Claude API error: ${error.message}` }, { status: 502 });
-    }
-    throw error;
-  }
+  const result = await runStructured({
+    system: SYSTEM_PROMPT,
+    schema: NOTES_SCHEMA,
+    content: `Today's date: ${today}\n\nMeeting notes:\n\n${body.notes}`,
+  });
+  if ("errorResponse" in result) return result.errorResponse;
+  return NextResponse.json({ result: result.data });
 }
