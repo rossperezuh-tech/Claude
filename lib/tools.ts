@@ -1,4 +1,11 @@
-export const TOOLS = [
+export type ToolStatus = "live" | "soon";
+
+export const TOOLS: readonly {
+  slug: string;
+  name: string;
+  description: string;
+  status: ToolStatus;
+}[] = [
   {
     slug: "document-reader",
     name: "Document Reader",
@@ -20,12 +27,10 @@ export const TOOLS = [
   {
     slug: "the-brain",
     name: "The Brain",
-    description: "Your private AI and voice-note bot. Everything plugs into it.",
-    status: "soon",
+    description: "Your private HQ assistant. It sees your tasks, contracts, docs, and contacts.",
+    status: "live",
   },
 ] as const;
-
-export type ToolStatus = (typeof TOOLS)[number]["status"];
 
 export const TOOL_STATUS_STYLES: Record<ToolStatus, { label: string; className: string }> = {
   live: { label: "Live", className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" },
