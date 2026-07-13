@@ -15,7 +15,7 @@ export const TOOLS = [
     slug: "meeting-notes",
     name: "Meeting Notes",
     description: "Turns meeting and deposition notes into a simple to-do list.",
-    status: "soon",
+    status: "live",
   },
   {
     slug: "the-brain",

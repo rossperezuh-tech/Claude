@@ -173,3 +173,24 @@ export async function deleteLink(id: string) {
   await prisma.link.delete({ where: { id } });
   revalidateAll();
 }
+
+// ---- Tools: Meeting Notes ----
+
+export async function createTasksBulk(
+  businessId: string,
+  items: { title: string; notes?: string; priority?: string; dueDate?: string | null }[],
+) {
+  const data = items
+    .map((item) => ({
+      title: item.title.trim(),
+      businessId,
+      notes: item.notes ?? "",
+      priority: item.priority ?? "P2",
+      dueDate: item.dueDate ? new Date(item.dueDate + "T09:00:00") : null,
+    }))
+    .filter((item) => item.title);
+  if (data.length === 0) return 0;
+  await prisma.task.createMany({ data });
+  revalidateAll();
+  return data.length;
+}
