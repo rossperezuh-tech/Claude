@@ -7,7 +7,7 @@ export async function GET(req: NextRequest) {
   const q = (req.nextUrl.searchParams.get("q") ?? "").trim();
   if (!q) return NextResponse.json([]);
 
-  const contains = { contains: q };
+  const contains = { contains: q, mode: "insensitive" as const };
 
   const [businesses, tasks, documents, contacts] = await Promise.all([
     prisma.business.findMany({

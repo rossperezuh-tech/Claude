@@ -227,7 +227,13 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
         where: {
           ...(businessId ? { businessId } : {}),
           ...(query
-            ? { OR: [{ title: { contains: query } }, { notes: { contains: query } }, { category: { contains: query } }] }
+            ? {
+                OR: [
+                  { title: { contains: query, mode: "insensitive" } },
+                  { notes: { contains: query, mode: "insensitive" } },
+                  { category: { contains: query, mode: "insensitive" } },
+                ],
+              }
             : {}),
         },
         orderBy: { updatedAt: "desc" },
@@ -259,7 +265,14 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
       const contacts = await prisma.contact.findMany({
         where: {
           ...(businessId ? { businessId } : {}),
-          ...(query ? { OR: [{ name: { contains: query } }, { role: { contains: query } }] } : {}),
+          ...(query
+            ? {
+                OR: [
+                  { name: { contains: query, mode: "insensitive" } },
+                  { role: { contains: query, mode: "insensitive" } },
+                ],
+              }
+            : {}),
         },
         take: 50,
         select: {
