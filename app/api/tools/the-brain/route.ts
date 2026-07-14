@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 import { CLAUDE_MODEL, missingKeyResponse } from "@/lib/claude";
 
 export const maxDuration = 300;
@@ -8,7 +9,7 @@ export const maxDuration = 300;
 const MAX_TOOL_ITERATIONS = 8;
 const MAX_HISTORY_MESSAGES = 40;
 
-const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, a command center for RP's portfolio of small businesses. You have live read access to the HQ database (businesses, tasks, contracts, documents, contacts) through tools, and you can create tasks.
+const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts) through tools, and you can create tasks. You only ever see this one user's data.
 
 Guidelines:
 - Answer from the database, not from memory: when a question involves the user's businesses, tasks, deadlines, contracts, docs, or people, call the relevant tool first. Never invent records.
@@ -114,16 +115,24 @@ const TOOLS: Anthropic.Tool[] = [
   },
 ];
 
-async function resolveBusinessId(slug: string): Promise<string | null> {
+async function resolveBusinessId(orgId: string, slug: string): Promise<string | null> {
   if (!slug) return null;
-  const b = await prisma.business.findUnique({ where: { slug }, select: { id: true } });
+  const b = await prisma.business.findUnique({
+    where: { organizationId_slug: { organizationId: orgId, slug } },
+    select: { id: true },
+  });
   return b?.id ?? null;
 }
 
-async function executeTool(name: string, input: Record<string, unknown>): Promise<string> {
+async function executeTool(
+  orgId: string,
+  name: string,
+  input: Record<string, unknown>,
+): Promise<string> {
   switch (name) {
     case "list_businesses": {
       const businesses = await prisma.business.findMany({
+        where: { organizationId: orgId },
         orderBy: { sortOrder: "asc" },
         select: {
           name: true,
@@ -149,11 +158,12 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
       const status = String(input.status ?? "");
       const dueWithinDays = Number(input.due_within_days ?? 0);
       const includeDone = Boolean(input.include_done);
-      const businessId = await resolveBusinessId(slug);
+      const businessId = await resolveBusinessId(orgId, slug);
       if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
 
       const tasks = await prisma.task.findMany({
         where: {
+          business: { organizationId: orgId },
           ...(businessId ? { businessId } : {}),
           ...(status ? { status } : includeDone ? {} : { status: { not: "DONE" } }),
           ...(dueWithinDays > 0
@@ -186,10 +196,13 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
 
     case "query_contracts": {
       const slug = String(input.business_slug ?? "");
-      const businessId = await resolveBusinessId(slug);
+      const businessId = await resolveBusinessId(orgId, slug);
       if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
       const contracts = await prisma.contract.findMany({
-        where: businessId ? { businessId } : {},
+        where: {
+          business: { organizationId: orgId },
+          ...(businessId ? { businessId } : {}),
+        },
         orderBy: [{ renewalNoticeDate: "asc" }, { endDate: "asc" }],
         select: {
           title: true,
@@ -221,10 +234,11 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
     case "search_docs": {
       const query = String(input.query ?? "").trim();
       const slug = String(input.business_slug ?? "");
-      const businessId = await resolveBusinessId(slug);
+      const businessId = await resolveBusinessId(orgId, slug);
       if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
       const docs = await prisma.document.findMany({
         where: {
+          business: { organizationId: orgId },
           ...(businessId ? { businessId } : {}),
           ...(query
             ? {
@@ -260,10 +274,11 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
     case "list_contacts": {
       const slug = String(input.business_slug ?? "");
       const query = String(input.query ?? "").trim();
-      const businessId = await resolveBusinessId(slug);
+      const businessId = await resolveBusinessId(orgId, slug);
       if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
       const contacts = await prisma.contact.findMany({
         where: {
+          business: { organizationId: orgId },
           ...(businessId ? { businessId } : {}),
           ...(query
             ? {
@@ -298,7 +313,7 @@ async function executeTool(name: string, input: Record<string, unknown>): Promis
 
     case "create_task": {
       const slug = String(input.business_slug ?? "");
-      const businessId = await resolveBusinessId(slug);
+      const businessId = await resolveBusinessId(orgId, slug);
       if (!businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
       const title = String(input.title ?? "").trim();
       if (!title) return JSON.stringify({ error: "Task title is required." });
@@ -334,6 +349,7 @@ interface ChatTurn {
 export async function POST(req: NextRequest) {
   const missingKey = missingKeyResponse();
   if (missingKey) return missingKey;
+  const { orgId } = await requireOrg();
 
   let body: { messages?: ChatTurn[] };
   try {
@@ -397,7 +413,7 @@ export async function POST(req: NextRequest) {
         let result: string;
         let isError = false;
         try {
-          result = await executeTool(use.name, use.input as Record<string, unknown>);
+          result = await executeTool(orgId, use.name, use.input as Record<string, unknown>);
         } catch (err) {
           result = `Tool failed: ${err instanceof Error ? err.message : "unknown error"}`;
           isError = true;

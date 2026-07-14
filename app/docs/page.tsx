@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 import { DOC_CATEGORIES } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
@@ -24,9 +25,12 @@ function filterLink(current: Search, patch: Partial<Search>): string {
 }
 
 export default async function DocsPage({ searchParams }: { searchParams: Search }) {
+  const { orgId } = await requireOrg();
   const q = (searchParams.q ?? "").trim();
 
-  const where: Record<string, unknown> = {};
+  const where: Record<string, unknown> = {
+    business: { organizationId: orgId },
+  };
   if (q) {
     where.OR = [
       { title: { contains: q, mode: "insensitive" } },
@@ -35,7 +39,8 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
     ];
   }
   if (searchParams.category) where.category = searchParams.category;
-  if (searchParams.business) where.business = { slug: searchParams.business };
+  if (searchParams.business)
+    where.business = { organizationId: orgId, slug: searchParams.business };
 
   const [docs, businesses] = await Promise.all([
     prisma.document.findMany({
@@ -44,6 +49,7 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
       include: { business: { select: { name: true, slug: true, color: true } } },
     }),
     prisma.business.findMany({
+      where: { organizationId: orgId },
       orderBy: { sortOrder: "asc" },
       select: { name: true, slug: true, color: true },
     }),

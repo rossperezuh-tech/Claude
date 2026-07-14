@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { endOfDay, startOfDay } from "date-fns";
 import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 import TodayTaskRow from "@/components/TodayTaskRow";
 import NewTaskForm from "@/components/NewTaskForm";
 import { PRIORITIES, STATUS_LABELS, type TaskStatus } from "@/lib/constants";
@@ -19,16 +20,21 @@ function filterLink(current: Search, patch: Partial<Search>): string {
 }
 
 export default async function TasksPage({ searchParams }: { searchParams: Search }) {
+  const { orgId } = await requireOrg();
   const now = new Date();
   const businesses = await prisma.business.findMany({
+    where: { organizationId: orgId },
     orderBy: { sortOrder: "asc" },
     select: { id: true, name: true, slug: true, color: true },
   });
 
-  const where: Record<string, unknown> = {};
+  const where: Record<string, unknown> = {
+    business: { organizationId: orgId },
+  };
   if (searchParams.done === "1") where.status = "DONE";
   else where.status = { not: "DONE" };
-  if (searchParams.business) where.business = { slug: searchParams.business };
+  if (searchParams.business)
+    where.business = { organizationId: orgId, slug: searchParams.business };
   if (searchParams.priority) where.priority = searchParams.priority;
   if (searchParams.due === "overdue") where.dueDate = { lt: startOfDay(now) };
   else if (searchParams.due === "today") where.dueDate = { gte: startOfDay(now), lte: endOfDay(now) };

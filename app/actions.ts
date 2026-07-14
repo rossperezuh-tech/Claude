@@ -2,11 +2,85 @@
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 import { nextOccurrence } from "@/lib/dates";
 import type { Recurrence } from "@/lib/constants";
 
 function revalidateAll() {
   revalidatePath("/", "layout");
+}
+
+/**
+ * Tenant safety: every mutation here resolves the caller's org and refuses
+ * to touch rows outside it. By-id updates/deletes go through updateMany /
+ * deleteMany with a relation filter so the ownership check and the write
+ * are a single query; creates verify the target business first.
+ */
+async function assertBusinessInOrg(businessId: string, orgId: string): Promise<boolean> {
+  const b = await prisma.business.findFirst({
+    where: { id: businessId, organizationId: orgId },
+    select: { id: true },
+  });
+  return b !== null;
+}
+
+// ---- Businesses ----
+
+const BUSINESS_COLOR_PALETTE = [
+  "#34d399", "#f472b6", "#a3e635", "#fbbf24", "#4ade80", "#fb923c",
+  "#818cf8", "#38bdf8", "#2dd4bf", "#c084fc", "#f87171", "#a8a29e",
+];
+
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48) || "business";
+}
+
+export async function createBusiness(input: {
+  name: string;
+  description?: string;
+  status?: string;
+  color?: string;
+}) {
+  const { orgId } = await requireOrg();
+  const name = input.name.trim();
+  if (!name) return;
+
+  const count = await prisma.business.count({ where: { organizationId: orgId } });
+  const base = slugify(name);
+  // find a slug free within this org
+  let slug = base;
+  for (let i = 2; ; i++) {
+    const clash = await prisma.business.findUnique({
+      where: { organizationId_slug: { organizationId: orgId, slug } },
+      select: { id: true },
+    });
+    if (!clash) break;
+    slug = `${base}-${i}`;
+  }
+
+  await prisma.business.create({
+    data: {
+      organizationId: orgId,
+      name,
+      slug,
+      description: input.description?.trim() ?? "",
+      status: input.status ?? "active",
+      color: input.color ?? BUSINESS_COLOR_PALETTE[count % BUSINESS_COLOR_PALETTE.length],
+      sortOrder: count + 1,
+    },
+  });
+  revalidateAll();
+  return slug;
+}
+
+export async function deleteBusiness(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.business.deleteMany({ where: { id, organizationId: orgId } });
+  revalidateAll();
 }
 
 // ---- Tasks ----
@@ -20,8 +94,10 @@ export async function createTask(input: {
   notes?: string;
   recurrence?: string | null;
 }) {
+  const { orgId } = await requireOrg();
   const title = input.title.trim();
   if (!title) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
   await prisma.task.create({
     data: {
       title,
@@ -41,7 +117,11 @@ export async function updateTaskStatus(id: string, status: string) {
     await completeTask(id);
     return;
   }
-  await prisma.task.update({ where: { id }, data: { status, completedAt: null } });
+  const { orgId } = await requireOrg();
+  await prisma.task.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: { status, completedAt: null },
+  });
   revalidateAll();
 }
 
@@ -50,10 +130,13 @@ export async function updateTaskStatus(id: string, status: string) {
  * date advanced by the recurrence interval.
  */
 export async function completeTask(id: string) {
-  const task = await prisma.task.findUnique({ where: { id } });
+  const { orgId } = await requireOrg();
+  const task = await prisma.task.findFirst({
+    where: { id, business: { organizationId: orgId } },
+  });
   if (!task) return;
   await prisma.task.update({
-    where: { id },
+    where: { id: task.id },
     data: { status: "DONE", completedAt: new Date() },
   });
   if (task.recurrence && task.dueDate) {
@@ -76,8 +159,9 @@ export async function updateTask(
   id: string,
   data: { title?: string; priority?: string; dueDate?: string | null; notes?: string; recurrence?: string | null }
 ) {
-  await prisma.task.update({
-    where: { id },
+  const { orgId } = await requireOrg();
+  await prisma.task.updateMany({
+    where: { id, business: { organizationId: orgId } },
     data: {
       ...(data.title !== undefined ? { title: data.title.trim() } : {}),
       ...(data.priority !== undefined ? { priority: data.priority } : {}),
@@ -92,14 +176,19 @@ export async function updateTask(
 }
 
 export async function deleteTask(id: string) {
-  await prisma.task.delete({ where: { id } });
+  const { orgId } = await requireOrg();
+  await prisma.task.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
 
 // ---- Business notes scratchpad ----
 
 export async function saveBusinessNotes(businessId: string, notes: string) {
-  await prisma.business.update({ where: { id: businessId }, data: { notes } });
+  const { orgId } = await requireOrg();
+  await prisma.business.updateMany({
+    where: { id: businessId, organizationId: orgId },
+    data: { notes },
+  });
   // no revalidate: autosave shouldn't trigger rerenders while typing
 }
 
@@ -112,7 +201,9 @@ export async function createDocument(input: {
   url: string;
   notes?: string;
 }) {
+  const { orgId } = await requireOrg();
   if (!input.title.trim() || !input.url.trim()) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
   await prisma.document.create({
     data: {
       businessId: input.businessId,
@@ -126,7 +217,8 @@ export async function createDocument(input: {
 }
 
 export async function deleteDocument(id: string) {
-  await prisma.document.delete({ where: { id } });
+  const { orgId } = await requireOrg();
+  await prisma.document.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
 
@@ -140,7 +232,9 @@ export async function createContact(input: {
   email?: string;
   notes?: string;
 }) {
+  const { orgId } = await requireOrg();
   if (!input.name.trim()) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
   await prisma.contact.create({
     data: {
       businessId: input.businessId,
@@ -155,14 +249,17 @@ export async function createContact(input: {
 }
 
 export async function deleteContact(id: string) {
-  await prisma.contact.delete({ where: { id } });
+  const { orgId } = await requireOrg();
+  await prisma.contact.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
 
 // ---- Links ----
 
 export async function createLink(input: { businessId: string; label: string; url: string }) {
+  const { orgId } = await requireOrg();
   if (!input.label.trim() || !input.url.trim()) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
   await prisma.link.create({
     data: { businessId: input.businessId, label: input.label.trim(), url: input.url.trim() },
   });
@@ -170,7 +267,8 @@ export async function createLink(input: { businessId: string; label: string; url
 }
 
 export async function deleteLink(id: string) {
-  await prisma.link.delete({ where: { id } });
+  const { orgId } = await requireOrg();
+  await prisma.link.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
 
@@ -180,6 +278,8 @@ export async function createTasksBulk(
   businessId: string,
   items: { title: string; notes?: string; priority?: string; dueDate?: string | null }[],
 ) {
+  const { orgId } = await requireOrg();
+  if (!(await assertBusinessInOrg(businessId, orgId))) return 0;
   const data = items
     .map((item) => ({
       title: item.title.trim(),
@@ -208,8 +308,10 @@ export async function createContract(input: {
   summary?: string;
   notes?: string;
 }) {
+  const { orgId } = await requireOrg();
   const title = input.title.trim();
   if (!title) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
   const toDate = (d?: string | null) => (d ? new Date(d + "T09:00:00") : null);
   await prisma.contract.create({
     data: {
@@ -228,6 +330,7 @@ export async function createContract(input: {
 }
 
 export async function deleteContract(id: string) {
-  await prisma.contract.delete({ where: { id } });
+  const { orgId } = await requireOrg();
+  await prisma.contract.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }

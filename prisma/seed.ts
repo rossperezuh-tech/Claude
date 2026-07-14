@@ -112,22 +112,35 @@ const businesses = [
 async function main() {
   console.log("Seeding Venture HQ…");
 
+  // Multi-tenant: sample data lives under a single owner org. Point
+  // SEED_CLERK_USER_ID at your real Clerk user id to seed your own account;
+  // the "dev-seed-user" default is only reachable in local development.
+  const clerkUserId = process.env.SEED_CLERK_USER_ID ?? "dev-seed-user";
+  const org = await prisma.organization.upsert({
+    where: { clerkUserId },
+    update: {},
+    create: { clerkUserId, name: "RP's HQ" },
+  });
+
   for (const b of businesses) {
     await prisma.business.upsert({
-      where: { slug: b.slug },
+      where: { organizationId_slug: { organizationId: org.id, slug: b.slug } },
       update: b,
-      create: b,
+      create: { ...b, organizationId: org.id },
     });
   }
 
   const bySlug: Record<string, string> = {};
-  for (const b of await prisma.business.findMany()) bySlug[b.slug] = b.id;
+  for (const b of await prisma.business.findMany({ where: { organizationId: org.id } }))
+    bySlug[b.slug] = b.id;
 
-  // Wipe non-business data so re-seeding stays clean
-  await prisma.task.deleteMany();
-  await prisma.document.deleteMany();
-  await prisma.contact.deleteMany();
-  await prisma.link.deleteMany();
+  // Wipe non-business data so re-seeding stays clean — this org only;
+  // never touch other tenants' rows.
+  const inOrg = { business: { organizationId: org.id } };
+  await prisma.task.deleteMany({ where: inOrg });
+  await prisma.document.deleteMany({ where: inOrg });
+  await prisma.contact.deleteMany({ where: inOrg });
+  await prisma.link.deleteMany({ where: inOrg });
 
   await prisma.task.createMany({
     data: [
@@ -211,7 +224,7 @@ async function main() {
   });
 
   // v2 structural sample: one deal in the CRE pipeline
-  await prisma.deal.deleteMany();
+  await prisma.deal.deleteMany({ where: inOrg });
   await prisma.deal.create({
     data: {
       businessId: bySlug["cre-direct-buying"],

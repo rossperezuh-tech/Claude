@@ -1,18 +1,22 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { startOfDay, endOfDay } from "date-fns";
+import { requireOrg } from "@/lib/org";
 import QuickCapture from "@/components/QuickCapture";
 import TodayTaskRow from "@/components/TodayTaskRow";
 import CalendarStrip from "@/components/CalendarStrip";
+import NewBusinessForm from "@/components/NewBusinessForm";
 import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const { orgId } = await requireOrg();
   const now = new Date();
   const [businesses, todayTasks] = await Promise.all([
     prisma.business.findMany({
+      where: { organizationId: orgId },
       orderBy: { sortOrder: "asc" },
       include: {
         tasks: {
@@ -23,11 +27,33 @@ export default async function HomePage() {
       },
     }),
     prisma.task.findMany({
-      where: { status: { not: "DONE" }, dueDate: { lte: endOfDay(now) } },
+      where: {
+        business: { organizationId: orgId },
+        status: { not: "DONE" },
+        dueDate: { lte: endOfDay(now) },
+      },
       orderBy: [{ priority: "asc" }, { dueDate: "asc" }],
       include: { business: { select: { name: true, slug: true, color: true } } },
     }),
   ]);
+
+  // First visit: no businesses yet — onboard instead of an empty dashboard.
+  if (businesses.length === 0) {
+    return (
+      <div className="mx-auto max-w-lg space-y-4 pt-12">
+        <div className="text-center">
+          <h1 className="text-xl font-semibold tracking-tight">Welcome to Venture HQ</h1>
+          <p className="mt-2 text-sm text-ink-dim">
+            One command center for everything you run — tasks, deadlines, documents, contacts,
+            and AI tools, organized per venture. Add your first business to get started.
+          </p>
+        </div>
+        <div className="card p-4">
+          <NewBusinessForm autoFocus />
+        </div>
+      </div>
+    );
+  }
 
   const overdueCount = todayTasks.filter(
     (t) => t.dueDate && t.dueDate < startOfDay(now)
@@ -35,6 +61,7 @@ export default async function HomePage() {
 
   const upcoming = await prisma.task.findMany({
     where: {
+      business: { organizationId: orgId },
       status: { not: "DONE" },
       dueDate: { gte: startOfDay(now), lte: new Date(now.getTime() + 14 * 86_400_000) },
     },
@@ -125,6 +152,9 @@ export default async function HomePage() {
               </Link>
             );
           })}
+          <div className="card border-dashed p-4">
+            <NewBusinessForm compact />
+          </div>
         </div>
       </section>
     </div>

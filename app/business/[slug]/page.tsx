@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 import Kanban from "@/components/Kanban";
 import NotesEditor from "@/components/NotesEditor";
 import {
@@ -24,8 +25,9 @@ const CATEGORY_COLORS: Record<string, string> = {
 };
 
 export default async function BusinessPage({ params }: { params: { slug: string } }) {
+  const { orgId } = await requireOrg();
   const business = await prisma.business.findUnique({
-    where: { slug: params.slug },
+    where: { organizationId_slug: { organizationId: orgId, slug: params.slug } },
     include: {
       tasks: { orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }] },
       documents: { orderBy: { createdAt: "desc" } },

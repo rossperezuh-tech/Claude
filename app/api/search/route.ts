@@ -1,32 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
+  const { orgId } = await requireOrg();
   const q = (req.nextUrl.searchParams.get("q") ?? "").trim();
   if (!q) return NextResponse.json([]);
 
   const contains = { contains: q, mode: "insensitive" as const };
+  const inOrg = { organizationId: orgId };
 
   const [businesses, tasks, documents, contacts] = await Promise.all([
     prisma.business.findMany({
-      where: { OR: [{ name: contains }, { description: contains }] },
+      where: { ...inOrg, OR: [{ name: contains }, { description: contains }] },
       take: 5,
     }),
     prisma.task.findMany({
-      where: { OR: [{ title: contains }, { notes: contains }] },
+      where: { business: inOrg, OR: [{ title: contains }, { notes: contains }] },
       include: { business: { select: { name: true, slug: true, color: true } } },
       orderBy: { updatedAt: "desc" },
       take: 8,
     }),
     prisma.document.findMany({
-      where: { OR: [{ title: contains }, { notes: contains }, { category: contains }] },
+      where: {
+        business: inOrg,
+        OR: [{ title: contains }, { notes: contains }, { category: contains }],
+      },
       include: { business: { select: { name: true, slug: true, color: true } } },
       take: 8,
     }),
     prisma.contact.findMany({
-      where: { OR: [{ name: contains }, { role: contains }, { email: contains }] },
+      where: {
+        business: inOrg,
+        OR: [{ name: contains }, { role: contains }, { email: contains }],
+      },
       include: { business: { select: { name: true, slug: true, color: true } } },
       take: 5,
     }),
