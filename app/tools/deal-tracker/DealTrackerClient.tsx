@@ -4,6 +4,7 @@ import { useOptimistic, useState, useTransition } from "react";
 import Link from "next/link";
 import { createDeal, deleteDeal, updateDeal } from "@/app/actions";
 import { DEAL_STAGES, DEAL_STAGE_LABELS, type DealStage } from "@/lib/constants";
+import DealAnalyzer from "./DealAnalyzer";
 
 export interface DealRow {
   id: string;
@@ -101,6 +102,13 @@ export default function DealTrackerClient({
       </div>
 
       <AddDealForm businesses={businesses} />
+
+      <DealAnalyzer
+        businesses={businesses}
+        deals={optimisticDeals
+          .filter((d) => d.stage !== "CLOSE")
+          .map((d) => ({ id: d.id, name: d.name }))}
+      />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {DEAL_STAGES.map((stage) => {

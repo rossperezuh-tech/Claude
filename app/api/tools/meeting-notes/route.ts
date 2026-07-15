@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireOrg } from "@/lib/org";
 import { missingKeyResponse, runStructured } from "@/lib/claude";
 
 export const maxDuration = 300;
@@ -43,6 +44,7 @@ const NOTES_SCHEMA = {
 export async function POST(req: NextRequest) {
   const missingKey = missingKeyResponse();
   if (missingKey) return missingKey;
+  const { orgId } = await requireOrg();
 
   let body: { notes?: string };
   try {
@@ -59,6 +61,7 @@ export async function POST(req: NextRequest) {
     system: SYSTEM_PROMPT,
     schema: NOTES_SCHEMA,
     content: `Today's date: ${today}\n\nMeeting notes:\n\n${body.notes}`,
+    meta: { orgId, tool: "meeting-notes" },
   });
   if ("errorResponse" in result) return result.errorResponse;
   return NextResponse.json({ result: result.data });

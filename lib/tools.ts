@@ -57,7 +57,26 @@ export const TOOLS: readonly {
   {
     slug: "deal-tracker",
     name: "Deal Tracker",
-    description: "Real estate pipeline — lead to close with offers, contacts, and closing dates.",
+    description:
+      "Real estate pipeline lead-to-close, plus an AI deal analyzer for listings and seller notes.",
+    status: "live",
+  },
+  {
+    slug: "money-log",
+    name: "Money Log",
+    description: "Quick-log money in and out per venture, with a monthly net rollup.",
+    status: "live",
+  },
+  {
+    slug: "weekly-digest",
+    name: "Weekly Digest",
+    description: "Your Monday briefing: what happened, what's next, what's at risk.",
+    status: "live",
+  },
+  {
+    slug: "usage",
+    name: "Usage & Billing",
+    description: "Metered AI usage by tool with estimated cost, month by month.",
     status: "live",
   },
 ] as const;

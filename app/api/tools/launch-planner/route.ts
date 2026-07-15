@@ -92,6 +92,7 @@ export async function POST(req: NextRequest) {
     system: SYSTEM_PROMPT,
     schema: PLAN_SCHEMA,
     content: `Today's date: ${today}\nLaunch date: ${body.launchDate}\n${businessContext}\nLaunch brief:\n${body.description.trim()}`,
+    meta: { orgId, tool: "launch-planner" },
   });
   if ("errorResponse" in result) return result.errorResponse;
   return NextResponse.json({ result: result.data });

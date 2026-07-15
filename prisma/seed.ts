@@ -243,6 +243,19 @@ async function main() {
     ],
   });
 
+  // Money Log samples
+  await prisma.ledgerEntry.deleteMany({ where: inOrg });
+  await prisma.ledgerEntry.createMany({
+    data: [
+      { businessId: bySlug["penthouse-yoga"], type: "REVENUE", amountCts: 486000, memo: "Class packs + drop-ins, week of 7/7", date: daysFromNow(-3, 12) },
+      { businessId: bySlug["penthouse-yoga"], type: "EXPENSE", amountCts: 320000, memo: "July rent — 231 Norman Ave", date: daysFromNow(-1, 12) },
+      { businessId: bySlug["brooklyn-tiny-farm"], type: "REVENUE", amountCts: 64000, memo: "Restaurant deliveries", date: daysFromNow(-2, 12) },
+      { businessId: bySlug["brooklyn-tiny-farm"], type: "EXPENSE", amountCts: 11500, memo: "Seed + trays restock", date: daysFromNow(-5, 12) },
+      { businessId: bySlug["green-shoots-studio"], type: "REVENUE", amountCts: 250000, memo: "Reel edits — wellness client invoice", date: daysFromNow(-4, 12) },
+      { businessId: bySlug["clean-plate-nyc"], type: "EXPENSE", amountCts: 78000, memo: "Organic produce wholesale", date: daysFromNow(-2, 12) },
+    ],
+  });
+
   // Deal Tracker samples: the CRE pipeline
   await prisma.deal.deleteMany({ where: inOrg });
   await prisma.deal.createMany({

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type Anthropic from "@anthropic-ai/sdk";
+import { requireOrg } from "@/lib/org";
 import { missingKeyResponse, runStructured } from "@/lib/claude";
 
 export const maxDuration = 300;
@@ -69,6 +70,7 @@ type AnalyzeBody =
 export async function POST(req: NextRequest) {
   const missingKey = missingKeyResponse();
   if (missingKey) return missingKey;
+  const { orgId } = await requireOrg();
 
   let body: AnalyzeBody;
   try {
@@ -109,7 +111,12 @@ export async function POST(req: NextRequest) {
     ];
   }
 
-  const result = await runStructured({ system: SYSTEM_PROMPT, schema: CONTRACT_SCHEMA, content });
+  const result = await runStructured({
+    system: SYSTEM_PROMPT,
+    schema: CONTRACT_SCHEMA,
+    content,
+    meta: { orgId, tool: "contract-manager" },
+  });
   if ("errorResponse" in result) return result.errorResponse;
   return NextResponse.json({ analysis: result.data });
 }

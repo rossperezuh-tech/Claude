@@ -540,3 +540,34 @@ export async function deleteDeal(id: string) {
   await prisma.deal.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
+
+// ---- Tools: Money Log ----
+
+export async function createLedgerEntry(input: {
+  businessId: string;
+  type: string; // REVENUE | EXPENSE
+  amountDollars: number;
+  memo?: string;
+  date?: string | null; // YYYY-MM-DD, default today
+}) {
+  const { orgId } = await requireOrg();
+  const amountCts = Math.round(Math.abs(input.amountDollars) * 100);
+  if (amountCts === 0) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.ledgerEntry.create({
+    data: {
+      businessId: input.businessId,
+      type: input.type === "EXPENSE" ? "EXPENSE" : "REVENUE",
+      amountCts,
+      memo: input.memo?.trim() ?? "",
+      date: input.date ? new Date(input.date + "T12:00:00") : new Date(),
+    },
+  });
+  revalidateAll();
+}
+
+export async function deleteLedgerEntry(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.ledgerEntry.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}

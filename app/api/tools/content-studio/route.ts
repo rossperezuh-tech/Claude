@@ -101,6 +101,7 @@ export async function POST(req: NextRequest) {
     content: `${brandContext ? brandContext + "\n\n" : ""}Topic / what to promote:\n${body.topic.trim()}${
       body.extra?.trim() ? `\n\nExtra direction: ${body.extra.trim()}` : ""
     }\n\nProduce one piece per platform+format combination requested.\nPlatforms: ${platforms.join(", ")}\nFormats: ${formats.join(", ")}`,
+    meta: { orgId, tool: "content-studio" },
   });
   if ("errorResponse" in result) return result.errorResponse;
   return NextResponse.json({ result: result.data });

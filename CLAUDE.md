@@ -57,7 +57,10 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 6. **Content Calendar** — posts board (idea → drafted → scheduled → posted) + 7-day strip
 7. **Launch Planner** — launch brief + date → phased work-back plan → bulk-add tasks
 8. **Client & Order Tracker** — pipeline board (lead → done) with $ value per stage
-9. **Deal Tracker** — CRE pipeline (lead → underwriting → offer → title → close): asking/offer $, seller contact, target-close urgency chips (red ≤14d, amber ≤45d), The Brain integration (`query_deals`)
+9. **Deal Tracker** — CRE pipeline (lead → underwriting → offer → title → close): asking/offer $, seller contact, target-close urgency chips (red ≤14d, amber ≤45d), The Brain integration (`query_deals`); includes the **Deal Analyzer** panel (listing/seller notes → red flags, seller questions, DD checklist → backlog, offer strategy)
+10. **Money Log** — LedgerEntry quick-log (money in/out) per venture, month nav, per-business rev/exp/net rollup; Brain tool `query_ledger`
+11. **Weekly Digest** — one-click Monday briefing from a 7-day-back/7-day-forward org snapshot (tasks, deals, content, renewals, money, pipeline)
+12. **Usage & Billing** — every Claude call metered per org into `UsageEvent` (via `lib/claude.ts` `recordUsage`); /tools/usage shows month-by-tool usage + est cost; `ADMIN_CLERK_USER_ID` env unlocks the all-accounts table for client billing
 
 ## Design direction
 
@@ -77,9 +80,7 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 
 ## v2 backlog (schema is ready, do NOT build until asked)
 
-- Revenue/expense quick-log per business — `LedgerEntry` model exists
 - Google Drive API integration for live doc sync
-- Weekly digest view ("what happened / what's next" per business)
 
 ## Rules for Claude Code
 

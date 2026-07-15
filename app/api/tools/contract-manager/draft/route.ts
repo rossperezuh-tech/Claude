@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireOrg } from "@/lib/org";
 import { missingKeyResponse, runText } from "@/lib/claude";
 
 export const maxDuration = 300;
@@ -16,6 +17,7 @@ Guidelines:
 export async function POST(req: NextRequest) {
   const missingKey = missingKeyResponse();
   if (missingKey) return missingKey;
+  const { orgId } = await requireOrg();
 
   let body: { agreementType?: string; parties?: string; terms?: string };
   try {
@@ -40,7 +42,11 @@ export async function POST(req: NextRequest) {
     .filter(Boolean)
     .join("\n\n");
 
-  const result = await runText({ system: SYSTEM_PROMPT, content: brief });
+  const result = await runText({
+    system: SYSTEM_PROMPT,
+    content: brief,
+    meta: { orgId, tool: "contract-manager" },
+  });
   if ("errorResponse" in result) return result.errorResponse;
   return NextResponse.json({ draft: result.data });
 }

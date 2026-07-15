@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
-import { CLAUDE_MODEL, missingKeyResponse } from "@/lib/claude";
+import { CLAUDE_MODEL, missingKeyResponse, recordUsage } from "@/lib/claude";
 
 export const maxDuration = 300;
 
 const MAX_TOOL_ITERATIONS = 8;
 const MAX_HISTORY_MESSAGES = 40;
 
-const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts, content calendar, client/order pipeline, real-estate deals) through tools, and you can create tasks. You only ever see this one user's data.
+const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts, content calendar, client/order pipeline, real-estate deals, money log) through tools, and you can create tasks. You only ever see this one user's data.
 
 Guidelines:
 - Answer from the database, not from memory: when a question involves the user's businesses, tasks, deadlines, contracts, docs, or people, call the relevant tool first. Never invent records.
@@ -153,6 +153,24 @@ const TOOLS: Anthropic.Tool[] = [
         },
       },
       required: ["business_slug", "stage"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "query_ledger",
+    description:
+      "Money log for a given month: per-business revenue/expense/net totals plus the individual entries. Call this for anything about money in/out, profit, spending, or revenue.",
+    strict: true,
+    input_schema: {
+      type: "object",
+      properties: {
+        business_slug: { type: "string", description: "Exact business slug, or empty string for all" },
+        month: {
+          type: "string",
+          description: "Month as YYYY-MM, or empty string for the current month",
+        },
+      },
+      required: ["business_slug", "month"],
       additionalProperties: false,
     },
   },
@@ -484,6 +502,62 @@ async function executeTool(
       );
     }
 
+    case "query_ledger": {
+      const slug = String(input.business_slug ?? "");
+      const monthRaw = String(input.month ?? "");
+      const businessId = await resolveBusinessId(orgId, slug);
+      if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
+
+      const now = new Date();
+      const [y, m] = /^\d{4}-\d{2}$/.test(monthRaw)
+        ? monthRaw.split("-").map(Number)
+        : [now.getFullYear(), now.getMonth() + 1];
+      const start = new Date(y, m - 1, 1);
+      const end = new Date(y, m, 1);
+
+      const entries = await prisma.ledgerEntry.findMany({
+        where: {
+          business: { organizationId: orgId },
+          ...(businessId ? { businessId } : {}),
+          date: { gte: start, lt: end },
+        },
+        orderBy: { date: "desc" },
+        take: 200,
+        select: {
+          type: true,
+          amountCts: true,
+          memo: true,
+          date: true,
+          business: { select: { name: true } },
+        },
+      });
+
+      const byBusiness = new Map<string, { revenue: number; expense: number }>();
+      for (const e of entries) {
+        const t = byBusiness.get(e.business.name) ?? { revenue: 0, expense: 0 };
+        if (e.type === "REVENUE") t.revenue += e.amountCts;
+        else t.expense += e.amountCts;
+        byBusiness.set(e.business.name, t);
+      }
+
+      return JSON.stringify({
+        month: `${y}-${String(m).padStart(2, "0")}`,
+        totals: Array.from(byBusiness.entries()).map(([business, t]) => ({
+          business,
+          revenue_usd: t.revenue / 100,
+          expense_usd: t.expense / 100,
+          net_usd: (t.revenue - t.expense) / 100,
+        })),
+        entries: entries.slice(0, 50).map((e) => ({
+          date: e.date.toISOString().slice(0, 10),
+          type: e.type,
+          amount_usd: e.amountCts / 100,
+          memo: e.memo || undefined,
+          business: e.business.name,
+        })),
+      });
+    }
+
     case "create_task": {
       const slug = String(input.business_slug ?? "");
       const businessId = await resolveBusinessId(orgId, slug);
@@ -544,7 +618,13 @@ export async function POST(req: NextRequest) {
     ...history.map((m) => ({ role: m.role, content: m.content })),
   ];
   const toolsUsed: string[] = [];
-
+  // Accumulated across loop iterations; recorded once per chat turn.
+  const turnUsage = {
+    input_tokens: 0,
+    output_tokens: 0,
+    cache_read_input_tokens: 0,
+    cache_creation_input_tokens: 0,
+  };
   try {
     for (let i = 0; i < MAX_TOOL_ITERATIONS; i++) {
       const response = await client.messages
@@ -557,6 +637,11 @@ export async function POST(req: NextRequest) {
           messages,
         })
         .finalMessage();
+
+      turnUsage.input_tokens += response.usage.input_tokens ?? 0;
+      turnUsage.output_tokens += response.usage.output_tokens ?? 0;
+      turnUsage.cache_read_input_tokens += response.usage.cache_read_input_tokens ?? 0;
+      turnUsage.cache_creation_input_tokens += response.usage.cache_creation_input_tokens ?? 0;
 
       if (response.stop_reason === "refusal") {
         return NextResponse.json({ error: "The model declined this request." }, { status: 422 });
@@ -625,5 +710,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `Claude API error: ${error.message}` }, { status: 502 });
     }
     throw error;
+  } finally {
+    // Bill whatever this turn consumed, however the loop exited.
+    if (turnUsage.input_tokens + turnUsage.output_tokens > 0) {
+      await recordUsage({ orgId, tool: "the-brain" }, turnUsage as Anthropic.Usage);
+    }
   }
 }
