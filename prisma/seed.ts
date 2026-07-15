@@ -243,16 +243,39 @@ async function main() {
     ],
   });
 
-  // v2 structural sample: one deal in the CRE pipeline
+  // Deal Tracker samples: the CRE pipeline
   await prisma.deal.deleteMany({ where: inOrg });
-  await prisma.deal.create({
-    data: {
-      businessId: bySlug["cre-direct-buying"],
-      name: "6416 Conley St",
-      stage: "TITLE",
-      address: "6416 Conley St, Houston, TX",
-      notes: "Under contract; title curative in progress.",
-    },
+  await prisma.deal.createMany({
+    data: [
+      {
+        businessId: bySlug["cre-direct-buying"],
+        name: "6416 Conley St",
+        stage: "TITLE",
+        address: "6416 Conley St, Houston, TX",
+        askingCts: 82500000,
+        offerCts: 71000000,
+        contact: "Houston title officer — 713-555-0134",
+        targetClose: daysFromNow(21),
+        notes: "Under contract; title curative in progress.",
+      },
+      {
+        businessId: bySlug["cre-direct-buying"],
+        name: "Eastex warehouse lead",
+        stage: "LEAD",
+        address: "Eastex Fwy, Houston, TX",
+        askingCts: 145000000,
+        contact: "Owner direct — via sellyourwarehousedirect form",
+        notes: "12k sqft, owner motivated, wants quick close.",
+      },
+      {
+        businessId: bySlug["cre-direct-buying"],
+        name: "Conroe flex space",
+        stage: "UNDERWRITING",
+        address: "Conroe, TX",
+        askingCts: 98000000,
+        notes: "Running comps; roof age unknown — ask for inspection records.",
+      },
+    ],
   });
 
   console.log("Seed complete.");

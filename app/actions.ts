@@ -467,3 +467,76 @@ export async function deletePipelineItem(id: string) {
   await prisma.pipelineItem.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
+
+// ---- Tools: Deal Tracker (CRE pipeline) ----
+
+export async function createDeal(input: {
+  businessId: string;
+  name: string;
+  address?: string;
+  askingDollars?: number;
+  offerDollars?: number;
+  contact?: string;
+  targetClose?: string | null;
+  notes?: string;
+}) {
+  const { orgId } = await requireOrg();
+  const name = input.name.trim();
+  if (!name) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.deal.create({
+    data: {
+      businessId: input.businessId,
+      name,
+      address: input.address?.trim() ?? "",
+      askingCts: Math.max(0, Math.round((input.askingDollars ?? 0) * 100)),
+      offerCts: Math.max(0, Math.round((input.offerDollars ?? 0) * 100)),
+      contact: input.contact?.trim() ?? "",
+      targetClose: input.targetClose ? new Date(input.targetClose + "T09:00:00") : null,
+      notes: input.notes ?? "",
+    },
+  });
+  revalidateAll();
+}
+
+export async function updateDeal(
+  id: string,
+  data: {
+    name?: string;
+    stage?: string;
+    address?: string;
+    askingDollars?: number;
+    offerDollars?: number;
+    contact?: string;
+    targetClose?: string | null;
+    notes?: string;
+  },
+) {
+  const { orgId } = await requireOrg();
+  await prisma.deal.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: {
+      ...(data.name !== undefined ? { name: data.name.trim() } : {}),
+      ...(data.stage !== undefined ? { stage: data.stage } : {}),
+      ...(data.address !== undefined ? { address: data.address.trim() } : {}),
+      ...(data.askingDollars !== undefined
+        ? { askingCts: Math.max(0, Math.round(data.askingDollars * 100)) }
+        : {}),
+      ...(data.offerDollars !== undefined
+        ? { offerCts: Math.max(0, Math.round(data.offerDollars * 100)) }
+        : {}),
+      ...(data.contact !== undefined ? { contact: data.contact.trim() } : {}),
+      ...(data.targetClose !== undefined
+        ? { targetClose: data.targetClose ? new Date(data.targetClose + "T09:00:00") : null }
+        : {}),
+      ...(data.notes !== undefined ? { notes: data.notes } : {}),
+    },
+  });
+  revalidateAll();
+}
+
+export async function deleteDeal(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.deal.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}

@@ -54,6 +54,12 @@ export const TOOLS: readonly {
     description: "Leads, clients, and orders on one board with pipeline value per stage.",
     status: "live",
   },
+  {
+    slug: "deal-tracker",
+    name: "Deal Tracker",
+    description: "Real estate pipeline — lead to close with offers, contacts, and closing dates.",
+    status: "live",
+  },
 ] as const;
 
 export const TOOL_STATUS_STYLES: Record<ToolStatus, { label: string; className: string }> = {

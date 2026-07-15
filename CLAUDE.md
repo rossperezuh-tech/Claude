@@ -57,6 +57,7 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 6. **Content Calendar** — posts board (idea → drafted → scheduled → posted) + 7-day strip
 7. **Launch Planner** — launch brief + date → phased work-back plan → bulk-add tasks
 8. **Client & Order Tracker** — pipeline board (lead → done) with $ value per stage
+9. **Deal Tracker** — CRE pipeline (lead → underwriting → offer → title → close): asking/offer $, seller contact, target-close urgency chips (red ≤14d, amber ≤45d), The Brain integration (`query_deals`)
 
 ## Design direction
 
@@ -76,7 +77,6 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 
 ## v2 backlog (schema is ready, do NOT build until asked)
 
-- CRE deal pipeline module (lead → underwriting → offer → title → close) with per-deal docs — `Deal` model exists
 - Revenue/expense quick-log per business — `LedgerEntry` model exists
 - Google Drive API integration for live doc sync
 - Weekly digest view ("what happened / what's next" per business)

@@ -17,6 +17,7 @@ const TOOL_LABELS: Record<string, string> = {
   list_contacts: "checked contacts",
   query_content_posts: "checked content calendar",
   query_pipeline: "checked pipeline",
+  query_deals: "checked deals",
   create_task: "created task",
 };
 

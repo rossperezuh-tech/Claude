@@ -106,6 +106,19 @@ export const PIPELINE_STAGE_LABELS: Record<PipelineStage, string> = {
 export const PIPELINE_KINDS = ["client", "order"] as const;
 export type PipelineKind = (typeof PIPELINE_KINDS)[number];
 
+// ---- Deal Tracker (CRE pipeline) ----
+
+export const DEAL_STAGES = ["LEAD", "UNDERWRITING", "OFFER", "TITLE", "CLOSE"] as const;
+export type DealStage = (typeof DEAL_STAGES)[number];
+
+export const DEAL_STAGE_LABELS: Record<DealStage, string> = {
+  LEAD: "Lead",
+  UNDERWRITING: "Underwriting",
+  OFFER: "Offer",
+  TITLE: "Title",
+  CLOSE: "Close",
+};
+
 export const BUSINESS_STATUS_STYLES: Record<string, { label: string; className: string }> = {
   active: { label: "Active", className: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" },
   launching: { label: "Launching", className: "bg-sky-500/15 text-sky-400 border-sky-500/30" },

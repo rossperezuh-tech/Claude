@@ -116,15 +116,20 @@ model Link {
 
 // ---- v2 structure (schema only, no UI yet) ----
 
-// CRE deal pipeline: lead -> underwriting -> offer -> title -> close
+// CRE deal pipeline: lead -> underwriting -> offer -> title -> close.
+// Powers the Deal Tracker tool (/tools/deal-tracker).
 model Deal {
-  id        String   @id @default(cuid())
-  name      String
-  stage     String   @default("LEAD") // LEAD | UNDERWRITING | OFFER | TITLE | CLOSE
-  address   String   @default("")
-  notes     String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(cuid())
+  name        String
+  stage       String    @default("LEAD") // LEAD | UNDERWRITING | OFFER | TITLE | CLOSE
+  address     String    @default("")
+  askingCts   Int       @default(0) // seller's asking price, cents
+  offerCts    Int       @default(0) // our current offer, cents
+  contact     String    @default("") // seller / broker / title contact
+  targetClose DateTime?
+  notes       String    @default("")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)

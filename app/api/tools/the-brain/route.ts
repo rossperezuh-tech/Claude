@@ -9,7 +9,7 @@ export const maxDuration = 300;
 const MAX_TOOL_ITERATIONS = 8;
 const MAX_HISTORY_MESSAGES = 40;
 
-const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts, content calendar, client/order pipeline) through tools, and you can create tasks. You only ever see this one user's data.
+const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts, content calendar, client/order pipeline, real-estate deals) through tools, and you can create tasks. You only ever see this one user's data.
 
 Guidelines:
 - Answer from the database, not from memory: when a question involves the user's businesses, tasks, deadlines, contracts, docs, or people, call the relevant tool first. Never invent records.
@@ -130,6 +130,25 @@ const TOOLS: Anthropic.Tool[] = [
         stage: {
           type: "string",
           enum: ["", "LEAD", "IN_TALKS", "COMMITTED", "IN_PROGRESS", "DONE"],
+          description: "Filter to one stage; empty string for all",
+        },
+      },
+      required: ["business_slug", "stage"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "query_deals",
+    description:
+      "List real-estate deals (stage lead/underwriting/offer/title/close, asking price, current offer, target close date, contact). Call this for anything about properties, acquisitions, offers, or closings.",
+    strict: true,
+    input_schema: {
+      type: "object",
+      properties: {
+        business_slug: { type: "string", description: "Exact business slug, or empty string for all" },
+        stage: {
+          type: "string",
+          enum: ["", "LEAD", "UNDERWRITING", "OFFER", "TITLE", "CLOSE"],
           description: "Filter to one stage; empty string for all",
         },
       },
@@ -421,6 +440,46 @@ async function executeTool(
           contact: i.contact || undefined,
           notes: i.notes || undefined,
           business: i.business.name,
+        })),
+      );
+    }
+
+    case "query_deals": {
+      const slug = String(input.business_slug ?? "");
+      const stage = String(input.stage ?? "");
+      const businessId = await resolveBusinessId(orgId, slug);
+      if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
+      const deals = await prisma.deal.findMany({
+        where: {
+          business: { organizationId: orgId },
+          ...(businessId ? { businessId } : {}),
+          ...(stage ? { stage } : {}),
+        },
+        orderBy: [{ targetClose: "asc" }, { updatedAt: "desc" }],
+        take: 100,
+        select: {
+          name: true,
+          stage: true,
+          address: true,
+          askingCts: true,
+          offerCts: true,
+          contact: true,
+          targetClose: true,
+          notes: true,
+          business: { select: { name: true } },
+        },
+      });
+      return JSON.stringify(
+        deals.map((d) => ({
+          name: d.name,
+          stage: d.stage,
+          address: d.address || undefined,
+          asking_usd: d.askingCts > 0 ? d.askingCts / 100 : null,
+          offer_usd: d.offerCts > 0 ? d.offerCts / 100 : null,
+          contact: d.contact || undefined,
+          target_close: d.targetClose?.toISOString().slice(0, 10) ?? null,
+          notes: d.notes || undefined,
+          business: d.business.name,
         })),
       );
     }
