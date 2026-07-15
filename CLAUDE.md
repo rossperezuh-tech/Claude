@@ -40,6 +40,24 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 5. **Deadlines strip** — horizontal 14-day strip on home, color-coded by business.
 6. **Quick search** — Cmd+K palette searching tasks, docs, contacts, businesses (`/api/search`).
 
+## Multi-tenant + auth (built)
+
+- **Clerk** authentication; every route (incl. tool APIs) requires a session (`middleware.ts`)
+- Each user gets an **Organization** auto-provisioned on first sign-in (`lib/org.ts` → `requireOrg()`)
+- ALL queries/mutations are org-scoped; business slugs unique per org; ownership verified on every mutation
+- New users see a create-your-first-venture onboarding screen
+
+## Steadyhand tools (`/tools`, all Claude-powered via `lib/claude.ts`)
+
+1. **Document Reader** — contract/brief analysis: clauses, dates, risks
+2. **Meeting Notes** — notes → action items, bulk-add to a venture's backlog
+3. **Contract Manager** — analyze & track contracts (renewal alerts), draft agreements
+4. **The Brain** — chat assistant with 8 org-scoped DB tools (incl. content calendar + pipeline)
+5. **Content Studio** — brand-voice captions/scripts/carousels/hooks; saves drafts to calendar
+6. **Content Calendar** — posts board (idea → drafted → scheduled → posted) + 7-day strip
+7. **Launch Planner** — launch brief + date → phased work-back plan → bulk-add tasks
+8. **Client & Order Tracker** — pipeline board (lead → done) with $ value per stage
+
 ## Design direction
 
 - Dark theme, dense but clean — operator's cockpit, not a landing page
@@ -49,11 +67,12 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 
 ## Code map
 
-- `prisma/schema.prisma` — models; `prisma/seed.ts` — 12 businesses + sample data
-- `app/actions.ts` — all server actions (mutations)
+- `prisma/schema.prisma` — models; `prisma/seed.ts` — owner org + 12 businesses + sample data
+- `app/actions.ts` — all server actions (mutations, all org-scoped)
 - `app/page.tsx` home · `app/business/[slug]` detail · `app/tasks` · `app/docs` · `app/api/search`
-- `components/` — QuickCapture, TodayTaskRow, CalendarStrip, Kanban, NotesEditor, BusinessForms, NewTaskForm, CommandPalette
-- `lib/` — prisma singleton, constants (statuses/priorities/colors), date helpers
+- `app/tools/*` — tool pages · `app/api/tools/*` — Claude-backed routes
+- `components/` — QuickCapture, TodayTaskRow, CalendarStrip, Kanban, NotesEditor, BusinessForms, NewTaskForm, NewBusinessForm, CommandPalette
+- `lib/` — prisma singleton, org helper (requireOrg), claude helper, constants, date helpers, tools registry
 
 ## v2 backlog (schema is ready, do NOT build until asked)
 

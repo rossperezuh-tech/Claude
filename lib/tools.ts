@@ -30,6 +30,30 @@ export const TOOLS: readonly {
     description: "Your private HQ assistant. It sees your tasks, contracts, docs, and contacts.",
     status: "live",
   },
+  {
+    slug: "content-studio",
+    name: "Content Studio",
+    description: "Captions, reel scripts, carousels, and hooks — written in your brand voice.",
+    status: "live",
+  },
+  {
+    slug: "content-calendar",
+    name: "Content Calendar",
+    description: "Plan posts per platform and move them from idea to posted.",
+    status: "live",
+  },
+  {
+    slug: "launch-planner",
+    name: "Launch Planner",
+    description: "Describe a launch, get a dated work-back plan dropped into your backlog.",
+    status: "live",
+  },
+  {
+    slug: "pipeline",
+    name: "Client & Order Tracker",
+    description: "Leads, clients, and orders on one board with pipeline value per stage.",
+    status: "live",
+  },
 ] as const;
 
 export const TOOL_STATUS_STYLES: Record<ToolStatus, { label: string; className: string }> = {

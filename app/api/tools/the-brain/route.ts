@@ -9,7 +9,7 @@ export const maxDuration = 300;
 const MAX_TOOL_ITERATIONS = 8;
 const MAX_HISTORY_MESSAGES = 40;
 
-const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts) through tools, and you can create tasks. You only ever see this one user's data.
+const SYSTEM_PROMPT = `You are The Brain — the private assistant inside Venture HQ, the signed-in user's command center for their portfolio of businesses. You have live read access to their HQ database (businesses, tasks, contracts, documents, contacts, content calendar, client/order pipeline) through tools, and you can create tasks. You only ever see this one user's data.
 
 Guidelines:
 - Answer from the database, not from memory: when a question involves the user's businesses, tasks, deadlines, contracts, docs, or people, call the relevant tool first. Never invent records.
@@ -92,6 +92,48 @@ const TOOLS: Anthropic.Tool[] = [
         query: { type: "string", description: "Text matched against name and role; empty string for all" },
       },
       required: ["business_slug", "query"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "query_content_posts",
+    description:
+      "List content-calendar posts (social posts with platform, status idea/drafted/scheduled/posted, and scheduled date). Call this for anything about the content calendar, what's scheduled to post, or content backlog.",
+    strict: true,
+    input_schema: {
+      type: "object",
+      properties: {
+        business_slug: { type: "string", description: "Exact business slug, or empty string for all" },
+        status: {
+          type: "string",
+          enum: ["", "IDEA", "DRAFTED", "SCHEDULED", "POSTED"],
+          description: "Filter to one status; empty string for all",
+        },
+        days_ahead: {
+          type: "integer",
+          description: "Only posts scheduled within this many days from today. 0 means no date filter.",
+        },
+      },
+      required: ["business_slug", "status", "days_ahead"],
+      additionalProperties: false,
+    },
+  },
+  {
+    name: "query_pipeline",
+    description:
+      "List client/order pipeline items (stage lead/in_talks/committed/in_progress/done, dollar value, contact). Call this for anything about clients, orders, leads, or pipeline revenue.",
+    strict: true,
+    input_schema: {
+      type: "object",
+      properties: {
+        business_slug: { type: "string", description: "Exact business slug, or empty string for all" },
+        stage: {
+          type: "string",
+          enum: ["", "LEAD", "IN_TALKS", "COMMITTED", "IN_PROGRESS", "DONE"],
+          description: "Filter to one stage; empty string for all",
+        },
+      },
+      required: ["business_slug", "stage"],
       additionalProperties: false,
     },
   },
@@ -307,6 +349,78 @@ async function executeTool(
           email: c.email || undefined,
           notes: c.notes || undefined,
           business: c.business.name,
+        })),
+      );
+    }
+
+    case "query_content_posts": {
+      const slug = String(input.business_slug ?? "");
+      const status = String(input.status ?? "");
+      const daysAhead = Number(input.days_ahead ?? 0);
+      const businessId = await resolveBusinessId(orgId, slug);
+      if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
+      const posts = await prisma.contentPost.findMany({
+        where: {
+          business: { organizationId: orgId },
+          ...(businessId ? { businessId } : {}),
+          ...(status ? { status } : {}),
+          ...(daysAhead > 0
+            ? { scheduledFor: { lte: new Date(Date.now() + daysAhead * 86400000) } }
+            : {}),
+        },
+        orderBy: [{ scheduledFor: "asc" }, { updatedAt: "desc" }],
+        take: 100,
+        select: {
+          title: true,
+          platform: true,
+          status: true,
+          scheduledFor: true,
+          business: { select: { name: true } },
+        },
+      });
+      return JSON.stringify(
+        posts.map((p) => ({
+          title: p.title,
+          platform: p.platform,
+          status: p.status,
+          scheduled_for: p.scheduledFor?.toISOString().slice(0, 10) ?? null,
+          business: p.business.name,
+        })),
+      );
+    }
+
+    case "query_pipeline": {
+      const slug = String(input.business_slug ?? "");
+      const stage = String(input.stage ?? "");
+      const businessId = await resolveBusinessId(orgId, slug);
+      if (slug && !businessId) return JSON.stringify({ error: `No business with slug '${slug}'.` });
+      const items = await prisma.pipelineItem.findMany({
+        where: {
+          business: { organizationId: orgId },
+          ...(businessId ? { businessId } : {}),
+          ...(stage ? { stage } : {}),
+        },
+        orderBy: { updatedAt: "desc" },
+        take: 100,
+        select: {
+          name: true,
+          kind: true,
+          stage: true,
+          valueCts: true,
+          contact: true,
+          notes: true,
+          business: { select: { name: true } },
+        },
+      });
+      return JSON.stringify(
+        items.map((i) => ({
+          name: i.name,
+          kind: i.kind,
+          stage: i.stage,
+          value_usd: i.valueCts > 0 ? i.valueCts / 100 : null,
+          contact: i.contact || undefined,
+          notes: i.notes || undefined,
+          business: i.business.name,
         })),
       );
     }

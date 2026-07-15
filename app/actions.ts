@@ -334,3 +334,136 @@ export async function deleteContract(id: string) {
   await prisma.contract.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
 }
+
+// ---- Tools: Content Studio ----
+
+export async function updateBrandVoice(businessId: string, brandVoice: string) {
+  const { orgId } = await requireOrg();
+  await prisma.business.updateMany({
+    where: { id: businessId, organizationId: orgId },
+    data: { brandVoice },
+  });
+}
+
+// ---- Tools: Content Calendar ----
+
+export async function createContentPost(input: {
+  businessId: string;
+  title: string;
+  platform?: string;
+  status?: string;
+  scheduledFor?: string | null;
+  content?: string;
+  hashtags?: string;
+  notes?: string;
+}) {
+  const { orgId } = await requireOrg();
+  const title = input.title.trim();
+  if (!title) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.contentPost.create({
+    data: {
+      businessId: input.businessId,
+      title,
+      platform: input.platform ?? "instagram",
+      status: input.status ?? "IDEA",
+      scheduledFor: input.scheduledFor ? new Date(input.scheduledFor + "T09:00:00") : null,
+      content: input.content ?? "",
+      hashtags: input.hashtags ?? "",
+      notes: input.notes ?? "",
+    },
+  });
+  revalidateAll();
+}
+
+export async function updateContentPost(
+  id: string,
+  data: {
+    title?: string;
+    platform?: string;
+    status?: string;
+    scheduledFor?: string | null;
+    content?: string;
+    hashtags?: string;
+    notes?: string;
+  },
+) {
+  const { orgId } = await requireOrg();
+  await prisma.contentPost.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: {
+      ...(data.title !== undefined ? { title: data.title.trim() } : {}),
+      ...(data.platform !== undefined ? { platform: data.platform } : {}),
+      ...(data.status !== undefined ? { status: data.status } : {}),
+      ...(data.scheduledFor !== undefined
+        ? { scheduledFor: data.scheduledFor ? new Date(data.scheduledFor + "T09:00:00") : null }
+        : {}),
+      ...(data.content !== undefined ? { content: data.content } : {}),
+      ...(data.hashtags !== undefined ? { hashtags: data.hashtags } : {}),
+      ...(data.notes !== undefined ? { notes: data.notes } : {}),
+    },
+  });
+  revalidateAll();
+}
+
+export async function deleteContentPost(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.contentPost.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}
+
+// ---- Tools: Client & Order Tracker ----
+
+export async function createPipelineItem(input: {
+  businessId: string;
+  name: string;
+  kind?: string;
+  stage?: string;
+  valueDollars?: number;
+  contact?: string;
+  notes?: string;
+}) {
+  const { orgId } = await requireOrg();
+  const name = input.name.trim();
+  if (!name) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.pipelineItem.create({
+    data: {
+      businessId: input.businessId,
+      name,
+      kind: input.kind === "order" ? "order" : "client",
+      stage: input.stage ?? "LEAD",
+      valueCts: Math.max(0, Math.round((input.valueDollars ?? 0) * 100)),
+      contact: input.contact ?? "",
+      notes: input.notes ?? "",
+    },
+  });
+  revalidateAll();
+}
+
+export async function updatePipelineItem(
+  id: string,
+  data: { name?: string; kind?: string; stage?: string; valueDollars?: number; contact?: string; notes?: string },
+) {
+  const { orgId } = await requireOrg();
+  await prisma.pipelineItem.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: {
+      ...(data.name !== undefined ? { name: data.name.trim() } : {}),
+      ...(data.kind !== undefined ? { kind: data.kind === "order" ? "order" : "client" } : {}),
+      ...(data.stage !== undefined ? { stage: data.stage } : {}),
+      ...(data.valueDollars !== undefined
+        ? { valueCts: Math.max(0, Math.round(data.valueDollars * 100)) }
+        : {}),
+      ...(data.contact !== undefined ? { contact: data.contact } : {}),
+      ...(data.notes !== undefined ? { notes: data.notes } : {}),
+    },
+  });
+  revalidateAll();
+}
+
+export async function deletePipelineItem(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.pipelineItem.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}

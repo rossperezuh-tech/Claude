@@ -223,6 +223,26 @@ async function main() {
     ],
   });
 
+  // Content calendar + pipeline samples (Green Shoots is the content business)
+  await prisma.contentPost.deleteMany({ where: inOrg });
+  await prisma.contentPost.createMany({
+    data: [
+      { businessId: bySlug["green-shoots-studio"], title: "Client reel: morning routine BTS", platform: "instagram", status: "SCHEDULED", scheduledFor: daysFromNow(1) },
+      { businessId: bySlug["green-shoots-studio"], title: "Wellness brand carousel: 5 content mistakes", platform: "instagram", status: "DRAFTED" },
+      { businessId: bySlug["green-shoots-studio"], title: "TikTok: studio tour", platform: "tiktok", status: "IDEA" },
+      { businessId: bySlug["brooklyn-tiny-farm"], title: "Microgreens harvest timelapse", platform: "instagram", status: "SCHEDULED", scheduledFor: daysFromNow(3) },
+    ],
+  });
+
+  await prisma.pipelineItem.deleteMany({ where: inOrg });
+  await prisma.pipelineItem.createMany({
+    data: [
+      { businessId: bySlug["steadyhand-ai"], name: "Logistics firm — AI audit", kind: "client", stage: "IN_TALKS", valueCts: 450000, contact: "ops@logisticsfirm.com" },
+      { businessId: bySlug["green-shoots-studio"], name: "Wellness brand Q3 retainer", kind: "client", stage: "COMMITTED", valueCts: 600000 },
+      { businessId: bySlug["brooklyn-tiny-farm"], name: "Restaurant standing order — 20 trays/wk", kind: "order", stage: "IN_PROGRESS", valueCts: 32000 },
+    ],
+  });
+
   // v2 structural sample: one deal in the CRE pipeline
   await prisma.deal.deleteMany({ where: inOrg });
   await prisma.deal.create({

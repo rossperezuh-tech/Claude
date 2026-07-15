@@ -27,6 +27,7 @@ model Business {
   status      String // active | back-burner | launching
   description String
   notes       String   @default("") // markdown scratchpad, autosaved
+  brandVoice  String   @default("") // tone/style notes used by the Content Studio tool
   sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -34,13 +35,15 @@ model Business {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
-  tasks     Task[]
-  documents Document[]
-  contacts  Contact[]
-  links     Link[]
-  deals     Deal[]
-  ledger    LedgerEntry[]
-  contracts Contract[]
+  tasks         Task[]
+  documents     Document[]
+  contacts      Contact[]
+  links         Link[]
+  deals         Deal[]
+  ledger        LedgerEntry[]
+  contracts     Contract[]
+  contentPosts  ContentPost[]
+  pipelineItems PipelineItem[]
 
   // slugs are per-tenant: two orgs can both have "penthouse-yoga"
   @@unique([organizationId, slug])
@@ -141,6 +144,45 @@ model LedgerEntry {
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
   @@index([businessId, date])
+}
+
+// A planned/produced social post, managed by the Content Calendar tool and
+// fed by Content Studio drafts.
+model ContentPost {
+  id           String    @id @default(cuid())
+  title        String
+  platform     String    @default("instagram") // instagram | tiktok | youtube | linkedin | x | facebook | pinterest | email | other
+  status       String    @default("IDEA") // IDEA | DRAFTED | SCHEDULED | POSTED
+  scheduledFor DateTime?
+  content      String    @default("") // caption / script body
+  hashtags     String    @default("")
+  notes        String    @default("")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status])
+  @@index([scheduledFor])
+}
+
+// A client engagement or product order moving through the pipeline tracker.
+model PipelineItem {
+  id        String   @id @default(cuid())
+  name      String // client or order name
+  kind      String   @default("client") // client | order
+  stage     String   @default("LEAD") // LEAD | IN_TALKS | COMMITTED | IN_PROGRESS | DONE
+  valueCts  Int      @default(0) // engagement/order value in cents
+  contact   String   @default("") // email / phone / handle
+  notes     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, stage])
 }
 
 // Tracked agreements from the Contract Manager tool (/tools/contract-manager).
