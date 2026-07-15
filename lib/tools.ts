@@ -51,7 +51,32 @@ export const TOOLS: readonly {
   {
     slug: "pipeline",
     name: "Client & Order Tracker",
-    description: "Leads, clients, and orders on one board with pipeline value per stage.",
+    description:
+      "Leads, clients, and orders on one board — with public intake links that feed it scored leads.",
+    status: "live",
+  },
+  {
+    slug: "brain-dump",
+    name: "Brain Dump",
+    description: "Empty your head into one box — AI routes it all to the right venture.",
+    status: "live",
+  },
+  {
+    slug: "proposals",
+    name: "Proposals & Invoices",
+    description: "Turn a pipeline client into a ready-to-send proposal or invoice.",
+    status: "live",
+  },
+  {
+    slug: "sop-writer",
+    name: "SOP Writer",
+    description: "Describe how something gets done — get a procedure a new hire can follow.",
+    status: "live",
+  },
+  {
+    slug: "client-report",
+    name: "Client Report",
+    description: "The \"here's what we did for you\" report, generated from real activity.",
     status: "live",
   },
   {

@@ -1,5 +1,6 @@
 "use server";
 
+import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
@@ -539,6 +540,109 @@ export async function deleteDeal(id: string) {
   const { orgId } = await requireOrg();
   await prisma.deal.deleteMany({ where: { id, business: { organizationId: orgId } } });
   revalidateAll();
+}
+
+// ---- Tools: Lead Intake ----
+
+export async function toggleIntake(businessId: string, enabled: boolean) {
+  const { orgId } = await requireOrg();
+  const business = await prisma.business.findFirst({
+    where: { id: businessId, organizationId: orgId },
+    select: { id: true, intakeToken: true },
+  });
+  if (!business) return;
+  await prisma.business.update({
+    where: { id: business.id },
+    data: {
+      intakeEnabled: enabled,
+      // token is minted once, on first enable, and stays stable thereafter
+      ...(enabled && !business.intakeToken ? { intakeToken: randomUUID() } : {}),
+    },
+  });
+  revalidateAll();
+}
+
+// ---- Tools: Brain Dump ----
+
+export interface BrainDumpItems {
+  tasks: { business_slug: string; title: string; details: string; due_date: string; priority: string }[];
+  content_ideas: { business_slug: string; title: string; platform: string }[];
+  leads: { business_slug: string; name: string; kind: string; value_dollars: number; contact: string; notes: string }[];
+  money: { business_slug: string; type: string; amount_dollars: number; memo: string }[];
+}
+
+/**
+ * Applies a reviewed brain-dump routing in one shot. Every business slug is
+ * resolved within the caller's org; items pointing anywhere else are
+ * silently dropped. Returns how many records were created.
+ */
+export async function applyBrainDump(items: BrainDumpItems): Promise<number> {
+  const { orgId } = await requireOrg();
+  const businesses = await prisma.business.findMany({
+    where: { organizationId: orgId },
+    select: { id: true, slug: true },
+  });
+  const idBySlug = new Map(businesses.map((b) => [b.slug, b.id]));
+  let created = 0;
+
+  const tasks = (items.tasks ?? [])
+    .filter((t) => idBySlug.has(t.business_slug) && t.title.trim())
+    .map((t) => ({
+      businessId: idBySlug.get(t.business_slug)!,
+      title: t.title.trim(),
+      notes: t.details ?? "",
+      priority: ["P1", "P2", "P3"].includes(t.priority) ? t.priority : "P2",
+      dueDate: /^\d{4}-\d{2}-\d{2}$/.test(t.due_date) ? new Date(t.due_date + "T09:00:00") : null,
+    }));
+  if (tasks.length > 0) {
+    await prisma.task.createMany({ data: tasks });
+    created += tasks.length;
+  }
+
+  const posts = (items.content_ideas ?? [])
+    .filter((p) => idBySlug.has(p.business_slug) && p.title.trim())
+    .map((p) => ({
+      businessId: idBySlug.get(p.business_slug)!,
+      title: p.title.trim(),
+      platform: p.platform || "instagram",
+      status: "IDEA",
+    }));
+  if (posts.length > 0) {
+    await prisma.contentPost.createMany({ data: posts });
+    created += posts.length;
+  }
+
+  const leads = (items.leads ?? [])
+    .filter((l) => idBySlug.has(l.business_slug) && l.name.trim())
+    .map((l) => ({
+      businessId: idBySlug.get(l.business_slug)!,
+      name: l.name.trim(),
+      kind: l.kind === "order" ? "order" : "client",
+      stage: "LEAD",
+      valueCts: Math.max(0, Math.round((l.value_dollars ?? 0) * 100)),
+      contact: l.contact ?? "",
+      notes: l.notes ?? "",
+    }));
+  if (leads.length > 0) {
+    await prisma.pipelineItem.createMany({ data: leads });
+    created += leads.length;
+  }
+
+  const money = (items.money ?? [])
+    .filter((m) => idBySlug.has(m.business_slug) && Math.round(Math.abs(m.amount_dollars) * 100) > 0)
+    .map((m) => ({
+      businessId: idBySlug.get(m.business_slug)!,
+      type: m.type === "EXPENSE" ? "EXPENSE" : "REVENUE",
+      amountCts: Math.round(Math.abs(m.amount_dollars) * 100),
+      memo: m.memo ?? "",
+    }));
+  if (money.length > 0) {
+    await prisma.ledgerEntry.createMany({ data: money });
+    created += money.length;
+  }
+
+  revalidateAll();
+  return created;
 }
 
 // ---- Tools: Money Log ----

@@ -9,6 +9,7 @@ import {
   PIPELINE_STAGE_LABELS,
   type PipelineStage,
 } from "@/lib/constants";
+import IntakeManager, { type IntakeBusiness } from "./IntakeManager";
 
 export interface PipelineRow {
   id: string;
@@ -22,11 +23,7 @@ export interface PipelineRow {
   businessColor: string;
 }
 
-interface BusinessOption {
-  id: string;
-  name: string;
-  color: string;
-}
+type BusinessOption = IntakeBusiness;
 
 const KIND_STYLES: Record<string, string> = {
   client: "text-sky-400 border-sky-500/30 bg-sky-500/10",
@@ -97,6 +94,8 @@ export default function PipelineClient({
       </div>
 
       <AddItemForm businesses={businesses} />
+
+      <IntakeManager businesses={businesses} />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {PIPELINE_STAGES.map((stage) => {

@@ -46,6 +46,10 @@ model Business {
   description String
   notes       String   @default("") // markdown scratchpad, autosaved
   brandVoice  String   @default("") // tone/style notes used by the Content Studio tool
+  // Public lead-intake form: token is generated when intake is first
+  // enabled; the /intake/[token] URL is only live while intakeEnabled.
+  intakeToken   String?  @unique
+  intakeEnabled Boolean  @default(false)
   sortOrder   Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

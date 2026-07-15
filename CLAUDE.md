@@ -61,6 +61,13 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 10. **Money Log** — LedgerEntry quick-log (money in/out) per venture, month nav, per-business rev/exp/net rollup; Brain tool `query_ledger`
 11. **Weekly Digest** — one-click Monday briefing from a 7-day-back/7-day-forward org snapshot (tasks, deals, content, renewals, money, pipeline)
 12. **Usage & Billing** — every Claude call metered per org into `UsageEvent` (via `lib/claude.ts` `recordUsage`); /tools/usage shows month-by-tool usage + est cost; `ADMIN_CLERK_USER_ID` env unlocks the all-accounts table for client billing
+13. **Brain Dump** — paste unstructured thoughts → AI routes to tasks/content ideas/pipeline leads/ledger entries per business → review checkboxes → `applyBrainDump` action
+14. **Proposals & Invoices** — pipeline-item prefill → brand-voice Markdown proposal or invoice (copy/download)
+15. **Lead Intake** — public per-business form at /intake/[token] (nullable `intakeToken` minted on first enable, `intakeEnabled` toggle, managed from /tools/pipeline); POST /api/intake is the app's ONLY unauthenticated write: honeypot + per-IP rate limit + length caps; AI lead scoring is best-effort and never blocks the save
+16. **SOP Writer** — process description → step-by-step Markdown SOP
+17. **Client Report** — outward-facing "what we did for you" report from a venture's real activity (tasks/content/pipeline)
+
+**Demo account**: `prisma/seed-demo.ts` (`npm run db:seed-demo`, needs `DEMO_CLERK_USER_ID`) fills a fictional 3-business portfolio (Harbor Social agency, Emberline Candle Co., True North Coaching) for prospect walkthroughs — never mix demo and real data in one org.
 
 ## Design direction
 

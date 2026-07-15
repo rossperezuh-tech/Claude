@@ -11,7 +11,7 @@ export default async function PipelinePage() {
     prisma.business.findMany({
       where: { organizationId: orgId },
       orderBy: { sortOrder: "asc" },
-      select: { id: true, name: true, color: true },
+      select: { id: true, name: true, color: true, intakeToken: true, intakeEnabled: true },
     }),
     prisma.pipelineItem.findMany({
       where: { business: { organizationId: orgId } },

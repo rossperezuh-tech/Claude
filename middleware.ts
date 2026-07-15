@@ -1,6 +1,12 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/sign-up(.*)"]);
+const isPublicRoute = createRouteMatcher([
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  // Public lead-intake form + its submit endpoint (token-gated, rate-limited)
+  "/intake(.*)",
+  "/api/intake(.*)",
+]);
 
 // Everything except the sign-in/sign-up pages requires a session; API routes
 // included, so the AI tool endpoints can't be hit anonymously.
