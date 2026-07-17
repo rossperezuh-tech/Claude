@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
-import { requireOrg } from "@/lib/org";
+import { requireOrg, assertToolEnabled } from "@/lib/org";
 import { TOOLS } from "@/lib/tools";
 
 export const metadata = { title: "Usage & Billing — Venture HQ" };
@@ -45,6 +45,7 @@ const TOOL_NAMES = new Map(TOOLS.map((t) => [t.slug, t.name]));
 
 export default async function UsagePage() {
   const { orgId, userId } = await requireOrg();
+  await assertToolEnabled(orgId, "usage");
   const isAdmin = !!process.env.ADMIN_CLERK_USER_ID && userId === process.env.ADMIN_CLERK_USER_ID;
 
   const now = new Date();

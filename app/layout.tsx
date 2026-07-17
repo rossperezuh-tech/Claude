@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import "./globals.css";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
+import { isPlatformAdmin } from "@/lib/admin";
 import CommandPalette from "@/components/CommandPalette";
 
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export const dynamic = "force-dynamic";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { userId } = await auth();
+  const showAdminLink = userId ? await isPlatformAdmin() : false;
 
   let businesses: { id: string; name: string; slug: string; color: string }[] = [];
   if (userId) {
@@ -51,6 +53,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <Link href="/tools" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                     Tools
                   </Link>
+                  {showAdminLink && (
+                    <Link href="/admin" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
+                      Admin
+                    </Link>
+                  )}
                 </nav>
               )}
               <div className="ml-auto flex items-center gap-3">

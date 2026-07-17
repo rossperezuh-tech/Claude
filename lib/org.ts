@@ -1,4 +1,5 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -30,4 +31,19 @@ export async function requireOrg(): Promise<{ orgId: string; userId: string }> {
     select: { id: true },
   });
   return { orgId: org.id, userId };
+}
+
+/**
+ * 404s a tool's page for orgs an admin has curated it out of. An empty
+ * enabledTools list means "no restriction" — every tool is visible, which
+ * is the default for every org until an admin explicitly narrows it down.
+ * Call this from every tool page, right after requireOrg().
+ */
+export async function assertToolEnabled(orgId: string, slug: string): Promise<void> {
+  const org = await prisma.organization.findUnique({
+    where: { id: orgId },
+    select: { enabledTools: true },
+  });
+  if (!org) notFound();
+  if (org.enabledTools.length > 0 && !org.enabledTools.includes(slug)) notFound();
 }

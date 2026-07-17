@@ -14,6 +14,9 @@ model Organization {
   id          String   @id @default(cuid())
   clerkUserId String   @unique // owning Clerk user (one org per user for now)
   name        String   @default("My HQ")
+  // Tool slugs (see lib/tools.ts) this org may access. Empty = all tools —
+  // this keeps every existing org unaffected until an admin curates it down.
+  enabledTools String[] @default([])
   createdAt   DateTime @default(now())
 
   businesses  Business[]

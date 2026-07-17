@@ -1,9 +1,21 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { requireOrg } from "@/lib/org";
 import { TOOLS, TOOL_STATUS_STYLES } from "@/lib/tools";
 
 export const metadata = { title: "Tools — Venture HQ" };
+export const dynamic = "force-dynamic";
 
-export default function ToolsPage() {
+export default async function ToolsPage() {
+  const { orgId } = await requireOrg();
+  const org = await prisma.organization.findUnique({
+    where: { id: orgId },
+    select: { enabledTools: true },
+  });
+  // Empty list means no restriction — every org starts with all tools visible.
+  const enabled = org?.enabledTools ?? [];
+  const tools = enabled.length === 0 ? TOOLS : TOOLS.filter((t) => enabled.includes(t.slug));
+
   return (
     <div className="space-y-5">
       <div>
@@ -14,7 +26,7 @@ export default function ToolsPage() {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {TOOLS.map((tool) => {
+        {tools.map((tool) => {
           const status = TOOL_STATUS_STYLES[tool.status];
           const card = (
             <div
@@ -39,6 +51,9 @@ export default function ToolsPage() {
             <div key={tool.slug}>{card}</div>
           );
         })}
+        {tools.length === 0 && (
+          <p className="text-sm text-ink-faint">No tools enabled for this account yet.</p>
+        )}
       </div>
     </div>
   );

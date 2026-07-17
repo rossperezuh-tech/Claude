@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { requireOrg } from "@/lib/org";
+import { requireOrg, assertToolEnabled } from "@/lib/org";
 import ProposalsClient from "./ProposalsClient";
 
 export const metadata = { title: "Proposals & Invoices — Venture HQ" };
@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ProposalsPage() {
   const { orgId } = await requireOrg();
+  await assertToolEnabled(orgId, "proposals");
   const [businesses, pipelineItems] = await Promise.all([
     prisma.business.findMany({
       where: { organizationId: orgId },

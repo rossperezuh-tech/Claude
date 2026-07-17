@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { requireOrg } from "@/lib/org";
+import { requireOrg, assertToolEnabled } from "@/lib/org";
 import DealTrackerClient from "./DealTrackerClient";
 
 export const metadata = { title: "Deal Tracker — Venture HQ" };
@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function DealTrackerPage() {
   const { orgId } = await requireOrg();
+  await assertToolEnabled(orgId, "deal-tracker");
   const [businesses, deals] = await Promise.all([
     prisma.business.findMany({
       where: { organizationId: orgId },

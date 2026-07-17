@@ -4,7 +4,9 @@ import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
+import { isPlatformAdmin } from "@/lib/admin";
 import { nextOccurrence } from "@/lib/dates";
+import { TOOLS } from "@/lib/tools";
 import type { Recurrence } from "@/lib/constants";
 
 function revalidateAll() {
@@ -539,6 +541,25 @@ export async function updateDeal(
 export async function deleteDeal(id: string) {
   const { orgId } = await requireOrg();
   await prisma.deal.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}
+
+// ---- Admin: per-client tool access ----
+
+/**
+ * Admin-only mutation of ANOTHER org's settings — intentionally does not
+ * go through requireOrg()'s "caller can only touch their own org" pattern,
+ * since the whole point is letting the platform admin curate every
+ * client's tool list. Gated on isPlatformAdmin() instead.
+ */
+export async function setEnabledTools(orgId: string, tools: string[]) {
+  if (!(await isPlatformAdmin())) return;
+  const validSlugs = new Set(TOOLS.map((t) => t.slug));
+  const cleaned = Array.from(new Set(tools.filter((t) => validSlugs.has(t))));
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { enabledTools: cleaned },
+  });
   revalidateAll();
 }
 

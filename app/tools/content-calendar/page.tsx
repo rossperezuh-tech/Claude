@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { requireOrg } from "@/lib/org";
+import { requireOrg, assertToolEnabled } from "@/lib/org";
 import ContentCalendarClient from "./ContentCalendarClient";
 
 export const metadata = { title: "Content Calendar — Venture HQ" };
@@ -7,6 +7,7 @@ export const dynamic = "force-dynamic";
 
 export default async function ContentCalendarPage() {
   const { orgId } = await requireOrg();
+  await assertToolEnabled(orgId, "content-calendar");
   const [businesses, posts] = await Promise.all([
     prisma.business.findMany({
       where: { organizationId: orgId },

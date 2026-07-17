@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
-import { requireOrg } from "@/lib/org";
+import { requireOrg, assertToolEnabled } from "@/lib/org";
 import MoneyLogForms, { DeleteEntry } from "./MoneyLogForms";
 
 export const metadata = { title: "Money Log — Venture HQ" };
@@ -33,6 +33,7 @@ export default async function MoneyLogPage({
   searchParams: { m?: string };
 }) {
   const { orgId } = await requireOrg();
+  await assertToolEnabled(orgId, "money-log");
   const monthKey = /^\d{4}-\d{2}$/.test(searchParams.m ?? "")
     ? searchParams.m!
     : format(new Date(), "yyyy-MM");
