@@ -79,7 +79,6 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           tasks={business.tasks.map((t) => ({
             id: t.id,
             title: t.title,
-            priority: t.priority,
             status: t.status,
             dueText: dueLabel(t.dueDate),
             overdue: isOverdue(t.dueDate),

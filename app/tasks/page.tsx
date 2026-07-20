@@ -4,12 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
 import TodayTaskRow from "@/components/TodayTaskRow";
 import NewTaskForm from "@/components/NewTaskForm";
-import { PRIORITIES, STATUS_LABELS, type TaskStatus } from "@/lib/constants";
+import { STATUS_LABELS, type TaskStatus } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
 
-type Search = { business?: string; priority?: string; due?: string; done?: string };
+type Search = { business?: string; due?: string; done?: string };
 
 function filterLink(current: Search, patch: Partial<Search>): string {
   const merged = { ...current, ...patch };
@@ -35,7 +35,6 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
   else where.status = { not: "DONE" };
   if (searchParams.business)
     where.business = { organizationId: orgId, slug: searchParams.business };
-  if (searchParams.priority) where.priority = searchParams.priority;
   if (searchParams.due === "overdue") where.dueDate = { lt: startOfDay(now) };
   else if (searchParams.due === "today") where.dueDate = { gte: startOfDay(now), lte: endOfDay(now) };
   else if (searchParams.due === "week")
@@ -43,7 +42,7 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
 
   const tasks = await prisma.task.findMany({
     where,
-    orderBy: [{ dueDate: "asc" }, { priority: "asc" }, { createdAt: "desc" }],
+    orderBy: [{ dueDate: "asc" }, { createdAt: "desc" }],
     include: { business: { select: { name: true, slug: true, color: true } } },
   });
 
@@ -78,17 +77,6 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
           ))}
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-ink-faint">Priority:</span>
-          <Link href={filterLink(searchParams, { priority: undefined })} className={`chip ${!searchParams.priority ? activeChip : idleChip}`}>
-            All
-          </Link>
-          {PRIORITIES.map((p) => (
-            <Link key={p} href={filterLink(searchParams, { priority: p })} className={`chip ${searchParams.priority === p ? activeChip : idleChip}`}>
-              {p}
-            </Link>
-          ))}
-        </div>
-        <div className="flex items-center gap-1.5">
           <span className="text-ink-faint">Due:</span>
           {[
             ["", "All"],
@@ -119,7 +107,6 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
               t.status === "DONE" ? (
                 <li key={t.id} className="flex items-center gap-3 py-2 text-ink-faint">
                   <span className="text-emerald-400">✓</span>
-                  <span className="chip border-transparent bg-surface-overlay">{t.priority}</span>
                   <span className="min-w-0 flex-1 truncate text-sm line-through">{t.title}</span>
                   <span className="chip hidden border-transparent sm:inline-flex" style={{ color: t.business.color, background: `${t.business.color}1a` }}>
                     {t.business.name}
@@ -131,7 +118,6 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
                   task={{
                     id: t.id,
                     title: t.title,
-                    priority: t.priority,
                     dueDate: t.dueDate?.toISOString() ?? null,
                     dueText: t.dueDate ? dueLabel(t.dueDate) : `· ${STATUS_LABELS[t.status as TaskStatus] ?? t.status}`,
                     overdue: isOverdue(t.dueDate),

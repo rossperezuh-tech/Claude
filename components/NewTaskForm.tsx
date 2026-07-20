@@ -2,17 +2,16 @@
 
 import { useState, useTransition } from "react";
 import { createTask } from "@/app/actions";
-import { PRIORITIES, RECURRENCES, RECURRENCE_LABELS, TASK_STATUSES, STATUS_LABELS } from "@/lib/constants";
+import { RECURRENCES, RECURRENCE_LABELS, TASK_STATUSES, STATUS_LABELS } from "@/lib/constants";
 
 type Biz = { id: string; name: string; color: string };
 
-/** Full task creation form: business, due date, priority, status, recurrence. */
+/** Full task creation form: business, due date, status, recurrence. */
 export default function NewTaskForm({ businesses }: { businesses: Biz[] }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [businessId, setBusinessId] = useState(businesses[0]?.id ?? "");
   const [dueDate, setDueDate] = useState("");
-  const [priority, setPriority] = useState("P2");
   const [status, setStatus] = useState("THIS_WEEK");
   const [recurrence, setRecurrence] = useState("");
   const [, startTransition] = useTransition();
@@ -33,7 +32,6 @@ export default function NewTaskForm({ businesses }: { businesses: Biz[] }) {
         title: t,
         businessId,
         dueDate: dueDate || null,
-        priority,
         status,
         recurrence: recurrence || null,
       })
@@ -61,11 +59,6 @@ export default function NewTaskForm({ businesses }: { businesses: Biz[] }) {
           ))}
         </select>
         <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="input" />
-        <select value={priority} onChange={(e) => setPriority(e.target.value)} className="input cursor-pointer">
-          {PRIORITIES.map((p) => (
-            <option key={p} value={p}>{p}</option>
-          ))}
-        </select>
         <select value={status} onChange={(e) => setStatus(e.target.value)} className="input cursor-pointer">
           {TASK_STATUSES.filter((s) => s !== "DONE").map((s) => (
             <option key={s} value={s}>{STATUS_LABELS[s]}</option>

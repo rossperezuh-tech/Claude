@@ -3,11 +3,9 @@
 import { useOptimistic, useState, useTransition } from "react";
 import { createTask, deleteTask, updateTaskStatus } from "@/app/actions";
 import {
-  PRIORITY_COLORS,
   RECURRENCE_LABELS,
   STATUS_LABELS,
   TASK_STATUSES,
-  type Priority,
   type Recurrence,
   type TaskStatus,
 } from "@/lib/constants";
@@ -15,7 +13,6 @@ import {
 export type KanbanTask = {
   id: string;
   title: string;
-  priority: string;
   status: string;
   dueText: string;
   overdue: boolean;
@@ -97,17 +94,10 @@ function TaskCard({
   const idx = TASK_STATUSES.indexOf(task.status as TaskStatus);
   const prev = idx > 0 ? TASK_STATUSES[idx - 1] : null;
   const next = idx < TASK_STATUSES.length - 1 ? TASK_STATUSES[idx + 1] : null;
-  const pColor = PRIORITY_COLORS[task.priority as Priority] ?? "#9aa5b8";
 
   return (
     <div className="group rounded-md border border-surface-edge bg-surface-overlay/60 p-2.5">
       <div className="flex items-start gap-2">
-        <span
-          className="chip mt-0.5 shrink-0 border-transparent"
-          style={{ color: pColor, background: `${pColor}1a` }}
-        >
-          {task.priority}
-        </span>
         <span
           className={`min-w-0 flex-1 text-sm leading-snug ${
             task.status === "DONE" ? "text-ink-faint line-through" : ""

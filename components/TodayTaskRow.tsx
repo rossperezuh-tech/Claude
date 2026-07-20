@@ -3,13 +3,11 @@
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { completeTask } from "@/app/actions";
-import { PRIORITY_COLORS, type Priority } from "@/lib/constants";
 
 type Props = {
   task: {
     id: string;
     title: string;
-    priority: string;
     dueDate: string | null;
     dueText: string;
     overdue: boolean;
@@ -33,12 +31,6 @@ export default function TodayTaskRow({ task }: Props) {
         }}
         className="h-4 w-4 shrink-0 rounded border border-surface-edge transition-colors hover:border-emerald-400 hover:bg-emerald-400/20"
       />
-      <span
-        className="chip shrink-0 border-transparent"
-        style={{ color: PRIORITY_COLORS[task.priority as Priority], background: `${PRIORITY_COLORS[task.priority as Priority]}1a` }}
-      >
-        {task.priority}
-      </span>
       <span className="min-w-0 flex-1 truncate text-sm">{task.title}</span>
       <span className={`shrink-0 text-xs ${task.overdue ? "font-medium text-red-400" : "text-ink-faint"}`}>
         {task.dueText}

@@ -9,16 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Warm charcoal palette — softer and less harsh than a cold blue-black.
         surface: {
-          DEFAULT: "#0b0e14",
-          raised: "#121722",
-          overlay: "#1a2130",
-          edge: "#232c3f",
+          DEFAULT: "#17140f",
+          raised: "#1f1b15",
+          overlay: "#2a241d",
+          edge: "#3a3229",
         },
         ink: {
-          DEFAULT: "#e6eaf2",
-          dim: "#9aa5b8",
-          faint: "#5c6780",
+          DEFAULT: "#f1ece2",
+          dim: "#b4a894",
+          faint: "#7c7061",
         },
       },
     },

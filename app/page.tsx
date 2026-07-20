@@ -32,7 +32,7 @@ export default async function HomePage() {
         status: { not: "DONE" },
         dueDate: { lte: endOfDay(now) },
       },
-      orderBy: [{ priority: "asc" }, { dueDate: "asc" }],
+      orderBy: [{ dueDate: "asc" }],
       include: { business: { select: { name: true, slug: true, color: true } } },
     }),
   ]);
@@ -93,7 +93,6 @@ export default async function HomePage() {
                 task={{
                   id: t.id,
                   title: t.title,
-                  priority: t.priority,
                   dueDate: t.dueDate?.toISOString() ?? null,
                   dueText: dueLabel(t.dueDate),
                   overdue: !!t.dueDate && t.dueDate < startOfDay(now),
