@@ -17,7 +17,7 @@ type RecognitionLike = {
   stop: () => void;
   onresult: ((e: SpeechResultEvent) => void) | null;
   onend: (() => void) | null;
-  onerror: (() => void) | null;
+  onerror: ((e: { error?: string }) => void) | null;
 };
 type SpeechResultEvent = {
   resultIndex: number;
@@ -43,17 +43,19 @@ export function MicButton({
   const [supported, setSupported] = useState(false);
   const [listening, setListening] = useState(false);
   const recRef = useRef<RecognitionLike | null>(null);
+  // True while the user wants to keep dictating. Browsers end recognition
+  // after a pause, so we auto-restart until the user taps Stop.
+  const wantRef = useRef(false);
 
   useEffect(() => {
     setSupported(!!getRecognitionCtor());
-    return () => recRef.current?.stop();
+    return () => {
+      wantRef.current = false;
+      recRef.current?.stop();
+    };
   }, []);
 
-  function toggle() {
-    if (listening) {
-      recRef.current?.stop();
-      return;
-    }
+  function begin() {
     const Ctor = getRecognitionCtor();
     if (!Ctor) return;
     const rec = new Ctor();
@@ -68,16 +70,48 @@ export function MicButton({
       if (text.trim()) onText(text.trim());
     };
     rec.onend = () => {
-      setListening(false);
-      recRef.current = null;
+      // Browser stopped (usually after a pause) — restart if still wanted.
+      if (wantRef.current) {
+        setTimeout(() => {
+          if (wantRef.current) {
+            try {
+              rec.start();
+            } catch {
+              /* transient — next onend will retry */
+            }
+          }
+        }, 250);
+      } else {
+        setListening(false);
+        recRef.current = null;
+      }
     };
-    rec.onerror = () => {
-      setListening(false);
-      recRef.current = null;
+    rec.onerror = (e) => {
+      // Permission / hardware errors are fatal; stop for good.
+      if (e?.error === "not-allowed" || e?.error === "service-not-allowed" || e?.error === "audio-capture") {
+        wantRef.current = false;
+        setListening(false);
+        recRef.current = null;
+      }
     };
     recRef.current = rec;
-    rec.start();
+    try {
+      rec.start();
+    } catch {
+      /* already starting */
+    }
+  }
+
+  function toggle() {
+    if (wantRef.current) {
+      wantRef.current = false;
+      recRef.current?.stop();
+      setListening(false);
+      return;
+    }
+    wantRef.current = true;
     setListening(true);
+    begin();
   }
 
   if (!supported) return null;
