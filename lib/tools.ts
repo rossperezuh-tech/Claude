@@ -48,6 +48,15 @@ export const TOOLS: readonly {
     category: "Assistant",
   },
   {
+    slug: "market-research",
+    name: "Market Research",
+    description: "Searches the live web for competitors, pricing, and trends — then briefs you.",
+    status: "live",
+    icon: "🌐",
+    accent: "#60a5fa",
+    category: "Assistant",
+  },
+  {
     slug: "content-studio",
     name: "Content Studio",
     description: "Captions, reel scripts, carousels, and hooks — written in your brand voice.",
@@ -218,6 +227,15 @@ export const TOOLS: readonly {
     status: "live",
     icon: "💰",
     accent: "#facc15",
+    category: "Operations & Money",
+  },
+  {
+    slug: "receipt-snap",
+    name: "Receipt Snap",
+    description: "Photograph a receipt — it reads the details and logs the expense for you.",
+    status: "live",
+    icon: "📸",
+    accent: "#2dd4bf",
     category: "Operations & Money",
   },
   {

@@ -127,16 +127,19 @@ export async function runStructured<T>(params: {
   return { data: JSON.parse(text) as T };
 }
 
-/** One-shot plain-text call (e.g. drafting documents). */
+/** One-shot plain-text call (e.g. drafting documents). Optional server tools
+ * (like web_search) run on Anthropic's side and resolve within the one call. */
 export async function runText(params: {
   system: string;
   content: Anthropic.ContentBlockParam[] | string;
+  tools?: Anthropic.MessageStreamParams["tools"];
   meta?: UsageMeta;
 }): Promise<RunResult<string>> {
   const result = await run(
     {
       system: [{ type: "text", text: params.system, cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: params.content }],
+      ...(params.tools ? { tools: params.tools } : {}),
     },
     params.meta,
   );
