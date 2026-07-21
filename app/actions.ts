@@ -47,6 +47,7 @@ export async function createBusiness(input: {
   description?: string;
   status?: string;
   color?: string;
+  website?: string;
 }) {
   const { orgId } = await requireOrg();
   const name = input.name.trim();
@@ -73,11 +74,21 @@ export async function createBusiness(input: {
       description: input.description?.trim() ?? "",
       status: input.status ?? "active",
       color: input.color ?? BUSINESS_COLOR_PALETTE[count % BUSINESS_COLOR_PALETTE.length],
+      website: input.website?.trim() ?? "",
       sortOrder: count + 1,
     },
   });
   revalidateAll();
   return slug;
+}
+
+export async function updateBusinessWebsite(businessId: string, website: string) {
+  const { orgId } = await requireOrg();
+  await prisma.business.updateMany({
+    where: { id: businessId, organizationId: orgId },
+    data: { website: website.trim() },
+  });
+  revalidateAll();
 }
 
 export async function deleteBusiness(id: string) {

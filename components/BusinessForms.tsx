@@ -11,6 +11,7 @@ import {
   deleteDocument,
   deleteLink,
   setBusinessLogo,
+  updateBusinessWebsite,
 } from "@/app/actions";
 import { DOC_CATEGORIES } from "@/lib/constants";
 
@@ -191,6 +192,88 @@ export function DeleteButton({
     >
       ✕
     </button>
+  );
+}
+
+/** Normalize a user-typed website into an href (add https:// if missing). */
+function toHref(url: string): string {
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
+
+export function WebsiteEditor({
+  businessId,
+  website,
+  color,
+}: {
+  businessId: string;
+  website: string;
+  color: string;
+}) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(website);
+  const [pending, startTransition] = useTransition();
+
+  function save() {
+    startTransition(async () => {
+      await updateBusinessWebsite(businessId, value);
+      setEditing(false);
+    });
+  }
+
+  if (editing) {
+    return (
+      <span className="inline-flex items-center gap-1.5">
+        <input
+          autoFocus
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") save();
+            if (e.key === "Escape") setEditing(false);
+          }}
+          placeholder="deckroom.com"
+          className="input w-48 px-2 py-1 text-xs"
+        />
+        <button onClick={save} disabled={pending} className="btn px-2 py-1 text-xs">
+          {pending ? "…" : "Save"}
+        </button>
+        <button onClick={() => setEditing(false)} className="btn px-2 py-1 text-xs text-ink-faint">
+          ✕
+        </button>
+      </span>
+    );
+  }
+
+  if (!website) {
+    return (
+      <button onClick={() => setEditing(true)} className="text-xs text-ink-faint hover:text-ink">
+        + Add website
+      </button>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded border border-surface-edge bg-surface-overlay px-2 py-1 text-xs">
+      <a
+        href={toHref(website)}
+        target="_blank"
+        rel="noreferrer"
+        className="hover:underline"
+        style={{ color }}
+      >
+        🌐 {website.replace(/^https?:\/\//i, "")} ↗
+      </a>
+      <button
+        onClick={() => {
+          setValue(website);
+          setEditing(true);
+        }}
+        title="Edit website"
+        className="text-ink-faint hover:text-ink"
+      >
+        ✎
+      </button>
+    </span>
   );
 }
 

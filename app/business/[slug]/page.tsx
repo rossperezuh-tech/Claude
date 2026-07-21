@@ -12,6 +12,7 @@ import {
   DeleteBusinessButton,
   DeleteButton,
   LogoUploader,
+  WebsiteEditor,
 } from "@/components/BusinessForms";
 import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
@@ -65,6 +66,11 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           </div>
         </div>
         <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
+          <WebsiteEditor
+            businessId={business.id}
+            website={business.website}
+            color={business.color}
+          />
           {business.links.map((l) => (
             <span key={l.id} className="inline-flex items-center gap-1 rounded border border-surface-edge bg-surface-overlay px-2 py-1">
               <a

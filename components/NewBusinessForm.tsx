@@ -18,6 +18,7 @@ export default function NewBusinessForm({
   const router = useRouter();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [website, setWebsite] = useState("");
   const [status, setStatus] = useState("active");
   const [pending, startTransition] = useTransition();
 
@@ -25,9 +26,10 @@ export default function NewBusinessForm({
     e.preventDefault();
     if (!name.trim() || pending) return;
     startTransition(async () => {
-      const slug = await createBusiness({ name, description, status });
+      const slug = await createBusiness({ name, description, status, website });
       setName("");
       setDescription("");
+      setWebsite("");
       if (slug) router.push(`/business/${slug}`);
     });
   }
@@ -51,6 +53,12 @@ export default function NewBusinessForm({
         placeholder="One-line description (optional)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+      />
+      <input
+        className="input w-full text-sm"
+        placeholder="Website (optional, e.g. deckroom.com)"
+        value={website}
+        onChange={(e) => setWebsite(e.target.value)}
       />
       <div className="flex items-center gap-2">
         <select
