@@ -56,8 +56,8 @@ export default function Kanban({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-      {TASK_STATUSES.map((status) => {
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {TASK_STATUSES.filter((s) => s !== "DONE").map((status) => {
         const col = optimisticTasks.filter((t) => t.status === status);
         return (
           <div key={status} className="card flex flex-col p-3">
@@ -71,9 +71,7 @@ export default function Kanban({
               {col.map((t) => (
                 <TaskCard key={t.id} task={t} onMove={move} onRemove={remove} />
               ))}
-              {status !== "DONE" && (
-                <AddTaskInline businessId={businessId} status={status} accent={accent} />
-              )}
+              <AddTaskInline businessId={businessId} status={status} accent={accent} />
             </div>
           </div>
         );
@@ -144,6 +142,7 @@ function AddTaskInline({
 }) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState("");
+  const [dueDate, setDueDate] = useState("");
   const [, startTransition] = useTransition();
 
   if (!editing) {
@@ -151,37 +150,59 @@ function AddTaskInline({
       <button
         onClick={() => setEditing(true)}
         className="rounded-md border border-dashed border-surface-edge px-2 py-1.5 text-left text-xs text-ink-faint transition-colors hover:text-ink"
-        style={{ borderColor: undefined }}
       >
         + Add task
       </button>
     );
   }
 
-  function submit() {
-    const t = title.trim();
+  function cancel() {
     setEditing(false);
     setTitle("");
-    if (!t) return;
-    startTransition(() => createTask({ title: t, businessId, status }));
+    setDueDate("");
+  }
+
+  function submit() {
+    const t = title.trim();
+    if (!t) {
+      cancel();
+      return;
+    }
+    startTransition(() => createTask({ title: t, businessId, status, dueDate: dueDate || null }));
+    cancel();
   }
 
   return (
-    <input
-      autoFocus
-      value={title}
-      onChange={(e) => setTitle(e.target.value)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") submit();
-        if (e.key === "Escape") {
-          setEditing(false);
-          setTitle("");
-        }
-      }}
-      onBlur={submit}
-      placeholder="Task title…"
-      className="input text-xs"
+    <div
+      className="flex flex-col gap-1.5 rounded-md border p-2"
       style={{ borderColor: `${accent}66` }}
-    />
+    >
+      <input
+        autoFocus
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") submit();
+          if (e.key === "Escape") cancel();
+        }}
+        placeholder="Task title…"
+        className="input text-xs"
+      />
+      <div className="flex items-center gap-1.5">
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          title="Due date (optional)"
+          className="input flex-1 cursor-pointer text-xs"
+        />
+        <button onClick={submit} className="btn px-2 py-1 text-xs">
+          Add
+        </button>
+        <button onClick={cancel} className="btn px-2 py-1 text-xs text-ink-faint">
+          ✕
+        </button>
+      </div>
+    </div>
   );
 }

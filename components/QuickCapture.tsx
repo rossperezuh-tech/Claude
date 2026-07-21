@@ -8,6 +8,7 @@ type Biz = { id: string; name: string; color: string };
 export default function QuickCapture({ businesses }: { businesses: Biz[] }) {
   const [title, setTitle] = useState("");
   const [businessId, setBusinessId] = useState(businesses[0]?.id ?? "");
+  const [dueDate, setDueDate] = useState("");
   const [flash, setFlash] = useState(false);
   const [, startTransition] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,7 +34,10 @@ export default function QuickCapture({ businesses }: { businesses: Biz[] }) {
     setTitle(""); // optimistic clear — keep typing the next one
     setFlash(true);
     setTimeout(() => setFlash(false), 900);
-    startTransition(() => createTask({ title: t, businessId, status: "THIS_WEEK" }));
+    startTransition(() =>
+      createTask({ title: t, businessId, dueDate: dueDate || null, status: "THIS_WEEK" })
+    );
+    setDueDate("");
     inputRef.current?.focus();
   }
 
@@ -64,6 +68,13 @@ export default function QuickCapture({ businesses }: { businesses: Biz[] }) {
             </option>
           ))}
         </select>
+        <input
+          type="date"
+          value={dueDate}
+          onChange={(e) => setDueDate(e.target.value)}
+          title="Due date (optional)"
+          className="input cursor-pointer"
+        />
         <button onClick={submit} className="btn shrink-0">
           {flash ? "Added ✓" : "Add"}
         </button>
