@@ -78,6 +78,9 @@ model Business {
   contracts     Contract[]
   contentPosts  ContentPost[]
   pipelineItems PipelineItem[]
+  invoices      Invoice[]
+  testimonials  Testimonial[]
+  goals         Goal[]
 
   // slugs are per-tenant: two orgs can both have "penthouse-yoga"
   @@unique([organizationId, slug])
@@ -222,6 +225,61 @@ model PipelineItem {
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
   @@index([businessId, stage])
+}
+
+// An invoice tracked by the Invoice & Payment Tracker tool.
+model Invoice {
+  id         String    @id @default(cuid())
+  client     String // who owes
+  amountCts  Int       @default(0)
+  status     String    @default("DRAFT") // DRAFT | SENT | PAID
+  issuedDate DateTime  @default(now())
+  dueDate    DateTime?
+  notes      String    @default("")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status])
+}
+
+// A collected review / testimonial from the Testimonial Collector tool.
+model Testimonial {
+  id        String   @id @default(cuid())
+  author    String // who said it
+  role      String   @default("") // their title / company
+  quote     String   @default("")
+  rating    Int      @default(0) // 0 = unrated, else 1-5
+  source    String   @default("") // Google, email, DM, etc.
+  status    String   @default("REQUESTED") // REQUESTED | RECEIVED | PUBLISHED
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status])
+}
+
+// A goal / KPI tracked by the Goals Tracker tool.
+model Goal {
+  id         String    @id @default(cuid())
+  title      String
+  targetNum  Float     @default(0)
+  currentNum Float     @default(0)
+  unit       String    @default("") // $, %, posts, clients, lbs…
+  dueDate    DateTime?
+  status     String    @default("ACTIVE") // ACTIVE | DONE | ARCHIVED
+  notes      String    @default("")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  businessId String
+  business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, status])
 }
 
 // Tracked agreements from the Contract Manager tool (/tools/contract-manager).

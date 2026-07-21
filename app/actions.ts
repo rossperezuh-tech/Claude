@@ -518,6 +518,140 @@ export async function deletePipelineItem(id: string) {
   revalidateAll();
 }
 
+// ---- Tools: Invoice & Payment Tracker ----
+
+export async function createInvoice(input: {
+  businessId: string;
+  client: string;
+  amountDollars?: number;
+  status?: string;
+  dueDate?: string | null;
+  notes?: string;
+}) {
+  const { orgId } = await requireOrg();
+  const client = input.client.trim();
+  if (!client) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.invoice.create({
+    data: {
+      businessId: input.businessId,
+      client,
+      amountCts: Math.max(0, Math.round((input.amountDollars ?? 0) * 100)),
+      status: input.status ?? "DRAFT",
+      dueDate: input.dueDate ? new Date(input.dueDate) : null,
+      notes: input.notes?.trim() ?? "",
+    },
+  });
+  revalidateAll();
+}
+
+export async function updateInvoiceStatus(id: string, status: string) {
+  const { orgId } = await requireOrg();
+  await prisma.invoice.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: { status },
+  });
+  revalidateAll();
+}
+
+export async function deleteInvoice(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.invoice.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}
+
+// ---- Tools: Review & Testimonial Collector ----
+
+export async function createTestimonial(input: {
+  businessId: string;
+  author: string;
+  role?: string;
+  quote?: string;
+  rating?: number;
+  source?: string;
+  status?: string;
+}) {
+  const { orgId } = await requireOrg();
+  const author = input.author.trim();
+  if (!author) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.testimonial.create({
+    data: {
+      businessId: input.businessId,
+      author,
+      role: input.role?.trim() ?? "",
+      quote: input.quote?.trim() ?? "",
+      rating: Math.min(5, Math.max(0, Math.round(input.rating ?? 0))),
+      source: input.source?.trim() ?? "",
+      status: input.status ?? "REQUESTED",
+    },
+  });
+  revalidateAll();
+}
+
+export async function updateTestimonialStatus(id: string, status: string) {
+  const { orgId } = await requireOrg();
+  await prisma.testimonial.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: { status },
+  });
+  revalidateAll();
+}
+
+export async function deleteTestimonial(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.testimonial.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}
+
+// ---- Tools: Goals / KPI Tracker ----
+
+export async function createGoal(input: {
+  businessId: string;
+  title: string;
+  targetNum?: number;
+  currentNum?: number;
+  unit?: string;
+  dueDate?: string | null;
+}) {
+  const { orgId } = await requireOrg();
+  const title = input.title.trim();
+  if (!title) return;
+  if (!(await assertBusinessInOrg(input.businessId, orgId))) return;
+  await prisma.goal.create({
+    data: {
+      businessId: input.businessId,
+      title,
+      targetNum: input.targetNum ?? 0,
+      currentNum: input.currentNum ?? 0,
+      unit: input.unit?.trim() ?? "",
+      dueDate: input.dueDate ? new Date(input.dueDate) : null,
+    },
+  });
+  revalidateAll();
+}
+
+export async function updateGoal(
+  id: string,
+  data: { currentNum?: number; status?: string },
+) {
+  const { orgId } = await requireOrg();
+  await prisma.goal.updateMany({
+    where: { id, business: { organizationId: orgId } },
+    data: {
+      ...(data.currentNum !== undefined ? { currentNum: data.currentNum } : {}),
+      ...(data.status !== undefined ? { status: data.status } : {}),
+    },
+  });
+  revalidateAll();
+}
+
+export async function deleteGoal(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.goal.deleteMany({ where: { id, business: { organizationId: orgId } } });
+  revalidateAll();
+}
+
 // ---- Tools: Deal Tracker (CRE pipeline) ----
 
 export async function createDeal(input: {

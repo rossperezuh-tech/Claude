@@ -121,6 +121,15 @@ export const TOOLS: readonly {
     category: "Sales & Clients",
   },
   {
+    slug: "testimonials",
+    name: "Testimonial Collector",
+    description: "Store reviews and testimonials, and track which you've published.",
+    status: "live",
+    icon: "🌟",
+    accent: "#fbbf24",
+    category: "Sales & Clients",
+  },
+  {
     slug: "deal-tracker",
     name: "Deal Tracker",
     description:
@@ -182,6 +191,24 @@ export const TOOLS: readonly {
     status: "live",
     icon: "📉",
     accent: "#22d3ee",
+    category: "Operations & Money",
+  },
+  {
+    slug: "invoice-tracker",
+    name: "Invoice & Payment Tracker",
+    description: "Track who owes what, what's paid, and what's overdue.",
+    status: "live",
+    icon: "💵",
+    accent: "#4ade80",
+    category: "Operations & Money",
+  },
+  {
+    slug: "goals",
+    name: "Goals & KPI Tracker",
+    description: "Set targets per venture and track progress toward them.",
+    status: "live",
+    icon: "🎯",
+    accent: "#f472b6",
     category: "Operations & Money",
   },
   {
