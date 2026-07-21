@@ -46,6 +46,11 @@ export function MicButton({
   // True while the user wants to keep dictating. Browsers end recognition
   // after a pause, so we auto-restart until the user taps Stop.
   const wantRef = useRef(false);
+  // Holds the latest non-final phrase, committed on pause if no final arrives.
+  const interimRef = useRef("");
+  // How many final results in the current session have already been written
+  // (results accumulate in continuous mode, so we only append new ones).
+  const committedRef = useRef(0);
 
   useEffect(() => {
     setSupported(!!getRecognitionCtor());
@@ -61,25 +66,43 @@ export function MicButton({
     const rec = new Ctor();
     rec.lang = "en-US";
     rec.continuous = true;
-    rec.interimResults = false;
+    rec.interimResults = true;
+    interimRef.current = "";
+    committedRef.current = 0;
     rec.onresult = (e) => {
-      let text = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        if (e.results[i].isFinal) text += e.results[i][0].transcript;
+      let newFinal = "";
+      let interim = "";
+      for (let i = 0; i < e.results.length; i++) {
+        const r = e.results[i];
+        if (!r || !r[0]) continue;
+        if (r.isFinal) {
+          // Only append finals we haven't written yet (list accumulates).
+          if (i >= committedRef.current) {
+            newFinal += r[0].transcript + " ";
+            committedRef.current = i + 1;
+          }
+        } else {
+          interim += r[0].transcript + " ";
+        }
       }
-      if (text.trim()) onText(text.trim());
+      if (newFinal.trim()) {
+        onText(newFinal.trim());
+        interimRef.current = "";
+      } else {
+        interimRef.current = interim;
+      }
     };
     rec.onend = () => {
-      // Browser stopped (usually after a pause) — restart if still wanted.
+      // If a phrase was in progress but never finalized, commit it now.
+      if (interimRef.current.trim()) {
+        onText(interimRef.current.trim());
+        interimRef.current = "";
+      }
+      // Browser stopped (usually after a pause) — start a FRESH recognizer if
+      // still wanted (reusing the old one stops emitting results on some browsers).
       if (wantRef.current) {
         setTimeout(() => {
-          if (wantRef.current) {
-            try {
-              rec.start();
-            } catch {
-              /* transient — next onend will retry */
-            }
-          }
+          if (wantRef.current) begin();
         }, 250);
       } else {
         setListening(false);
