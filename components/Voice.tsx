@@ -43,7 +43,10 @@ export function MicButton({
   const [supported, setSupported] = useState(false);
   const [listening, setListening] = useState(false);
   const [heard, setHeard] = useState("");
+  const [hint, setHint] = useState("");
   const recRef = useRef<RecognitionLike | null>(null);
+  const gotAudioRef = useRef(false);
+  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // True while the user wants to keep dictating. Browsers end recognition
   // after a pause, so we auto-restart until the user taps Stop.
   const wantRef = useRef(false);
@@ -71,6 +74,8 @@ export function MicButton({
     interimRef.current = "";
     committedRef.current = 0;
     rec.onresult = (e) => {
+      gotAudioRef.current = true;
+      setHint("");
       let newFinal = "";
       let interim = "";
       for (let i = 0; i < e.results.length; i++) {
@@ -134,12 +139,24 @@ export function MicButton({
       recRef.current?.stop();
       setListening(false);
       setHeard("");
+      setHint("");
+      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
       return;
     }
     setHeard("");
+    setHint("");
+    gotAudioRef.current = false;
     wantRef.current = true;
     setListening(true);
     begin();
+    // If nothing is heard within a few seconds, the browser is likely blocking
+    // dictation (Brave / Firefox). Point the user at a browser that works.
+    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
+    hintTimerRef.current = setTimeout(() => {
+      if (wantRef.current && !gotAudioRef.current) {
+        setHint("No audio detected — this browser may block dictation. Try Chrome, Edge, or Safari.");
+      }
+    }, 4000);
   }
 
   if (!supported) return null;
@@ -169,6 +186,7 @@ export function MicButton({
             >
               Stop
             </button>
+            {hint && <div className="mt-2 text-xs text-amber-300">{hint}</div>}
           </div>
         </div>
       )}
