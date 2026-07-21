@@ -48,12 +48,12 @@ export default async function ToolsPage() {
               </div>
               <div className="relative min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <h2 className="truncate font-medium">{tool.name}</h2>
+                  <h2 className="font-medium leading-tight">{tool.name}</h2>
                   {tool.status === "soon" && (
                     <span className={`chip ${status.className}`}>{status.label}</span>
                   )}
                 </div>
-                <p className="mt-1 line-clamp-2 text-sm text-ink-dim">{tool.description}</p>
+                <p className="mt-1 text-sm text-ink-dim">{tool.description}</p>
               </div>
             </div>
           );
