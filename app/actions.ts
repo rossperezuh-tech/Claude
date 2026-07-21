@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
 import { isPlatformAdmin } from "@/lib/admin";
@@ -92,19 +93,20 @@ export async function updateBusinessWebsite(businessId: string, website: string)
 }
 
 // Persist a new venture order from drag-and-drop. Each id's position in the
-// array becomes its sortOrder; updateMany scopes every write to the caller's
-// org. Plain parallel updates (no interactive transaction) so it works over
-// Neon's pooled connection.
+// array becomes its sortOrder. Done as a single UPDATE ... FROM (VALUES ...)
+// statement — one round-trip, org-scoped in the WHERE clause — so it can't
+// mis-handle Neon's pooled connection the way a transaction or many parallel
+// writes can.
 export async function reorderBusinesses(orderedIds: string[]) {
   const { orgId } = await requireOrg();
-  await Promise.all(
-    orderedIds.map((id, i) =>
-      prisma.business.updateMany({
-        where: { id, organizationId: orgId },
-        data: { sortOrder: i },
-      }),
-    ),
-  );
+  if (orderedIds.length === 0) return;
+  const rows = Prisma.join(orderedIds.map((id, i) => Prisma.sql`(${id}, ${i}::int)`));
+  await prisma.$executeRaw(Prisma.sql`
+    UPDATE "Business" AS b
+    SET "sortOrder" = v.ord
+    FROM (VALUES ${rows}) AS v(id, ord)
+    WHERE b.id = v.id AND b."organizationId" = ${orgId}
+  `);
   revalidateAll();
 }
 

@@ -30,9 +30,15 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
   const [dragging, setDragging] = useState<number | null>(null);
   const [, startTransition] = useTransition();
 
-  // Re-sync when the server sends a new list (after add / delete / save).
+  // Re-sync when the server sends a genuinely different list (after add /
+  // delete). Comparing ids first avoids clobbering an in-progress reorder or
+  // looping on every render.
   useEffect(() => {
-    setItems(businesses);
+    setItems((cur) => {
+      const same =
+        cur.length === businesses.length && cur.every((b, i) => b.id === businesses[i].id);
+      return same ? cur : businesses;
+    });
   }, [businesses]);
 
   function startDrag(e: React.PointerEvent, i: number) {
@@ -72,10 +78,7 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
     if (fromRef.current === null) return;
     fromRef.current = null;
     setDragging(null);
-    setItems((cur) => {
-      startTransition(() => reorderBusinesses(cur.map((b) => b.id)));
-      return cur;
-    });
+    startTransition(() => reorderBusinesses(items.map((b) => b.id)));
   }
 
   return (
