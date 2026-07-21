@@ -42,11 +42,7 @@ export function MicButton({
 }) {
   const [supported, setSupported] = useState(false);
   const [listening, setListening] = useState(false);
-  const [heard, setHeard] = useState("");
-  const [hint, setHint] = useState("");
   const recRef = useRef<RecognitionLike | null>(null);
-  const gotAudioRef = useRef(false);
-  const hintTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // True while the user wants to keep dictating. Browsers end recognition
   // after a pause, so we auto-restart until the user taps Stop.
   const wantRef = useRef(false);
@@ -74,8 +70,6 @@ export function MicButton({
     interimRef.current = "";
     committedRef.current = 0;
     rec.onresult = (e) => {
-      gotAudioRef.current = true;
-      setHint("");
       let newFinal = "";
       let interim = "";
       for (let i = 0; i < e.results.length; i++) {
@@ -94,10 +88,8 @@ export function MicButton({
       if (newFinal.trim()) {
         onText(newFinal.trim());
         interimRef.current = "";
-        setHeard(newFinal.trim());
       } else {
         interimRef.current = interim;
-        if (interim.trim()) setHeard(interim.trim());
       }
     };
     rec.onend = () => {
@@ -138,59 +130,27 @@ export function MicButton({
       wantRef.current = false;
       recRef.current?.stop();
       setListening(false);
-      setHeard("");
-      setHint("");
-      if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
       return;
     }
-    setHeard("");
-    setHint("");
-    gotAudioRef.current = false;
     wantRef.current = true;
     setListening(true);
     begin();
-    // If nothing is heard within a few seconds, the browser is likely blocking
-    // dictation (Brave / Firefox). Point the user at a browser that works.
-    if (hintTimerRef.current) clearTimeout(hintTimerRef.current);
-    hintTimerRef.current = setTimeout(() => {
-      if (wantRef.current && !gotAudioRef.current) {
-        setHint("No audio detected — this browser may block dictation. Try Chrome, Edge, or Safari.");
-      }
-    }, 4000);
   }
 
   if (!supported) return null;
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={toggle}
-        title={listening ? "Stop dictation" : "Dictate — speak to fill this field"}
-        aria-label="Dictate"
-        className={`btn shrink-0 ${
-          listening ? "animate-pulse border-red-400/60 text-red-300" : ""
-        } ${className}`}
-      >
-        {listening ? "● Listening…" : "🎤 Speak"}
-      </button>
-      {listening && (
-        <div className="fixed inset-x-0 bottom-4 z-50 mx-auto max-w-md px-4">
-          <div className="rounded-lg border border-red-400/40 bg-surface-raised/95 px-4 py-3 text-center text-sm text-ink shadow-lg backdrop-blur">
-            <span className="mr-2 animate-pulse text-red-400">●</span>
-            {heard ? `“${heard}”` : "Listening… start speaking"}
-            <button
-              type="button"
-              onClick={toggle}
-              className="ml-3 rounded border border-surface-edge px-2 py-0.5 text-xs text-ink-dim hover:text-ink"
-            >
-              Stop
-            </button>
-            {hint && <div className="mt-2 text-xs text-amber-300">{hint}</div>}
-          </div>
-        </div>
-      )}
-    </>
+    <button
+      type="button"
+      onClick={toggle}
+      title={listening ? "Stop dictation" : "Dictate — speak to fill this field"}
+      aria-label="Dictate"
+      className={`btn shrink-0 ${
+        listening ? "animate-pulse border-red-400/60 text-red-300" : ""
+      } ${className}`}
+    >
+      {listening ? "● Listening…" : "🎤 Speak"}
+    </button>
   );
 }
 
