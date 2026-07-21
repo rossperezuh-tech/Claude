@@ -136,7 +136,7 @@ export default async function HomePage() {
                   className="absolute inset-0 z-0 rounded-lg"
                 />
                 <div className="pointer-events-none relative z-[1] flex gap-3">
-                  {/* Logo tile — placeholder shows the venture initial; swap in a real logo later */}
+                  {/* Logo tile — shows the uploaded logo, else the venture initial */}
                   <div
                     className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-base font-semibold uppercase"
                     style={{
@@ -145,7 +145,12 @@ export default async function HomePage() {
                       color: b.color,
                     }}
                   >
-                    {b.name.charAt(0)}
+                    {b.logoUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={b.logoUrl} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      b.name.charAt(0)
+                    )}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">

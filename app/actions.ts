@@ -195,6 +195,23 @@ export async function saveBusinessNotes(businessId: string, notes: string) {
   // no revalidate: autosave shouldn't trigger rerenders while typing
 }
 
+// Logo is a small square data URI produced by resizing the file in the
+// browser. Pass null to clear it. We cap the size and require a data URI so a
+// malformed or oversized payload can't be stored.
+export async function setBusinessLogo(businessId: string, dataUri: string | null) {
+  const { orgId } = await requireOrg();
+  let logoUrl: string | null = null;
+  if (dataUri) {
+    if (!dataUri.startsWith("data:image/") || dataUri.length > 400_000) return;
+    logoUrl = dataUri;
+  }
+  await prisma.business.updateMany({
+    where: { id: businessId, organizationId: orgId },
+    data: { logoUrl },
+  });
+  revalidateAll();
+}
+
 // ---- Documents ----
 
 export async function createDocument(input: {

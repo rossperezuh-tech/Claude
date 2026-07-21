@@ -11,6 +11,7 @@ import {
   AddLinkForm,
   DeleteBusinessButton,
   DeleteButton,
+  LogoUploader,
 } from "@/components/BusinessForms";
 import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
@@ -48,9 +49,17 @@ export default async function BusinessPage({ params }: { params: { slug: string 
         style={{ borderLeft: `3px solid ${business.color}` }}
       >
         <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-lg font-semibold">{business.name}</h1>
-          <span className={`chip ${badge.className}`}>{badge.label}</span>
-          <span className="text-sm text-ink-faint">{business.description}</span>
+          <LogoUploader
+            businessId={business.id}
+            name={business.name}
+            color={business.color}
+            logoUrl={business.logoUrl}
+          />
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-lg font-semibold">{business.name}</h1>
+            <span className={`chip ${badge.className}`}>{badge.label}</span>
+            <span className="text-sm text-ink-faint">{business.description}</span>
+          </div>
           <div className="ml-auto">
             <DeleteBusinessButton id={business.id} name={business.name} />
           </div>

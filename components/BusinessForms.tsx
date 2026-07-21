@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   createContact,
@@ -10,8 +10,119 @@ import {
   deleteContact,
   deleteDocument,
   deleteLink,
+  setBusinessLogo,
 } from "@/app/actions";
 import { DOC_CATEGORIES } from "@/lib/constants";
+
+// Draw the chosen file onto a square canvas (center-cropped) and return a
+// compact PNG data URI — keeps stored logos small, no upload server needed.
+function resizeToDataUri(file: File, size = 128): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement("canvas");
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return reject(new Error("no canvas context"));
+      const scale = Math.max(size / img.width, size / img.height);
+      const w = img.width * scale;
+      const h = img.height * scale;
+      ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      resolve(canvas.toDataURL("image/png"));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("could not load image"));
+    };
+    img.src = url;
+  });
+}
+
+export function LogoUploader({
+  businessId,
+  name,
+  color,
+  logoUrl,
+}: {
+  businessId: string;
+  name: string;
+  color: string;
+  logoUrl: string | null;
+}) {
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [current, setCurrent] = useState<string | null>(logoUrl);
+  const [busy, setBusy] = useState(false);
+
+  async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setBusy(true);
+    try {
+      const dataUri = await resizeToDataUri(file);
+      if (dataUri.length > 400_000) {
+        alert("That image is too large after processing. Try a simpler logo.");
+        return;
+      }
+      setCurrent(dataUri);
+      await setBusinessLogo(businessId, dataUri);
+      router.refresh();
+    } catch {
+      alert("Couldn't read that image file.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function remove() {
+    setBusy(true);
+    setCurrent(null);
+    await setBusinessLogo(businessId, null);
+    router.refresh();
+    setBusy(false);
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => inputRef.current?.click()}
+        title="Upload logo"
+        className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg text-lg font-semibold uppercase transition-opacity hover:opacity-80"
+        style={{
+          background: `linear-gradient(135deg, ${color}33, ${color}14)`,
+          border: `1px solid ${color}40`,
+          color,
+        }}
+      >
+        {current ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={current} alt="" className="h-full w-full object-cover" />
+        ) : (
+          name.charAt(0)
+        )}
+      </button>
+      <input ref={inputRef} type="file" accept="image/*" onChange={onFile} className="hidden" />
+      <div className="flex flex-col items-start gap-0.5 text-xs">
+        <button
+          disabled={busy}
+          onClick={() => inputRef.current?.click()}
+          className="text-ink-dim hover:text-ink"
+        >
+          {busy ? "Saving…" : current ? "Change logo" : "Upload logo"}
+        </button>
+        {current && !busy && (
+          <button onClick={remove} className="text-ink-faint hover:text-red-400">
+            Remove
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function DeleteBusinessButton({ id, name }: { id: string; name: string }) {
   const router = useRouter();
