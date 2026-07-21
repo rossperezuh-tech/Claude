@@ -9,6 +9,14 @@ export const TOOLS: readonly {
   accent: string;
 }[] = [
   {
+    slug: "the-brain",
+    name: "The Brain",
+    description: "Your private HQ assistant. It sees your tasks, contracts, docs, and contacts.",
+    status: "live",
+    icon: "🧠",
+    accent: "#f472b6",
+  },
+  {
     slug: "document-reader",
     name: "Document Reader",
     description: "Upload a contract or brief, get a summary with the key clauses highlighted.",
@@ -31,14 +39,6 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🗒️",
     accent: "#34d399",
-  },
-  {
-    slug: "the-brain",
-    name: "The Brain",
-    description: "Your private HQ assistant. It sees your tasks, contracts, docs, and contacts.",
-    status: "live",
-    icon: "🧠",
-    accent: "#f472b6",
   },
   {
     slug: "content-studio",
