@@ -105,16 +105,6 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* 14-day calendar strip */}
-      <CalendarStrip
-        tasks={upcoming.map((t) => ({
-          id: t.id,
-          title: t.title,
-          dueDate: t.dueDate!.toISOString(),
-          business: t.business,
-        }))}
-      />
-
       {/* Business grid */}
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink-dim">
@@ -182,6 +172,16 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* 14-day calendar grid */}
+      <CalendarStrip
+        tasks={upcoming.map((t) => ({
+          id: t.id,
+          title: t.title,
+          dueDate: t.dueDate!.toISOString(),
+          business: t.business,
+        }))}
+      />
     </div>
   );
 }

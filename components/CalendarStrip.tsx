@@ -8,7 +8,7 @@ type StripTask = {
   business: { name: string; slug: string; color: string };
 };
 
-/** Horizontal 14-day deadline strip, color-coded by business. */
+/** Two-week calendar grid (7 columns × 2 rows), color-coded by business. */
 export default function CalendarStrip({ tasks }: { tasks: StripTask[] }) {
   const today = startOfDay(new Date());
   const days = Array.from({ length: 14 }, (_, i) => addDays(today, i));
@@ -19,42 +19,55 @@ export default function CalendarStrip({ tasks }: { tasks: StripTask[] }) {
         Next 14 days
       </h2>
       <div className="overflow-x-auto pb-1">
-        <div className="flex min-w-max gap-1.5">
+        <div className="grid min-w-[680px] grid-cols-7 gap-2">
           {days.map((day, i) => {
             const dayTasks = tasks.filter((t) => isSameDay(new Date(t.dueDate), day));
             const isToday = i === 0;
+            const isWeekend = [0, 6].includes(day.getDay());
             return (
               <div
                 key={day.toISOString()}
-                className={`w-[92px] shrink-0 rounded-md border p-2 ${
+                className={`flex min-h-[104px] flex-col rounded-lg border p-2 ${
                   isToday
-                    ? "border-indigo-400/50 bg-indigo-400/5"
-                    : "border-surface-edge bg-surface-overlay/40"
+                    ? "border-indigo-400/50 bg-indigo-400/[0.07]"
+                    : `border-surface-edge ${isWeekend ? "bg-surface-overlay/20" : "bg-surface-overlay/40"}`
                 }`}
               >
-                <div className={`text-[11px] font-medium ${isToday ? "text-indigo-300" : "text-ink-faint"}`}>
-                  {isToday ? "Today" : format(day, "EEE d")}
+                <div className="flex items-baseline justify-between">
+                  <span
+                    className={`text-[10px] font-medium uppercase tracking-wide ${
+                      isToday ? "text-indigo-300" : "text-ink-faint"
+                    }`}
+                  >
+                    {format(day, "EEE")}
+                  </span>
+                  <span
+                    className={`text-sm font-semibold leading-none ${
+                      isToday ? "text-indigo-300" : "text-ink-dim"
+                    }`}
+                  >
+                    {format(day, "d")}
+                  </span>
                 </div>
-                <div className="mt-1.5 space-y-1">
-                  {dayTasks.length === 0 && <div className="h-1.5" />}
+                <div className="mt-2 space-y-1">
                   {dayTasks.slice(0, 4).map((t) => (
                     <Link
                       key={t.id}
                       href={`/business/${t.business.slug}`}
                       title={`${t.business.name}: ${t.title}`}
-                      className="flex items-center gap-1"
+                      className="flex items-center gap-1.5 rounded px-1 py-0.5 hover:bg-surface-overlay"
                     >
                       <span
                         className="h-2 w-2 shrink-0 rounded-full"
                         style={{ background: t.business.color }}
                       />
-                      <span className="truncate text-[10px] leading-tight text-ink-dim hover:text-ink">
+                      <span className="truncate text-[11px] leading-tight text-ink-dim hover:text-ink">
                         {t.title}
                       </span>
                     </Link>
                   ))}
                   {dayTasks.length > 4 && (
-                    <div className="text-[10px] text-ink-faint">+{dayTasks.length - 4} more</div>
+                    <div className="pl-1 text-[10px] text-ink-faint">+{dayTasks.length - 4} more</div>
                   )}
                 </div>
               </div>
