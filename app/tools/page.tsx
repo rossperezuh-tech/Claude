@@ -21,15 +21,14 @@ export default async function ToolsPage() {
       {/* Header */}
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h1 className="text-xl font-semibold tracking-tight">Business Tools</h1>
-        <span className="text-xs text-ink-faint">AI tools built into HQ · Powered by Claude</span>
       </div>
 
-      <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {tools.map((tool) => {
           const status = TOOL_STATUS_STYLES[tool.status];
           const card = (
             <div
-              className={`card group relative flex h-full items-start gap-3 overflow-hidden p-3 ${
+              className={`card group relative flex h-full items-start gap-3 overflow-hidden p-4 ${
                 tool.status === "live" ? "transition-colors hover:border-amber-400/40" : "opacity-60"
               }`}
             >
@@ -39,7 +38,7 @@ export default async function ToolsPage() {
                 style={{ background: `radial-gradient(circle at 30% 100%, ${tool.accent}, transparent 70%)` }}
               />
               <div
-                className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-lg"
+                className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
                 style={{
                   background: `linear-gradient(135deg, ${tool.accent}33, ${tool.accent}14)`,
                   border: `1px solid ${tool.accent}40`,
@@ -49,12 +48,12 @@ export default async function ToolsPage() {
               </div>
               <div className="relative min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <h2 className="truncate text-sm font-medium">{tool.name}</h2>
+                  <h2 className="truncate font-medium">{tool.name}</h2>
                   {tool.status === "soon" && (
                     <span className={`chip ${status.className}`}>{status.label}</span>
                   )}
                 </div>
-                <p className="mt-0.5 line-clamp-2 text-xs text-ink-dim">{tool.description}</p>
+                <p className="mt-1 line-clamp-2 text-sm text-ink-dim">{tool.description}</p>
               </div>
             </div>
           );
