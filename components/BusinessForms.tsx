@@ -83,6 +83,33 @@ export function DeleteButton({
   );
 }
 
+/** Compact delete affordance for the home dashboard venture cards. */
+export function HomeCardDeleteButton({ id, name }: { id: string; name: string }) {
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [gone, setGone] = useState(false);
+  if (gone) return null;
+  return (
+    <button
+      title="Delete venture"
+      disabled={pending}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!window.confirm(`Delete “${name}” and everything in it? This cannot be undone.`)) return;
+        setGone(true);
+        startTransition(async () => {
+          await deleteBusiness(id);
+          router.refresh();
+        });
+      }}
+      className="absolute bottom-2 right-2 z-[2] rounded border border-surface-edge bg-surface-overlay px-1.5 py-0.5 text-xs text-ink-faint opacity-0 transition-opacity hover:border-red-400/50 hover:text-red-400 group-hover:opacity-100"
+    >
+      ✕
+    </button>
+  );
+}
+
 export function AddDocumentForm({ businessId }: { businessId: string }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");

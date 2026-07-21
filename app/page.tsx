@@ -6,6 +6,7 @@ import QuickCapture from "@/components/QuickCapture";
 import TodayTaskRow from "@/components/TodayTaskRow";
 import CalendarStrip from "@/components/CalendarStrip";
 import NewBusinessForm from "@/components/NewBusinessForm";
+import { HomeCardDeleteButton } from "@/components/BusinessForms";
 import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel } from "@/lib/dates";
 
@@ -124,31 +125,38 @@ export default async function HomePage() {
             const nextDue = b.tasks.find((t) => t.dueDate)?.dueDate ?? null;
             const badge = BUSINESS_STATUS_STYLES[b.status] ?? BUSINESS_STATUS_STYLES.active;
             return (
-              <Link
+              <div
                 key={b.id}
-                href={`/business/${b.slug}`}
-                className="card group p-4 transition-colors hover:bg-surface-overlay"
+                className="card group relative p-4 transition-colors hover:bg-surface-overlay"
                 style={{ borderLeft: `3px solid ${b.color}` }}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
-                  <span className={`chip shrink-0 ${badge.className}`}>{badge.label}</span>
-                </div>
-                <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
-                <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">
-                  <span>
-                    <span className="font-semibold text-ink">{b.tasks.length}</span> open
-                  </span>
-                  {nextDue && (
+                <Link
+                  href={`/business/${b.slug}`}
+                  aria-label={b.name}
+                  className="absolute inset-0 z-0 rounded-lg"
+                />
+                <div className="pointer-events-none relative z-[1]">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
+                    <span className={`chip shrink-0 ${badge.className}`}>{badge.label}</span>
+                  </div>
+                  <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
+                  <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">
                     <span>
-                      next due{" "}
-                      <span className="font-medium" style={{ color: b.color }}>
-                        {dueLabel(nextDue)}
-                      </span>
+                      <span className="font-semibold text-ink">{b.tasks.length}</span> open
                     </span>
-                  )}
+                    {nextDue && (
+                      <span>
+                        next due{" "}
+                        <span className="font-medium" style={{ color: b.color }}>
+                          {dueLabel(nextDue)}
+                        </span>
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </Link>
+                <HomeCardDeleteButton id={b.id} name={b.name} />
+              </div>
             );
           })}
           <div className="card border-dashed p-4">
