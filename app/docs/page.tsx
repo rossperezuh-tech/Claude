@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
 import { DOC_CATEGORIES } from "@/lib/constants";
+import { DeleteButton } from "@/components/BusinessForms";
 
 export const dynamic = "force-dynamic";
 
@@ -135,6 +136,7 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
                   {d.business.name}
                 </Link>
                 <span className="shrink-0 text-xs text-ink-faint">{format(d.createdAt, "MMM d")}</span>
+                <DeleteButton kind="document" id={d.id} />
               </li>
             ))}
           </ul>
