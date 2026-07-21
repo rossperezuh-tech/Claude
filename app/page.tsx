@@ -135,24 +135,37 @@ export default async function HomePage() {
                   aria-label={b.name}
                   className="absolute inset-0 z-0 rounded-lg"
                 />
-                <div className="pointer-events-none relative z-[1]">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
-                    <span className={`chip shrink-0 ${badge.className}`}>{badge.label}</span>
+                <div className="pointer-events-none relative z-[1] flex gap-3">
+                  {/* Logo tile — placeholder shows the venture initial; swap in a real logo later */}
+                  <div
+                    className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-base font-semibold uppercase"
+                    style={{
+                      background: `linear-gradient(135deg, ${b.color}33, ${b.color}14)`,
+                      border: `1px solid ${b.color}40`,
+                      color: b.color,
+                    }}
+                  >
+                    {b.name.charAt(0)}
                   </div>
-                  <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
-                  <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">
-                    <span>
-                      <span className="font-semibold text-ink">{b.tasks.length}</span> open
-                    </span>
-                    {nextDue && (
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
+                      <span className={`chip shrink-0 ${badge.className}`}>{badge.label}</span>
+                    </div>
+                    <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
+                    <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">
                       <span>
-                        next due{" "}
-                        <span className="font-medium" style={{ color: b.color }}>
-                          {dueLabel(nextDue)}
-                        </span>
+                        <span className="font-semibold text-ink">{b.tasks.length}</span> open
                       </span>
-                    )}
+                      {nextDue && (
+                        <span>
+                          next due{" "}
+                          <span className="font-medium" style={{ color: b.color }}>
+                            {dueLabel(nextDue)}
+                          </span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <HomeCardDeleteButton id={b.id} name={b.name} />
