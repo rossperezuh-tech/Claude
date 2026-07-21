@@ -1,5 +1,16 @@
 export type ToolStatus = "live" | "soon";
 
+// Section headings shown on the tools page, in display order.
+export const TOOL_CATEGORIES = [
+  "Assistant",
+  "Content & Marketing",
+  "Sales & Clients",
+  "Real Estate",
+  "Documents & Contracts",
+  "Operations & Money",
+] as const;
+export type ToolCategory = (typeof TOOL_CATEGORIES)[number];
+
 export const TOOLS: readonly {
   slug: string;
   name: string;
@@ -7,6 +18,7 @@ export const TOOLS: readonly {
   status: ToolStatus;
   icon: string;
   accent: string;
+  category: ToolCategory;
 }[] = [
   {
     slug: "the-brain",
@@ -15,30 +27,25 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🧠",
     accent: "#f472b6",
+    category: "Assistant",
   },
   {
-    slug: "document-reader",
-    name: "Document Reader",
-    description: "Upload a contract or brief, get a summary with the key clauses highlighted.",
+    slug: "brain-dump",
+    name: "Brain Dump",
+    description: "Empty your head into one box — AI routes it all to the right venture.",
     status: "live",
-    icon: "📄",
-    accent: "#60a5fa",
+    icon: "💭",
+    accent: "#a78bfa",
+    category: "Assistant",
   },
   {
-    slug: "contract-manager",
-    name: "The Contract Manager",
-    description: "Drafts agreements, tracks dates, flags renewals and deadlines early.",
+    slug: "weekly-digest",
+    name: "Weekly Digest",
+    description: "Your Monday briefing: what happened, what's next, what's at risk.",
     status: "live",
-    icon: "✍️",
-    accent: "#818cf8",
-  },
-  {
-    slug: "meeting-notes",
-    name: "Meeting Notes",
-    description: "Turns meeting and deposition notes into a simple to-do list.",
-    status: "live",
-    icon: "🗒️",
-    accent: "#34d399",
+    icon: "📰",
+    accent: "#fb923c",
+    category: "Assistant",
   },
   {
     slug: "content-studio",
@@ -47,6 +54,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🎬",
     accent: "#fb7185",
+    category: "Content & Marketing",
   },
   {
     slug: "content-calendar",
@@ -55,6 +63,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🗓️",
     accent: "#22d3ee",
+    category: "Content & Marketing",
   },
   {
     slug: "launch-planner",
@@ -63,6 +72,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🚀",
     accent: "#fbbf24",
+    category: "Content & Marketing",
   },
   {
     slug: "pipeline",
@@ -72,14 +82,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "📊",
     accent: "#4ade80",
-  },
-  {
-    slug: "brain-dump",
-    name: "Brain Dump",
-    description: "Empty your head into one box — AI routes it all to the right venture.",
-    status: "live",
-    icon: "💭",
-    accent: "#a78bfa",
+    category: "Sales & Clients",
   },
   {
     slug: "proposals",
@@ -88,14 +91,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🧾",
     accent: "#38bdf8",
-  },
-  {
-    slug: "sop-writer",
-    name: "SOP Writer",
-    description: "Describe how something gets done — get a procedure a new hire can follow.",
-    status: "live",
-    icon: "📋",
-    accent: "#2dd4bf",
+    category: "Sales & Clients",
   },
   {
     slug: "client-report",
@@ -104,6 +100,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "📈",
     accent: "#a3e635",
+    category: "Sales & Clients",
   },
   {
     slug: "deal-tracker",
@@ -113,6 +110,43 @@ export const TOOLS: readonly {
     status: "live",
     icon: "🏢",
     accent: "#f59e0b",
+    category: "Real Estate",
+  },
+  {
+    slug: "document-reader",
+    name: "Document Reader",
+    description: "Upload a contract or brief, get a summary with the key clauses highlighted.",
+    status: "live",
+    icon: "📄",
+    accent: "#60a5fa",
+    category: "Documents & Contracts",
+  },
+  {
+    slug: "contract-manager",
+    name: "The Contract Manager",
+    description: "Drafts agreements, tracks dates, flags renewals and deadlines early.",
+    status: "live",
+    icon: "✍️",
+    accent: "#818cf8",
+    category: "Documents & Contracts",
+  },
+  {
+    slug: "meeting-notes",
+    name: "Meeting Notes",
+    description: "Turns meeting and deposition notes into a simple to-do list.",
+    status: "live",
+    icon: "🗒️",
+    accent: "#34d399",
+    category: "Documents & Contracts",
+  },
+  {
+    slug: "sop-writer",
+    name: "SOP Writer",
+    description: "Describe how something gets done — get a procedure a new hire can follow.",
+    status: "live",
+    icon: "📋",
+    accent: "#2dd4bf",
+    category: "Operations & Money",
   },
   {
     slug: "money-log",
@@ -121,14 +155,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "💰",
     accent: "#facc15",
-  },
-  {
-    slug: "weekly-digest",
-    name: "Weekly Digest",
-    description: "Your Monday briefing: what happened, what's next, what's at risk.",
-    status: "live",
-    icon: "📰",
-    accent: "#fb923c",
+    category: "Operations & Money",
   },
   {
     slug: "usage",
@@ -137,6 +164,7 @@ export const TOOLS: readonly {
     status: "live",
     icon: "⚡",
     accent: "#c084fc",
+    category: "Operations & Money",
   },
 ] as const;
 
