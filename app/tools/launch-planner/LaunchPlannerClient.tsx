@@ -3,6 +3,7 @@
 import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { createTasksBulk } from "@/app/actions";
+import { MicButton } from "@/components/Voice";
 import { PRIORITY_COLORS, type Priority } from "@/lib/constants";
 import type { LaunchPlan } from "@/app/api/tools/launch-planner/route";
 
@@ -120,7 +121,13 @@ export default function LaunchPlannerClient({ businesses }: { businesses: Busine
           </label>
         </div>
         <label className="block">
-          <span className="mb-1 block text-xs text-ink-faint">What are you launching?</span>
+          <div className="mb-1 flex items-center justify-between gap-2">
+            <span className="block text-xs text-ink-faint">What are you launching?</span>
+            <MicButton
+              onText={(t) => setDescription((v) => (v ? v + " " : "") + t)}
+              className="px-2 py-0.5 text-xs"
+            />
+          </div>
           <textarea
             className="input min-h-[110px] w-full text-sm"
             placeholder="e.g. First run of the manifestation box — 100 units, includes journal, candle, and crystal set. Selling through the website with pre-orders 2 weeks before ship date. Need suppliers confirmed, packaging designed, and a 3-week content ramp."

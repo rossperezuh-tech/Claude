@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { MicButton, SpeakButton } from "@/components/Voice";
 
 interface BusinessOption {
   id: string;
@@ -180,6 +181,7 @@ export default function ProposalsClient({
         </label>
 
         <div className="flex items-center gap-3">
+          <MicButton onText={(t) => setDetails((v) => (v ? v + " " : "") + t)} />
           <button
             type="button"
             onClick={generate}
@@ -199,6 +201,7 @@ export default function ProposalsClient({
               Draft {mode}
             </h2>
             <span className="ml-auto flex gap-1.5">
+              <SpeakButton text={draft} />
               <button
                 type="button"
                 className="btn text-xs"

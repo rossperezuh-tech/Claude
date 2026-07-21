@@ -29,8 +29,10 @@ export default function TodayTaskRow({ task }: Props) {
           setDone(true);
           startTransition(() => completeTask(task.id));
         }}
-        className="h-4 w-4 shrink-0 rounded border border-surface-edge transition-colors hover:border-emerald-400 hover:bg-emerald-400/20"
-      />
+        className="grid h-6 w-6 shrink-0 place-items-center rounded-md border border-surface-edge text-sm leading-none text-transparent transition-colors hover:border-emerald-400 hover:bg-emerald-400/20 hover:text-emerald-400"
+      >
+        ✓
+      </button>
       <span className="min-w-0 flex-1 truncate text-sm">{task.title}</span>
       <span className={`shrink-0 text-xs ${task.overdue ? "font-medium text-red-400" : "text-ink-faint"}`}>
         {task.dueText}

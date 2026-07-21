@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { MicButton } from "@/components/Voice";
 import Link from "next/link";
 import { applyBrainDump } from "@/app/actions";
 import {
@@ -123,6 +124,7 @@ export default function BrainDumpClient({ businesses }: { businesses: BusinessOp
           onChange={(e) => setText(e.target.value)}
         />
         <div className="flex items-center gap-3">
+          <MicButton onText={(t) => setText((v) => (v ? v + " " : "") + t)} />
           <button
             type="button"
             onClick={sort}

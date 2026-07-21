@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { createContentPost, updateBrandVoice } from "@/app/actions";
+import { MicButton, SpeakButton } from "@/components/Voice";
 import {
   CONTENT_FORMATS,
   CONTENT_FORMAT_LABELS,
@@ -132,7 +133,13 @@ export default function ContentStudioClient({ businesses }: { businesses: Busine
         )}
 
         <label className="block">
-          <span className="mb-1 block text-xs text-ink-faint">What should the content be about?</span>
+          <div className="mb-1 flex items-center justify-between gap-2">
+            <span className="block text-xs text-ink-faint">What should the content be about?</span>
+            <MicButton
+              onText={(t) => setTopic((v) => (v ? v + " " : "") + t)}
+              className="px-2 py-0.5 text-xs"
+            />
+          </div>
           <textarea
             className="input min-h-[90px] w-full text-sm"
             placeholder="e.g. Launching the June manifestation box — theme is 'new beginnings', includes a journal, intention candle, and moon calendar. Pre-orders open Friday."
@@ -235,6 +242,7 @@ function PieceCard({ piece, businessId }: { piece: StudioPiece; businessId: stri
         </span>
         <span className="text-sm font-medium">{piece.title}</span>
         <span className="ml-auto flex gap-1.5">
+          <SpeakButton text={fullText} />
           <button
             type="button"
             className="btn text-xs"

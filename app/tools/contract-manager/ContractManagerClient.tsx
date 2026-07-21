@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createContract, createTasksBulk, deleteContract } from "@/app/actions";
+import { MicButton, SpeakButton } from "@/components/Voice";
 
 interface Business {
   id: string;
@@ -477,6 +478,7 @@ function DraftPanel() {
           />
         </label>
         <div className="flex items-center gap-3">
+          <MicButton onText={(t) => setTerms((v) => (v ? v + " " : "") + t)} />
           <button
             className="btn border-indigo-400/50 bg-indigo-500/15 text-indigo-300 hover:bg-indigo-500/25 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={state.phase === "loading" || !agreementType.trim() || !terms.trim()}
@@ -501,6 +503,7 @@ function DraftPanel() {
           <div className="flex items-center justify-between gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-dim">Draft</h2>
             <div className="flex gap-2">
+              <SpeakButton text={state.draft} />
               <button className="btn text-xs" onClick={copy} type="button">
                 {copied ? "Copied ✓" : "Copy"}
               </button>

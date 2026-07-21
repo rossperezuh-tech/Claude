@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { createTasksBulk } from "@/app/actions";
+import { MicButton } from "@/components/Voice";
 import { PRIORITY_COLORS, type Priority } from "@/lib/constants";
 import type { DealAnalysis } from "@/app/api/tools/deal-analyzer/route";
 
@@ -117,6 +118,7 @@ export default function DealAnalyzer({
             ))}
           </select>
         )}
+        <MicButton onText={(t) => setNotes((v) => (v ? v + " " : "") + t)} />
         <button
           type="button"
           onClick={analyze}

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { SpeakButton } from "@/components/Voice";
 import type { ClauseImportance, DocumentAnalysis } from "@/lib/tools";
 
 const IMPORTANCE_STYLES: Record<ClauseImportance, string> = {
@@ -167,6 +168,9 @@ function AnalysisView({ analysis }: { analysis: DocumentAnalysis }) {
               {p}
             </span>
           ))}
+          <span className="ml-auto">
+            <SpeakButton text={analysis.summary} />
+          </span>
         </div>
         <p className="text-sm leading-relaxed text-ink">{analysis.summary}</p>
       </section>

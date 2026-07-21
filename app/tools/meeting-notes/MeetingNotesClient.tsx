@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createTasksBulk } from "@/app/actions";
+import { MicButton, SpeakButton } from "@/components/Voice";
 import { PRIORITY_COLORS, type Priority } from "@/lib/constants";
 
 interface Business {
@@ -124,6 +125,7 @@ export default function MeetingNotesClient({ businesses }: { businesses: Busines
           onChange={(e) => setNotes(e.target.value)}
         />
         <div className="flex items-center gap-3">
+          <MicButton onText={(t) => setNotes((v) => (v ? v + " " : "") + t)} />
           <button
             className="btn border-indigo-400/50 bg-indigo-500/15 text-indigo-300 hover:bg-indigo-500/25 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={state.phase === "loading" || !notes.trim()}
@@ -146,7 +148,10 @@ export default function MeetingNotesClient({ businesses }: { businesses: Busines
       {state.phase === "done" && (
         <div className="space-y-4">
           <section className="card space-y-2 p-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-dim">Summary</h2>
+            <div className="flex items-center justify-between gap-2">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-dim">Summary</h2>
+              <SpeakButton text={state.result.summary} />
+            </div>
             <p className="text-sm leading-relaxed">{state.result.summary}</p>
             {state.result.decisions.length > 0 && (
               <>

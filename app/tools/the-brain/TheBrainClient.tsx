@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { MicButton, SpeakButton } from "@/components/Voice";
 import Link from "next/link";
 
 interface ChatTurn {
@@ -132,6 +133,11 @@ export default function TheBrainClient() {
                     ))}
                   </div>
                 )}
+                {turn.role === "assistant" && (
+                  <div className="mt-1.5">
+                    <SpeakButton text={turn.content} className="px-2 py-0.5" />
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -171,6 +177,7 @@ export default function TheBrainClient() {
               }
             }}
           />
+          <MicButton onText={(t) => setInput((v) => (v ? v + " " : "") + t)} className="px-2" />
           <button
             className="btn border-indigo-400/50 bg-indigo-500/15 text-indigo-300 hover:bg-indigo-500/25 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={loading || !input.trim()}

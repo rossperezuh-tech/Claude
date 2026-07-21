@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { MicButton, SpeakButton } from "@/components/Voice";
 
 export default function SopWriterClient({
   businesses,
@@ -84,6 +85,7 @@ export default function SopWriterClient({
           />
         </label>
         <div className="flex items-center gap-3">
+          <MicButton onText={(t) => setProcess((v) => (v ? v + " " : "") + t)} />
           <button
             type="button"
             onClick={generate}
@@ -101,6 +103,7 @@ export default function SopWriterClient({
           <div className="mb-3 flex items-center gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-dim">Draft SOP</h2>
             <span className="ml-auto flex gap-1.5">
+              <SpeakButton text={draft} />
               <button
                 type="button"
                 className="btn text-xs"
