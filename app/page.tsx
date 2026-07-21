@@ -7,7 +7,6 @@ import TodayTaskRow from "@/components/TodayTaskRow";
 import CalendarStrip from "@/components/CalendarStrip";
 import NewBusinessForm from "@/components/NewBusinessForm";
 import { HomeCardDeleteButton } from "@/components/BusinessForms";
-import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -113,7 +112,6 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {businesses.map((b) => {
             const nextDue = b.tasks.find((t) => t.dueDate)?.dueDate ?? null;
-            const badge = BUSINESS_STATUS_STYLES[b.status] ?? BUSINESS_STATUS_STYLES.active;
             return (
               <div
                 key={b.id}
@@ -143,10 +141,7 @@ export default async function HomePage() {
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
-                      <span className={`chip shrink-0 ${badge.className}`}>{badge.label}</span>
-                    </div>
+                    <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
                     <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
                     <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">
                       <span>

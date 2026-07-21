@@ -19,14 +19,13 @@ export default function NewBusinessForm({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [website, setWebsite] = useState("");
-  const [status, setStatus] = useState("active");
   const [pending, startTransition] = useTransition();
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!name.trim() || pending) return;
     startTransition(async () => {
-      const slug = await createBusiness({ name, description, status, website });
+      const slug = await createBusiness({ name, description, website });
       setName("");
       setDescription("");
       setWebsite("");
@@ -61,15 +60,6 @@ export default function NewBusinessForm({
         onChange={(e) => setWebsite(e.target.value)}
       />
       <div className="flex items-center gap-2">
-        <select
-          className="input text-sm"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="active">Active</option>
-          <option value="launching">Launching</option>
-          <option value="back-burner">Back-burner</option>
-        </select>
         <button
           type="submit"
           disabled={pending || !name.trim()}

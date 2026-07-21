@@ -14,7 +14,6 @@ import {
   LogoUploader,
   WebsiteEditor,
 } from "@/components/BusinessForms";
-import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -40,8 +39,6 @@ export default async function BusinessPage({ params }: { params: { slug: string 
   });
   if (!business) notFound();
 
-  const badge = BUSINESS_STATUS_STYLES[business.status] ?? BUSINESS_STATUS_STYLES.active;
-
   return (
     <div className="space-y-5">
       {/* Header */}
@@ -58,7 +55,6 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           />
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-lg font-semibold">{business.name}</h1>
-            <span className={`chip ${badge.className}`}>{badge.label}</span>
             <span className="text-sm text-ink-faint">{business.description}</span>
           </div>
           <div className="ml-auto">
