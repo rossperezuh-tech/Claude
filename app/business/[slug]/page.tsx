@@ -9,6 +9,7 @@ import {
   AddContactForm,
   AddDocumentForm,
   AddLinkForm,
+  DeleteBusinessButton,
   DeleteButton,
 } from "@/components/BusinessForms";
 import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
@@ -50,6 +51,9 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           <h1 className="text-lg font-semibold">{business.name}</h1>
           <span className={`chip ${badge.className}`}>{badge.label}</span>
           <span className="text-sm text-ink-faint">{business.description}</span>
+          <div className="ml-auto">
+            <DeleteBusinessButton id={business.id} name={business.name} />
+          </div>
         </div>
         <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
           {business.links.map((l) => (

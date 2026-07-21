@@ -1,15 +1,59 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import {
   createContact,
   createDocument,
   createLink,
+  deleteBusiness,
   deleteContact,
   deleteDocument,
   deleteLink,
 } from "@/app/actions";
 import { DOC_CATEGORIES } from "@/lib/constants";
+
+export function DeleteBusinessButton({ id, name }: { id: string; name: string }) {
+  const router = useRouter();
+  const [confirming, setConfirming] = useState(false);
+  const [pending, startTransition] = useTransition();
+
+  if (!confirming) {
+    return (
+      <button
+        onClick={() => setConfirming(true)}
+        className="btn text-xs text-ink-faint hover:border-red-400/50 hover:text-red-400"
+      >
+        Delete venture
+      </button>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs">
+      <span className="text-ink-dim">Delete “{name}” and everything in it?</span>
+      <button
+        disabled={pending}
+        onClick={() =>
+          startTransition(async () => {
+            await deleteBusiness(id);
+            router.push("/");
+          })
+        }
+        className="btn border-red-500/40 bg-red-500/10 px-2 py-1 text-red-300 hover:bg-red-500/20"
+      >
+        {pending ? "Deleting…" : "Yes, delete"}
+      </button>
+      <button
+        disabled={pending}
+        onClick={() => setConfirming(false)}
+        className="btn px-2 py-1 text-ink-faint"
+      >
+        Cancel
+      </button>
+    </span>
+  );
+}
 
 export function DeleteButton({
   kind,
