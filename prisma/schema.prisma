@@ -17,6 +17,11 @@ model Organization {
   // Tool slugs (see lib/tools.ts) this org may access. Empty = all tools —
   // this keeps every existing org unaffected until an admin curates it down.
   enabledTools String[] @default([])
+  // Custom ordering for the tools page (drag-to-reorder). Empty = default
+  // registry order. toolOrder is a flat list of tool slugs; categoryOrder is
+  // the order of the category section headers.
+  toolOrder     String[] @default([])
+  categoryOrder String[] @default([])
   createdAt   DateTime @default(now())
 
   businesses  Business[]

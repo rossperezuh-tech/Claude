@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
 import { isPlatformAdmin } from "@/lib/admin";
 import { nextOccurrence } from "@/lib/dates";
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, TOOL_CATEGORIES } from "@/lib/tools";
 import type { Recurrence } from "@/lib/constants";
 
 function revalidateAll() {
@@ -608,6 +608,30 @@ export async function setEnabledTools(orgId: string, tools: string[]) {
     data: { enabledTools: cleaned },
   });
   revalidateAll();
+}
+
+// Save the caller's own tools-page ordering (drag-to-reorder). Not admin-
+// gated: each account arranges its own tools page.
+export async function setToolOrder(slugs: string[]) {
+  const { orgId } = await requireOrg();
+  const validSlugs = new Set(TOOLS.map((t) => t.slug));
+  const cleaned = Array.from(new Set(slugs.filter((s) => validSlugs.has(s))));
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { toolOrder: cleaned },
+  });
+  revalidatePath("/tools");
+}
+
+export async function setCategoryOrder(categories: string[]) {
+  const { orgId } = await requireOrg();
+  const valid = new Set<string>(TOOL_CATEGORIES);
+  const cleaned = Array.from(new Set(categories.filter((c) => valid.has(c))));
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { categoryOrder: cleaned },
+  });
+  revalidatePath("/tools");
 }
 
 // ---- Tools: Lead Intake ----
