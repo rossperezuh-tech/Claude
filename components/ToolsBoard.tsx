@@ -173,7 +173,7 @@ export default function ToolsBoard({ sections: initial }: { sections: Section[] 
                 </button>
 
                 <div
-                  className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
+                  className="pointer-events-none relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
                   style={{
                     background: `linear-gradient(135deg, ${tool.accent}33, ${tool.accent}14)`,
                     border: `1px solid ${tool.accent}40`,
@@ -181,7 +181,7 @@ export default function ToolsBoard({ sections: initial }: { sections: Section[] 
                 >
                   {tool.icon}
                 </div>
-                <div className="relative min-w-0 pr-5">
+                <div className="pointer-events-none relative min-w-0 pr-5">
                   <h3 className="font-medium leading-tight">{tool.name}</h3>
                   <p className="mt-1 text-sm text-ink-dim">{tool.description}</p>
                 </div>
