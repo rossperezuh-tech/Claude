@@ -42,6 +42,7 @@ export function MicButton({
 }) {
   const [supported, setSupported] = useState(false);
   const [listening, setListening] = useState(false);
+  const [heard, setHeard] = useState("");
   const recRef = useRef<RecognitionLike | null>(null);
   // True while the user wants to keep dictating. Browsers end recognition
   // after a pause, so we auto-restart until the user taps Stop.
@@ -88,8 +89,10 @@ export function MicButton({
       if (newFinal.trim()) {
         onText(newFinal.trim());
         interimRef.current = "";
+        setHeard(newFinal.trim());
       } else {
         interimRef.current = interim;
+        if (interim.trim()) setHeard(interim.trim());
       }
     };
     rec.onend = () => {
@@ -130,8 +133,10 @@ export function MicButton({
       wantRef.current = false;
       recRef.current?.stop();
       setListening(false);
+      setHeard("");
       return;
     }
+    setHeard("");
     wantRef.current = true;
     setListening(true);
     begin();
@@ -140,17 +145,34 @@ export function MicButton({
   if (!supported) return null;
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      title={listening ? "Stop dictation" : "Dictate — speak to fill this field"}
-      aria-label="Dictate"
-      className={`btn shrink-0 ${
-        listening ? "animate-pulse border-red-400/60 text-red-300" : ""
-      } ${className}`}
-    >
-      {listening ? "● Listening…" : "🎤 Speak"}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={toggle}
+        title={listening ? "Stop dictation" : "Dictate — speak to fill this field"}
+        aria-label="Dictate"
+        className={`btn shrink-0 ${
+          listening ? "animate-pulse border-red-400/60 text-red-300" : ""
+        } ${className}`}
+      >
+        {listening ? "● Listening…" : "🎤 Speak"}
+      </button>
+      {listening && (
+        <div className="fixed inset-x-0 bottom-4 z-50 mx-auto max-w-md px-4">
+          <div className="rounded-lg border border-red-400/40 bg-surface-raised/95 px-4 py-3 text-center text-sm text-ink shadow-lg backdrop-blur">
+            <span className="mr-2 animate-pulse text-red-400">●</span>
+            {heard ? `“${heard}”` : "Listening… start speaking"}
+            <button
+              type="button"
+              onClick={toggle}
+              className="ml-3 rounded border border-surface-edge px-2 py-0.5 text-xs text-ink-dim hover:text-ink"
+            >
+              Stop
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
