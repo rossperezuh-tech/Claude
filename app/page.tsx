@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { startOfDay, endOfDay } from "date-fns";
 import { requireOrg } from "@/lib/org";
@@ -6,7 +5,7 @@ import QuickCapture from "@/components/QuickCapture";
 import TodayTaskRow from "@/components/TodayTaskRow";
 import CalendarStrip from "@/components/CalendarStrip";
 import NewBusinessForm from "@/components/NewBusinessForm";
-import { HomeCardDeleteButton } from "@/components/BusinessForms";
+import VentureGrid from "@/components/VentureGrid";
 import { dueLabel } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -106,66 +105,25 @@ export default async function HomePage() {
 
       {/* Business grid */}
       <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink-dim">
-          Ventures
-        </h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {businesses.map((b) => {
-            const nextDue = b.tasks.find((t) => t.dueDate)?.dueDate ?? null;
-            return (
-              <div
-                key={b.id}
-                className="card group relative p-4 transition-colors hover:bg-surface-overlay"
-                style={{ borderLeft: `3px solid ${b.color}` }}
-              >
-                <Link
-                  href={`/business/${b.slug}`}
-                  aria-label={b.name}
-                  className="absolute inset-0 z-0 rounded-lg"
-                />
-                <div className="pointer-events-none relative z-[1] flex gap-3">
-                  {/* Logo tile — shows the uploaded logo, else the venture initial */}
-                  <div
-                    className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-base font-semibold uppercase"
-                    style={{
-                      background: `linear-gradient(135deg, ${b.color}33, ${b.color}14)`,
-                      border: `1px solid ${b.color}40`,
-                      color: b.color,
-                    }}
-                  >
-                    {b.logoUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={b.logoUrl} alt="" className="h-full w-full object-cover" />
-                    ) : (
-                      b.name.charAt(0)
-                    )}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
-                    <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
-                    <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">
-                      <span>
-                        <span className="font-semibold text-ink">{b.tasks.length}</span> open
-                      </span>
-                      {nextDue && (
-                        <span>
-                          next due{" "}
-                          <span className="font-medium" style={{ color: b.color }}>
-                            {dueLabel(nextDue)}
-                          </span>
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <HomeCardDeleteButton id={b.id} name={b.name} />
-              </div>
-            );
-          })}
-          <div className="card border-dashed p-4">
-            <NewBusinessForm compact />
-          </div>
+        <div className="mb-3 flex items-baseline gap-2">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-dim">Ventures</h2>
+          <span className="text-xs text-ink-faint">drag to reorder</span>
         </div>
+        <VentureGrid
+          businesses={businesses.map((b) => {
+            const nextDue = b.tasks.find((t) => t.dueDate)?.dueDate ?? null;
+            return {
+              id: b.id,
+              name: b.name,
+              slug: b.slug,
+              color: b.color,
+              description: b.description,
+              logoUrl: b.logoUrl,
+              openCount: b.tasks.length,
+              nextDueLabel: nextDue ? dueLabel(nextDue) : null,
+            };
+          })}
+        />
       </section>
 
       {/* 14-day calendar grid */}

@@ -91,6 +91,21 @@ export async function updateBusinessWebsite(businessId: string, website: string)
   revalidateAll();
 }
 
+// Persist a new venture order from drag-and-drop. Each id's position in the
+// array becomes its sortOrder; updateMany scopes every write to the caller's org.
+export async function reorderBusinesses(orderedIds: string[]) {
+  const { orgId } = await requireOrg();
+  await prisma.$transaction(
+    orderedIds.map((id, i) =>
+      prisma.business.updateMany({
+        where: { id, organizationId: orgId },
+        data: { sortOrder: i },
+      }),
+    ),
+  );
+  revalidateAll();
+}
+
 export async function deleteBusiness(id: string) {
   const { orgId } = await requireOrg();
   await prisma.business.deleteMany({ where: { id, organizationId: orgId } });
