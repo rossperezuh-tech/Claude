@@ -623,6 +623,25 @@ export async function setToolOrder(slugs: string[]) {
   revalidatePath("/tools");
 }
 
+// Toggle a tool as a favorite for the caller's own tools page.
+export async function toggleFavoriteTool(slug: string) {
+  const { orgId } = await requireOrg();
+  if (!TOOLS.some((t) => t.slug === slug)) return;
+  const org = await prisma.organization.findUnique({
+    where: { id: orgId },
+    select: { favoriteTools: true },
+  });
+  const current = org?.favoriteTools ?? [];
+  const next = current.includes(slug)
+    ? current.filter((s) => s !== slug)
+    : [...current, slug];
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { favoriteTools: next },
+  });
+  revalidatePath("/tools");
+}
+
 export async function setCategoryOrder(categories: string[]) {
   const { orgId } = await requireOrg();
   const valid = new Set<string>(TOOL_CATEGORIES);

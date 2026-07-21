@@ -10,11 +10,13 @@ export default async function ToolsPage() {
   const { orgId } = await requireOrg();
   const org = await prisma.organization.findUnique({
     where: { id: orgId },
-    select: { enabledTools: true, toolOrder: true, categoryOrder: true },
+    select: { enabledTools: true, toolOrder: true, categoryOrder: true, favoriteTools: true },
   });
   const enabled = org?.enabledTools ?? [];
   const toolOrder = org?.toolOrder ?? [];
   const catOrder = org?.categoryOrder ?? [];
+  const favorites = org?.favoriteTools ?? [];
+  const favSet = new Set(favorites);
 
   // Empty enabledTools means no restriction — every org starts with all tools.
   const visible = enabled.length === 0 ? [...TOOLS] : TOOLS.filter((t) => enabled.includes(t.slug));
@@ -41,7 +43,12 @@ export default async function ToolsPage() {
     name,
     tools: visible
       .filter((t) => t.category === name)
-      .sort((a, b) => toolRank(a.slug) - toolRank(b.slug)) // stable: ties keep registry order
+      // favorites first, then the saved/registry order
+      .sort(
+        (a, b) =>
+          (favSet.has(a.slug) ? 0 : 1) - (favSet.has(b.slug) ? 0 : 1) ||
+          toolRank(a.slug) - toolRank(b.slug),
+      )
       .map((t) => ({
         slug: t.slug,
         name: t.name,
@@ -60,7 +67,7 @@ export default async function ToolsPage() {
       {sections.length === 0 ? (
         <p className="text-sm text-ink-faint">No tools enabled for this account yet.</p>
       ) : (
-        <ToolsBoard sections={sections} />
+        <ToolsBoard sections={sections} favorites={favorites} />
       )}
     </div>
   );

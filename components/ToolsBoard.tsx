@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { setCategoryOrder, setToolOrder } from "@/app/actions";
+import { setCategoryOrder, setToolOrder, toggleFavoriteTool } from "@/app/actions";
 
 type BoardTool = {
   slug: string;
@@ -26,10 +26,31 @@ const sig = (arr: Section[]) =>
  * open a tool), tracked by name/slug and driven by window Pointer Events so it
  * survives the re-render after each saved change. Works with mouse and touch.
  */
-export default function ToolsBoard({ sections: initial }: { sections: Section[] }) {
+export default function ToolsBoard({
+  sections: initial,
+  favorites,
+}: {
+  sections: Section[];
+  favorites: string[];
+}) {
   const [sections, setSections] = useState(initial);
+  const [favs, setFavs] = useState<Set<string>>(new Set(favorites));
   const [drag, setDrag] = useState<Drag | null>(null);
   const [, startTransition] = useTransition();
+
+  useEffect(() => {
+    setFavs(new Set(favorites));
+  }, [favorites]);
+
+  function toggleFav(slug: string) {
+    setFavs((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) next.delete(slug);
+      else next.add(slug);
+      return next;
+    });
+    startTransition(() => toggleFavoriteTool(slug));
+  }
 
   const sectionsRef = useRef(sections);
   sectionsRef.current = sections;
@@ -157,20 +178,37 @@ export default function ToolsBoard({ sections: initial }: { sections: Section[] 
                   style={{ background: `radial-gradient(circle at 30% 100%, ${tool.accent}, transparent 70%)` }}
                 />
 
-                {/* item drag handle */}
-                <button
-                  type="button"
-                  aria-label="Drag to reorder tool"
-                  title="Drag to reorder tool"
-                  onPointerDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setDrag({ kind: "item", cat: s.name, tool: tool.slug });
-                  }}
-                  className={`absolute right-2 top-2 z-[2] text-sm ${handleClass}`}
-                >
-                  ⠿
-                </button>
+                {/* favorite + drag handle */}
+                <div className="absolute right-2 top-2 z-[2] flex items-center gap-0.5">
+                  <button
+                    type="button"
+                    aria-label={favs.has(tool.slug) ? "Unfavorite" : "Favorite"}
+                    title={favs.has(tool.slug) ? "Remove from favorites" : "Favorite (pin to top)"}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      toggleFav(tool.slug);
+                    }}
+                    className={`rounded px-1 text-sm leading-none ${
+                      favs.has(tool.slug) ? "text-amber-300" : "text-ink-faint hover:text-ink"
+                    }`}
+                  >
+                    {favs.has(tool.slug) ? "★" : "☆"}
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Drag to reorder tool"
+                    title="Drag to reorder tool"
+                    onPointerDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setDrag({ kind: "item", cat: s.name, tool: tool.slug });
+                    }}
+                    className={`text-sm ${handleClass}`}
+                  >
+                    ⠿
+                  </button>
+                </div>
 
                 <div
                   className="pointer-events-none relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
@@ -181,7 +219,7 @@ export default function ToolsBoard({ sections: initial }: { sections: Section[] 
                 >
                   {tool.icon}
                 </div>
-                <div className="pointer-events-none relative min-w-0 pr-5">
+                <div className="pointer-events-none relative min-w-0 pr-12">
                   <h3 className="font-medium leading-tight">{tool.name}</h3>
                   <p className="mt-1 text-sm text-ink-dim">{tool.description}</p>
                 </div>

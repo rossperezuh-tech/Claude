@@ -22,6 +22,8 @@ model Organization {
   // the order of the category section headers.
   toolOrder     String[] @default([])
   categoryOrder String[] @default([])
+  // Tool slugs the user starred; they float to the top of their section.
+  favoriteTools String[] @default([])
   createdAt   DateTime @default(now())
 
   businesses  Business[]
