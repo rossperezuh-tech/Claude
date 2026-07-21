@@ -19,20 +19,22 @@ export type VentureCard = {
 
 /**
  * Home dashboard venture grid with press-and-drag reordering that works on
- * both desktop (mouse) and phone (touch), driven by Pointer Events. Dragging
- * is started from the grip handle only, so normal touches still scroll the
- * page and tapping a card still opens it. The new order saves on release.
+ * both desktop (mouse) and phone (touch). Dragging starts from the grip
+ * handle only (so normal touches scroll and taps open the venture). Cards are
+ * tracked by id and the drag is driven by window-level Pointer Events, so it
+ * keeps working across the re-render that follows each saved reorder.
  */
 export default function VentureGrid({ businesses }: { businesses: VentureCard[] }) {
   const [items, setItems] = useState(businesses);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const fromRef = useRef<number | null>(null);
-  const [dragging, setDragging] = useState<number | null>(null);
+  const [dragId, setDragId] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
+  // Latest order, readable from the window listeners without stale closures.
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
+
   // Re-sync when the server sends a genuinely different list (after add /
-  // delete). Comparing ids first avoids clobbering an in-progress reorder or
-  // looping on every render.
+  // delete). Comparing ids avoids clobbering an in-progress reorder or looping.
   useEffect(() => {
     setItems((cur) => {
       const same =
@@ -41,56 +43,49 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
     });
   }, [businesses]);
 
-  function startDrag(e: React.PointerEvent, i: number) {
-    e.preventDefault();
-    e.stopPropagation();
-    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
-    fromRef.current = i;
-    setDragging(i);
-  }
+  // While a drag is active, follow the pointer on the whole window.
+  useEffect(() => {
+    if (!dragId) return;
 
-  function moveDrag(e: React.PointerEvent) {
-    if (fromRef.current === null) return;
-    e.preventDefault();
-    const { clientX: x, clientY: y } = e;
-    let over = -1;
-    for (let idx = 0; idx < cardRefs.current.length; idx++) {
-      const el = cardRefs.current[idx];
-      if (!el) continue;
-      const r = el.getBoundingClientRect();
-      if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
-        over = idx;
-        break;
-      }
+    function onMove(e: PointerEvent) {
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      const card = el?.closest("[data-venture-id]") as HTMLElement | null;
+      const overId = card?.dataset.ventureId;
+      if (!overId || overId === dragId) return;
+      setItems((prev) => {
+        const from = prev.findIndex((b) => b.id === dragId);
+        const over = prev.findIndex((b) => b.id === overId);
+        if (from === -1 || over === -1 || from === over) return prev;
+        const next = [...prev];
+        const [moved] = next.splice(from, 1);
+        next.splice(over, 0, moved);
+        return next;
+      });
     }
-    if (over === -1 || over === fromRef.current) return;
-    setItems((prev) => {
-      const next = [...prev];
-      const [moved] = next.splice(fromRef.current!, 1);
-      next.splice(over, 0, moved);
-      return next;
-    });
-    fromRef.current = over;
-    setDragging(over);
-  }
 
-  function endDrag() {
-    if (fromRef.current === null) return;
-    fromRef.current = null;
-    setDragging(null);
-    startTransition(() => reorderBusinesses(items.map((b) => b.id)));
-  }
+    function onUp() {
+      setDragId(null);
+      startTransition(() => reorderBusinesses(itemsRef.current.map((b) => b.id)));
+    }
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+    };
+  }, [dragId, startTransition]);
 
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {items.map((b, i) => (
+      {items.map((b) => (
         <div
           key={b.id}
-          ref={(el) => {
-            cardRefs.current[i] = el;
-          }}
+          data-venture-id={b.id}
           className={`card group relative p-4 transition-colors hover:bg-surface-overlay ${
-            dragging === i ? "opacity-50" : ""
+            dragId === b.id ? "opacity-50 ring-1 ring-amber-400/40" : ""
           }`}
           style={{ borderLeft: `3px solid ${b.color}` }}
         >
@@ -106,11 +101,12 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
             type="button"
             aria-label="Drag to reorder"
             title="Drag to reorder"
-            onPointerDown={(e) => startDrag(e, i)}
-            onPointerMove={moveDrag}
-            onPointerUp={endDrag}
-            onPointerCancel={endDrag}
-            className="absolute right-2 top-2 z-[2] touch-none cursor-grab rounded px-1.5 py-0.5 text-sm leading-none text-ink-faint hover:bg-surface-overlay hover:text-ink active:cursor-grabbing"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setDragId(b.id);
+            }}
+            className="absolute right-2 top-2 z-[2] touch-none cursor-grab select-none rounded px-1.5 py-0.5 text-sm leading-none text-ink-faint hover:bg-surface-overlay hover:text-ink active:cursor-grabbing"
           >
             ⠿
           </button>
