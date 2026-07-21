@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { reorderBusinesses } from "@/app/actions";
 import { HomeCardDeleteButton } from "@/components/BusinessForms";
 import NewBusinessForm from "@/components/NewBusinessForm";
@@ -19,12 +18,15 @@ export type VentureCard = {
 };
 
 /**
- * Home dashboard venture grid with click-and-drag reordering (desktop).
- * Cards live-reorder as you drag; the new order is saved on drop.
+ * Home dashboard venture grid with press-and-drag reordering that works on
+ * both desktop (mouse) and phone (touch), driven by Pointer Events. Dragging
+ * is started from the grip handle only, so normal touches still scroll the
+ * page and tapping a card still opens it. The new order saves on release.
  */
 export default function VentureGrid({ businesses }: { businesses: VentureCard[] }) {
   const [items, setItems] = useState(businesses);
-  const dragFrom = useRef<number | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const fromRef = useRef<number | null>(null);
   const [dragging, setDragging] = useState<number | null>(null);
   const [, startTransition] = useTransition();
 
@@ -33,27 +35,42 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
     setItems(businesses);
   }, [businesses]);
 
-  function onDragStart(i: number) {
-    dragFrom.current = i;
+  function startDrag(e: React.PointerEvent, i: number) {
+    e.preventDefault();
+    e.stopPropagation();
+    (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+    fromRef.current = i;
     setDragging(i);
   }
 
-  function onDragOver(e: React.DragEvent, over: number) {
+  function moveDrag(e: React.PointerEvent) {
+    if (fromRef.current === null) return;
     e.preventDefault();
-    const from = dragFrom.current;
-    if (from === null || from === over) return;
+    const { clientX: x, clientY: y } = e;
+    let over = -1;
+    for (let idx = 0; idx < cardRefs.current.length; idx++) {
+      const el = cardRefs.current[idx];
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) {
+        over = idx;
+        break;
+      }
+    }
+    if (over === -1 || over === fromRef.current) return;
     setItems((prev) => {
       const next = [...prev];
-      const [moved] = next.splice(from, 1);
+      const [moved] = next.splice(fromRef.current!, 1);
       next.splice(over, 0, moved);
       return next;
     });
-    dragFrom.current = over;
+    fromRef.current = over;
     setDragging(over);
   }
 
-  function onDragEnd() {
-    dragFrom.current = null;
+  function endDrag() {
+    if (fromRef.current === null) return;
+    fromRef.current = null;
     setDragging(null);
     setItems((cur) => {
       startTransition(() => reorderBusinesses(cur.map((b) => b.id)));
@@ -66,11 +83,10 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
       {items.map((b, i) => (
         <div
           key={b.id}
-          draggable
-          onDragStart={() => onDragStart(i)}
-          onDragOver={(e) => onDragOver(e, i)}
-          onDragEnd={onDragEnd}
-          className={`card group relative cursor-grab p-4 transition-colors hover:bg-surface-overlay active:cursor-grabbing ${
+          ref={(el) => {
+            cardRefs.current[i] = el;
+          }}
+          className={`card group relative p-4 transition-colors hover:bg-surface-overlay ${
             dragging === i ? "opacity-50" : ""
           }`}
           style={{ borderLeft: `3px solid ${b.color}` }}
@@ -81,6 +97,21 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
             draggable={false}
             className="absolute inset-0 z-0 rounded-lg"
           />
+
+          {/* Drag handle — press and drag (mouse or touch) to reorder */}
+          <button
+            type="button"
+            aria-label="Drag to reorder"
+            title="Drag to reorder"
+            onPointerDown={(e) => startDrag(e, i)}
+            onPointerMove={moveDrag}
+            onPointerUp={endDrag}
+            onPointerCancel={endDrag}
+            className="absolute right-2 top-2 z-[2] touch-none cursor-grab rounded px-1.5 py-0.5 text-sm leading-none text-ink-faint hover:bg-surface-overlay hover:text-ink active:cursor-grabbing"
+          >
+            ⠿
+          </button>
+
           <div className="pointer-events-none relative z-[1] flex gap-3">
             <div
               className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-lg text-base font-semibold uppercase"
@@ -97,7 +128,7 @@ export default function VentureGrid({ businesses }: { businesses: VentureCard[] 
                 b.name.charAt(0)
               )}
             </div>
-            <div className="min-w-0 flex-1">
+            <div className="min-w-0 flex-1 pr-6">
               <h3 className="font-medium leading-tight group-hover:text-white">{b.name}</h3>
               <p className="mt-1 line-clamp-2 text-xs text-ink-faint">{b.description}</p>
               <div className="mt-3 flex items-center gap-3 text-xs text-ink-dim">

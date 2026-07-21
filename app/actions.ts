@@ -92,10 +92,12 @@ export async function updateBusinessWebsite(businessId: string, website: string)
 }
 
 // Persist a new venture order from drag-and-drop. Each id's position in the
-// array becomes its sortOrder; updateMany scopes every write to the caller's org.
+// array becomes its sortOrder; updateMany scopes every write to the caller's
+// org. Plain parallel updates (no interactive transaction) so it works over
+// Neon's pooled connection.
 export async function reorderBusinesses(orderedIds: string[]) {
   const { orgId } = await requireOrg();
-  await prisma.$transaction(
+  await Promise.all(
     orderedIds.map((id, i) =>
       prisma.business.updateMany({
         where: { id, organizationId: orgId },
