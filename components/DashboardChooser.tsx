@@ -2,14 +2,16 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { setDashboardTemplate } from "@/app/actions";
+import { setDashboardTemplate, completeOnboarding } from "@/app/actions";
 
 export default function DashboardChooser({
   current,
   templates,
+  onboarding = false,
 }: {
   current: string;
   templates: { id: string; name: string; blurb: string }[];
+  onboarding?: boolean;
 }) {
   const [sel, setSel] = useState(current);
   const [pending, startTransition] = useTransition();
@@ -49,12 +51,22 @@ export default function DashboardChooser({
           );
         })}
       </div>
-      <Link
-        href="/"
-        className="inline-block rounded-md border border-indigo-400/50 bg-indigo-500/15 px-3 py-1.5 text-sm text-indigo-300 hover:bg-indigo-500/25"
-      >
-        Go to my dashboard →
-      </Link>
+      {onboarding ? (
+        <button
+          onClick={() => startTransition(() => completeOnboarding())}
+          disabled={pending}
+          className="inline-block rounded-md border border-indigo-400/50 bg-indigo-500/15 px-3 py-1.5 text-sm text-indigo-300 hover:bg-indigo-500/25 disabled:opacity-50"
+        >
+          {pending ? "Setting up…" : "Continue to my dashboard →"}
+        </button>
+      ) : (
+        <Link
+          href="/"
+          className="inline-block rounded-md border border-indigo-400/50 bg-indigo-500/15 px-3 py-1.5 text-sm text-indigo-300 hover:bg-indigo-500/25"
+        >
+          Go to my dashboard →
+        </Link>
+      )}
     </div>
   );
 }

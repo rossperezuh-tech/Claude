@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
@@ -774,6 +775,17 @@ export async function setOrgBranding(input: {
   }
   await prisma.organization.update({ where: { id: orgId }, data });
   revalidatePath("/", "layout");
+}
+
+// Mark the first-run welcome complete, then head to the dashboard.
+export async function completeOnboarding() {
+  const { orgId } = await requireOrg();
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { onboardedAt: new Date() },
+  });
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
 // Choose the home-dashboard template/layout for the caller's account.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { startOfDay, endOfDay, format } from "date-fns";
 import { requireOrg } from "@/lib/org";
@@ -62,10 +63,14 @@ export default async function HomePage() {
         enabledTools: true,
         subscriptionStatus: true,
         trialEndsAt: true,
+        onboardedAt: true,
       },
     }),
     prisma.usageEvent.count({ where: { organizationId: orgId } }),
   ]);
+
+  // Brand-new account — send them through the one-time welcome first.
+  if (org && org.onboardedAt === null) redirect("/welcome");
 
   const template = getDashboardTemplate(org?.dashboardTemplate);
   const need = new Set<DashboardWidget>(template.widgets);

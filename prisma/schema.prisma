@@ -39,6 +39,9 @@ model Organization {
   brandName    String  @default("")
   brandColor   String  @default("")
   brandLogoUrl String? // small logo as a data URI (resized in-browser)
+  // Set once the account finishes the first-run welcome (dashboard pick).
+  // Null = brand new → show the welcome screen before the dashboard.
+  onboardedAt  DateTime?
   createdAt   DateTime @default(now())
 
   businesses  Business[]
