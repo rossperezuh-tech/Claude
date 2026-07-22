@@ -39,6 +39,15 @@ export const TOOLS: readonly {
     category: "Assistant",
   },
   {
+    slug: "task-creator",
+    name: "Task Creator",
+    description: "Paste a plan, email, or notes — it pulls out every task and adds them for you.",
+    status: "live",
+    icon: "📝",
+    accent: "#4ade80",
+    category: "Assistant",
+  },
+  {
     slug: "weekly-digest",
     name: "Weekly Digest",
     description: "Your Monday briefing: what happened, what's next, what's at risk.",
