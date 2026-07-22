@@ -1,15 +1,27 @@
-// Home-dashboard templates. Each picks which panels show, in what order, and a
-// row of "featured tools" surfaced at the top for that kind of business.
-// Panels: "featured" | "today" | "ventures" | "calendar".
+// Home-dashboard templates. Each is a business-type layout that renders a set
+// of live widgets in order. Widgets read the account's real data (deals,
+// pipeline, invoices, money log, content calendar) so each dashboard feels
+// built for that kind of operator.
 
-export type DashboardPanel = "featured" | "today" | "ventures" | "calendar";
+export type DashboardWidget =
+  | "featured"
+  | "today"
+  | "ventures"
+  | "calendar"
+  | "content-week"
+  | "content-pipeline"
+  | "deals"
+  | "client-pipeline"
+  | "invoices"
+  | "money"
+  | "orders";
 
 export interface DashboardTemplate {
   id: string;
   name: string;
   blurb: string;
-  featured: string[]; // tool slugs
-  panels: DashboardPanel[];
+  featured: string[]; // tool slugs for the Quick tools row
+  widgets: DashboardWidget[];
 }
 
 export const DASHBOARD_TEMPLATES: DashboardTemplate[] = [
@@ -18,35 +30,35 @@ export const DASHBOARD_TEMPLATES: DashboardTemplate[] = [
     name: "Command Center",
     blurb: "Everything — for running many ventures at once.",
     featured: [],
-    panels: ["today", "ventures", "calendar"],
+    widgets: ["today", "ventures", "calendar"],
   },
   {
     id: "content",
-    name: "Content Studio",
-    blurb: "For a social / content business — content front and center.",
+    name: "Creator / Social",
+    blurb: "Content front and center — for a social / content business.",
     featured: ["content-studio", "content-calendar", "brain-dump", "the-brain"],
-    panels: ["featured", "today", "calendar", "ventures"],
+    widgets: ["featured", "content-week", "content-pipeline", "today"],
   },
   {
     id: "deal-desk",
-    name: "Deal Desk",
-    blurb: "For real estate — deals and follow-ups first.",
-    featured: ["deal-tracker", "follow-up", "outreach-writer", "the-brain"],
-    panels: ["featured", "today", "calendar", "ventures"],
+    name: "Real Estate",
+    blurb: "Deals and closings first — for real estate.",
+    featured: ["deal-tracker", "follow-up", "outreach-writer"],
+    widgets: ["featured", "deals", "client-pipeline", "calendar", "today"],
   },
   {
     id: "client-hq",
-    name: "Client HQ",
-    blurb: "For agencies & consultants — win, deliver, get paid.",
-    featured: ["pipeline", "proposals", "invoice-tracker", "client-report"],
-    panels: ["featured", "today", "ventures", "calendar"],
+    name: "Agency / Consulting",
+    blurb: "Win, deliver, get paid — for agencies & consultants.",
+    featured: ["pipeline", "proposals", "client-report"],
+    widgets: ["featured", "client-pipeline", "invoices", "today"],
   },
   {
     id: "brand-ops",
-    name: "Brand Ops",
-    blurb: "For a product brand — marketing, money, and orders.",
-    featured: ["content-studio", "money-log", "invoice-tracker", "pipeline"],
-    panels: ["featured", "today", "calendar", "ventures"],
+    name: "Product / E-commerce",
+    blurb: "Money, orders, and marketing — for a product brand.",
+    featured: ["content-studio", "money-log", "invoice-tracker"],
+    widgets: ["featured", "money", "orders", "content-week", "today"],
   },
 ];
 

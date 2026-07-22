@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { startOfDay, endOfDay } from "date-fns";
+import { startOfDay, endOfDay, format } from "date-fns";
 import { requireOrg } from "@/lib/org";
 import QuickCapture from "@/components/QuickCapture";
 import TodayTaskRow from "@/components/TodayTaskRow";
@@ -8,8 +8,23 @@ import CalendarStrip from "@/components/CalendarStrip";
 import NewBusinessForm from "@/components/NewBusinessForm";
 import VentureGrid from "@/components/VentureGrid";
 import DashboardPicker from "@/components/DashboardPicker";
-import { getDashboardTemplate, type DashboardPanel } from "@/lib/dashboards";
+import {
+  DealsWidget,
+  StageBoardWidget,
+  InvoicesWidget,
+  MoneyWidget,
+  ContentWeekWidget,
+  ContentPipelineWidget,
+} from "@/components/DashWidgets";
+import { getDashboardTemplate, type DashboardWidget } from "@/lib/dashboards";
 import { TOOLS } from "@/lib/tools";
+import {
+  PIPELINE_STAGES,
+  PIPELINE_STAGE_LABELS,
+  DEAL_STAGE_LABELS,
+  CONTENT_STATUSES,
+  CONTENT_STATUS_LABELS,
+} from "@/lib/constants";
 import { isActive, trialDaysLeft, billingConfigured } from "@/lib/billing";
 import { dueLabel } from "@/lib/dates";
 
@@ -18,6 +33,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const { orgId } = await requireOrg();
   const now = new Date();
+
   const [businesses, todayTasks, org] = await Promise.all([
     prisma.business.findMany({
       where: { organizationId: orgId },
@@ -51,14 +67,10 @@ export default async function HomePage() {
   ]);
 
   const template = getDashboardTemplate(org?.dashboardTemplate);
+  const need = new Set<DashboardWidget>(template.widgets);
   const daysLeft = trialDaysLeft(org?.trialEndsAt);
   const showTrialBanner =
     billingConfigured() && !isActive(org?.subscriptionStatus) && !!org?.trialEndsAt;
-  const enabled = org?.enabledTools ?? [];
-  const featuredTools = template.featured
-    .map((slug) => TOOLS.find((t) => t.slug === slug))
-    .filter((t): t is (typeof TOOLS)[number] => !!t)
-    .filter((t) => enabled.length === 0 || enabled.includes(t.slug));
 
   // First visit: no businesses yet — onboard instead of an empty dashboard.
   if (businesses.length === 0) {
@@ -78,27 +90,125 @@ export default async function HomePage() {
     );
   }
 
-  const overdueCount = todayTasks.filter(
-    (t) => t.dueDate && t.dueDate < startOfDay(now)
-  ).length;
+  const overdueCount = todayTasks.filter((t) => t.dueDate && t.dueDate < startOfDay(now)).length;
 
-  const upcoming = await prisma.task.findMany({
-    where: {
-      business: { organizationId: orgId },
-      status: { not: "DONE" },
-      dueDate: { gte: startOfDay(now), lte: new Date(now.getTime() + 14 * 86_400_000) },
-    },
-    orderBy: { dueDate: "asc" },
-    include: { business: { select: { name: true, slug: true, color: true } } },
+  // ---- Conditionally fetch widget data for the active template ----
+  const monthsAgo = new Date(now.getFullYear(), now.getMonth() - 3, 1);
+  const [deals, pipeItems, invoices, ledger, posts, upcoming] = await Promise.all([
+    need.has("deals")
+      ? prisma.deal.findMany({
+          where: { business: { organizationId: orgId }, stage: { not: "CLOSE" } },
+          orderBy: { targetClose: "asc" },
+          include: { business: { select: { color: true } } },
+        })
+      : Promise.resolve([]),
+    need.has("client-pipeline") || need.has("orders")
+      ? prisma.pipelineItem.findMany({
+          where: { business: { organizationId: orgId } },
+          select: { stage: true, valueCts: true, kind: true },
+        })
+      : Promise.resolve([]),
+    need.has("invoices")
+      ? prisma.invoice.findMany({
+          where: { business: { organizationId: orgId } },
+          select: { status: true, amountCts: true, dueDate: true },
+        })
+      : Promise.resolve([]),
+    need.has("money")
+      ? prisma.ledgerEntry.findMany({
+          where: { business: { organizationId: orgId }, date: { gte: monthsAgo } },
+          select: { type: true, amountCts: true, date: true },
+        })
+      : Promise.resolve([]),
+    need.has("content-week") || need.has("content-pipeline")
+      ? prisma.contentPost.findMany({
+          where: { business: { organizationId: orgId } },
+          include: { business: { select: { color: true } } },
+        })
+      : Promise.resolve([]),
+    need.has("calendar")
+      ? prisma.task.findMany({
+          where: {
+            business: { organizationId: orgId },
+            status: { not: "DONE" },
+            dueDate: { gte: startOfDay(now), lte: new Date(now.getTime() + 14 * 86_400_000) },
+          },
+          orderBy: { dueDate: "asc" },
+          include: { business: { select: { name: true, slug: true, color: true } } },
+        })
+      : Promise.resolve([]),
+  ]);
+
+  // Derive widget view-data
+  const dealRows = deals.map((d) => ({
+    id: d.id,
+    name: d.name,
+    stageLabel: DEAL_STAGE_LABELS[d.stage as keyof typeof DEAL_STAGE_LABELS] ?? d.stage,
+    askingDollars: d.askingCts / 100,
+    daysToClose: d.targetClose
+      ? Math.ceil((d.targetClose.getTime() - now.getTime()) / 86_400_000)
+      : null,
+    businessColor: d.business.color,
+  }));
+
+  function stageCols(items: { stage: string; valueCts: number }[]) {
+    return PIPELINE_STAGES.map((s) => {
+      const inStage = items.filter((i) => i.stage === s);
+      return {
+        label: PIPELINE_STAGE_LABELS[s] ?? s,
+        count: inStage.length,
+        valueDollars: inStage.reduce((sum, i) => sum + i.valueCts, 0) / 100,
+      };
+    });
+  }
+  const pipelineStages = stageCols(pipeItems);
+  const orderStages = stageCols(pipeItems.filter((i) => i.kind === "order"));
+
+  const inv = {
+    outstanding: invoices.filter((i) => i.status !== "PAID").reduce((s, i) => s + i.amountCts, 0) / 100,
+    overdue:
+      invoices
+        .filter((i) => i.status !== "PAID" && i.dueDate && i.dueDate.getTime() < now.getTime())
+        .reduce((s, i) => s + i.amountCts, 0) / 100,
+    paid: invoices.filter((i) => i.status === "PAID").reduce((s, i) => s + i.amountCts, 0) / 100,
+  };
+
+  const moneyBars = Array.from({ length: 4 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (3 - i), 1);
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    const net =
+      ledger
+        .filter((e) => `${e.date.getFullYear()}-${e.date.getMonth()}` === key)
+        .reduce((s, e) => s + (e.type === "REVENUE" ? e.amountCts : -e.amountCts), 0) / 100;
+    return { label: format(d, "MMMM"), net };
   });
 
-  const panels: Record<DashboardPanel, React.ReactNode> = {
+  const weekEnd = new Date(now.getTime() + 7 * 86_400_000);
+  const postRows = posts
+    .filter((p) => p.scheduledFor && p.scheduledFor >= startOfDay(now) && p.scheduledFor <= weekEnd)
+    .sort((a, b) => (a.scheduledFor!.getTime() - b.scheduledFor!.getTime()))
+    .map((p) => ({
+      id: p.id,
+      title: p.title,
+      platform: p.platform,
+      dateText: format(p.scheduledFor!, "EEE d"),
+      color: p.business.color,
+    }));
+  const contentCounts = CONTENT_STATUSES.map((s) => ({
+    label: CONTENT_STATUS_LABELS[s] ?? s,
+    count: posts.filter((p) => p.status === s).length,
+  }));
+
+  const featuredTools = template.featured
+    .map((slug) => TOOLS.find((t) => t.slug === slug))
+    .filter((t): t is (typeof TOOLS)[number] => !!t)
+    .filter((t) => (org?.enabledTools?.length ?? 0) === 0 || org!.enabledTools.includes(t.slug));
+
+  const widgetEls: Record<DashboardWidget, React.ReactNode> = {
     featured:
       featuredTools.length === 0 ? null : (
         <section key="featured">
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink-dim">
-            Quick tools
-          </h2>
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink-dim">Quick tools</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {featuredTools.map((t) => (
               <Link
@@ -108,10 +218,7 @@ export default async function HomePage() {
               >
                 <span
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-lg"
-                  style={{
-                    background: `linear-gradient(135deg, ${t.accent}33, ${t.accent}14)`,
-                    border: `1px solid ${t.accent}40`,
-                  }}
+                  style={{ background: `linear-gradient(135deg, ${t.accent}33, ${t.accent}14)`, border: `1px solid ${t.accent}40` }}
                 >
                   {t.icon}
                 </span>
@@ -184,6 +291,15 @@ export default async function HomePage() {
         }))}
       />
     ),
+    deals: <DealsWidget key="deals" deals={dealRows} />,
+    "client-pipeline": (
+      <StageBoardWidget key="client-pipeline" title="Client pipeline" href="/tools/pipeline" stages={pipelineStages} />
+    ),
+    orders: <StageBoardWidget key="orders" title="Orders" href="/tools/pipeline" stages={orderStages} />,
+    invoices: <InvoicesWidget key="invoices" outstanding={inv.outstanding} overdue={inv.overdue} paid={inv.paid} />,
+    money: <MoneyWidget key="money" months={moneyBars} />,
+    "content-week": <ContentWeekWidget key="content-week" posts={postRows} />,
+    "content-pipeline": <ContentPipelineWidget key="content-pipeline" counts={contentCounts} />,
   };
 
   return (
@@ -205,10 +321,8 @@ export default async function HomePage() {
       <div className="flex items-center justify-end">
         <DashboardPicker current={template.id} />
       </div>
-      <QuickCapture
-        businesses={businesses.map((b) => ({ id: b.id, name: b.name, color: b.color }))}
-      />
-      {template.panels.map((p) => panels[p])}
+      <QuickCapture businesses={businesses.map((b) => ({ id: b.id, name: b.name, color: b.color }))} />
+      {template.widgets.map((w) => widgetEls[w])}
     </div>
   );
 }
