@@ -26,6 +26,12 @@ model Organization {
   favoriteTools String[] @default([])
   // Which home-dashboard template/layout this account uses (see lib/dashboards.ts).
   dashboardTemplate String @default("command-center")
+  // Stripe subscription state (see lib/billing.ts).
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  subscriptionStatus   String    @default("none") // none | trialing | active | past_due | canceled
+  plan                 String    @default("") // starter | growth | full
+  currentPeriodEnd     DateTime?
   createdAt   DateTime @default(now())
 
   businesses  Business[]

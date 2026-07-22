@@ -6,6 +6,8 @@ const isPublicRoute = createRouteMatcher([
   // Public lead-intake form + its submit endpoint (token-gated, rate-limited)
   "/intake(.*)",
   "/api/intake(.*)",
+  // Stripe calls this server-to-server; it's verified by signature, not session.
+  "/api/stripe/webhook(.*)",
 ]);
 
 // Everything except the sign-in/sign-up pages requires a session; API routes
