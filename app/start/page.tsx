@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
 import { TOOLS } from "@/lib/tools";
+import { DASHBOARD_TEMPLATES } from "@/lib/dashboards";
+import DashboardChooser from "@/components/DashboardChooser";
 
 export const metadata = { title: "Quick Start — Venture HQ" };
 export const dynamic = "force-dynamic";
@@ -18,7 +20,7 @@ export default async function StartPage() {
     prisma.pipelineItem.count({ where: { business: { organizationId: orgId } } }),
     prisma.organization.findUnique({
       where: { id: orgId },
-      select: { brandName: true, brandLogoUrl: true, enabledTools: true },
+      select: { brandName: true, brandLogoUrl: true, enabledTools: true, dashboardTemplate: true },
     }),
   ]);
 
@@ -28,12 +30,6 @@ export default async function StartPage() {
       title: "Add your first business",
       desc: "Everything in HQ is organized per business. Add one from the home dashboard.",
       cta: { label: "Go to dashboard", href: "/" },
-    },
-    {
-      done: !!(org?.brandName || org?.brandLogoUrl),
-      title: "Make it yours",
-      desc: "Put your own name, color, and logo in the top bar.",
-      cta: { label: "Open Settings", href: "/settings" },
     },
     {
       done: taskCount > 0,
@@ -113,6 +109,22 @@ export default async function StartPage() {
             )}
           </div>
         ))}
+      </div>
+
+      {/* Dashboard chooser */}
+      <div>
+        <h2 className="mb-1 text-sm font-semibold uppercase tracking-wider text-ink-dim">
+          Pick your dashboard
+        </h2>
+        <p className="mb-3 text-xs text-ink-dim">
+          Your home page can be tailored to your kind of business. Not sure? Start with
+          <span className="text-ink"> Command Center</span> — you can switch any time from the
+          dropdown on your dashboard.
+        </p>
+        <DashboardChooser
+          current={org?.dashboardTemplate ?? "command-center"}
+          templates={DASHBOARD_TEMPLATES.map((t) => ({ id: t.id, name: t.name, blurb: t.blurb }))}
+        />
       </div>
 
       {/* Tool intro */}
