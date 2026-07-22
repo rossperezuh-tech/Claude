@@ -33,6 +33,41 @@ function getRecognitionCtor(): (new () => RecognitionLike) | null {
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
+// Pick the most natural-sounding female English voice the browser offers.
+// Availability varies by OS/browser, so we try known-good names first, then
+// fall back to any voice that reads as female, then any English voice.
+const PREFERRED_VOICES = [
+  "Google US English",
+  "Samantha", // macOS / iOS — natural female
+  "Microsoft Aria Online (Natural) - English (United States)",
+  "Microsoft Jenny Online (Natural) - English (United States)",
+  "Microsoft Michelle Online (Natural) - English (United States)",
+  "Microsoft Aria",
+  "Google UK English Female",
+  "Microsoft Zira",
+  "Karen",
+  "Serena",
+  "Moira",
+  "Tessa",
+];
+
+function pickFemaleVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
+  const en = voices.filter((v) => v.lang?.toLowerCase().startsWith("en"));
+  if (en.length === 0) return voices[0] ?? null;
+  for (const name of PREFERRED_VOICES) {
+    const exact = en.find((v) => v.name === name);
+    if (exact) return exact;
+    const partial = en.find((v) => v.name.includes(name));
+    if (partial) return partial;
+  }
+  const female = en.find((v) =>
+    /female|woman|zira|aria|jenny|michelle|samantha|karen|serena|moira|tessa|susan|linda|allison|ava|joanna|salli|kendra/i.test(
+      v.name,
+    ),
+  );
+  return female ?? en[0];
+}
+
 export function MicButton({
   onText,
   className = "",
@@ -157,11 +192,20 @@ export function MicButton({
 export function SpeakButton({ text, className = "" }: { text: string; className?: string }) {
   const [supported, setSupported] = useState(false);
   const [speaking, setSpeaking] = useState(false);
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
 
   useEffect(() => {
-    setSupported(typeof window !== "undefined" && "speechSynthesis" in window);
+    const ok = typeof window !== "undefined" && "speechSynthesis" in window;
+    setSupported(ok);
+    if (!ok) return;
+    const load = () => {
+      voiceRef.current = pickFemaleVoice(window.speechSynthesis.getVoices());
+    };
+    load();
+    window.speechSynthesis.addEventListener?.("voiceschanged", load);
     return () => {
-      if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+      window.speechSynthesis.removeEventListener?.("voiceschanged", load);
+      window.speechSynthesis.cancel();
     };
   }, []);
 
@@ -173,6 +217,9 @@ export function SpeakButton({ text, className = "" }: { text: string; className?
       return;
     }
     const u = new SpeechSynthesisUtterance(text);
+    if (voiceRef.current) u.voice = voiceRef.current;
+    u.rate = 0.98; // a touch slower reads more naturally
+    u.pitch = 1.05;
     u.onend = () => setSpeaking(false);
     u.onerror = () => setSpeaking(false);
     window.speechSynthesis.cancel();
