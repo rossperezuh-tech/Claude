@@ -35,6 +35,10 @@ model Organization {
   // No-card free trial: access is granted until this date even with no
   // subscription. Set when the account is first created.
   trialEndsAt          DateTime?
+  // Per-account header branding (shown in the top nav).
+  brandName    String  @default("")
+  brandColor   String  @default("")
+  brandLogoUrl String? // small logo as a data URI (resized in-browser)
   createdAt   DateTime @default(now())
 
   businesses  Business[]

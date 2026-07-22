@@ -757,6 +757,25 @@ export async function setToolOrder(slugs: string[]) {
   revalidatePath("/tools");
 }
 
+// Set the caller's account branding (header name / color / logo).
+export async function setOrgBranding(input: {
+  brandName?: string;
+  brandColor?: string;
+  brandLogoUrl?: string | null;
+}) {
+  const { orgId } = await requireOrg();
+  const data: { brandName?: string; brandColor?: string; brandLogoUrl?: string | null } = {};
+  if (input.brandName !== undefined) data.brandName = input.brandName.trim().slice(0, 60);
+  if (input.brandColor !== undefined) data.brandColor = input.brandColor.trim().slice(0, 20);
+  if (input.brandLogoUrl !== undefined) {
+    if (input.brandLogoUrl === null) data.brandLogoUrl = null;
+    else if (input.brandLogoUrl.startsWith("data:image/") && input.brandLogoUrl.length <= 400_000)
+      data.brandLogoUrl = input.brandLogoUrl;
+  }
+  await prisma.organization.update({ where: { id: orgId }, data });
+  revalidatePath("/", "layout");
+}
+
 // Choose the home-dashboard template/layout for the caller's account.
 export async function setDashboardTemplate(id: string) {
   const { orgId } = await requireOrg();
