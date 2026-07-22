@@ -19,6 +19,10 @@ export type KanbanTask = {
   recurrence: string | null;
 };
 
+// Board columns (Backlog removed; Done isn't a column — moving there completes).
+const MOVE_ORDER = TASK_STATUSES.filter((s) => s !== "BACKLOG"); // THIS_WEEK, IN_PROGRESS, DONE
+const BOARD_COLUMNS = MOVE_ORDER.filter((s) => s !== "DONE"); // THIS_WEEK, IN_PROGRESS
+
 type OptimisticAction =
   | { type: "move"; id: string; status: string }
   | { type: "remove"; id: string };
@@ -56,9 +60,12 @@ export default function Kanban({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {TASK_STATUSES.filter((s) => s !== "DONE").map((status) => {
-        const col = optimisticTasks.filter((t) => t.status === status);
+    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      {BOARD_COLUMNS.map((status) => {
+        // "This Week" also absorbs any legacy Backlog tasks.
+        const col = optimisticTasks.filter(
+          (t) => t.status === status || (status === "THIS_WEEK" && t.status === "BACKLOG"),
+        );
         return (
           <div key={status} className="card flex flex-col p-3">
             <div className="mb-2 flex items-center justify-between">
@@ -89,9 +96,11 @@ function TaskCard({
   onMove: (id: string, status: string) => void;
   onRemove: (id: string) => void;
 }) {
-  const idx = TASK_STATUSES.indexOf(task.status as TaskStatus);
-  const prev = idx > 0 ? TASK_STATUSES[idx - 1] : null;
-  const next = idx < TASK_STATUSES.length - 1 ? TASK_STATUSES[idx + 1] : null;
+  // Move order excludes Backlog; a legacy Backlog task behaves like This Week.
+  let idx = MOVE_ORDER.indexOf(task.status as (typeof MOVE_ORDER)[number]);
+  if (idx === -1) idx = MOVE_ORDER.indexOf("THIS_WEEK");
+  const prev = idx > 0 ? MOVE_ORDER[idx - 1] : null;
+  const next = idx < MOVE_ORDER.length - 1 ? MOVE_ORDER[idx + 1] : null;
 
   return (
     <div className="group rounded-md border border-surface-edge bg-surface-overlay/60 p-2.5">

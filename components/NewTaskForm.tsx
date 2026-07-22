@@ -60,7 +60,7 @@ export default function NewTaskForm({ businesses }: { businesses: Biz[] }) {
         </select>
         <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="input" />
         <select value={status} onChange={(e) => setStatus(e.target.value)} className="input cursor-pointer">
-          {TASK_STATUSES.filter((s) => s !== "DONE").map((s) => (
+          {TASK_STATUSES.filter((s) => s !== "DONE" && s !== "BACKLOG").map((s) => (
             <option key={s} value={s}>{STATUS_LABELS[s]}</option>
           ))}
         </select>

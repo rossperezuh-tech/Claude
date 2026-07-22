@@ -137,7 +137,7 @@ export async function createTask(input: {
       businessId: input.businessId,
       dueDate: input.dueDate ? new Date(input.dueDate + "T09:00:00") : null,
       priority: input.priority ?? "P2",
-      status: input.status ?? "BACKLOG",
+      status: input.status ?? "THIS_WEEK",
       notes: input.notes ?? "",
       recurrence: input.recurrence || null,
     },
