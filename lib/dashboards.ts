@@ -35,9 +35,16 @@ export const DASHBOARD_TEMPLATES: DashboardTemplate[] = [
   {
     id: "content",
     name: "Creator / Social",
-    blurb: "Content front and center — for a social / content business.",
+    blurb: "Content front and center — for a single social / content brand.",
     featured: ["content-studio", "content-calendar", "brain-dump", "the-brain"],
     widgets: ["featured", "content-week", "content-pipeline", "today"],
+  },
+  {
+    id: "smm",
+    name: "Social Media Manager",
+    blurb: "Content across all your client accounts — for managing many brands.",
+    featured: ["content-studio", "content-calendar", "client-report", "pipeline"],
+    widgets: ["featured", "content-week", "ventures", "content-pipeline", "client-pipeline", "today"],
   },
   {
     id: "deal-desk",

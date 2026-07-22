@@ -180,7 +180,14 @@ export function MoneyWidget({ months }: { months: MonthBar[] }) {
 
 // ---- Content: this week's posts ----
 
-export type PostRow = { id: string; title: string; platform: string; dateText: string; color: string };
+export type PostRow = {
+  id: string;
+  title: string;
+  platform: string;
+  dateText: string;
+  color: string;
+  client?: string;
+};
 
 export function ContentWeekWidget({ posts }: { posts: PostRow[] }) {
   return (
@@ -189,9 +196,18 @@ export function ContentWeekWidget({ posts }: { posts: PostRow[] }) {
         <p className="text-sm text-ink-faint">Nothing scheduled. Plan a post in the Content Calendar.</p>
       ) : (
         <ul className="divide-y divide-surface-edge/60">
-          {posts.slice(0, 6).map((p) => (
+          {posts.slice(0, 8).map((p) => (
             <li key={p.id} className="flex items-center gap-2 py-2">
-              <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: p.color }} />
+              {p.client ? (
+                <span
+                  className="chip shrink-0 border-transparent"
+                  style={{ color: p.color, background: `${p.color}1a` }}
+                >
+                  {p.client}
+                </span>
+              ) : (
+                <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: p.color }} />
+              )}
               <span className="min-w-0 flex-1 truncate text-sm">{p.title}</span>
               <span className="shrink-0 text-xs capitalize text-ink-faint">{p.platform}</span>
               <span className="shrink-0 text-xs text-ink-faint">{p.dateText}</span>

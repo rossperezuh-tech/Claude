@@ -123,7 +123,7 @@ export default async function HomePage() {
     need.has("content-week") || need.has("content-pipeline")
       ? prisma.contentPost.findMany({
           where: { business: { organizationId: orgId } },
-          include: { business: { select: { color: true } } },
+          include: { business: { select: { color: true, name: true } } },
         })
       : Promise.resolve([]),
     need.has("calendar")
@@ -193,6 +193,8 @@ export default async function HomePage() {
       platform: p.platform,
       dateText: format(p.scheduledFor!, "EEE d"),
       color: p.business.color,
+      // Show the client name only when managing several accounts.
+      client: businesses.length > 1 ? p.business.name : undefined,
     }));
   const contentCounts = CONTENT_STATUSES.map((s) => ({
     label: CONTENT_STATUS_LABELS[s] ?? s,
@@ -260,7 +262,9 @@ export default async function HomePage() {
     ventures: (
       <section key="ventures">
         <div className="mb-3 flex items-baseline gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-dim">Ventures</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-dim">
+            {template.id === "smm" || template.id === "client-hq" ? "Clients" : "Ventures"}
+          </h2>
           <span className="text-xs text-ink-faint">drag to reorder</span>
         </div>
         <VentureGrid
