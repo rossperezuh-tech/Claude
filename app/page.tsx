@@ -34,7 +34,7 @@ export default async function HomePage() {
   const { orgId } = await requireOrg();
   const now = new Date();
 
-  const [businesses, todayTasks, org] = await Promise.all([
+  const [businesses, todayTasks, org, usageCount] = await Promise.all([
     prisma.business.findMany({
       where: { organizationId: orgId },
       orderBy: { sortOrder: "asc" },
@@ -64,6 +64,7 @@ export default async function HomePage() {
         trialEndsAt: true,
       },
     }),
+    prisma.usageEvent.count({ where: { organizationId: orgId } }),
   ]);
 
   const template = getDashboardTemplate(org?.dashboardTemplate);
@@ -320,6 +321,14 @@ export default async function HomePage() {
           {daysLeft > 0
             ? `✨ Free trial — ${daysLeft} day${daysLeft === 1 ? "" : "s"} left. Subscribe to keep access →`
             : "Your free trial has ended — subscribe to restore your tools →"}
+        </Link>
+      )}
+      {usageCount === 0 && (
+        <Link
+          href="/start"
+          className="block rounded-lg border border-indigo-400/40 bg-indigo-500/10 p-3 text-sm text-indigo-200 transition-colors hover:bg-indigo-500/15"
+        >
+          👋 New here? Open the Quick Start guide to get set up and meet your tools →
         </Link>
       )}
       <div className="flex items-center justify-end">

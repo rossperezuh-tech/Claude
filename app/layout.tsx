@@ -65,6 +65,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   <Link href="/" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                     Home
                   </Link>
+                  <Link href="/start" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
+                    Quick Start
+                  </Link>
                   <Link href="/tasks" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                     Tasks
                   </Link>
