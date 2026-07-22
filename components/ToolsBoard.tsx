@@ -29,9 +29,11 @@ const sig = (arr: Section[]) =>
 export default function ToolsBoard({
   sections: initial,
   favorites,
+  favoriteCards,
 }: {
   sections: Section[];
   favorites: string[];
+  favoriteCards: BoardTool[];
 }) {
   const [sections, setSections] = useState(initial);
   const [favs, setFavs] = useState<Set<string>>(new Set(favorites));
@@ -129,6 +131,53 @@ export default function ToolsBoard({
 
   return (
     <div className="space-y-6">
+      {favoriteCards.length > 0 && (
+        <section className="space-y-2.5">
+          <h2 className="text-xs font-semibold uppercase tracking-wider text-amber-300">
+            ★ Favorites
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {favoriteCards.map((tool) => (
+              <div
+                key={tool.slug}
+                className="card group relative flex h-full items-start gap-3 overflow-hidden p-4 transition-colors hover:border-amber-400/40"
+              >
+                <Link href={`/tools/${tool.slug}`} className="absolute inset-0 z-0 rounded-lg" />
+                <div
+                  className="pointer-events-none absolute inset-x-0 -top-16 h-24 opacity-0 blur-2xl transition-opacity group-hover:opacity-40"
+                  style={{ background: `radial-gradient(circle at 30% 100%, ${tool.accent}, transparent 70%)` }}
+                />
+                <button
+                  type="button"
+                  aria-label="Remove from favorites"
+                  title="Remove from favorites"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleFav(tool.slug);
+                  }}
+                  className="absolute right-2 top-2 z-[2] rounded px-1 text-sm leading-none text-amber-300 hover:text-amber-200"
+                >
+                  ★
+                </button>
+                <div
+                  className="pointer-events-none relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
+                  style={{
+                    background: `linear-gradient(135deg, ${tool.accent}33, ${tool.accent}14)`,
+                    border: `1px solid ${tool.accent}40`,
+                  }}
+                >
+                  {tool.icon}
+                </div>
+                <div className="pointer-events-none relative min-w-0 pr-8">
+                  <h3 className="font-medium leading-tight">{tool.name}</h3>
+                  <p className="mt-1 text-sm text-ink-dim">{tool.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
       {sections.map((s) => (
         <section
           key={s.name}

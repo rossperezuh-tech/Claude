@@ -39,35 +39,42 @@ export default async function ToolsPage() {
     return TOOL_CATEGORIES.indexOf(a) - TOOL_CATEGORIES.indexOf(b);
   });
 
-  const sections = orderedCats.map((name) => ({
-    name,
-    tools: visible
-      .filter((t) => t.category === name)
-      // favorites first, then the saved/registry order
-      .sort(
-        (a, b) =>
-          (favSet.has(a.slug) ? 0 : 1) - (favSet.has(b.slug) ? 0 : 1) ||
-          toolRank(a.slug) - toolRank(b.slug),
-      )
-      .map((t) => ({
-        slug: t.slug,
-        name: t.name,
-        description: t.description,
-        icon: t.icon,
-        accent: t.accent,
-      })),
-  }));
+  const toCard = (t: (typeof TOOLS)[number]) => ({
+    slug: t.slug,
+    name: t.name,
+    description: t.description,
+    icon: t.icon,
+    accent: t.accent,
+  });
+
+  // Favorites float into their own row at the top; category sections show the rest.
+  const favoriteCards = visible
+    .filter((t) => favSet.has(t.slug))
+    .sort((a, b) => toolRank(a.slug) - toolRank(b.slug))
+    .map(toCard);
+
+  const sections = orderedCats
+    .map((name) => ({
+      name,
+      tools: visible
+        .filter((t) => t.category === name && !favSet.has(t.slug))
+        .sort((a, b) => toolRank(a.slug) - toolRank(b.slug))
+        .map(toCard),
+    }))
+    .filter((s) => s.tools.length > 0);
+
+  const nothing = favoriteCards.length === 0 && sections.length === 0;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
         <h1 className="text-xl font-semibold tracking-tight">Business Tools</h1>
-        <span className="text-xs text-ink-faint">drag ⠿ to rearrange</span>
+        <span className="text-xs text-ink-faint">star ★ a tool to pin it up top · drag ⠿ to rearrange</span>
       </div>
-      {sections.length === 0 ? (
+      {nothing ? (
         <p className="text-sm text-ink-faint">No tools enabled for this account yet.</p>
       ) : (
-        <ToolsBoard sections={sections} favorites={favorites} />
+        <ToolsBoard sections={sections} favorites={favorites} favoriteCards={favoriteCards} />
       )}
     </div>
   );
