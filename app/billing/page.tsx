@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
 import { isPlatformAdmin } from "@/lib/admin";
-import { PLANS, isActive, billingConfigured } from "@/lib/billing";
+import { PLANS, isActive, trialDaysLeft, billingConfigured } from "@/lib/billing";
 import BillingClient from "./BillingClient";
 
 export const metadata = { title: "Billing — Venture HQ" };
@@ -17,10 +17,13 @@ export default async function BillingPage() {
         plan: true,
         currentPeriodEnd: true,
         stripeCustomerId: true,
+        trialEndsAt: true,
       },
     }),
     isPlatformAdmin(),
   ]);
+
+  const daysLeft = trialDaysLeft(org?.trialEndsAt);
 
   return (
     <BillingClient
@@ -28,6 +31,7 @@ export default async function BillingPage() {
       isOwner={admin}
       status={org?.subscriptionStatus ?? "none"}
       active={isActive(org?.subscriptionStatus)}
+      trialDaysLeft={daysLeft}
       currentPlan={org?.plan ?? ""}
       hasCustomer={!!org?.stripeCustomerId}
       periodEnd={org?.currentPeriodEnd ? org.currentPeriodEnd.toISOString() : null}

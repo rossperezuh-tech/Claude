@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
-import { getStripe, planById, priceIdFor, TRIAL_DAYS, billingConfigured } from "@/lib/billing";
+import { getStripe, planById, priceIdFor, billingConfigured } from "@/lib/billing";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -43,7 +43,9 @@ export async function POST(req: NextRequest) {
     mode: "subscription",
     customer: customerId,
     line_items: [{ price: priceId, quantity: 1 }],
-    subscription_data: { trial_period_days: TRIAL_DAYS, metadata: { orgId, plan: plan.id } },
+    // No Stripe trial — the 30-day free trial already happened in-app, so
+    // subscribing starts billing now.
+    subscription_data: { metadata: { orgId, plan: plan.id } },
     allow_promotion_codes: true,
     success_url: `${origin}/billing?success=1`,
     cancel_url: `${origin}/billing?canceled=1`,

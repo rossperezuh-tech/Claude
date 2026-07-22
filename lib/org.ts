@@ -23,11 +23,13 @@ export async function requireOrg(): Promise<{ orgId: string; userId: string }> {
 
   const user = await currentUser();
   const name = user?.firstName ? `${user.firstName}'s HQ` : "My HQ";
+  // New accounts get a 30-day no-card free trial from first sign-in.
+  const trialEndsAt = new Date(Date.now() + 30 * 86_400_000);
   // upsert so two concurrent first requests can't create duplicate orgs
   const org = await prisma.organization.upsert({
     where: { clerkUserId: userId },
     update: {},
-    create: { clerkUserId: userId, name },
+    create: { clerkUserId: userId, name, trialEndsAt },
     select: { id: true },
   });
   return { orgId: org.id, userId };

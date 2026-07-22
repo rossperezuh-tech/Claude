@@ -62,9 +62,25 @@ export function planForPriceId(priceId: string | null | undefined): Plan | undef
   return PLANS.find((p) => process.env[p.priceEnv] === priceId);
 }
 
-/** A subscription that grants access: on trial or fully active. */
+/** A Stripe subscription that grants access: on trial or fully active. */
 export function isActive(status: string | null | undefined): boolean {
   return status === "trialing" || status === "active";
+}
+
+/** Whole days left in the no-card trial (0 if none / expired). */
+export function trialDaysLeft(trialEndsAt: Date | null | undefined): number {
+  if (!trialEndsAt) return 0;
+  const ms = trialEndsAt.getTime() - Date.now();
+  return ms <= 0 ? 0 : Math.ceil(ms / 86_400_000);
+}
+
+/** Access is granted by an active subscription OR an unexpired free trial. */
+export function hasAccess(org: {
+  subscriptionStatus?: string | null;
+  trialEndsAt?: Date | null;
+}): boolean {
+  if (isActive(org.subscriptionStatus)) return true;
+  return !!org.trialEndsAt && org.trialEndsAt.getTime() > Date.now();
 }
 
 let cached: Stripe | null = null;

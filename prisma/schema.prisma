@@ -32,6 +32,9 @@ model Organization {
   subscriptionStatus   String    @default("none") // none | trialing | active | past_due | canceled
   plan                 String    @default("") // starter | growth | full
   currentPeriodEnd     DateTime?
+  // No-card free trial: access is granted until this date even with no
+  // subscription. Set when the account is first created.
+  trialEndsAt          DateTime?
   createdAt   DateTime @default(now())
 
   businesses  Business[]

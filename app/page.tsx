@@ -10,6 +10,7 @@ import VentureGrid from "@/components/VentureGrid";
 import DashboardPicker from "@/components/DashboardPicker";
 import { getDashboardTemplate, type DashboardPanel } from "@/lib/dashboards";
 import { TOOLS } from "@/lib/tools";
+import { isActive, trialDaysLeft, billingConfigured } from "@/lib/billing";
 import { dueLabel } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -40,11 +41,19 @@ export default async function HomePage() {
     }),
     prisma.organization.findUnique({
       where: { id: orgId },
-      select: { dashboardTemplate: true, enabledTools: true },
+      select: {
+        dashboardTemplate: true,
+        enabledTools: true,
+        subscriptionStatus: true,
+        trialEndsAt: true,
+      },
     }),
   ]);
 
   const template = getDashboardTemplate(org?.dashboardTemplate);
+  const daysLeft = trialDaysLeft(org?.trialEndsAt);
+  const showTrialBanner =
+    billingConfigured() && !isActive(org?.subscriptionStatus) && !!org?.trialEndsAt;
   const enabled = org?.enabledTools ?? [];
   const featuredTools = template.featured
     .map((slug) => TOOLS.find((t) => t.slug === slug))
@@ -179,6 +188,20 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-5">
+      {showTrialBanner && (
+        <Link
+          href="/billing"
+          className={`block rounded-lg border p-3 text-sm transition-colors ${
+            daysLeft > 0
+              ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-200 hover:bg-emerald-500/10"
+              : "border-red-500/30 bg-red-500/5 text-red-200 hover:bg-red-500/10"
+          }`}
+        >
+          {daysLeft > 0
+            ? `✨ Free trial — ${daysLeft} day${daysLeft === 1 ? "" : "s"} left. Subscribe to keep access →`
+            : "Your free trial has ended — subscribe to restore your tools →"}
+        </Link>
+      )}
       <div className="flex items-center justify-end">
         <DashboardPicker current={template.id} />
       </div>

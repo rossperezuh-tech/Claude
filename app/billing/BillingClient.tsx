@@ -10,6 +10,7 @@ export default function BillingClient({
   isOwner,
   status,
   active,
+  trialDaysLeft,
   currentPlan,
   hasCustomer,
   periodEnd,
@@ -19,6 +20,7 @@ export default function BillingClient({
   isOwner: boolean;
   status: string;
   active: boolean;
+  trialDaysLeft: number;
   currentPlan: string;
   hasCustomer: boolean;
   periodEnd: string | null;
@@ -79,12 +81,28 @@ export default function BillingClient({
     <div className="mx-auto max-w-3xl space-y-5">
       <div>
         <h1 className="text-xl font-semibold tracking-tight">Billing</h1>
-        <p className="mt-1 text-sm text-ink-dim">Choose a plan to unlock the tools. 30-day free trial on every plan.</p>
+        <p className="mt-1 text-sm text-ink-dim">
+          Your first 30 days are free — no card needed. Subscribe any time to keep access after that.
+        </p>
       </div>
 
       {isOwner && (
         <div className="card border-amber-500/30 bg-amber-500/5 p-3 text-sm text-amber-200">
           You're the account owner — you always have full access regardless of subscription.
+        </div>
+      )}
+
+      {!active && !isOwner && (
+        <div
+          className={`card p-3 text-sm ${
+            trialDaysLeft > 0
+              ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-200"
+              : "border-red-500/30 bg-red-500/5 text-red-200"
+          }`}
+        >
+          {trialDaysLeft > 0
+            ? `You're on your free trial — ${trialDaysLeft} day${trialDaysLeft === 1 ? "" : "s"} left. Subscribe any time to keep access.`
+            : "Your free trial has ended. Subscribe to a plan below to restore access to the tools."}
         </div>
       )}
 
@@ -137,7 +155,7 @@ export default function BillingClient({
                 disabled={!configured || busy !== null || isCurrent}
                 className="btn mt-auto border-indigo-400/50 bg-indigo-500/15 text-indigo-300 hover:bg-indigo-500/25 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {isCurrent ? "Your plan" : busy === p.id ? "Starting…" : "Start free trial"}
+                {isCurrent ? "Your plan" : busy === p.id ? "Starting…" : "Subscribe"}
               </button>
             </div>
           );
