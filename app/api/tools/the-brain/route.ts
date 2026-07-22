@@ -2,9 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
-import { CLAUDE_MODEL, missingKeyResponse, recordUsage } from "@/lib/claude";
+import { missingKeyResponse, recordUsage } from "@/lib/claude";
 
 export const maxDuration = 300;
+
+// The Brain is a fast, tool-driven chat assistant — it looks things up and
+// answers. A quick model with no extended thinking keeps replies snappy.
+const BRAIN_MODEL = "claude-haiku-4-5";
 
 const MAX_TOOL_ITERATIONS = 8;
 const MAX_HISTORY_MESSAGES = 40;
@@ -629,9 +633,8 @@ export async function POST(req: NextRequest) {
     for (let i = 0; i < MAX_TOOL_ITERATIONS; i++) {
       const response = await client.messages
         .stream({
-          model: CLAUDE_MODEL,
-          max_tokens: 8000,
-          thinking: { type: "adaptive" },
+          model: BRAIN_MODEL,
+          max_tokens: 4000,
           system: [{ type: "text", text: SYSTEM_PROMPT, cache_control: { type: "ephemeral" } }],
           tools: TOOLS,
           messages,
