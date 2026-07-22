@@ -11,7 +11,7 @@ export default async function TaskCreatorPage() {
   const businesses = await prisma.business.findMany({
     where: { organizationId: orgId },
     orderBy: { sortOrder: "asc" },
-    select: { id: true, name: true },
+    select: { id: true, name: true, slug: true, color: true },
   });
   return <TaskCreatorClient businesses={businesses} />;
 }
