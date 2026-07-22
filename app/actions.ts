@@ -757,6 +757,16 @@ export async function setToolOrder(slugs: string[]) {
   revalidatePath("/tools");
 }
 
+// Choose the home-dashboard template/layout for the caller's account.
+export async function setDashboardTemplate(id: string) {
+  const { orgId } = await requireOrg();
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { dashboardTemplate: id },
+  });
+  revalidatePath("/");
+}
+
 // Toggle a tool as a favorite for the caller's own tools page.
 export async function toggleFavoriteTool(slug: string) {
   const { orgId } = await requireOrg();

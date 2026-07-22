@@ -24,6 +24,8 @@ model Organization {
   categoryOrder String[] @default([])
   // Tool slugs the user starred; they float to the top of their section.
   favoriteTools String[] @default([])
+  // Which home-dashboard template/layout this account uses (see lib/dashboards.ts).
+  dashboardTemplate String @default("command-center")
   createdAt   DateTime @default(now())
 
   businesses  Business[]
