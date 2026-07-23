@@ -269,7 +269,7 @@ export default async function HomePage() {
       <section key="ventures">
         <div className="mb-3 flex items-baseline gap-2">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-dim">
-            {template.id === "smm" || template.id === "client-hq" ? "Clients" : "Ventures"}
+            {template.id === "smm" ? "Clients" : "Ventures"}
           </h2>
           <span className="text-xs text-ink-faint">drag to reorder</span>
         </div>

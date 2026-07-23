@@ -17,7 +17,6 @@ export default function NewBusinessForm({
 }) {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [website, setWebsite] = useState("");
   const [pending, startTransition] = useTransition();
 
@@ -25,9 +24,8 @@ export default function NewBusinessForm({
     e.preventDefault();
     if (!name.trim() || pending) return;
     startTransition(async () => {
-      const slug = await createBusiness({ name, description, website });
+      const slug = await createBusiness({ name, description: "", website });
       setName("");
-      setDescription("");
       setWebsite("");
       if (slug) router.push(`/business/${slug}`);
     });
@@ -46,12 +44,6 @@ export default function NewBusinessForm({
         value={name}
         autoFocus={autoFocus}
         onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        className="input w-full text-sm"
-        placeholder="One-line description (optional)"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
       />
       <input
         className="input w-full text-sm"
