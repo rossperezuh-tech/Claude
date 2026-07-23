@@ -788,6 +788,18 @@ export async function completeOnboarding() {
   redirect("/");
 }
 
+// First-run: pick a dashboard AND finish onboarding in one step, then drop the
+// user straight onto that dashboard.
+export async function finishOnboardingWith(templateId: string) {
+  const { orgId } = await requireOrg();
+  await prisma.organization.update({
+    where: { id: orgId },
+    data: { dashboardTemplate: templateId, onboardedAt: new Date() },
+  });
+  revalidatePath("/", "layout");
+  redirect("/");
+}
+
 // Choose the home-dashboard template/layout for the caller's account.
 export async function setDashboardTemplate(id: string) {
   const { orgId } = await requireOrg();

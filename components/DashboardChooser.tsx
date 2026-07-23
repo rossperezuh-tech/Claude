@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import { setDashboardTemplate, completeOnboarding } from "@/app/actions";
+import { setDashboardTemplate, finishOnboardingWith } from "@/app/actions";
 
 export default function DashboardChooser({
   current,
@@ -14,11 +14,21 @@ export default function DashboardChooser({
   onboarding?: boolean;
 }) {
   const [sel, setSel] = useState(current);
+  const [opening, setOpening] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
+  // Normal (settings) flow: choosing just saves the template.
   function choose(id: string) {
     setSel(id);
     startTransition(() => setDashboardTemplate(id));
+  }
+
+  // Onboarding: choosing a card saves the template, finishes onboarding, and
+  // drops the user straight onto that dashboard — one click.
+  function pickAndOpen(id: string) {
+    setSel(id);
+    setOpening(id);
+    startTransition(() => finishOnboardingWith(id));
   }
 
   return (
@@ -26,6 +36,26 @@ export default function DashboardChooser({
       <div className="grid gap-3 sm:grid-cols-2">
         {templates.map((t) => {
           const active = sel === t.id;
+
+          if (onboarding) {
+            return (
+              <div
+                key={t.id}
+                className={`card flex flex-col gap-2 p-4 ${active ? "border-indigo-400/60 ring-1 ring-indigo-400/30" : ""}`}
+              >
+                <h3 className="font-medium">{t.name}</h3>
+                <p className="text-xs text-ink-dim">{t.blurb}</p>
+                <button
+                  onClick={() => pickAndOpen(t.id)}
+                  disabled={pending}
+                  className="btn mt-auto border-indigo-400/50 bg-indigo-500/15 text-xs text-indigo-300 hover:bg-indigo-500/25 disabled:opacity-60"
+                >
+                  {opening === t.id ? "Opening…" : "Start with this →"}
+                </button>
+              </div>
+            );
+          }
+
           return (
             <div
               key={t.id}
@@ -51,15 +81,7 @@ export default function DashboardChooser({
           );
         })}
       </div>
-      {onboarding ? (
-        <button
-          onClick={() => startTransition(() => completeOnboarding())}
-          disabled={pending}
-          className="inline-block rounded-md border border-indigo-400/50 bg-indigo-500/15 px-3 py-1.5 text-sm text-indigo-300 hover:bg-indigo-500/25 disabled:opacity-50"
-        >
-          {pending ? "Setting up…" : "Continue to my dashboard →"}
-        </button>
-      ) : (
+      {!onboarding && (
         <Link
           href="/"
           className="inline-block rounded-md border border-indigo-400/50 bg-indigo-500/15 px-3 py-1.5 text-sm text-indigo-300 hover:bg-indigo-500/25"

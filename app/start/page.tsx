@@ -1,14 +1,13 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireOrg } from "@/lib/org";
-import { TOOLS } from "@/lib/tools";
+import { TOOLS, TOOL_CATEGORIES } from "@/lib/tools";
 import { DASHBOARD_TEMPLATES } from "@/lib/dashboards";
 import DashboardChooser from "@/components/DashboardChooser";
+import ToolGuide from "@/components/ToolGuide";
 
 export const metadata = { title: "Quick Start — Venture HQ" };
 export const dynamic = "force-dynamic";
-
-const RECOMMENDED = ["the-brain", "brain-dump", "content-studio", "pipeline", "weekly-digest"];
 
 export default async function StartPage() {
   const { orgId } = await requireOrg();
@@ -53,9 +52,17 @@ export default async function StartPage() {
 
   const doneCount = steps.filter((s) => s.done).length;
   const enabled = org?.enabledTools ?? [];
-  const recTools = RECOMMENDED.map((slug) => TOOLS.find((t) => t.slug === slug))
-    .filter((t): t is (typeof TOOLS)[number] => !!t)
-    .filter((t) => enabled.length === 0 || enabled.includes(t.slug));
+  const guideTools = TOOLS.filter((t) => t.status === "live")
+    .filter((t) => enabled.length === 0 || enabled.includes(t.slug))
+    .map((t) => ({
+      slug: t.slug,
+      name: t.name,
+      description: t.description,
+      icon: t.icon,
+      accent: t.accent,
+      category: t.category,
+    }));
+  const guideCategories = TOOL_CATEGORIES.filter((c) => guideTools.some((t) => t.category === c));
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
@@ -127,33 +134,18 @@ export default async function StartPage() {
         />
       </div>
 
-      {/* Tool intro */}
+      {/* Interactive tool explorer */}
       <div>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink-dim">
-          Start with these tools
+        <h2 className="mb-1 text-sm font-semibold uppercase tracking-wider text-ink-dim">
+          Explore your tools
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {recTools.map((t) => (
-            <Link
-              key={t.slug}
-              href={`/tools/${t.slug}`}
-              className="card flex items-start gap-3 p-4 transition-colors hover:border-amber-400/40"
-            >
-              <span
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-xl"
-                style={{ background: `linear-gradient(135deg, ${t.accent}33, ${t.accent}14)`, border: `1px solid ${t.accent}40` }}
-              >
-                {t.icon}
-              </span>
-              <div className="min-w-0">
-                <h3 className="text-sm font-medium">{t.name}</h3>
-                <p className="mt-0.5 text-xs text-ink-dim">{t.description}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+        <p className="mb-3 text-xs text-ink-dim">
+          {guideTools.length} AI tools, organized by what they do. Filter by category or search,
+          then click any tool to open it.
+        </p>
+        <ToolGuide tools={guideTools} categories={[...guideCategories]} />
         <Link href="/tools" className="mt-3 inline-block text-sm text-ink-dim hover:text-ink">
-          See all tools →
+          Open the full tools board →
         </Link>
       </div>
     </div>
