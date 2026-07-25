@@ -745,6 +745,59 @@ export async function setEnabledTools(orgId: string, tools: string[]) {
   revalidateAll();
 }
 
+/**
+ * Admin: permanently delete a client account and everything in it.
+ *
+ * Child rows are removed explicitly rather than leaning on ON DELETE CASCADE:
+ * production was migrated by hand, so the newer tables' foreign keys can't be
+ * assumed to cascade. Deleting bottom-up works either way.
+ *
+ * The Clerk login is intentionally left alone: if that person signs in again,
+ * requireOrg() provisions them a brand-new empty account. Guarded so the admin
+ * can never delete their own org, and the typed name must match as a second
+ * confirmation.
+ */
+export async function deleteOrganization(orgId: string, confirmName: string) {
+  if (!(await isPlatformAdmin())) return { ok: false, error: "Not authorized." };
+
+  const target = await prisma.organization.findUnique({
+    where: { id: orgId },
+    select: { id: true, name: true },
+  });
+  if (!target) return { ok: false, error: "Account not found." };
+
+  // Never let the admin wipe the account they're signed in as.
+  const { orgId: myOrgId } = await requireOrg();
+  if (target.id === myOrgId) return { ok: false, error: "You can't delete your own account." };
+
+  if (confirmName.trim() !== target.name.trim()) {
+    return { ok: false, error: "The name you typed doesn't match." };
+  }
+
+  const inOrg = { business: { organizationId: orgId } };
+  // Everything hanging off this org's businesses, then the businesses, then
+  // the org's own rows. Sequential (not a transaction) — Neon's pooled
+  // connection is unreliable for those, and a retry safely finishes the job.
+  await prisma.task.deleteMany({ where: inOrg });
+  await prisma.document.deleteMany({ where: inOrg });
+  await prisma.contact.deleteMany({ where: inOrg });
+  await prisma.link.deleteMany({ where: inOrg });
+  await prisma.deal.deleteMany({ where: inOrg });
+  await prisma.ledgerEntry.deleteMany({ where: inOrg });
+  await prisma.contract.deleteMany({ where: inOrg });
+  await prisma.contentPost.deleteMany({ where: inOrg });
+  await prisma.pipelineItem.deleteMany({ where: inOrg });
+  await prisma.invoice.deleteMany({ where: inOrg });
+  await prisma.testimonial.deleteMany({ where: inOrg });
+  await prisma.goal.deleteMany({ where: inOrg });
+  await prisma.business.deleteMany({ where: { organizationId: orgId } });
+  await prisma.usageEvent.deleteMany({ where: { organizationId: orgId } });
+  await prisma.organization.delete({ where: { id: orgId } });
+
+  revalidateAll();
+  return { ok: true };
+}
+
 // Save the caller's own tools-page ordering (drag-to-reorder). Not admin-
 // gated: each account arranges its own tools page.
 export async function setToolOrder(slugs: string[]) {
