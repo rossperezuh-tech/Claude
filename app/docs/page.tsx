@@ -15,9 +15,17 @@ const CATEGORY_COLORS: Record<string, string> = {
   compliance: "text-amber-400 border-amber-500/30 bg-amber-500/10",
 };
 
-// `business` holds a comma-separated list of slugs so several ventures can be
+// `business` and `category` each hold a comma-separated list so several can be
 // filtered at once (empty/absent = all).
 type Search = { q?: string; category?: string; business?: string };
+
+// Toggle one value in/out of a comma-separated filter list.
+function toggleInList(selected: string[], value: string): string | undefined {
+  const next = selected.includes(value)
+    ? selected.filter((s) => s !== value)
+    : [...selected, value];
+  return next.length ? next.join(",") : undefined;
+}
 
 function filterLink(current: Search, patch: Partial<Search>): string {
   const merged = { ...current, ...patch };
@@ -44,13 +52,11 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
     .map((s) => s.trim())
     .filter((s) => s && knownSlugs.has(s));
 
-  // Clicking a venture chip adds/removes it from the selection.
-  function toggleBusiness(slug: string): string | undefined {
-    const next = selected.includes(slug)
-      ? selected.filter((s) => s !== slug)
-      : [...selected, slug];
-    return next.length ? next.join(",") : undefined;
-  }
+  const knownCategories = new Set<string>(DOC_CATEGORIES);
+  const selectedCats = (searchParams.category ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s && knownCategories.has(s));
 
   const where: Record<string, unknown> = {
     business: { organizationId: orgId },
@@ -62,7 +68,7 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
       { url: { contains: q, mode: "insensitive" } },
     ];
   }
-  if (searchParams.category) where.category = searchParams.category;
+  if (selectedCats.length > 0) where.category = { in: selectedCats };
   if (selected.length > 0)
     where.business = { organizationId: orgId, slug: { in: selected } };
 
@@ -100,14 +106,25 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
       <div className="card flex flex-wrap items-center gap-x-4 gap-y-2 p-3 text-xs">
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-ink-faint">Category:</span>
-          <Link href={filterLink(searchParams, { category: undefined })} className={`chip ${!searchParams.category ? activeChip : idleChip}`}>
+          <Link
+            href={filterLink(searchParams, { category: undefined })}
+            className={`chip ${selectedCats.length === 0 ? activeChip : idleChip}`}
+          >
             All
           </Link>
-          {DOC_CATEGORIES.map((c) => (
-            <Link key={c} href={filterLink(searchParams, { category: c })} className={`chip capitalize ${searchParams.category === c ? activeChip : idleChip}`}>
-              {c}
-            </Link>
-          ))}
+          {DOC_CATEGORIES.map((c) => {
+            const on = selectedCats.includes(c);
+            return (
+              <Link
+                key={c}
+                href={filterLink(searchParams, { category: toggleInList(selectedCats, c) })}
+                className={`chip capitalize ${on ? activeChip : idleChip}`}
+              >
+                {on && <span className="mr-1">✓</span>}
+                {c}
+              </Link>
+            );
+          })}
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-ink-faint">Business:</span>
@@ -122,7 +139,7 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
             return (
               <Link
                 key={b.slug}
-                href={filterLink(searchParams, { business: toggleBusiness(b.slug) })}
+                href={filterLink(searchParams, { business: toggleInList(selected, b.slug) })}
                 className={`chip ${on ? activeChip : idleChip}`}
                 style={on ? { borderColor: b.color, color: b.color, background: `${b.color}14` } : undefined}
               >
