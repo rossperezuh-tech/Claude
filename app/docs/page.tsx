@@ -15,6 +15,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   compliance: "text-amber-400 border-amber-500/30 bg-amber-500/10",
 };
 
+// `business` holds a comma-separated list of slugs so several ventures can be
+// filtered at once (empty/absent = all).
 type Search = { q?: string; category?: string; business?: string };
 
 function filterLink(current: Search, patch: Partial<Search>): string {
@@ -29,6 +31,27 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
   const { orgId } = await requireOrg();
   const q = (searchParams.q ?? "").trim();
 
+  // Fetched first so the selected slugs can be validated against this org.
+  const businesses = await prisma.business.findMany({
+    where: { organizationId: orgId },
+    orderBy: { sortOrder: "asc" },
+    select: { name: true, slug: true, color: true },
+  });
+
+  const knownSlugs = new Set(businesses.map((b) => b.slug));
+  const selected = (searchParams.business ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s && knownSlugs.has(s));
+
+  // Clicking a venture chip adds/removes it from the selection.
+  function toggleBusiness(slug: string): string | undefined {
+    const next = selected.includes(slug)
+      ? selected.filter((s) => s !== slug)
+      : [...selected, slug];
+    return next.length ? next.join(",") : undefined;
+  }
+
   const where: Record<string, unknown> = {
     business: { organizationId: orgId },
   };
@@ -40,21 +63,14 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
     ];
   }
   if (searchParams.category) where.category = searchParams.category;
-  if (searchParams.business)
-    where.business = { organizationId: orgId, slug: searchParams.business };
+  if (selected.length > 0)
+    where.business = { organizationId: orgId, slug: { in: selected } };
 
-  const [docs, businesses] = await Promise.all([
-    prisma.document.findMany({
-      where,
-      orderBy: { createdAt: "desc" },
-      include: { business: { select: { name: true, slug: true, color: true } } },
-    }),
-    prisma.business.findMany({
-      where: { organizationId: orgId },
-      orderBy: { sortOrder: "asc" },
-      select: { name: true, slug: true, color: true },
-    }),
-  ]);
+  const docs = await prisma.document.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    include: { business: { select: { name: true, slug: true, color: true } } },
+  });
 
   const activeChip = "border-indigo-400/60 bg-indigo-400/10 text-indigo-300";
   const idleChip = "border-surface-edge text-ink-dim hover:text-ink";
@@ -95,19 +111,31 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-ink-faint">Business:</span>
-          <Link href={filterLink(searchParams, { business: undefined })} className={`chip ${!searchParams.business ? activeChip : idleChip}`}>
+          <Link
+            href={filterLink(searchParams, { business: undefined })}
+            className={`chip ${selected.length === 0 ? activeChip : idleChip}`}
+          >
             All
           </Link>
-          {businesses.map((b) => (
-            <Link
-              key={b.slug}
-              href={filterLink(searchParams, { business: b.slug })}
-              className={`chip ${searchParams.business === b.slug ? activeChip : idleChip}`}
-              style={searchParams.business === b.slug ? { borderColor: b.color, color: b.color, background: `${b.color}14` } : undefined}
-            >
-              {b.name}
-            </Link>
-          ))}
+          {businesses.map((b) => {
+            const on = selected.includes(b.slug);
+            return (
+              <Link
+                key={b.slug}
+                href={filterLink(searchParams, { business: toggleBusiness(b.slug) })}
+                className={`chip ${on ? activeChip : idleChip}`}
+                style={on ? { borderColor: b.color, color: b.color, background: `${b.color}14` } : undefined}
+              >
+                {on && <span className="mr-1">✓</span>}
+                {b.name}
+              </Link>
+            );
+          })}
+          {selected.length > 0 && (
+            <span className="text-ink-faint">
+              {selected.length} selected · click to add or remove
+            </span>
+          )}
         </div>
       </div>
 
