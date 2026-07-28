@@ -9,6 +9,8 @@ import { dueLabel, isOverdue } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
 
+// `business` holds a comma-separated list of slugs so several ventures can be
+// filtered at once (empty/absent = all).
 type Search = { business?: string; due?: string; done?: string };
 
 function filterLink(current: Search, patch: Partial<Search>): string {
@@ -28,13 +30,28 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
     select: { id: true, name: true, slug: true, color: true },
   });
 
+  // Parse the selected venture slugs, ignoring anything not in this org.
+  const knownSlugs = new Set(businesses.map((b) => b.slug));
+  const selected = (searchParams.business ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s && knownSlugs.has(s));
+
+  // Clicking a venture chip adds/removes it from the selection.
+  function toggleBusiness(slug: string): string | undefined {
+    const next = selected.includes(slug)
+      ? selected.filter((s) => s !== slug)
+      : [...selected, slug];
+    return next.length ? next.join(",") : undefined;
+  }
+
   const where: Record<string, unknown> = {
     business: { organizationId: orgId },
   };
   if (searchParams.done === "1") where.status = "DONE";
   else where.status = { not: "DONE" };
-  if (searchParams.business)
-    where.business = { organizationId: orgId, slug: searchParams.business };
+  if (selected.length > 0)
+    where.business = { organizationId: orgId, slug: { in: selected } };
   if (searchParams.due === "overdue") where.dueDate = { lt: startOfDay(now) };
   else if (searchParams.due === "today") where.dueDate = { gte: startOfDay(now), lte: endOfDay(now) };
   else if (searchParams.due === "week")
@@ -62,19 +79,31 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
       <div className="card flex flex-wrap items-center gap-x-4 gap-y-2 p-3 text-xs">
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="text-ink-faint">Business:</span>
-          <Link href={filterLink(searchParams, { business: undefined })} className={`chip ${!searchParams.business ? activeChip : idleChip}`}>
+          <Link
+            href={filterLink(searchParams, { business: undefined })}
+            className={`chip ${selected.length === 0 ? activeChip : idleChip}`}
+          >
             All
           </Link>
-          {businesses.map((b) => (
-            <Link
-              key={b.id}
-              href={filterLink(searchParams, { business: b.slug })}
-              className={`chip ${searchParams.business === b.slug ? activeChip : idleChip}`}
-              style={searchParams.business === b.slug ? { borderColor: b.color, color: b.color, background: `${b.color}14` } : undefined}
-            >
-              {b.name}
-            </Link>
-          ))}
+          {businesses.map((b) => {
+            const on = selected.includes(b.slug);
+            return (
+              <Link
+                key={b.id}
+                href={filterLink(searchParams, { business: toggleBusiness(b.slug) })}
+                className={`chip ${on ? activeChip : idleChip}`}
+                style={on ? { borderColor: b.color, color: b.color, background: `${b.color}14` } : undefined}
+              >
+                {on && <span className="mr-1">✓</span>}
+                {b.name}
+              </Link>
+            );
+          })}
+          {selected.length > 0 && (
+            <span className="text-ink-faint">
+              {selected.length} selected · click to add or remove
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-1.5">
           <span className="text-ink-faint">Due:</span>
