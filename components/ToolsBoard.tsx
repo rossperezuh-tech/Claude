@@ -133,7 +133,7 @@ export default function ToolsBoard({
     <div className="space-y-6">
       {favoriteCards.length > 0 && (
         <section className="space-y-2.5">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-amber-300">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-amber-300">
             ★ Favorites
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -199,7 +199,7 @@ export default function ToolsBoard({
             >
               ⠿
             </button>
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-ink-faint">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-ink">
               {s.name}
             </h2>
           </div>
