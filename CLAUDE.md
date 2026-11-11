@@ -39,8 +39,8 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 4. **Documents index** — title, business, category (legal / financial / brand / operations / compliance), URL or file path, notes, date; global search at `/docs`.
 5. **Deadlines strip** — horizontal 14-day strip on home, color-coded by business.
 6. **Quick search** — Cmd+K palette searching tasks, docs, contacts, businesses (`/api/search`).
-
 7. **To-do list** (`/todo`) — one list across all ventures, grouped by business, sorted P1→P3 then in-progress then due date; one-click complete, inline add per venture, "hide back-burner" toggle.
+
 ## Design direction
 
 - Dark theme, dense but clean — operator's cockpit, not a landing page
