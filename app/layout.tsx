@@ -30,6 +30,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Link href="/" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                 Home
               </Link>
+              <Link href="/todo" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
+                To-Do
+              </Link>
               <Link href="/tasks" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                 Tasks
               </Link>

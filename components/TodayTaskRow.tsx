@@ -15,9 +15,11 @@ type Props = {
     overdue: boolean;
     business: { name: string; slug: string; color: string };
   };
+  /** Hide the business chip (e.g. when rows are already grouped by business). */
+  hideBusiness?: boolean;
 };
 
-export default function TodayTaskRow({ task }: Props) {
+export default function TodayTaskRow({ task, hideBusiness }: Props) {
   const [done, setDone] = useState(false);
   const [, startTransition] = useTransition();
 
@@ -43,6 +45,7 @@ export default function TodayTaskRow({ task }: Props) {
       <span className={`shrink-0 text-xs ${task.overdue ? "font-medium text-red-400" : "text-ink-faint"}`}>
         {task.dueText}
       </span>
+      {!hideBusiness && (
       <Link
         href={`/business/${task.business.slug}`}
         className="chip hidden shrink-0 border-transparent hover:underline sm:inline-flex"
@@ -50,6 +53,7 @@ export default function TodayTaskRow({ task }: Props) {
       >
         {task.business.name}
       </Link>
+      )}
     </li>
   );
 }

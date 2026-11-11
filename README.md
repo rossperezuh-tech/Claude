@@ -25,6 +25,7 @@ npm run db:reset
 
 - **Home** — Today panel (due today + overdue across every business), quick-capture input (type a task, pick a business, Enter), 14-day deadline strip color-coded by business, and the ventures grid.
 - **`/business/[slug]`** — per-business kanban (Backlog / This Week / In Progress / Done), documents index, contacts, key links, and an autosaving markdown scratchpad.
+- **`/todo`** — one to-do list across all ventures, grouped by business and sorted by priority. Check off tasks in one click or add new ones inline under any venture.
 - **`/tasks`** — every task, filterable by business / priority / due window, plus a full creation form with due date and recurrence (daily, weekly, biweekly, monthly). Completing a recurring task automatically spawns the next occurrence.
 - **`/docs`** — global document search with category and business filters. Documents store links/paths + metadata only; the files themselves live in Drive or local folders.
 

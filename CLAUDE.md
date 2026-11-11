@@ -40,6 +40,7 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 5. **Deadlines strip** — horizontal 14-day strip on home, color-coded by business.
 6. **Quick search** — Cmd+K palette searching tasks, docs, contacts, businesses (`/api/search`).
 
+7. **To-do list** (`/todo`) — one list across all ventures, grouped by business, sorted P1→P3 then in-progress then due date; one-click complete, inline add per venture, "hide back-burner" toggle.
 ## Design direction
 
 - Dark theme, dense but clean — operator's cockpit, not a landing page
@@ -51,8 +52,8 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 
 - `prisma/schema.prisma` — models; `prisma/seed.ts` — 12 businesses + sample data
 - `app/actions.ts` — all server actions (mutations)
-- `app/page.tsx` home · `app/business/[slug]` detail · `app/tasks` · `app/docs` · `app/api/search`
-- `components/` — QuickCapture, TodayTaskRow, CalendarStrip, Kanban, NotesEditor, BusinessForms, NewTaskForm, CommandPalette
+- `app/page.tsx` home · `app/todo` cross-venture to-do · `app/business/[slug]` detail · `app/tasks` · `app/docs` · `app/api/search`
+- `components/` — QuickCapture, TodayTaskRow, CalendarStrip, Kanban, NotesEditor, BusinessForms, NewTaskForm, TodoAdd, CommandPalette
 - `lib/` — prisma singleton, constants (statuses/priorities/colors), date helpers
 
 ## v2 backlog (schema is ready, do NOT build until asked)
