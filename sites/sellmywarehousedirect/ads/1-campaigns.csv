@@ -1,0 +1,8 @@
+Campaign,Campaign Type,Networks,Budget,Budget type,Bid Strategy Type,Location,Final URL suffix,Campaign Status
+Warehouse Sellers - National,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
+Warehouse Sellers - States,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
+Warehouse Sellers - Texas,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
+Warehouse Sellers - Southeast,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
+Warehouse Sellers - Northeast,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
+Warehouse Sellers - Midwest,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
+Warehouse Sellers - West,Search,Google search,20,Daily,Maximize clicks,United States,utm_source=google&utm_medium=cpc&utm_campaign={campaignid}&utm_term={keyword},Paused
