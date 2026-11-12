@@ -1,0 +1,137 @@
+  <div class="form-card" id="get-offer">
+    <div class="form-header">
+      <h2>GET A FREE CASH OFFER</h2>
+      <p>2 minutes · No obligation · 100% confidential</p>
+    </div>
+    <div class="form-body">
+      <div class="progress-track">
+        <div class="prog-seg done" id="p1"></div>
+        <div class="prog-seg" id="p2"></div>
+        <div class="prog-seg" id="p3"></div>
+      </div>
+      <div class="prog-text" id="prog-label"><b>Step 1 of 3</b> — Property Info</div>
+
+      <!-- STEP 1 -->
+      <div class="fsec active" id="fs1">
+        <div class="fgroup">
+          <label class="lbl" for="address">Property Street Address</label>
+          <input type="text" id="address" placeholder="e.g. 4500 Industrial Blvd" />
+        </div>
+        <div class="row2">
+          <div class="fgroup">
+            <label class="lbl" for="city">City</label>
+            <input type="text" id="city" placeholder="Houston" />
+          </div>
+          <div class="fgroup">
+            <label class="lbl" for="state">State</label>
+            <select id="state">
+              <option value="">State</option>
+              <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="fgroup">
+            <label class="lbl" for="sqft">Building Size (Sq Ft)</label>
+            <select id="sqft">
+              <option value="">Select range</option>
+              <option>Under 10,000 sq ft</option>
+              <option>10,000 – 30,000 sq ft</option>
+              <option>30,000 – 75,000 sq ft</option>
+              <option>75,000 – 200,000 sq ft</option>
+              <option>200,000+ sq ft</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label class="lbl" for="ptype">Property Type</label>
+            <select id="ptype">
+              <option value="">Select</option>
+              <option>Warehouse / Distribution</option>
+              <option>Manufacturing / Industrial</option>
+              <option>Flex / Light Industrial</option>
+              <option>Cold Storage</option>
+              <option>Truck Terminal / Logistics</option>
+              <option>Self-Storage</option>
+              <option>Industrial Land / Site</option>
+              <option>Other Industrial</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-next" onclick="goStep(2)">Next: Property Situation →</button>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="fsec" id="fs2">
+        <div class="fgroup">
+          <label class="lbl" for="price">Asking Price</label>
+          <input type="text" id="price" placeholder="e.g. $3,200,000" />
+        </div>
+        <div class="fgroup">
+          <label class="lbl">Is there a current loan on the property?</label>
+          <div class="radio-group" id="loan-group">
+            <div class="radio-btn" onclick="selectRadio('loan-group',this)">Yes</div>
+            <div class="radio-btn" onclick="selectRadio('loan-group',this)">No</div>
+            <div class="radio-btn" onclick="selectRadio('loan-group',this)">Not Sure</div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label class="lbl">Is the property currently occupied?</label>
+          <div class="radio-group" id="occ-group">
+            <div class="radio-btn" onclick="selectRadio('occ-group',this)">Yes — Owner</div>
+            <div class="radio-btn" onclick="selectRadio('occ-group',this)">Yes — Tenant</div>
+            <div class="radio-btn" onclick="selectRadio('occ-group',this)">Vacant</div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label class="lbl">Building Condition</label>
+          <div class="radio-group" id="cond-group">
+            <div class="radio-btn" onclick="selectRadio('cond-group',this)">Excellent</div>
+            <div class="radio-btn" onclick="selectRadio('cond-group',this)">Good</div>
+            <div class="radio-btn" onclick="selectRadio('cond-group',this)">Fair</div>
+            <div class="radio-btn" onclick="selectRadio('cond-group',this)">Poor</div>
+          </div>
+        </div>
+        <button class="btn-next" onclick="goStep(3)">Next: Your Contact Info →</button>
+        <button class="btn-back" onclick="goStep(1)">← Back</button>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="fsec" id="fs3">
+        <div class="row2">
+          <div class="fgroup">
+            <label class="lbl" for="fname">First Name</label>
+            <input type="text" id="fname" placeholder="John" />
+          </div>
+          <div class="fgroup">
+            <label class="lbl" for="lname">Last Name</label>
+            <input type="text" id="lname" placeholder="Smith" />
+          </div>
+        </div>
+        <div class="fgroup">
+          <label class="lbl" for="phone">Phone Number</label>
+          <input type="tel" id="phone" autocomplete="tel" placeholder="(555) 000-0000" />
+        </div>
+        <div class="fgroup">
+          <label class="lbl" for="email">Email Address</label>
+          <input type="email" id="email" autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="fgroup">
+          <label class="lbl" for="notes">Additional Notes (optional)</label>
+          <textarea id="notes" rows="2" placeholder="Deferred maintenance, liens, special situation..."></textarea>
+        </div>
+        <input type="text" id="company_site" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+        <div class="form-error" id="form-error" role="alert"></div>
+        <button class="btn-next" id="submit-btn" onclick="submitForm()">✓ Submit — Get My Free Offer</button>
+        <button class="btn-back" onclick="goStep(2)">← Back</button>
+        <p class="form-note">By submitting you agree to be contacted about your property. We never sell your information.</p>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-body" id="success">
+        <div class="success-circle">✓</div>
+        <h3>WE'VE GOT IT!</h3>
+        <p>Our acquisitions team will review your property and <strong>call you within 24 hours</strong> with a no-obligation cash offer. For immediate assistance:</p>
+        <a class="phone-link" href="tel:{{PHONE_TEL}}">📞 Call {{PHONE}}</a>
+      </div>
+    </div>
+  </div>
