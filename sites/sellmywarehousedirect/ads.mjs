@@ -7,6 +7,8 @@ import { config as C } from './site.config.mjs';
 import { metros } from './data/metros.mjs';
 import { states } from './data/states.mjs';
 import { types } from './data/types.mjs';
+import { situations } from './data/situations.mjs';
+import { submarkets } from './data/submarkets.mjs';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), 'ads');
 const DAILY_BUDGET = 20; // placeholder per campaign, in dollars. Change before enabling.
@@ -102,6 +104,29 @@ for (const m of metros) {
   const terms = termsFor(m);
   const T = title(terms[0]);
   groups.push({ campaign: camp(regionOf(m.st)), adGroup: m.label, url: `${C.siteUrl}/${m.slug}`, path2: fit(15, terms[0].replace(/ /g, '-'), m.st.toLowerCase()),
+    localHeadlines: [fit(30, `Sell Your ${T} Warehouse`, `Sell Warehouse in ${T}`, `${T} Warehouse Buyer`, 'Local Warehouse Cash Buyer'), fit(30, `We Buy Warehouses in ${T}`, `We Buy in ${T}`, `Buying in ${T}`, 'We Buy Warehouses for Cash')],
+    keywords: terms.flatMap((t) => STEMS.map((k) => `${k} ${t}`)) });
+}
+const SITUATION_HEADLINE = {
+  'sell-inherited-industrial-property': 'Inherited a Warehouse? Sell It',
+  'sell-industrial-property-with-back-taxes': 'Back Taxes or Liens? We Buy',
+  'sell-industrial-property-environmental-issues': 'Environmental Issues? We Buy',
+  'sell-warehouse-with-tenants': 'We Buy With Tenants in Place',
+  'warehouse-sale-leaseback': 'Warehouse Sale-Leaseback',
+  'sell-warehouse-closing-business': 'Retiring? Sell the Building',
+  'sell-warehouse-before-foreclosure': 'Sell Before Foreclosure',
+  'sell-industrial-property-partnership-dispute': 'Partners Splitting? Sell Fast',
+  'sell-damaged-warehouse': 'We Buy Damaged Warehouses',
+  'sell-warehouse-without-a-broker': 'Sell Without a Broker',
+};
+for (const x of situations) {
+  groups.push({ campaign: camp('National'), adGroup: `Situation - ${x.short}`, url: `${C.siteUrl}/${x.slug}`, path2: 'cash-offer',
+    localHeadlines: [SITUATION_HEADLINE[x.slug], 'We Buy Warehouses for Cash'], keywords: x.keywords });
+}
+for (const x of submarkets) {
+  const terms = x.name.split(' & ').map((t) => `${t.toLowerCase()} ${x.st.toLowerCase()}`);
+  const T = x.name.split(' & ')[0];
+  groups.push({ campaign: camp(regionOf(x.st)), adGroup: `City - ${x.label}`, url: `${C.siteUrl}/${x.slug}`, path2: fit(15, T.toLowerCase().replace(/ /g, '-'), x.st.toLowerCase()),
     localHeadlines: [fit(30, `Sell Your ${T} Warehouse`, `Sell Warehouse in ${T}`, `${T} Warehouse Buyer`, 'Local Warehouse Cash Buyer'), fit(30, `We Buy Warehouses in ${T}`, `We Buy in ${T}`, `Buying in ${T}`, 'We Buy Warehouses for Cash')],
     keywords: terms.flatMap((t) => STEMS.map((k) => `${k} ${t}`)) });
 }

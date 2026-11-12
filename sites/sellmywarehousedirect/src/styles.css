@@ -456,3 +456,4 @@ a.type-pill{text-decoration:none}
   .check-list{grid-template-columns:1fr}
   .nav-cta{display:none}
 }
+.legal-h{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1.5px;margin-top:36px;color:var(--white)}

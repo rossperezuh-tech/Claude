@@ -7,6 +7,8 @@ import { config as C } from './site.config.mjs';
 import { metros } from './data/metros.mjs';
 import { states } from './data/states.mjs';
 import { types } from './data/types.mjs';
+import { situations } from './data/situations.mjs';
+import { submarkets } from './data/submarkets.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const DIST = join(ROOT, 'dist');
@@ -28,13 +30,16 @@ const placeName = (m) => (m.the ? `the ${m.name}` : m.name);
 
 for (const m of metros) if (!stateByAbbr[m.st]) throw new Error(`Unknown state ${m.st} on ${m.slug}`);
 const seen = new Set();
-for (const p of [...metros, ...states, ...types]) {
+const metroBySlug = Object.fromEntries(metros.map((m) => [m.slug, m]));
+const subsOf = (m) => submarkets.filter((x) => x.metro === m.slug);
+for (const x of submarkets) if (!metroBySlug[x.metro]) throw new Error(`Unknown metro ${x.metro} on ${x.slug}`);
+for (const p of [...metros, ...states, ...types, ...situations, ...submarkets]) {
   if (seen.has(p.slug)) throw new Error(`Duplicate page address: ${p.slug}`);
   seen.add(p.slug);
 }
 
 // ── shared pieces ────────────────────────────────────────────────────────
-const P = { form: partial('form'), stats: partial('stats'), how: partial('how'), why: partial('why'), purchased: partial('purchased'), testimonials: partial('testimonials') };
+const P = { form: partial('form'), stats: partial('stats'), how: partial('how'), why: partial('why'), purchased: partial('purchased'), testimonials: C.showTestimonials ? partial('testimonials') : '' };
 
 const orgSchema = {
   '@type': 'Organization',
@@ -102,7 +107,7 @@ const footer = `<footer>
   </div>
   <div class="footer-bottom">
     <span>© ${YEAR} ${esc(C.brand)} · All rights reserved · We are a direct buyer, not a broker</span>
-    <span>${C.city}, ${C.region} · Buying Nationwide</span>
+    <span><a href="/privacy" style="color:inherit">Privacy</a> · <a href="/terms" style="color:inherit">Terms</a> · ${C.city}, ${C.region} · Buying Nationwide</span>
   </div>
 </footer>`;
 
@@ -154,6 +159,13 @@ const typeLinks = (heading, sub) => `<section class="types-sec">
   ${linkPills(types.map((t) => [t.name, `/${t.slug}`]))}
 </section>`;
 
+const situationLinks = () => `<section class="sec" id="situations">
+  <div class="sec-tag">Seller Situations</div>
+  <h2 class="sec-title">SITUATIONS WE HANDLE</h2>
+  <p class="sec-sub">Most owners who call us have a reason a normal listing does not fit. These are the ones we see most.</p>
+  ${linkPills(situations.map((x) => [x.short, `/${x.slug}`]))}
+</section>`;
+
 const cta = (line) => `<section class="cta-sec">
   <div class="sec-tag" style="color:var(--orange2)">Ready to Sell?</div>
   <h2 class="sec-title">GET YOUR FREE CASH OFFER TODAY</h2>
@@ -174,6 +186,9 @@ const GENERAL_FAQ = [
 
 // ── page shell ───────────────────────────────────────────────────────────
 function page({ slug, title, description, body, schema = [], attrs = {}, noindex = false }) {
+  // Pages without the offer form send their "Get an offer" links to the form on the home page.
+  const hasForm = body.includes('id="get-offer"');
+  const fix = (html) => (hasForm ? html : html.replaceAll('href="#get-offer"', 'href="/#get-offer"'));
   const canonical = slug === '' ? `${C.siteUrl}/` : url(slug);
   const graph = { '@context': 'https://schema.org', '@graph': [orgSchema, { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, isPartOf: { '@id': `${C.siteUrl}/#organization` } }, ...schema] };
   const data = Object.entries(attrs).filter(([, v]) => v).map(([k, v]) => ` data-${k}="${esc(v)}"`).join('');
@@ -205,9 +220,9 @@ function page({ slug, title, description, body, schema = [], attrs = {}, noindex
 ${tracking()}
 </head>
 <body${data}>
-${nav}
-${body}
-${footer}
+${fix(nav)}
+${fix(body)}
+${fix(footer)}
 ${siteVars}
 <script src="/app.js" defer></script>
 </body>
@@ -239,6 +254,7 @@ ${typeLinks('WHAT WE BUY', 'We purchase all types of industrial and warehouse pr
   ${linkPills(featured)}
   <a class="more-link" href="/locations">See all ${metros.length} markets and all 50 states →</a>
 </section>
+${situationLinks()}
 ${P.testimonials}
 ${faqSection(GENERAL_FAQ)}
 ${cta('No agents. No fees. No repairs. Just a fair, fast, all-cash offer for your industrial property.')}`;
@@ -283,11 +299,13 @@ ${P.stats}
   <p class="prose">We buy warehouses, distribution buildings, manufacturing plants and flex industrial property throughout ${esc(W)}. Occupied or vacant, one building or several, we make an offer on the property as it sits today.</p>
   ${pills(m.areas)}
   <p class="prose"><strong>Coverage area:</strong> ${esc(m.counties.join(', '))}.</p>
+  ${subsOf(m).length ? `<p class="prose"><strong>Local pages:</strong></p>${linkPills(subsOf(m).map((x) => [x.name, `/${x.slug}`]))}` : ''}
   <p class="prose">Freight in this market moves on ${esc(list(m.infra))}. Buildings close to those routes are what we look for first, but we will make an offer on any industrial property in the area.</p>
 </section>
 ${P.how}
 ${typeLinks(`WHAT WE BUY IN ${esc(placeName(m)).toUpperCase()}`, `Every type of industrial property in ${esc(W)}, occupied or vacant, in any condition.`)}
 ${P.why}
+${situationLinks()}
 ${faqSection(faqs, `SELLING IN ${esc(placeName(m)).toUpperCase()}`)}
 <section class="sec">
   <div class="sec-tag">Nearby Markets</div>
@@ -342,6 +360,7 @@ ${P.stats}
 ${P.how}
 ${typeLinks(`WHAT WE BUY IN ${esc(s.name).toUpperCase()}`, `Every type of industrial property in ${esc(s.name)}, occupied or vacant, in any condition.`)}
 ${P.why}
+${situationLinks()}
 ${faqSection(faqs, `SELLING IN ${esc(s.name).toUpperCase()}`)}
 ${cta(`No agents. No fees. No repairs. Just a fair, fast, all-cash offer for your ${esc(s.name)} industrial property.`)}`;
   return page({
@@ -410,12 +429,137 @@ ${cta(`No agents. No fees. No repairs. Just a fair, fast, all-cash offer for you
   });
 }
 
+// ── submarket (city) pages ───────────────────────────────────────────────
+function submarketPage(x) {
+  const m = metroBySlug[x.metro];
+  const st = stateByAbbr[x.st];
+  const trail = [['Home', '/'], ['Markets', '/locations'], [st.name, `/${st.slug}`], [m.name, `/${m.slug}`], [x.name, null]];
+  const siblings = subsOf(m).filter((y) => y !== x);
+  const faqs = [
+    [`How fast can I sell my warehouse in ${x.label}?`, `We send a written cash offer within 24 hours of receiving your property details and can close in as little as 14 days through a licensed title company. If you need more time, we close on your schedule.`],
+    [`Do you buy industrial property all over ${x.name}?`, `Yes. We buy throughout ${x.name} and the rest of ${x.county}, including buildings along ${list(x.roads)}.`],
+    [`Will you buy a vacant or run-down building in ${x.name}?`, `Yes. We buy as-is, whether the building is vacant, needs a roof, has deferred maintenance or has environmental questions. We factor the condition into the offer, so you spend nothing before closing.`],
+    [`What does it cost me to sell to you?`, `Nothing. There are no fees and no commissions, and we cover closing costs on our side.`],
+    [`What if my ${x.name} property has a tenant?`, `Tenanted buildings are fine. We review the lease during due diligence, and a solid tenant often improves the offer.`],
+    GENERAL_FAQ[3],
+  ];
+  const body = `${crumbs(trail)}
+${hero({
+    market: true,
+    badge: `${esc(x.label)} · Direct Cash Buyer`,
+    h1: `SELL YOUR<br>WAREHOUSE FAST IN<br><em>${esc(x.label).toUpperCase()}</em>`,
+    sub: `We buy warehouses and industrial buildings in ${esc(x.label)} directly from owners. No agents, no commissions, no repairs — a written all-cash offer within 24 hours.`,
+  })}
+${P.stats}
+<section class="sec" id="areas">
+  <div class="sec-tag">${esc(x.label)}</div>
+  <h2 class="sec-title">INDUSTRIAL PROPERTY WE BUY IN ${esc(x.name).toUpperCase()}</h2>
+  <p class="prose">We buy warehouses, shops, manufacturing buildings, yards and flex industrial property in ${esc(x.name)} and across ${esc(x.county)}. Occupied or vacant, we make an offer on the property as it sits today.</p>
+  <p class="prose">Industrial property in ${esc(x.name)} sits along ${esc(list(x.roads))}, close to ${esc(x.near)}. If your building is anywhere in that area, we want to see it.</p>
+  <p class="prose">${esc(x.name)} is part of our <a href="/${m.slug}" style="color:var(--orange2)">${esc(m.label)}</a> buying area.</p>
+</section>
+${P.how}
+${typeLinks(`WHAT WE BUY IN ${esc(x.name).toUpperCase()}`, `Every type of industrial property in ${esc(x.label)}, occupied or vacant, in any condition.`)}
+${P.why}
+${situationLinks()}
+${faqSection(faqs, `SELLING IN ${esc(x.name).toUpperCase()}`)}
+<section class="sec">
+  <div class="sec-tag">Nearby</div>
+  <h2 class="sec-title">MORE OF ${esc(placeName(m)).toUpperCase()}</h2>
+  ${linkPills([[`All of ${m.name}`, `/${m.slug}`], ...siblings.map((y) => [y.name, `/${y.slug}`])])}
+</section>
+${cta(`No agents. No fees. No repairs. Just a fair, fast, all-cash offer for your ${esc(x.name)} industrial property.`)}`;
+  return page({
+    slug: x.slug,
+    title: `Sell Your Warehouse Fast in ${x.label} | Cash Offer in 24 Hours`,
+    description: `Sell your warehouse or industrial building in ${x.label} directly to a cash buyer. No agents, no commissions, no repairs. Written offer in 24 hours, close in as little as 14 days.`,
+    body,
+    attrs: { state: st.name, city: x.name.split(' & ')[0], market: x.label },
+    schema: [
+      crumbSchema(trail),
+      { '@type': 'Service', name: `Cash purchase of warehouses and industrial property in ${x.label}`, provider: { '@id': `${C.siteUrl}/#organization` }, serviceType: 'Industrial real estate cash buyer', areaServed: { '@type': 'Place', name: x.label, containedInPlace: { '@type': 'State', name: st.name } } },
+      faqSchema(faqs),
+    ],
+  });
+}
+
+// ── seller-situation pages ───────────────────────────────────────────────
+function situationPage(x) {
+  const trail = [['Home', '/'], ['Situations', '/#situations'], [x.short, null]];
+  const featured = C.featuredMetros.map((s) => metroBySlug[`sell-warehouse-${s}`]);
+  const faqs = [...x.faqs, GENERAL_FAQ[0], GENERAL_FAQ[1], GENERAL_FAQ[2], GENERAL_FAQ[5]];
+  const body = `${crumbs(trail)}
+${hero({
+    market: true,
+    badge: `${esc(x.short)} · Direct Cash Buyer`,
+    h1: x.h1,
+    sub: esc(x.intro),
+  })}
+${P.stats}
+<section class="sec">
+  <div class="sec-tag">${esc(x.short)}</div>
+  <h2 class="sec-title">HOW WE HANDLE IT</h2>
+  <p class="prose">${esc(x.body)}</p>
+  <ul class="check-list">${x.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
+  <p class="prose" style="font-size:0.85rem">This page is general information, not legal or tax advice. Talk to your own attorney or CPA about your situation.</p>
+</section>
+${P.how}
+${typeLinks('WHAT WE BUY', 'Every type of industrial property, occupied or vacant, in any condition.')}
+${P.why}
+<section class="sec" id="markets">
+  <div class="sec-tag">Where We Buy</div>
+  <h2 class="sec-title">MARKETS WE BUY IN</h2>
+  <p class="sec-sub">We buy industrial property in all 50 states.</p>
+  ${linkPills(featured.map((m) => [m.label, `/${m.slug}`]))}
+  <a class="more-link" href="/locations">See all ${metros.length} markets and all 50 states →</a>
+</section>
+${faqSection(faqs)}
+${cta('No agents. No fees. No repairs. Just a fair, fast, all-cash offer for your industrial property.')}`;
+  return page({
+    slug: x.slug,
+    title: x.title,
+    description: x.intro.length > 158 ? `${x.intro.slice(0, 155).replace(/\s+\S*$/, '')}…` : x.intro,
+    body,
+    attrs: { market: x.short },
+    schema: [crumbSchema(trail), faqSchema(faqs)],
+  });
+}
+
+// ── privacy and terms ────────────────────────────────────────────────────
+const legalPage = (slug, heading, title, description, sections) => page({
+  slug, title, description,
+  body: `<section class="sec">
+  <div class="sec-tag">${esc(C.brand)}</div>
+  <h1 class="sec-title">${heading}</h1>
+  <p class="prose">Last updated ${TODAY}.</p>
+  ${sections.map(([h, ps]) => `<h2 class="legal-h">${esc(h)}</h2>${ps.map((p) => `<p class="prose">${p}</p>`).join('')}`).join('\n  ')}
+</section>`,
+});
+const contactLine = `${esc(C.brand)}, ${C.city}, ${C.region} ${C.postalCode} · <a href="tel:${C.phoneTel}" style="color:var(--orange2)">${C.phone}</a> · ${C.email}`;
+const privacyPage = () => legalPage('privacy', 'PRIVACY POLICY', `Privacy Policy | ${C.brand}`, `How ${C.brand} collects, uses and protects the information you send us.`, [
+  ['What we collect', ['When you submit the offer form or contact us, we collect what you give us: your name, phone number, email address, and details about your property such as its address, size, condition, occupancy and asking price.', 'Like most websites, we also receive basic technical information such as the page you visited, the page or ad that referred you, your browser type and an approximate location derived from your IP address.']],
+  ['How we use it', ['We use your information to evaluate your property, prepare an offer, and contact you about it by phone, text message or email. We also use it to understand which pages and advertisements bring people to us so we can improve the site.']],
+  ['Who we share it with', ['We do not sell your personal information.', 'We share it only with service providers who help us run the site and respond to you, such as our form-processing, analytics and advertising providers, and, if a sale moves forward, with the title company, attorneys and other professionals involved in the closing. We may also disclose information when the law requires it.']],
+  ['Cookies and advertising', ['We may use cookies and similar tools from providers such as Google to measure visits and the performance of our advertising. You can control cookies through your browser settings.']],
+  ['Calls, texts and email', ['If you give us your phone number or email, we may contact you about your property. Message and data rates may apply to texts. You can ask us to stop at any time by replying STOP to a text, telling us on a call, or emailing us, and we will stop.']],
+  ['Your choices', ['You can ask us what information we hold about you, ask us to correct it, or ask us to delete it. Contact us using the details below and we will respond.']],
+  ['Contact', [contactLine]],
+]);
+const termsPage = () => legalPage('terms', 'TERMS OF USE', `Terms of Use | ${C.brand}`, `Terms that apply to using the ${C.brand} website.`, [
+  ['Who we are', [`${esc(C.brand)} buys industrial real estate for its own account. We are a principal buyer. We are not acting as a real estate broker or agent for you, and nothing on this site creates an agency relationship.`]],
+  ['Offers', ['Submitting a property does not obligate you to sell or us to buy. Any figure we discuss is an indication only. A purchase is binding only when both parties sign a written purchase agreement, and it is subject to the terms of that agreement, including our review of the property and its title.', 'Timeframes on this site, such as how quickly we make offers and close, describe what we aim for and what is possible in many cases. Actual timing depends on the property, title work and third parties.']],
+  ['No professional advice', ['Nothing on this site is legal, tax, financial or real estate brokerage advice. Talk to your own attorney, CPA or other adviser before making a decision about your property.']],
+  ['Using the site', ['Please give us accurate information and use the site only for lawful purposes. The content of this site belongs to us and may not be copied for commercial use without permission.']],
+  ['Contact', [contactLine]],
+]);
+
 // ── all markets ──────────────────────────────────────────────────────────
 function locationsPage() {
   const trail = [['Home', '/'], ['Markets', null]];
   const groups = states.map((s) => {
     const local = metros.filter((m) => m.st === s.abbr);
-    return `<div class="state-group"><h3><a href="/${s.slug}">${esc(s.name)} →</a></h3>${local.length ? linkPills(local.map((m) => [m.name, `/${m.slug}`])) : ''}</div>`;
+    const cities = local.flatMap((m) => subsOf(m));
+    return `<div class="state-group"><h3><a href="/${s.slug}">${esc(s.name)} →</a></h3>${local.length ? linkPills([...local.map((m) => [m.name, `/${m.slug}`]), ...cities.map((x) => [x.name, `/${x.slug}`])]) : ''}</div>`;
   });
   const body = `${crumbs(trail)}
 ${hero({
@@ -472,6 +616,10 @@ function build() {
     ...types.map((t) => [t.slug, typePage(t), 0.8]),
     ...states.map((s) => [s.slug, statePage(s), 0.7]),
     ...metros.map((m) => [m.slug, metroPage(m), 0.9]),
+    ...submarkets.map((x) => [x.slug, submarketPage(x), 0.8]),
+    ...situations.map((x) => [x.slug, situationPage(x), 0.8]),
+    ['privacy', privacyPage(), 0.2],
+    ['terms', termsPage(), 0.2],
   ];
   for (const [slug, html] of pages) out(slug === '' ? 'index.html' : `${slug}.html`, html);
   out('404.html', notFoundPage());
@@ -483,7 +631,7 @@ function build() {
 ${pages.map(([slug, , pr]) => `  <url><loc>${slug === '' ? `${C.siteUrl}/` : url(slug)}</loc><lastmod>${TODAY}</lastmod><priority>${pr.toFixed(1)}</priority></url>`).join('\n')}
 </urlset>
 `);
-  console.log(`Built ${pages.length} pages: 1 home, 1 markets index, ${types.length} property types, ${states.length} states, ${metros.length} metros → dist/`);
+  console.log(`Built ${pages.length} pages: home, markets index, ${types.length} property types, ${states.length} states, ${metros.length} metros, ${submarkets.length} city pages, ${situations.length} situations, privacy, terms → dist/`);
 }
 
 build();

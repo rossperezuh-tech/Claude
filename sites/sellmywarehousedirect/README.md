@@ -14,6 +14,9 @@ market data into a page per metro, state and property type.
 | Add or change a metro page                    | `data/metros.mjs` (one line) |
 | State pages                                   | `data/states.mjs`            |
 | Property-type pages                           | `data/types.mjs`             |
+| City pages inside a metro (Houston area so far) | `data/submarkets.mjs`      |
+| Seller-situation pages (inherited, back taxes…) | `data/situations.mjs`      |
+| Show or hide the home-page testimonials         | `showTestimonials` in `site.config.mjs` |
 | Shared sections (how it works, why us, form)  | `src/partials/`              |
 | Page layouts and wording                      | `build.mjs`                  |
 | Styles / form behaviour                       | `src/styles.css`, `src/app.js` |
@@ -40,3 +43,8 @@ highways, ports. No market statistics, no invented deals or testimonials.
 keywords). Every campaign is created **Paused** with a placeholder $20/day budget. Each ad group
 sends clicks to its matching page, and the URL suffix tags each click so the lead form records
 which campaign and keyword produced it.
+
+## Outbound
+
+`outbound/README.md` has the owner-list criteria, a three-letter mail sequence, a postcard, a call
+script and the follow-up schedule.
