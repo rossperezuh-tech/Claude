@@ -1,5 +1,5 @@
 // Builds the whole site into ./dist.  Run: node build.mjs   (add --serve to preview at http://localhost:4173)
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, cpSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { dirname, join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -205,13 +205,13 @@ function page({ slug, title, description, body, schema = [], attrs = {}, noindex
 <meta property="og:url" content="${canonical}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
-<meta property="og:image" content="${C.ogImage}">
+<meta property="og:image" content="${C.siteUrl}${C.ogImage}">
 <meta property="og:site_name" content="${esc(C.brand)}">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
-<meta name="twitter:image" content="${C.ogImage}">
+<meta name="twitter:image" content="${C.siteUrl}${C.ogImage}">
 <script type="application/ld+json">${JSON.stringify(graph).replace(/</g, '\\u003c')}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -625,6 +625,7 @@ function build() {
   out('404.html', notFoundPage());
   out('styles.css', read('src/styles.css'));
   out('app.js', read('src/app.js'));
+  cpSync(join(ROOT, 'src/img'), join(DIST, 'img'), { recursive: true });
   out('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${C.siteUrl}/sitemap.xml\n`);
   out('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -638,7 +639,7 @@ build();
 
 // ── local preview ────────────────────────────────────────────────────────
 if (process.argv.includes('--serve')) {
-  const MIME = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.xml': 'application/xml', '.txt': 'text/plain' };
+  const MIME = { '.jpg': 'image/jpeg', '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.xml': 'application/xml', '.txt': 'text/plain' };
   const port = Number(process.env.PORT) || 4173;
   createServer((req, res) => {
     let p = decodeURIComponent(new URL(req.url, 'http://x').pathname).replace(/\.\./g, '');

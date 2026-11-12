@@ -25,7 +25,7 @@ export const config = {
 
   // Social image used when a page is shared.
   ogImage:
-    'https://static.wixstatic.com/media/41e014_befb8d0330ae433f8bd6d64294e17d00~mv2.jpg/v1/fill/w_1200,h_630,al_c,q_80,enc_avif,quality_auto/41e014_befb8d0330ae433f8bd6d64294e17d00~mv2.jpg',
+    '/img/og.jpg',
 
   // Real company profiles only (Facebook, LinkedIn, Google Business). Used in structured data.
   sameAs: [],

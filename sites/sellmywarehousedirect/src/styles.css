@@ -52,7 +52,7 @@ nav{
 .hero{
   min-height:92vh;
   background:linear-gradient(to bottom, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.55) 50%, rgba(10,10,10,0.85) 100%),
-    url('https://static.wixstatic.com/media/11062b_4f14b356c1df4854968cf1cc94ca98c5f000.jpg/v1/fill/w_1400,h_800,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/11062b_4f14b356c1df4854968cf1cc94ca98c5f000.jpg') center/cover no-repeat;
+    url('/img/hero.jpg') center/cover no-repeat;
   display:grid;
   grid-template-columns:1fr 480px;
   gap:60px;
@@ -353,7 +353,7 @@ select{
   text-align:center;
   background:
     linear-gradient(to bottom,rgba(10,10,10,0.8),rgba(10,10,10,0.75)),
-    url('https://static.wixstatic.com/media/41e014_befb8d0330ae433f8bd6d64294e17d00~mv2.jpg/v1/fill/w_1400,h_600,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/41e014_befb8d0330ae433f8bd6d64294e17d00~mv2.jpg') center/cover no-repeat;
+    url('/img/warehouse-wide.jpg') center/cover no-repeat;
 }
 .cta-sec .sec-title{max-width:700px;margin:0 auto 14px}
 .cta-sec .sec-sub{margin:0 auto 36px;text-align:center}
