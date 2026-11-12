@@ -5,17 +5,19 @@ import {
   createContact,
   createDocument,
   createLink,
+  createMediaItem,
   deleteContact,
   deleteDocument,
   deleteLink,
+  deleteMediaItem,
 } from "@/app/actions";
-import { DOC_CATEGORIES } from "@/lib/constants";
+import { DOC_CATEGORIES, MEDIA_KINDS } from "@/lib/constants";
 
 export function DeleteButton({
   kind,
   id,
 }: {
-  kind: "document" | "contact" | "link";
+  kind: "document" | "contact" | "link" | "media";
   id: string;
 }) {
   const [, startTransition] = useTransition();
@@ -29,6 +31,7 @@ export function DeleteButton({
         startTransition(() => {
           if (kind === "document") return deleteDocument(id);
           if (kind === "contact") return deleteContact(id);
+          if (kind === "media") return deleteMediaItem(id);
           return deleteLink(id);
         });
       }}
@@ -75,6 +78,72 @@ export function AddDocumentForm({ businessId }: { businessId: string }) {
         </select>
       </div>
       <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="URL or file path (Drive link, /Volumes/…, etc.)" className="input w-full" />
+      <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes (optional)" className="input w-full" />
+      <div className="flex gap-2">
+        <button onClick={submit} className="btn text-xs">Save</button>
+        <button onClick={() => setOpen(false)} className="btn text-xs text-ink-faint">Cancel</button>
+      </div>
+    </div>
+  );
+}
+
+export function AddMediaForm({
+  businessId,
+  businesses,
+}: {
+  businessId?: string; // fixed business (detail page)
+  businesses?: { id: string; name: string }[]; // picker (global /media page)
+}) {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [kind, setKind] = useState<string>("album");
+  const [url, setUrl] = useState("");
+  const [tags, setTags] = useState("");
+  const [notes, setNotes] = useState("");
+  const [takenAt, setTakenAt] = useState("");
+  const [picked, setPicked] = useState("");
+  const [, startTransition] = useTransition();
+
+  if (!open) {
+    return (
+      <button onClick={() => setOpen(true)} className="btn text-xs">
+        + Add media
+      </button>
+    );
+  }
+
+  function submit() {
+    if (!title.trim() || !url.trim()) return;
+    startTransition(() =>
+      createMediaItem({ businessId: businessId ?? picked, title, kind, url, tags, notes, takenAt: takenAt || null })
+    );
+    setTitle(""); setUrl(""); setTags(""); setNotes(""); setTakenAt("");
+    setOpen(false);
+  }
+
+  return (
+    <div className="space-y-2 rounded-md border border-surface-edge p-3">
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <input autoFocus value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title (e.g. Rooftop sunset class shoot)" className="input flex-1" />
+        <select value={kind} onChange={(e) => setKind(e.target.value)} className="input cursor-pointer capitalize">
+          {MEDIA_KINDS.map((k) => (
+            <option key={k} value={k}>{k}</option>
+          ))}
+        </select>
+      </div>
+      <input value={url} onChange={(e) => setUrl(e.target.value)} placeholder="pCloud link or folder path" className="input w-full" />
+      <div className="flex flex-col gap-2 sm:flex-row">
+        {businesses && (
+          <select value={picked} onChange={(e) => setPicked(e.target.value)} className="input cursor-pointer">
+            <option value="">Personal</option>
+            {businesses.map((b) => (
+              <option key={b.id} value={b.id}>{b.name}</option>
+            ))}
+          </select>
+        )}
+        <input type="date" value={takenAt} onChange={(e) => setTakenAt(e.target.value)} title="Date shot" className="input" />
+        <input value={tags} onChange={(e) => setTags(e.target.value)} placeholder="Tags, comma-separated" className="input flex-1" />
+      </div>
       <input value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Notes (optional)" className="input w-full" />
       <div className="flex gap-2">
         <button onClick={submit} className="btn text-xs">Save</button>

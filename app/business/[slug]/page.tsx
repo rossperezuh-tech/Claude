@@ -8,9 +8,10 @@ import {
   AddContactForm,
   AddDocumentForm,
   AddLinkForm,
+  AddMediaForm,
   DeleteButton,
 } from "@/components/BusinessForms";
-import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
+import { BUSINESS_STATUS_STYLES, MEDIA_KIND_STYLES } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,7 @@ export default async function BusinessPage({ params }: { params: { slug: string 
       documents: { orderBy: { createdAt: "desc" } },
       contacts: { orderBy: { name: "asc" } },
       links: { orderBy: { createdAt: "asc" } },
+      media: { orderBy: { createdAt: "desc" } },
     },
   });
   if (!business) notFound();
@@ -146,6 +148,40 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           <AddContactForm businessId={business.id} />
         </section>
       </div>
+
+      {/* Media */}
+      <section id="media" className="card p-4">
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-ink-dim">Media</h2>
+        <ul className="mb-3 divide-y divide-surface-edge/60">
+          {business.media.length === 0 && (
+            <li className="py-2 text-sm text-ink-faint">No albums or clips indexed yet.</li>
+          )}
+          {business.media.map((m) => (
+            <li key={m.id} className="flex items-center gap-2.5 py-2">
+              <span className={`chip shrink-0 capitalize ${MEDIA_KIND_STYLES[m.kind] ?? MEDIA_KIND_STYLES.album}`}>
+                {m.kind}
+              </span>
+              <div className="min-w-0 flex-1">
+                {/^https?:\/\//i.test(m.url) ? (
+                  <a href={m.url} target="_blank" rel="noreferrer" className="block truncate text-sm hover:underline">
+                    {m.title}
+                  </a>
+                ) : (
+                  <span className="block truncate text-sm" title={m.url}>{m.title}</span>
+                )}
+                <p className="truncate text-xs text-ink-faint">
+                  {[m.tags && m.tags.split(", ").map((t) => `#${t}`).join(" "), m.notes].filter(Boolean).join(" · ")}
+                </p>
+              </div>
+              <span className="shrink-0 text-xs text-ink-faint">
+                {m.takenAt ? format(m.takenAt, "MMM yyyy") : ""}
+              </span>
+              <DeleteButton kind="media" id={m.id} />
+            </li>
+          ))}
+        </ul>
+        <AddMediaForm businessId={business.id} />
+      </section>
 
       {/* Notes scratchpad */}
       <section className="card p-4">

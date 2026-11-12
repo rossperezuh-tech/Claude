@@ -38,7 +38,9 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 3. **Tasks** — title, business, due date, priority (P1/P2/P3), status, notes; recurring tasks (completing one spawns the next occurrence); global `/tasks` view filterable by business, priority, due date.
 4. **Documents index** — title, business, category (legal / financial / brand / operations / compliance), URL or file path, notes, date; global search at `/docs`.
 5. **Deadlines strip** — horizontal 14-day strip on home, color-coded by business.
-6. **Quick search** — Cmd+K palette searching tasks, docs, contacts, businesses (`/api/search`).
+6. **Quick search** — Cmd+K palette searching tasks, docs, contacts, media, businesses (`/api/search`).
+7. **Media index** — `/media` + per-business Media section: albums/photos/videos as pCloud links or paths with tags, date shot, optional business (none = personal). Links only, like Documents.
+8. **Media sorter** — `scripts/media-sort.mjs` (`npm run media:sort`): zero-dependency CLI that files a pCloud Drive folder into `Personal|Business/<name>/Photos|Videos/YYYY/YYYY-MM`, parks duplicates, dry-run by default, undoable. Guide: `docs/MEDIA.md`.
 
 ## Design direction
 
@@ -51,7 +53,8 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 
 - `prisma/schema.prisma` — models; `prisma/seed.ts` — 12 businesses + sample data
 - `app/actions.ts` — all server actions (mutations)
-- `app/page.tsx` home · `app/business/[slug]` detail · `app/tasks` · `app/docs` · `app/api/search`
+- `app/page.tsx` home · `app/business/[slug]` detail · `app/tasks` · `app/docs` · `app/media` · `app/api/search`
+- `scripts/media-sort.mjs` — pCloud media sorter (business list duplicated from seed; keep in sync) · `docs/MEDIA.md` — phone/pCloud workflow
 - `components/` — QuickCapture, TodayTaskRow, CalendarStrip, Kanban, NotesEditor, BusinessForms, NewTaskForm, CommandPalette
 - `lib/` — prisma singleton, constants (statuses/priorities/colors), date helpers
 

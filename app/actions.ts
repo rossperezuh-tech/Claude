@@ -130,6 +130,42 @@ export async function deleteDocument(id: string) {
   revalidateAll();
 }
 
+// ---- Media ----
+
+export async function createMediaItem(input: {
+  businessId?: string | null; // null/empty = personal
+  title: string;
+  kind: string;
+  url: string;
+  tags?: string;
+  notes?: string;
+  takenAt?: string | null;
+}) {
+  if (!input.title.trim() || !input.url.trim()) return;
+  const tags = (input.tags ?? "")
+    .split(",")
+    .map((t) => t.trim().toLowerCase())
+    .filter(Boolean)
+    .join(", ");
+  await prisma.mediaItem.create({
+    data: {
+      businessId: input.businessId || null,
+      title: input.title.trim(),
+      kind: input.kind,
+      url: input.url.trim(),
+      tags,
+      notes: input.notes ?? "",
+      takenAt: input.takenAt ? new Date(`${input.takenAt}T12:00:00`) : null,
+    },
+  });
+  revalidateAll();
+}
+
+export async function deleteMediaItem(id: string) {
+  await prisma.mediaItem.delete({ where: { id } });
+  revalidateAll();
+}
+
 // ---- Contacts ----
 
 export async function createContact(input: {

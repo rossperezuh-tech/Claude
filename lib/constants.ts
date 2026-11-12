@@ -20,6 +20,15 @@ export const PRIORITY_COLORS: Record<Priority, string> = {
 export const DOC_CATEGORIES = ["legal", "financial", "brand", "operations", "compliance"] as const;
 export type DocCategory = (typeof DOC_CATEGORIES)[number];
 
+export const MEDIA_KINDS = ["album", "photo", "video"] as const;
+export type MediaKind = (typeof MEDIA_KINDS)[number];
+
+export const MEDIA_KIND_STYLES: Record<string, string> = {
+  album: "text-indigo-300 border-indigo-500/30 bg-indigo-500/10",
+  photo: "text-teal-300 border-teal-500/30 bg-teal-500/10",
+  video: "text-rose-300 border-rose-500/30 bg-rose-500/10",
+};
+
 export const RECURRENCES = ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY"] as const;
 export type Recurrence = (typeof RECURRENCES)[number];
 

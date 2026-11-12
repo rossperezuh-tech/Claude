@@ -27,6 +27,7 @@ npm run db:reset
 - **`/business/[slug]`** — per-business kanban (Backlog / This Week / In Progress / Done), documents index, contacts, key links, and an autosaving markdown scratchpad.
 - **`/tasks`** — every task, filterable by business / priority / due window, plus a full creation form with due date and recurrence (daily, weekly, biweekly, monthly). Completing a recurring task automatically spawns the next occurrence.
 - **`/docs`** — global document search with category and business filters. Documents store links/paths + metadata only; the files themselves live in Drive or local folders.
+- **`/media`** — index of photo/video albums and clips (pCloud links or paths) with tags, per business or personal. To clear a full phone and sort the pCloud library, see [docs/MEDIA.md](docs/MEDIA.md) and `npm run media:sort`.
 
 ### Keyboard
 

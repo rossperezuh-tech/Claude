@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
   const contains = { contains: q };
 
-  const [businesses, tasks, documents, contacts] = await Promise.all([
+  const [businesses, tasks, documents, contacts, media] = await Promise.all([
     prisma.business.findMany({
       where: { OR: [{ name: contains }, { description: contains }] },
       take: 5,
@@ -29,6 +29,12 @@ export async function GET(req: NextRequest) {
       where: { OR: [{ name: contains }, { role: contains }, { email: contains }] },
       include: { business: { select: { name: true, slug: true, color: true } } },
       take: 5,
+    }),
+    prisma.mediaItem.findMany({
+      where: { OR: [{ title: contains }, { tags: contains }, { notes: contains }] },
+      include: { business: { select: { name: true, slug: true, color: true } } },
+      orderBy: { createdAt: "desc" },
+      take: 6,
     }),
   ]);
 
@@ -64,6 +70,14 @@ export async function GET(req: NextRequest) {
       subtitle: `Contact · ${c.business.name}`,
       href: `/business/${c.business.slug}#contacts`,
       color: c.business.color,
+    })),
+    ...media.map((m) => ({
+      kind: "media",
+      id: m.id,
+      title: m.title,
+      subtitle: `Media · ${m.business?.name ?? "Personal"}`,
+      href: m.business ? `/business/${m.business.slug}#media` : "/media?business=personal",
+      color: m.business?.color ?? "#a1a1aa",
     })),
   ];
 

@@ -128,6 +128,7 @@ async function main() {
   await prisma.document.deleteMany();
   await prisma.contact.deleteMany();
   await prisma.link.deleteMany();
+  await prisma.mediaItem.deleteMany();
 
   await prisma.task.createMany({
     data: [
@@ -186,6 +187,19 @@ async function main() {
       { businessId: bySlug["green-shoots-studio"], title: "Client services agreement template", category: "legal", url: "https://drive.google.com/gs/msa", notes: "" },
       { businessId: bySlug["steadyhand-ai"], title: "Consulting engagement letter template", category: "legal", url: "https://drive.google.com/sh/engagement", notes: "" },
       { businessId: bySlug["brooklyn-tiny-farm"], title: "Restaurant account price sheet", category: "operations", url: "https://drive.google.com/btf/prices", notes: "Update quarterly" },
+    ],
+  });
+
+  await prisma.mediaItem.createMany({
+    data: [
+      { businessId: bySlug["penthouse-yoga"], title: "Launch day open house — rooftop", kind: "album", url: "https://u.pcloud.link/publink/show?code=py-launch", tags: "launch, rooftop, social", notes: "Best 40 picked for IG", takenAt: daysFromNow(-120) },
+      { businessId: bySlug["penthouse-yoga"], title: "Sunset flow class reel (raw)", kind: "video", url: "https://u.pcloud.link/publink/show?code=py-sunset", tags: "reel, class", notes: "4K, 6 min — needs edit", takenAt: daysFromNow(-30) },
+      { businessId: bySlug["brooklyn-tea-cigs"], title: "Product shots — packaging v4", kind: "album", url: "https://u.pcloud.link/publink/show?code=btc-pack-v4", tags: "product, packaging", notes: "White background + lifestyle", takenAt: daysFromNow(-14) },
+      { businessId: bySlug["brooklyn-vintage-watches"], title: "Two-tone Datejust inventory", kind: "album", url: "https://u.pcloud.link/publink/show?code=bvw-datejust", tags: "inventory, macro", notes: "", takenAt: daysFromNow(-45) },
+      { businessId: bySlug["cre-direct-buying"], title: "6416 Conley St — site walk", kind: "video", url: "https://u.pcloud.link/publink/show?code=conley-walk", tags: "houston, warehouse, site-visit", notes: "Roof + loading dock footage", takenAt: daysFromNow(-60) },
+      { businessId: bySlug["clean-plate-nyc"], title: "Menu photos — fall rotation", kind: "album", url: "https://u.pcloud.link/publink/show?code=cp-fall", tags: "menu, food", notes: "", takenAt: daysFromNow(-21) },
+      { businessId: bySlug["brooklyn-tiny-farm"], title: "Tray growth timelapse", kind: "video", url: "https://u.pcloud.link/publink/show?code=btf-timelapse", tags: "timelapse, microgreens", notes: "", takenAt: daysFromNow(-9) },
+      { businessId: null, title: "Phone camera roll — 2026", kind: "album", url: "/pCloud Drive/Media Library/Personal/Photos/2026", tags: "camera-roll", notes: "Sorted by scripts/media-sort.mjs", takenAt: null },
     ],
   });
 

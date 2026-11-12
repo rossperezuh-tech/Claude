@@ -23,6 +23,7 @@ model Business {
   documents Document[]
   contacts  Contact[]
   links     Link[]
+  media     MediaItem[]
   deals     Deal[]
   ledger    LedgerEntry[]
 }
@@ -89,6 +90,26 @@ model Link {
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
   @@index([businessId])
+}
+
+// Index of photo/video albums and clips. Like Document, this stores links/paths only —
+// the media itself lives in pCloud (or any drive). businessId null = personal.
+model MediaItem {
+  id        String    @id @default(cuid())
+  title     String
+  kind      String    @default("album") // album | photo | video
+  url       String // pCloud share link, folder link, or local path
+  tags      String    @default("") // comma-separated, lowercase
+  notes     String    @default("")
+  takenAt   DateTime? // when it was shot
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  businessId String?
+  business   Business? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+
+  @@index([businessId, kind])
+  @@index([takenAt])
 }
 
 // ---- v2 structure (schema only, no UI yet) ----
