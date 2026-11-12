@@ -31,3 +31,12 @@ Then add the domain under the project's Domains settings.
 
 Keep metro and state entries to things that can be checked on a map: counties, submarkets,
 highways, ports. No market statistics, no invented deals or testimonials.
+
+## Google Ads
+
+    node ads.mjs    # regenerates the import files in ads/ from the same market data
+
+`ads/` holds five CSVs for Google Ads Editor (campaigns, ad groups, keywords, ads, negative
+keywords). Every campaign is created **Paused** with a placeholder $20/day budget. Each ad group
+sends clicks to its matching page, and the URL suffix tags each click so the lead form records
+which campaign and keyword produced it.
