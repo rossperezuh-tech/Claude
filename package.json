@@ -10,7 +10,9 @@
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:reset": "prisma db push --force-reset && prisma db seed",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "hk:clear": "tsx prisma/hk-clear.ts",
+    "dev:lan": "next dev -H 0.0.0.0"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

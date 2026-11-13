@@ -37,3 +37,28 @@ npm run db:reset
 ## Data
 
 Everything lives in `prisma/venturehq.db` (gitignored). The schema also carries v2-ready tables — `Deal` (CRE pipeline stages lead → underwriting → offer → title → close) and `LedgerEntry` (revenue/expense quick-log) — with no UI yet.
+
+## Hookemon University (`/hookemon`)
+
+Gear training + certification for the Field series (OP-1 field, TX-6, TP-7, CM-15) and EP series (EP-133, EP-1320, EP-40). Lives in this app; trainees use it from their phones on the same Wi-Fi.
+
+- **`/hookemon/survey`** — intake survey (role, music background, 0–3 self-rating per device, goals). Submitting takes the trainee to their card.
+- **`/hookemon/card/[id]`** — the trainee's skill card: top-3 focus devices, before/after ratings, badges (Operator / Performer / Instructor), homework with a link-submit box, and a personal curriculum built from the gap between their rating and what their role needs. Post-session survey at `/hookemon/card/[id]/post`.
+- **`/hookemon`** (instructor) — roster skill matrix, before/after averages, station groups, homework to review, hard questions from the room.
+- **`/hookemon/gear/[slug]`** — modules per level (use + sell tracks), tips. As instructor, type the exact button steps into each module; they show up in every trainee's curriculum.
+
+### Running a session
+
+```bash
+npm run db:reset                         # loads gear, curriculum and 3 demo trainees
+npm run hk:clear                         # remove trainees (keeps gear + any steps you wrote)
+HOOKEMON_KEY=pick-a-secret npm run dev:lan   # serve on the local network
+```
+
+Then open `http://localhost:3000/hookemon/unlock?key=pick-a-secret` on your laptop once. The roster shows the URL to give the room (your laptop's LAN address + `/hookemon/survey`).
+
+With `HOOKEMON_KEY` set, everyone else can only reach the survey, their own card and the gear pages — Venture HQ and the roster stay locked. Without it, there's no lock (solo use).
+
+Note: `db:reset` wipes everything, including steps you typed into modules. Use `hk:clear` between sessions instead.
+
+Curriculum content: `lib/hookemon/content.ts`. Ranking logic: `lib/hookemon/curriculum.ts`.

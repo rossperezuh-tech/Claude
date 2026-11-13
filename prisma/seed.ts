@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { seedHookemon } from "./seed-hookemon";
 
 const prisma = new PrismaClient();
 
@@ -221,6 +222,8 @@ async function main() {
       notes: "Under contract; title curative in progress.",
     },
   });
+
+  await seedHookemon(prisma);
 
   console.log("Seed complete.");
 }

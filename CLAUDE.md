@@ -55,6 +55,10 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 - `components/` — QuickCapture, TodayTaskRow, CalendarStrip, Kanban, NotesEditor, BusinessForms, NewTaskForm, CommandPalette
 - `lib/` — prisma singleton, constants (statuses/priorities/colors), date helpers
 
+## Hookemon University (built)
+
+Gear training + certification (Field + EP series) at `/hookemon`, inside this app. Models prefixed `Hk*`. Content seed in `lib/hookemon/content.ts`, ranking in `lib/hookemon/curriculum.ts`, kiosk lock via `HOOKEMON_KEY` (`middleware.ts`, `lib/hookemon/auth.ts`). Venture HQ pages live in the `app/(hq)` route group. Planning kit in `hookemon/*.md`.
+
 ## v2 backlog (schema is ready, do NOT build until asked)
 
 - CRE deal pipeline module (lead → underwriting → offer → title → close) with per-deal docs — `Deal` model exists

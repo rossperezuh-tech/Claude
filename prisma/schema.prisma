@@ -122,3 +122,121 @@ model LedgerEntry {
 
   @@index([businessId, date])
 }
+
+// ---- Hookemon University (gear training + certification) ----
+
+// A piece of gear that can be taught. series: FIELD | EP
+model HkDevice {
+  id        String @id @default(cuid())
+  slug      String @unique
+  name      String
+  series    String
+  color     String
+  oneLiner  String @default("") // who it's for, in one line (sell-it track)
+  pairsWith String @default("")
+  sortOrder Int    @default(0)
+
+  modules  HkModule[]
+  tips     HkTip[]
+  ratings  HkRating[]
+  badges   HkBadge[]
+  homework HkHomework[]
+}
+
+// One lesson. track: USE | SELL. level: OPERATOR | PERFORMER | INSTRUCTOR.
+// `steps` is filled in by the instructor (exact button sequences, verified on hardware).
+model HkModule {
+  id        String @id @default(cuid())
+  title     String
+  track     String
+  level     String
+  summary   String @default("")
+  steps     String @default("")
+  sortOrder Int    @default(0)
+
+  deviceId String
+  device   HkDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@index([deviceId, level])
+}
+
+model HkTip {
+  id   String @id @default(cuid())
+  text String
+
+  deviceId String
+  device   HkDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+}
+
+model HkTrainee {
+  id           String   @id @default(cuid())
+  name         String
+  role         String // RETAIL | SUPPORT | SALES | MARKETING | PRODUCT | OTHER
+  tenure       String   @default("")
+  musicLevel   String   @default("") // NONE | LITTLE | REGULAR | PERFORMS
+  makesWith    String   @default("")
+  knownTerms   String   @default("") // comma-separated
+  connectivity Int      @default(3) // 1–5 comfort with sync / MIDI / USB
+  mostAskedId  String? // device slug customers ask about most
+  leastSureId  String? // device slug they feel least confident on
+  goal         String   @default("")
+  hardQuestion String   @default("")
+  notes        String   @default("")
+  // post-session
+  confBefore   Int?
+  confAfter    Int?
+  postUseful   String   @default("")
+  postUnsure   String   @default("")
+  createdAt    DateTime @default(now())
+
+  ratings  HkRating[]
+  badges   HkBadge[]
+  homework HkHomework[]
+}
+
+// Self-rating 0–3. phase: INTAKE | POST
+model HkRating {
+  id    String @id @default(cuid())
+  score Int
+  phase String @default("INTAKE")
+
+  traineeId String
+  trainee   HkTrainee @relation(fields: [traineeId], references: [id], onDelete: Cascade)
+  deviceId  String
+  device    HkDevice  @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@unique([traineeId, deviceId, phase])
+}
+
+model HkBadge {
+  id        String   @id @default(cuid())
+  level     String // OPERATOR | PERFORMER | INSTRUCTOR
+  awardedAt DateTime @default(now())
+
+  traineeId String
+  trainee   HkTrainee @relation(fields: [traineeId], references: [id], onDelete: Cascade)
+  deviceId  String
+  device    HkDevice  @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@unique([traineeId, deviceId, level])
+}
+
+// status: ASSIGNED | SUBMITTED | PASSED
+model HkHomework {
+  id            String    @id @default(cuid())
+  template      String
+  task          String
+  midiFile      String    @default("") // Gearbase file name / link
+  status        String    @default("ASSIGNED")
+  submissionUrl String    @default("")
+  feedback      String    @default("")
+  dueDate       DateTime?
+  createdAt     DateTime  @default(now())
+
+  traineeId String
+  trainee   HkTrainee @relation(fields: [traineeId], references: [id], onDelete: Cascade)
+  deviceId  String
+  device    HkDevice  @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+
+  @@index([traineeId])
+}
