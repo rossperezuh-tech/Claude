@@ -10,7 +10,7 @@ import {
   AddLinkForm,
   DeleteButton,
 } from "@/components/BusinessForms";
-import { BUSINESS_STATUS_STYLES } from "@/lib/constants";
+import { BUSINESS_STATUS_STYLES, DEAL_STAGE_COLORS, DEAL_STAGE_LABELS, type DealStage } from "@/lib/constants";
 import { dueLabel, isOverdue } from "@/lib/dates";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +31,7 @@ export default async function BusinessPage({ params }: { params: { slug: string 
       documents: { orderBy: { createdAt: "desc" } },
       contacts: { orderBy: { name: "asc" } },
       links: { orderBy: { createdAt: "asc" } },
+      deals: { where: { stage: { not: "DEAD" } }, orderBy: { stageChangedAt: "desc" } },
     },
   });
   if (!business) notFound();
@@ -67,6 +68,39 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           <AddLinkForm businessId={business.id} />
         </div>
       </div>
+
+      {/* Deal pipeline */}
+      {business.deals.length > 0 && (
+        <section className="card p-4">
+          <div className="mb-3 flex items-baseline gap-3">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-ink-dim">Deals</h2>
+            <Link href="/deals" className="text-xs text-ink-faint hover:text-ink">
+              Open pipeline →
+            </Link>
+          </div>
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {business.deals.map((d) => (
+              <li key={d.id}>
+                <Link
+                  href={`/deals/${d.id}`}
+                  className="flex items-center gap-2 rounded-md border border-surface-edge bg-surface-overlay/60 px-3 py-2 text-sm hover:border-indigo-400/50"
+                >
+                  <span className="min-w-0 flex-1 truncate">{d.name}</span>
+                  <span
+                    className="chip shrink-0 border-transparent"
+                    style={{
+                      color: DEAL_STAGE_COLORS[d.stage as DealStage],
+                      background: `${DEAL_STAGE_COLORS[d.stage as DealStage]}1a`,
+                    }}
+                  >
+                    {DEAL_STAGE_LABELS[d.stage as DealStage] ?? d.stage}
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {/* Kanban */}
       <section>

@@ -20,7 +20,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className="min-h-screen">
-        <header className="sticky top-0 z-40 border-b border-surface-edge bg-surface/90 backdrop-blur">
+        <header className="no-print sticky top-0 z-40 border-b border-surface-edge bg-surface/90 backdrop-blur">
           <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-2.5">
             <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
               <span className="inline-block h-2.5 w-2.5 rounded-sm bg-indigo-400" />
@@ -32,6 +32,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </Link>
               <Link href="/tasks" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                 Tasks
+              </Link>
+              <Link href="/deals" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
+                Deals
               </Link>
               <Link href="/docs" className="rounded px-2 py-1 hover:bg-surface-overlay hover:text-ink">
                 Docs

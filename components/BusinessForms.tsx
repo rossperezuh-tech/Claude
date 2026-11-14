@@ -39,10 +39,10 @@ export function DeleteButton({
   );
 }
 
-export function AddDocumentForm({ businessId }: { businessId: string }) {
+export function AddDocumentForm({ businessId, dealId }: { businessId: string; dealId?: string }) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState<string>("operations");
+  const [category, setCategory] = useState<string>(dealId ? "legal" : "operations");
   const [url, setUrl] = useState("");
   const [notes, setNotes] = useState("");
   const [, startTransition] = useTransition();
@@ -57,7 +57,7 @@ export function AddDocumentForm({ businessId }: { businessId: string }) {
 
   function submit() {
     if (!title.trim() || !url.trim()) return;
-    startTransition(() => createDocument({ businessId, title, category, url, notes }));
+    startTransition(() => createDocument({ businessId, title, category, url, notes, dealId }));
     setTitle("");
     setUrl("");
     setNotes("");

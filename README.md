@@ -28,6 +28,14 @@ npm run db:reset
 - **`/tasks`** — every task, filterable by business / priority / due window, plus a full creation form with due date and recurrence (daily, weekly, biweekly, monthly). Completing a recurring task automatically spawns the next occurrence.
 - **`/docs`** — global document search with category and business filters. Documents store links/paths + metadata only; the files themselves live in Drive or local folders.
 
+### Deal pipeline
+
+- **Deals** in the top bar opens the board. **+ New lead** adds a property; the arrows on a card move it between stages.
+- Open a deal to underwrite it. Enter the rent roll, expenses, loan and sale assumptions and the page shows the **max offer** your targets allow, with opening, target and walk-away prices. Changes save as you type.
+- **Use as offer** records the price on the deal. **Letter of intent** and **Deal sheet** build printable documents from the same numbers (print to PDF from the browser).
+- The seller websites can send leads straight in by posting their form to `/api/leads` once this app is hosted. Set `LEAD_WEBHOOK_SECRET` and add `?key=…` to the form address to keep strangers out.
+- `npm test` checks the underwriting math.
+
 ### Keyboard
 
 - `⌘K` / `Ctrl+K` — command palette: search tasks, docs, contacts, businesses

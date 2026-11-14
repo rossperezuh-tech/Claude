@@ -42,3 +42,45 @@ body {
     @apply inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-medium leading-none;
   }
 }
+
+/* Printable documents (deal sheet, letter of intent) */
+.paper {
+  @apply mx-auto max-w-3xl rounded-lg bg-white p-8 text-[13px] leading-relaxed text-zinc-900 sm:p-12;
+}
+.paper h1 {
+  @apply text-xl font-semibold tracking-tight;
+}
+.paper h2 {
+  @apply mb-1.5 mt-5 border-b border-zinc-300 pb-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-600;
+}
+.paper table {
+  @apply w-full tabular-nums;
+}
+.paper td,
+.paper th {
+  @apply py-0.5;
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  main {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .paper {
+    max-width: none;
+    border-radius: 0;
+    padding: 0;
+  }
+  @page {
+    margin: 0.75in;
+  }
+}

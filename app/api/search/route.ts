@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
   const contains = { contains: q };
 
-  const [businesses, tasks, documents, contacts] = await Promise.all([
+  const [businesses, tasks, documents, contacts, deals] = await Promise.all([
     prisma.business.findMany({
       where: { OR: [{ name: contains }, { description: contains }] },
       take: 5,
@@ -29,6 +29,14 @@ export async function GET(req: NextRequest) {
       where: { OR: [{ name: contains }, { role: contains }, { email: contains }] },
       include: { business: { select: { name: true, slug: true, color: true } } },
       take: 5,
+    }),
+    prisma.deal.findMany({
+      where: {
+        OR: [{ name: contains }, { address: contains }, { city: contains }, { sellerName: contains }, { motivation: contains }],
+      },
+      include: { business: { select: { name: true, color: true } } },
+      orderBy: { updatedAt: "desc" },
+      take: 6,
     }),
   ]);
 
@@ -64,6 +72,14 @@ export async function GET(req: NextRequest) {
       subtitle: `Contact · ${c.business.name}`,
       href: `/business/${c.business.slug}#contacts`,
       color: c.business.color,
+    })),
+    ...deals.map((d) => ({
+      kind: "deal",
+      id: d.id,
+      title: d.name,
+      subtitle: `Deal · ${[d.city, d.state].filter(Boolean).join(", ") || d.business.name}`,
+      href: `/deals/${d.id}`,
+      color: d.business.color,
     })),
   ];
 

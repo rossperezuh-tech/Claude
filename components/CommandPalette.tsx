@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 type Biz = { id: string; name: string; slug: string; color: string };
 
 type Result = {
-  kind: "business" | "task" | "document" | "contact";
+  kind: "business" | "task" | "document" | "contact" | "deal";
   id: string;
   title: string;
   subtitle: string;
