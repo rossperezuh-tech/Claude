@@ -28,7 +28,8 @@ export default async function DocsPage({ searchParams }: { searchParams: Search 
 
   const where: Record<string, unknown> = {};
   if (q) {
-    where.OR = [{ title: { contains: q } }, { notes: { contains: q } }, { url: { contains: q } }];
+    const c = { contains: q, mode: "insensitive" as const };
+    where.OR = [{ title: c }, { notes: c }, { url: c }];
   }
   if (searchParams.category) where.category = searchParams.category;
   if (searchParams.business) where.business = { slug: searchParams.business };

@@ -120,6 +120,12 @@ async function main() {
     });
   }
 
+  // Production setup: create the 12 businesses and nothing else.
+  if (process.argv.includes("--businesses-only")) {
+    console.log("Businesses ready. Skipped sample tasks, documents and deals.");
+    return;
+  }
+
   const bySlug: Record<string, string> = {};
   for (const b of await prisma.business.findMany()) bySlug[b.slug] = b.id;
 

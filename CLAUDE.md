@@ -4,14 +4,14 @@ Project spec / persistent context for Claude Code.
 
 ## What this is
 
-A local-first personal command center for managing all of RP's ventures in one place: tasks, deadlines, documents, contacts, and pipeline status per business. Single user, no auth. Runs locally with `npm run dev`, deployable to Vercel later.
+A personal command center for managing all of RP's ventures in one place: tasks, deadlines, documents, contacts, and pipeline status per business. Single user behind one password. Hosted on Vercel with a Neon Postgres database; also runs locally with `npm run dev`.
 
 ## Stack
 
 - **Next.js 14+ (App Router), TypeScript**
-- **SQLite via Prisma** (local file DB — simple, portable, no external services)
+- **Postgres via Prisma** — Neon in production, any Postgres locally. Schema changes go through migrations (`npm run db:migrate`); Vercel's build runs `prisma migrate deploy`
 - **Tailwind CSS** — dark theme default
-- **No login/auth** for v1 (single user, local)
+- **One-password sign-in** (`APP_PASSWORD`, at least 12 characters when deployed) via `middleware.ts` + `lib/auth.ts`. Blank locally = no sign-in. `/login` and `/api/leads` are the only public routes
 - Document storage: store **file links/paths + metadata**, not the files themselves (files live in Google Drive / local folders — DB just indexes them)
 
 ## The businesses (seeded into the DB)
@@ -74,7 +74,8 @@ Each business has: name, slug, color tag, status (active / back-burner / launchi
 ## Rules for Claude Code
 
 - Commit after each build-order step
-- Keep everything in one repo, no microservices, no external APIs in v1
+- Keep everything in one repo, no microservices. External services: Vercel and Neon only
 - Seed realistic sample data so the dashboard looks alive on first run
-- `npm run db:reset` wipes and re-seeds the local DB
+- `npm run db:reset` wipes and re-seeds whatever database `.env` points at — never the live one
+- `npm run db:setup` applies migrations and adds only the 12 businesses (for the live database)
 - `npm test` runs the underwriting engine tests — keep them passing when the model changes

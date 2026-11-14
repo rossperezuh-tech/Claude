@@ -1,25 +1,39 @@
 # Venture HQ
 
-Local-first command center for managing all 12 ventures in one place — tasks, deadlines, documents, contacts, and notes per business. Single user, no auth, dark theme.
+Command center for managing all 12 ventures in one place — tasks, deadlines, documents, contacts, notes and the CRE deal pipeline. Single user behind one password, dark theme, works on a phone.
 
 ## Stack
 
-Next.js 14 (App Router) · TypeScript · SQLite via Prisma · Tailwind CSS
+Next.js 14 (App Router) · TypeScript · Postgres via Prisma · Tailwind CSS · hosted on Vercel with a Neon database
 
-## Run it
+## Put it online (Vercel + Neon)
+
+1. **Merge this branch** into the branch Vercel will deploy.
+2. In Vercel: **Add New → Project →** import `rossperezuh-tech/Claude`. Leave Root Directory as the repo root. Don't deploy yet.
+3. In the project, open **Storage → Create Database → Neon** (free plan) and connect it. This sets `DATABASE_URL` and `DATABASE_URL_UNPOOLED` for you.
+4. In **Settings → Environment Variables** add `APP_PASSWORD`: a password of at least 12 characters that you don't use anywhere else.
+5. **Deploy.** The build creates the tables automatically.
+6. Load the 12 businesses once. On your computer, copy the two Neon connection strings from Vercel into a `.env` file, then run `npm run db:setup`. That adds the businesses and nothing else: no sample tasks or deals.
+7. Open the site, sign in, and add it to your phone's home screen.
+
+To send the warehouse website's leads here, set the site's Venture HQ address to `https://<your-project>.vercel.app/api/leads`. Each lead lands in the pipeline as a Lead with "Call the seller" due the next day.
+
+Optional settings: `AUTH_SECRET` (change it to sign out every device) and `LEAD_WEBHOOK_SECRET` (makes `/api/leads` require `?key=<value>`; it only stops casual bots, since the key is visible in the website's code).
+
+## Run it on your computer
+
+You need Postgres. Either install it, or create a second free Neon database for testing.
 
 ```bash
-npm install          # also runs `prisma generate`
-npm run db:push      # create prisma/venturehq.db
-npm run db:seed      # load the 12 businesses + sample data
-npm run dev          # http://localhost:3000
+cp .env.example .env     # then put your database address in it
+npm install              # also runs `prisma generate`
+npm run db:reset         # create the tables + load the 12 businesses and sample data
+npm run dev              # http://localhost:3000
 ```
 
-To wipe and re-seed the database at any point:
+Leave `APP_PASSWORD` blank locally to skip the sign-in page. `npm run db:reset` wipes the database you point it at, so never run it against the live one.
 
-```bash
-npm run db:reset
-```
+When you change `prisma/schema.prisma`, run `npm run db:migrate` to create a migration; Vercel applies it on the next deploy.
 
 ## Using it
 
@@ -44,4 +58,4 @@ npm run db:reset
 
 ## Data
 
-Everything lives in `prisma/venturehq.db` (gitignored). The schema also carries v2-ready tables — `Deal` (CRE pipeline stages lead → underwriting → offer → title → close) and `LedgerEntry` (revenue/expense quick-log) — with no UI yet.
+Everything lives in Postgres. Migrations are in `prisma/migrations`. The schema also carries a v2-ready `LedgerEntry` table (revenue/expense quick-log) with no UI yet.

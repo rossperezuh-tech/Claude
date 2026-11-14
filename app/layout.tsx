@@ -3,6 +3,9 @@ import Link from "next/link";
 import "./globals.css";
 import { prisma } from "@/lib/prisma";
 import CommandPalette from "@/components/CommandPalette";
+import { cookies } from "next/headers";
+import { SESSION_COOKIE, authMode, isValidSession } from "@/lib/auth";
+import { signOut } from "./login/actions";
 
 export const metadata: Metadata = {
   title: "Venture HQ",
@@ -12,6 +15,20 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const signedIn = await isValidSession(cookies().get(SESSION_COOKIE)?.value);
+  const showSignOut = signedIn && authMode().kind === "password";
+
+  // The sign-in page gets a bare shell: no nav, no data.
+  if (!signedIn) {
+    return (
+      <html lang="en">
+        <body className="min-h-screen">
+          <main className="px-4 py-5">{children}</main>
+        </body>
+      </html>
+    );
+  }
+
   const businesses = await prisma.business.findMany({
     orderBy: { sortOrder: "asc" },
     select: { id: true, name: true, slug: true, color: true },
@@ -40,9 +57,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 Docs
               </Link>
             </nav>
-            <div className="ml-auto hidden text-xs text-ink-faint sm:block">
-              <kbd className="rounded border border-surface-edge bg-surface-overlay px-1.5 py-0.5">⌘K</kbd>{" "}
-              search
+            <div className="ml-auto flex items-center gap-3 text-xs text-ink-faint">
+              <span className="hidden sm:inline">
+                <kbd className="rounded border border-surface-edge bg-surface-overlay px-1.5 py-0.5">⌘K</kbd> search
+              </span>
+              {showSignOut && (
+                <form action={signOut}>
+                  <button type="submit" className="hover:text-ink">
+                    Sign out
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </header>

@@ -39,6 +39,7 @@ export type DealView = {
   nextActionDate: string; // yyyy-mm-dd or ""
   closingDate: string;
   lostReason: string;
+  notes: string;
   nextDue: string;
   nextOverdue: boolean;
   color: string;
@@ -77,10 +78,11 @@ export default function DealFacts({ deal }: { deal: DealView }) {
     nextAction: deal.nextAction,
     nextActionDate: deal.nextActionDate,
     closingDate: deal.closingDate,
+    notes: deal.notes,
   }));
   const bind = (k: keyof typeof f) => ({
     value: f[k],
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
       setF((p) => ({ ...p, [k]: e.target.value })),
   });
 
@@ -205,6 +207,11 @@ export default function DealFacts({ deal }: { deal: DealView }) {
               {deal.closingDate && <div className="text-xs text-ink-faint">Closing {deal.closingDate}</div>}
             </div>
           </div>
+          {deal.notes && (
+            <p className="mt-3 whitespace-pre-line border-t border-surface-edge/60 pt-2 text-xs text-ink-dim">
+              {deal.notes}
+            </p>
+          )}
         </>
       ) : (
         <div className="mt-3 space-y-3">
@@ -242,6 +249,7 @@ export default function DealFacts({ deal }: { deal: DealView }) {
             <L label="Next step" span="col-span-2 sm:col-span-2"><input {...bind("nextAction")} className="input w-full" /></L>
             <L label="Next step due" span="col-span-1 sm:col-span-2"><input type="date" {...bind("nextActionDate")} className="input w-full" /></L>
             <L label="Closing date" span="col-span-1 sm:col-span-2"><input type="date" {...bind("closingDate")} className="input w-full" /></L>
+            <L label="Notes" span="col-span-2 sm:col-span-6"><textarea {...bind("notes")} rows={3} className="input w-full" /></L>
           </div>
           <button onClick={remove} className="text-xs text-ink-faint hover:text-red-400">
             Delete this deal

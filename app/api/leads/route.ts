@@ -28,7 +28,7 @@ const ALIASES: Record<string, string[]> = {
   state: ["state", "property_state"],
   sf: ["sf", "sqft", "square_feet", "square_footage", "building_sf", "building_size", "size"],
   price: ["price", "asking", "asking_price", "desired_price"],
-  type: ["type", "property_type"],
+  type: ["type", "property_type", "prop_type"],
   message: ["message", "notes", "situation", "details", "comments", "reason"],
 };
 
@@ -78,7 +78,8 @@ export async function POST(req: NextRequest) {
     return "";
   };
 
-  const name = clip(pick("name"), 120);
+  const fullName = [raw.first_name, raw.last_name].filter((x) => x?.trim()).join(" ");
+  const name = clip(pick("name") || fullName, 120);
   const phone = clip(pick("phone"), 40);
   const email = clip(pick("email"), 160);
   const address = clip(pick("address"), 200);
@@ -89,9 +90,9 @@ export async function POST(req: NextRequest) {
   const business = await prisma.business.findUnique({ where: { slug: "cre-direct-buying" } });
   if (!business) return NextResponse.json({ error: "Pipeline not set up" }, { status: 500, headers: CORS });
 
-  const used = new Set(Object.values(ALIASES).flat());
+  const used = new Set([...Object.values(ALIASES).flat(), "first_name", "last_name"]);
   const extras = Object.entries(raw)
-    .filter(([k, v]) => !used.has(k) && !k.startsWith("_") && v.trim())
+    .filter(([k, v]) => !used.has(k) && !k.startsWith("_") && k !== "gclid" && v.trim())
     .map(([k, v]) => `${k.replace(/_/g, " ")}: ${clip(v, 300)}`);
   const type = norm(pick("type"));
   const tomorrow = new Date(Date.now() + 86_400_000);
@@ -104,7 +105,8 @@ export async function POST(req: NextRequest) {
       address,
       city: clip(pick("city"), 80),
       state: clip(pick("state"), 20),
-      propertyType: ["warehouse", "flex", "manufacturing", "land", "retail", "office"].includes(type) ? type : "warehouse",
+      propertyType:
+        ["flex", "manufacturing", "land", "retail", "office"].find((t) => type.includes(t)) ?? "warehouse",
       buildingSf: toInt(pick("sf")),
       askingPrice: toInt(pick("price")),
       source: "website",

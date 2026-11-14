@@ -66,6 +66,7 @@ export default async function DealPage({ params }: { params: { id: string } }) {
           nextActionDate: day(deal.nextActionDate),
           closingDate: day(deal.closingDate),
           lostReason: deal.lostReason,
+          notes: deal.notes,
           nextDue: dueLabel(deal.nextActionDate),
           nextOverdue: isOverdue(deal.nextActionDate),
           color: deal.business.color,

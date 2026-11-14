@@ -3,8 +3,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./venturehq.db"
+  provider  = "postgresql"
+  // Pooled connection for the app. On Vercel + Neon this is set for you.
+  url       = env("DATABASE_URL")
+  // Direct connection for migrations. Locally, use the same value as DATABASE_URL.
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model Business {
