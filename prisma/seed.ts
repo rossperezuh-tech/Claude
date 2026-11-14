@@ -210,15 +210,230 @@ async function main() {
     ],
   });
 
-  // v2 structural sample: one deal in the CRE pipeline
+  // ---- CRE deal pipeline (sample data: sellers and figures are made up,
+  // except 160 W Mallory, which uses the assumptions from RP's own model) ----
   await prisma.deal.deleteMany();
-  await prisma.deal.create({
+  const cre = bySlug["cre-direct-buying"];
+  const uw = (o: object) => JSON.stringify(o);
+  const vacant = (name: string, sf: number) => ({
+    name, sf, status: "vacant", rentPsf: 0, escPct: 0, monthsRemaining: 0, recovery: "GROSS",
+  });
+  const log = (...rows: [string, string, number][]) => ({
+    create: rows.map(([kind, body, daysAgo]) => ({ kind, body, createdAt: daysFromNow(-daysAgo) })),
+  });
+
+  const conley = await prisma.deal.create({
     data: {
-      businessId: bySlug["cre-direct-buying"],
+      businessId: cre,
       name: "6416 Conley St",
       stage: "TITLE",
-      address: "6416 Conley St, Houston, TX",
+      address: "6416 Conley St",
+      city: "Houston",
+      state: "TX",
+      propertyType: "warehouse",
+      buildingSf: 18500,
+      landAcres: 1.1,
+      yearBuilt: 1978,
+      source: "mail",
+      strategy: "BUY_HOLD",
+      sellerName: "Owner-operator (machine shop)",
+      sellerPhone: "713-555-0171",
+      motivation: "Retiring; wants a 24-month leaseback while winding down.",
+      askingPrice: 1450000,
+      offerPrice: 1360000,
+      contractPrice: 1385000,
+      nextAction: "Clear title curative items with title officer",
+      nextActionDate: daysFromNow(0),
+      closingDate: daysFromNow(21),
+      stageChangedAt: daysFromNow(-9),
+      createdAt: daysFromNow(-48),
       notes: "Under contract; title curative in progress.",
+      underwriting: uw({
+        buildingSf: 18500,
+        rentRoll: [
+          { name: "Seller leaseback", sf: 18500, status: "leased", rentPsf: 7.8, escPct: 3, monthsRemaining: 24, recovery: "NNN" },
+        ],
+        market: { rentPsf: 8.25, growthPct: 3, termYears: 5, downtimeMonths: 5, freeMonths: 1, tiPsf: 2.5, lcPct: 6, escPct: 3, recovery: "NNN", renewProbPct: 25 },
+        expenses: [
+          { name: "Real estate taxes", annual: 31200, grows: true, recoverable: true },
+          { name: "Insurance", annual: 14800, grows: true, recoverable: true },
+          { name: "Repairs & maintenance", annual: 6500, grows: true, recoverable: true },
+        ],
+        price: 1385000,
+        capex: 45000,
+        ltvPct: 65, ratePct: 7.1, amortYears: 25,
+        holdYears: 5, exitCapPct: 8, sellCostPct: 3,
+        targets: { yieldOnCostPct: 8.5, cashOnCashPct: 0, irrPct: 16, dscr: 1.25 },
+      }),
+      activity: log(
+        ["SYSTEM", "Lead added", 48],
+        ["CALL", "Owner called back from the second letter. Wants to stay 2 years.", 44],
+        ["STAGE", "Lead → Underwriting", 43],
+        ["OFFER", "Offer price set to $1,360,000 (target)", 36],
+        ["STAGE", "Underwriting → Offer", 36],
+        ["NOTE", "Countered at $1.40M; settled at $1.385M with leaseback at $7.80 NNN.", 20],
+        ["STAGE", "Offer → Title", 9],
+      ),
+    },
+  });
+  await prisma.document.updateMany({
+    where: { businessId: cre, title: { startsWith: "6416 Conley St" } },
+    data: { dealId: conley.id },
+  });
+
+  await prisma.deal.create({
+    data: {
+      businessId: cre,
+      name: "160 W Mallory Ave",
+      stage: "OFFER",
+      address: "160 W Mallory Ave",
+      city: "Memphis",
+      state: "TN",
+      propertyType: "warehouse",
+      buildingSf: 22100,
+      source: "broker",
+      strategy: "WHOLESALE",
+      motivation: "Three vacant buildings on one lot; lease-up and resale play.",
+      askingPrice: 650000,
+      nextAction: "Follow up on LOI",
+      nextActionDate: daysFromNow(2),
+      stageChangedAt: daysFromNow(-12),
+      createdAt: daysFromNow(-31),
+      underwriting: uw({
+        buildingSf: 22100,
+        rentRoll: [vacant("Bldg A", 15700), vacant("Bldg B", 4000), vacant("Bldg C", 2400)],
+        market: { rentPsf: 5.5, growthPct: 3, termYears: 5, downtimeMonths: 6, freeMonths: 1, tiPsf: 2, lcPct: 6, escPct: 3, recovery: "GROSS", renewProbPct: 65 },
+        expenses: [
+          { name: "Real estate taxes", annual: 24310, grows: true, recoverable: true },
+          { name: "Insurance", annual: 15470, grows: true, recoverable: true },
+          { name: "Repairs & maintenance", annual: 2250, grows: false, recoverable: true },
+        ],
+        expenseGrowthPct: 2, mgmtPct: 4, vacancyPct: 0, reservePsf: 0.15,
+        otherIncomeMonthly: 2000, otherIncomeStartMonth: 7,
+        price: 650000, closingCostPct: 2, ltvPct: 0,
+        holdYears: 2, exitCapPct: 10.5, sellCostPct: 3,
+        targets: { yieldOnCostPct: 12, cashOnCashPct: 0, irrPct: 20, dscr: 0 },
+        buyerCapPct: 10.5, assignmentFee: 25000,
+      }),
+      activity: log(
+        ["SYSTEM", "Lead added", 31],
+        ["STAGE", "Lead → Underwriting", 28],
+        ["NOTE", "Built lease-up and sale model; yard rent adds $2,000/month from month 7.", 25],
+        ["STAGE", "Underwriting → Offer", 12],
+      ),
+    },
+  });
+
+  await prisma.deal.create({
+    data: {
+      businessId: cre,
+      name: "7702 Wallisville Rd",
+      stage: "UNDERWRITING",
+      address: "7702 Wallisville Rd",
+      city: "Houston",
+      state: "TX",
+      propertyType: "flex",
+      buildingSf: 42000,
+      landAcres: 2.6,
+      yearBuilt: 1984,
+      source: "website",
+      sellerName: "D. Okafor (family partnership)",
+      sellerPhone: "281-555-0142",
+      sellerEmail: "seller@example.com",
+      motivation: "Partners splitting up; want a clean sale without listing it.",
+      askingPrice: 3400000,
+      nextAction: "Get trailing-12 expenses and the three leases",
+      nextActionDate: daysFromNow(1),
+      stageChangedAt: daysFromNow(-3),
+      createdAt: daysFromNow(-8),
+      underwriting: uw({
+        buildingSf: 42000,
+        rentRoll: [
+          { name: "HVAC distributor", sf: 18000, status: "leased", rentPsf: 8.4, escPct: 3, monthsRemaining: 38, recovery: "NNN" },
+          { name: "Cabinet shop", sf: 12000, status: "leased", rentPsf: 7.2, escPct: 2.5, monthsRemaining: 9, recovery: "NNN" },
+          { name: "Freight forwarder", sf: 7500, status: "leased", rentPsf: 9, escPct: 3, monthsRemaining: 52, recovery: "NNN" },
+          vacant("Suite D", 4500),
+        ],
+        market: { rentPsf: 8.75, growthPct: 3, termYears: 5, downtimeMonths: 6, freeMonths: 2, tiPsf: 3, lcPct: 6, escPct: 3, recovery: "NNN", renewProbPct: 65 },
+        expenses: [
+          { name: "Real estate taxes", annual: 68500, grows: true, recoverable: true },
+          { name: "Insurance", annual: 29400, grows: true, recoverable: true },
+          { name: "Repairs & maintenance", annual: 21000, grows: true, recoverable: true },
+        ],
+        price: 3400000,
+        capex: 120000,
+        ltvPct: 65, ratePct: 7, amortYears: 25,
+        holdYears: 5, exitCapPct: 7.75, sellCostPct: 3,
+        targets: { yieldOnCostPct: 8.5, cashOnCashPct: 0, irrPct: 17, dscr: 1.25 },
+      }),
+      activity: log(
+        ["SYSTEM", "Lead added from sellmywarehousedirect.com", 8],
+        ["CALL", "30-minute call. Roof is 6 years old, two HVAC units need replacing.", 6],
+        ["STAGE", "Lead → Underwriting", 3],
+      ),
+    },
+  });
+
+  await prisma.deal.create({
+    data: {
+      businessId: cre,
+      name: "1120 Shaver St",
+      stage: "LEAD",
+      address: "1120 Shaver St",
+      city: "Pasadena",
+      state: "TX",
+      propertyType: "warehouse",
+      buildingSf: 12000,
+      source: "website",
+      sellerName: "M. Reyes",
+      sellerPhone: "832-555-0119",
+      motivation: "Inherited from her father; lives out of state.",
+      nextAction: "First call — ask about condition and price expectation",
+      nextActionDate: daysFromNow(0),
+      createdAt: daysFromNow(-1),
+      activity: log(["SYSTEM", "Lead added from sellmywarehousedirect.com", 1]),
+    },
+  });
+
+  await prisma.deal.create({
+    data: {
+      businessId: cre,
+      name: "905 N 8th St",
+      stage: "LEAD",
+      address: "905 N 8th St",
+      city: "La Porte",
+      state: "TX",
+      propertyType: "manufacturing",
+      buildingSf: 30000,
+      landAcres: 3.2,
+      source: "mail",
+      sellerName: "Gulf Coast Fabrication (owner)",
+      sellerPhone: "281-555-0188",
+      motivation: "Behind on property taxes.",
+      askingPrice: 2100000,
+      nextAction: "Pull tax records and send follow-up letter",
+      nextActionDate: daysFromNow(4),
+      createdAt: daysFromNow(-5),
+      activity: log(["SYSTEM", "Lead added", 5], ["CALL", "Left voicemail.", 3]),
+    },
+  });
+
+  await prisma.deal.create({
+    data: {
+      businessId: cre,
+      name: "2210 Center St",
+      stage: "DEAD",
+      address: "2210 Center St",
+      city: "Deer Park",
+      state: "TX",
+      propertyType: "warehouse",
+      buildingSf: 9600,
+      source: "call",
+      askingPrice: 1250000,
+      lostReason: "Seller wanted full retail price; listed with a broker.",
+      stageChangedAt: daysFromNow(-15),
+      createdAt: daysFromNow(-40),
+      activity: log(["SYSTEM", "Lead added", 40], ["STAGE", "Underwriting → Dead — Seller wanted full retail price; listed with a broker.", 15]),
     },
   });
 

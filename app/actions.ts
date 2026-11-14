@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { nextOccurrence } from "@/lib/dates";
-import type { Recurrence } from "@/lib/constants";
+import { DEAL_STAGES, DEAL_STAGE_LABELS, type DealStage, type Recurrence } from "@/lib/constants";
 
 function revalidateAll() {
   revalidatePath("/", "layout");
@@ -111,6 +111,7 @@ export async function createDocument(input: {
   category: string;
   url: string;
   notes?: string;
+  dealId?: string | null;
 }) {
   if (!input.title.trim() || !input.url.trim()) return;
   await prisma.document.create({
@@ -120,6 +121,7 @@ export async function createDocument(input: {
       category: input.category,
       url: input.url.trim(),
       notes: input.notes ?? "",
+      dealId: input.dealId || null,
     },
   });
   revalidateAll();
@@ -171,5 +173,138 @@ export async function createLink(input: { businessId: string; label: string; url
 
 export async function deleteLink(id: string) {
   await prisma.link.delete({ where: { id } });
+  revalidateAll();
+}
+
+// ---- CRE deals ----
+
+const intOrNull = (v: number | null | undefined) =>
+  v == null || !Number.isFinite(v) ? null : Math.round(v);
+
+const dateOrNull = (v: string | null | undefined) => (v ? new Date(v + "T09:00:00") : null);
+
+export type DealFacts = {
+  name?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  propertyType?: string;
+  buildingSf?: number | null;
+  landAcres?: number | null;
+  yearBuilt?: number | null;
+  source?: string;
+  strategy?: string;
+  sellerName?: string;
+  sellerPhone?: string;
+  sellerEmail?: string;
+  motivation?: string;
+  askingPrice?: number | null;
+  offerPrice?: number | null;
+  contractPrice?: number | null;
+  nextAction?: string;
+  nextActionDate?: string | null;
+  closingDate?: string | null;
+  notes?: string;
+};
+
+function factsToData(f: DealFacts) {
+  const d: Record<string, unknown> = {};
+  const text = [
+    "name", "address", "city", "state", "propertyType", "source", "strategy",
+    "sellerName", "sellerPhone", "sellerEmail", "motivation", "nextAction", "notes",
+  ] as const;
+  for (const k of text) if (f[k] !== undefined) d[k] = String(f[k]).trim();
+  for (const k of ["buildingSf", "yearBuilt", "askingPrice", "offerPrice", "contractPrice"] as const)
+    if (f[k] !== undefined) d[k] = intOrNull(f[k]);
+  if (f.landAcres !== undefined)
+    d.landAcres = f.landAcres == null || !Number.isFinite(f.landAcres) ? null : f.landAcres;
+  if (f.nextActionDate !== undefined) d.nextActionDate = dateOrNull(f.nextActionDate);
+  if (f.closingDate !== undefined) d.closingDate = dateOrNull(f.closingDate);
+  return d;
+}
+
+export async function createDeal(input: DealFacts & { businessId: string }): Promise<string | null> {
+  const address = (input.address ?? "").trim();
+  const name = (input.name ?? "").trim() || address;
+  if (!name) return null;
+  const deal = await prisma.deal.create({
+    data: {
+      ...(factsToData({ ...input, name, address }) as object),
+      name,
+      businessId: input.businessId,
+      activity: { create: { kind: "SYSTEM", body: "Lead added" } },
+    },
+  });
+  revalidateAll();
+  return deal.id;
+}
+
+export async function updateDeal(id: string, facts: DealFacts) {
+  await prisma.deal.update({ where: { id }, data: factsToData(facts) });
+  revalidateAll();
+}
+
+export async function moveDeal(id: string, stage: string, lostReason?: string) {
+  if (!DEAL_STAGES.includes(stage as DealStage)) return;
+  const deal = await prisma.deal.findUnique({ where: { id }, select: { stage: true } });
+  if (!deal || deal.stage === stage) return;
+  const reason = (lostReason ?? "").trim();
+  await prisma.deal.update({
+    where: { id },
+    data: {
+      stage,
+      stageChangedAt: new Date(),
+      lostReason: stage === "DEAD" ? reason : "",
+      activity: {
+        create: {
+          kind: "STAGE",
+          body:
+            `${DEAL_STAGE_LABELS[deal.stage as DealStage] ?? deal.stage} → ${DEAL_STAGE_LABELS[stage as DealStage]}` +
+            (stage === "DEAD" && reason ? ` — ${reason}` : ""),
+        },
+      },
+    },
+  });
+  revalidateAll();
+}
+
+/** Autosave from the underwriting workbench. */
+export async function saveUnderwriting(id: string, json: string) {
+  await prisma.deal.update({ where: { id }, data: { underwriting: json } });
+  // no revalidate: autosave shouldn't trigger rerenders while typing
+}
+
+export async function saveLoi(id: string, json: string) {
+  await prisma.deal.update({ where: { id }, data: { loi: json } });
+}
+
+export async function setDealOffer(id: string, price: number, label: string) {
+  const offer = Math.round(price);
+  if (!Number.isFinite(offer) || offer <= 0) return;
+  await prisma.deal.update({
+    where: { id },
+    data: {
+      offerPrice: offer,
+      activity: { create: { kind: "OFFER", body: `Offer price set to $${offer.toLocaleString("en-US")} (${label})` } },
+    },
+  });
+  revalidateAll();
+}
+
+export async function addDealActivity(dealId: string, kind: string, body: string) {
+  const text = body.trim();
+  if (!text) return;
+  await prisma.dealActivity.create({ data: { dealId, kind: kind === "CALL" ? "CALL" : "NOTE", body: text } });
+  await prisma.deal.update({ where: { id: dealId }, data: { updatedAt: new Date() } });
+  revalidateAll();
+}
+
+export async function deleteDealActivity(id: string) {
+  await prisma.dealActivity.delete({ where: { id } });
+  revalidateAll();
+}
+
+export async function deleteDeal(id: string) {
+  await prisma.deal.delete({ where: { id } });
   revalidateAll();
 }

@@ -60,7 +60,12 @@ model Document {
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
+  // set when the document belongs to one CRE deal
+  dealId String?
+  deal   Deal?   @relation(fields: [dealId], references: [id], onDelete: SetNull)
+
   @@index([businessId, category])
+  @@index([dealId])
 }
 
 model Contact {
@@ -91,23 +96,71 @@ model Link {
   @@index([businessId])
 }
 
-// ---- v2 structure (schema only, no UI yet) ----
+// ---- CRE deal pipeline ----
 
-// CRE deal pipeline: lead -> underwriting -> offer -> title -> close
+// lead -> underwriting -> offer -> title -> close (or dead)
 model Deal {
-  id        String   @id @default(cuid())
-  name      String
-  stage     String   @default("LEAD") // LEAD | UNDERWRITING | OFFER | TITLE | CLOSE
-  address   String   @default("")
-  notes     String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id      String @id @default(cuid())
+  name    String
+  stage   String @default("LEAD") // LEAD | UNDERWRITING | OFFER | TITLE | CLOSE | DEAD
+  address String @default("")
+  city    String @default("")
+  state   String @default("")
+
+  propertyType String @default("warehouse") // warehouse | flex | manufacturing | land | retail | office | other
+  buildingSf   Int?
+  landAcres    Float?
+  yearBuilt    Int?
+
+  source   String @default("") // website | mail | call | broker | referral | other
+  strategy String @default("BUY_HOLD") // BUY_HOLD | WHOLESALE
+
+  sellerName  String @default("")
+  sellerPhone String @default("")
+  sellerEmail String @default("")
+  motivation  String @default("")
+
+  // whole dollars
+  askingPrice   Int?
+  offerPrice    Int? // what you offered or plan to offer
+  contractPrice Int?
+
+  nextAction     String    @default("")
+  nextActionDate DateTime?
+  closingDate    DateTime?
+  lostReason     String    @default("")
+
+  underwriting String @default("") // JSON: lib/underwriting Inputs
+  loi          String @default("") // JSON: lib/loi LoiTerms
+  notes        String @default("")
+
+  stageChangedAt DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
   businessId String
   business   Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
 
+  documents Document[]
+  activity  DealActivity[]
+
   @@index([businessId, stage])
 }
+
+// Timeline per deal: notes, calls, stage moves, offers
+model DealActivity {
+  id        String   @id @default(cuid())
+  kind      String   @default("NOTE") // NOTE | CALL | STAGE | OFFER | SYSTEM
+  body      String
+  createdAt DateTime @default(now())
+
+  dealId String
+  deal   Deal   @relation(fields: [dealId], references: [id], onDelete: Cascade)
+
+  @@index([dealId, createdAt])
+}
+
+// ---- v2 structure (schema only, no UI yet) ----
 
 // Revenue/expense quick-log per business
 model LedgerEntry {
