@@ -1,0 +1,7 @@
+{
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "node ../../build.js healthshop",
+  "outputDirectory": "dist",
+  "cleanUrls": true
+}

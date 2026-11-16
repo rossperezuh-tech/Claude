@@ -1,0 +1,12 @@
+{
+  "name": "health-sites",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Two static affiliate health sites built from one shared template.",
+  "scripts": {
+    "build": "node build.js",
+    "build:healthshop": "node build.js healthshop",
+    "build:remedies": "node build.js remedies",
+    "images": "node tools/make-images.js"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "id": "healthshop",
+  "name": "All In One Health Shop",
+  "url": "https://www.allinonehealthshop.com",
+  "urlIsPlaceholder": true,
+  "title": "All In One Health Shop | Non-Toxic Essentials for Home and Body",
+  "description": "Curated non-toxic, low-tox essentials: water and air filters, household, self care, kitchen and mouth health, all in one place.",
+  "location": "Brooklyn, NY",
+  "theme": {
+    "brand": "#123d2c",
+    "brand2": "#1b5440",
+    "accent": "#7bd88f",
+    "accentSoft": "#e3f6e7",
+    "bg": "#f7f5ee",
+    "paper": "#ffffff",
+    "ink": "#15211b",
+    "muted": "#5d6b63",
+    "line": "#e3e2d9",
+    "fontDisplay": "\"Bricolage Grotesque\", Inter, system-ui, sans-serif",
+    "fontBody": "Inter, system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "fontUrl": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600&display=swap"
+  },
+  "mark": "<path d=\"M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z\"/><path d=\"M12 8v6M9 11h6\"/>",
+  "nav": [
+    { "label": "Start here", "href": "#start" },
+    { "label": "Shop", "href": "#catalog" },
+    { "label": "About", "href": "#about" }
+  ],
+  "hero": {
+    "eyebrow": "Non-toxic · Low-tox · Curated",
+    "title": "Clean living, <em>all in one</em> place.",
+    "text": "Hand-picked essentials for your water, air, home, body and kitchen, without the junk ingredients.",
+    "searchPlaceholder": "Search tallow, filter, deodorant…"
+  },
+  "start": {
+    "title": "New here? Start with these.",
+    "text": "Six easy first swaps. Change one thing at a time and it adds up."
+  },
+  "catalog": {
+    "title": "Shop everything",
+    "whyLabel": "Why it's clean"
+  },
+  "about": {
+    "eyebrow": "About the shop",
+    "title": "One Brooklyn shelf of things worth switching to.",
+    "paragraphs": [
+      "All In One Health Shop is a small, independent shop run out of Brooklyn, New York. It started as a personal list: the filters, soaps and pantry staples we kept buying again after reading far too many ingredient labels.",
+      "Low-tox living does not have to mean throwing everything out or paying luxury prices. It means swapping one everyday product at a time for a simpler version, with fewer synthetic fragrances, dyes and plastics.",
+      "Every product here is something we would put in our own home. We look for short ingredient lists, honest brands and fair prices, and we link you straight to where you can buy it."
+    ],
+    "points": [
+      { "title": "Short ingredient lists", "text": "If we can't explain what's in it, it doesn't make the shelf." },
+      { "title": "Fair prices", "text": "Clean shouldn't cost double. Good value counts as much as good ingredients." },
+      { "title": "One place", "text": "Water, air, home, body, kitchen and teeth. No hunting across twenty tabs." }
+    ]
+  },
+  "signup": {
+    "title": "Get new finds first.",
+    "text": "A short email when we add a product or spot a good deal. No spam.",
+    "button": "Sign me up",
+    "placeholder": "you@email.com",
+    "action": "",
+    "pendingMessage": "Email signup opens soon. Check back shortly."
+  },
+  "footer": {
+    "disclosure": "As an Amazon Associate and affiliate partner, this shop earns from qualifying purchases at no extra cost to you.",
+    "disclaimer": "Products are shared for informational purposes and are not intended to diagnose, treat, cure or prevent any disease. Consult a qualified professional for personal health decisions.",
+    "fda": "*These statements have not been evaluated by the Food and Drug Administration. Supplements listed here are not intended to diagnose, treat, cure or prevent any disease.",
+    "tagline": "Made with care in Brooklyn, NY"
+  },
+  "categories": [
+    { "id": "water", "label": "Water Filters", "short": "Water", "icon": "drop", "blurb": "Cleaner water for drinking and cooking." },
+    { "id": "air", "label": "Air Filters", "short": "Air", "icon": "wind", "blurb": "HEPA purifiers for the rooms you live and sleep in." },
+    { "id": "household", "label": "Household", "short": "Home", "icon": "home", "blurb": "Everyday basics without the harsh chemicals." },
+    { "id": "selfcare", "label": "Self Care", "short": "Self care", "icon": "spray", "blurb": "What goes on your skin, kept simple." },
+    { "id": "kitchen", "label": "Kitchen", "short": "Kitchen", "icon": "jar", "blurb": "Pantry staples and daily supplements." },
+    { "id": "mouth", "label": "Mouth Health", "short": "Mouth", "icon": "tooth", "blurb": "A cleaner routine for teeth and gums." }
+  ]
+}
