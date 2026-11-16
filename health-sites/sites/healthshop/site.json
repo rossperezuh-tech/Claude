@@ -25,10 +25,6 @@
     {
       "label": "Shop",
       "href": "#catalog"
-    },
-    {
-      "label": "About",
-      "href": "#about"
     }
   ],
   "hero": {
@@ -40,29 +36,6 @@
   "catalog": {
     "title": "Shop everything",
     "whyLabel": "Why it's clean"
-  },
-  "about": {
-    "eyebrow": "About the shop",
-    "title": "One Brooklyn shelf of things worth switching to.",
-    "paragraphs": [
-      "All In One Health Shop is a small, independent shop run out of Brooklyn, New York. It started as a personal list: the filters, soaps and pantry staples we kept buying again after reading far too many ingredient labels.",
-      "Low-tox living does not have to mean throwing everything out or paying luxury prices. It means swapping one everyday product at a time for a simpler version, with fewer synthetic fragrances, dyes and plastics.",
-      "Every product here is something we would put in our own home. We look for short ingredient lists, honest brands and fair prices, and we link you straight to where you can buy it."
-    ],
-    "points": [
-      {
-        "title": "Short ingredient lists",
-        "text": "If we can't explain what's in it, it doesn't make the shelf."
-      },
-      {
-        "title": "Fair prices",
-        "text": "Clean shouldn't cost double. Good value counts as much as good ingredients."
-      },
-      {
-        "title": "One place",
-        "text": "Water, air, home, body, kitchen and teeth. No hunting across twenty tabs."
-      }
-    ]
   },
   "signup": {
     "title": "Get new finds first.",
