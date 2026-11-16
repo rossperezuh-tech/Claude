@@ -88,6 +88,13 @@
       "blurb": "Pantry staples and daily supplements."
     },
     {
+      "id": "herbal",
+      "label": "Herbal Supplements",
+      "short": "Herbal",
+      "icon": "leaf",
+      "blurb": "Plant-based supplements and teas, with cautions on every pick."
+    },
+    {
       "id": "mouth",
       "label": "Mouth Health",
       "short": "Mouth",

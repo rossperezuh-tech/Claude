@@ -16,7 +16,7 @@ Edit links in `sites/healthshop/products.json`, then run `node build.js`.
 - [ ] **Water Filter Pick No. 4**: open https://amzn.to/3XCvKyP and send the real product name.
 - [ ] **Water Filter Pick No. 5**: open https://amzn.to/4hj0tYG and send the real product name.
 
-### Links that earn no commission yet (20)
+### Links that earn no commission yet (29)
 
 - [ ] **Hydrogen Water Maker** (Lourdes HydroFix Premium): eBay search link, earns no commission. Replace with an eBay Partner Network or brand affiliate link.
   - Current link: https://www.ebay.com/sch/i.html?_nkw=lourdes+hydrofix+premium&LH_ItemCondition=1000&_sop=15
@@ -58,6 +58,24 @@ Edit links in `sites/healthshop/products.json`, then run `node build.js`.
   - Current link: https://www.amazon.com/s?k=North+American+Herb+Spice+SinuOrega+nasal+spray
 - [ ] **Magnetic Nasal Strips** (Intake Breathing): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
   - Current link: https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit
+- [ ] **Elderberry Syrup**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+elderberry+syrup
+- [ ] **Echinacea**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+echinacea+capsules
+- [ ] **Ginger**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+ginger+chews
+- [ ] **Turmeric (Curcumin)** (Sunergetic): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Sunergetic+organic+turmeric+supplement
+- [ ] **Ashwagandha**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+ashwagandha+KSM-66+capsules
+- [ ] **Chamomile Tea**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+chamomile+tea+bags
+- [ ] **Mushroom Blend (Reishi, Turkey Tail)**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+mushroom+complex+reishi+turkey+tail+capsules
+- [ ] **Throat Tea (Licorice and Slippery Elm)**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Traditional+Medicinals+Throat+Coat+tea
+- [ ] **Oil of Oregano**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=oil+of+oregano+softgels
 
 ### Links worth swapping for plain Amazon links (10)
 

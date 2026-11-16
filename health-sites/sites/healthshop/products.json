@@ -527,5 +527,114 @@
         "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
       }
     ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Elderberry Syrup",
+    "why": "Made from cooked black elderberries. Supports immune health in cold and flu season.*",
+    "caution": "Never eat raw elderberries. Not recommended in pregnancy. Ask your doctor if you take immunosuppressants or diabetes medicine.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+elderberry+syrup",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Echinacea",
+    "why": "A flowering herb used to support the body's natural defenses.*",
+    "caution": "Skip if you're allergic to ragweed or daisies. Ask your doctor if you have an autoimmune condition.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+echinacea+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Ginger",
+    "why": "Simple ginger root. Helps settle the stomach and eases occasional nausea.*",
+    "caution": "May cause heartburn. Check with your doctor if you're pregnant or take blood thinners.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+ginger+chews",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Turmeric (Curcumin)",
+    "brand": "Sunergetic",
+    "why": "Organic turmeric root. Supports a healthy inflammatory response.*",
+    "caution": "Rarely linked to liver injury, mostly with high-absorption formulas. Check with your doctor if you take blood thinners or are pregnant.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Sunergetic+organic+turmeric+supplement",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Ashwagandha",
+    "why": "An Ayurvedic root that supports a calm response to everyday stress.*",
+    "caution": "Not for pregnancy or breastfeeding. May affect thyroid function. Ask your doctor if you take any medication.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+ashwagandha+KSM-66+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Chamomile Tea",
+    "why": "Dried chamomile flowers, caffeine-free. A gentle bedtime tea.*",
+    "caution": "Skip if you're allergic to ragweed or daisies. May interact with blood thinners.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+chamomile+tea+bags",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Mushroom Blend (Reishi, Turkey Tail)",
+    "why": "Organic functional mushrooms, a traditional tonic for immune health.*",
+    "caution": "Avoid if you take immunosuppressants. May interact with blood thinners and diabetes medicine.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+mushroom+complex+reishi+turkey+tail+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Throat Tea (Licorice and Slippery Elm)",
+    "why": "A plant-only tea blend that coats and soothes the throat.*",
+    "caution": "Licorice can raise blood pressure. Avoid in pregnancy or with heart or kidney disease.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Traditional+Medicinals+Throat+Coat+tea",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "herbal",
+    "name": "Oil of Oregano",
+    "why": "Wild oregano oil, a traditional herbal for seasonal support.*",
+    "caution": "Not for pregnancy or breastfeeding. Never take it undiluted. Short-term use only.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=oil+of+oregano+softgels",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
   }
 ]
