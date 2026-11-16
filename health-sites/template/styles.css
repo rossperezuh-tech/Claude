@@ -44,7 +44,10 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
 .search input{width:100%;font-size:16px;padding:15px 16px 15px 46px;border-radius:14px;border:0;background:#fff;color:var(--ink);outline:none;box-shadow:0 10px 30px rgba(0,0,0,.22)}
 .search input:focus{box-shadow:0 0 0 3px var(--accent),0 10px 30px rgba(0,0,0,.22)}
 
-/* compact hero: short title, one line of text, search */
+/* simple hero: solid color, plain title, one line of text */
+.top{background:var(--brand);border-bottom:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.hero::before,.hero::after{display:none}
+.hero h1{font-weight:700}
 .hero{padding:22px 0 24px}
 .hero h1{font-size:clamp(26px,7vw,40px);line-height:1.08;letter-spacing:-.025em;max-width:22ch}
 .hero-text{margin-top:8px;font-size:15px;max-width:52ch}
