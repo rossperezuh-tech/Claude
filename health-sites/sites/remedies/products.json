@@ -276,7 +276,7 @@
     ]
   },
   {
-    "cat": "cold",
+    "cat": "nasal",
     "name": "Saline Sinus Rinse",
     "brand": "Guru Nanda",
     "what": "A squeeze bottle or neti pot used to rinse the nose with salt water.",
@@ -725,6 +725,107 @@
       {
         "title": "2025 systematic review, Nutritional Neuroscience. Examining the effect of L-theanine on sleep",
         "url": "https://pubmed.ncbi.nlm.nih.gov/41176609/"
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Saline + Xylitol Nasal Spray",
+    "brand": "Xlear",
+    "what": "A ready-made saline spray with xylitol, a natural sugar alcohol from birch.",
+    "why": "Moisturizes and gently rinses dry, stuffy nasal passages. Gentle enough for everyday use.*",
+    "evidence": {
+      "level": "some",
+      "note": "A meta-analysis of five small trials found xylitol rinses eased sinus symptoms more than plain saline, mostly in people recovering from sinus surgery. Larger studies of xylitol sprays are lacking."
+    },
+    "caution": "May sting briefly. Xylitol is toxic to dogs, so keep the bottle away from pets.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Xlear+saline+xylitol+nasal+spray",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Xylitol nasal preparations in sinonasal disease: a literature review and meta-analysis, Australian Journal of Otolaryngology",
+        "url": "https://theajo.com/article/view/4479/html"
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Propolis Nasal Spray",
+    "what": "A ready-made spray of bee propolis extract in a saline base.",
+    "why": "A traditional bee product used to support comfortable breathing through the nose.*",
+    "evidence": {
+      "level": "limited",
+      "label": "Early research",
+      "note": "Studies of a propolis and saline spray reported fewer nasal allergy symptoms, but they were not placebo-controlled. Propolis varies a lot from product to product."
+    },
+    "caution": "Do not use if you are allergic to bees, bee products, honey or pollen. Some propolis sprays also contain a decongestant (oxymetazoline): check the label and do not use those for more than 3 days. Not well studied in pregnancy or in children.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=propolis+nasal+spray+saline",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Propolis as an anti-allergic agent: review, Frontiers in Pharmacology 2021",
+        "url": "https://www.frontiersin.org/articles/10.3389/fphar.2021.785371/full"
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Oregano Nasal Spray",
+    "brand": "North American Herb & Spice",
+    "what": "A ready-made saline mist with wild oregano, clove, sage and bay leaf oils (SinuOrega).",
+    "why": "An herbal saline mist used for seasonal nasal comfort.*",
+    "evidence": {
+      "level": "limited",
+      "label": "Traditional use",
+      "note": "Based on traditional use of oregano oil. There are no clinical trials of oregano nasal sprays in people."
+    },
+    "caution": "Can burn or sting. Stop if irritation lasts. Do not use if you are pregnant or breastfeeding, or on children. Never put plain oregano oil or homemade mixtures in your nose.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=North+American+Herb+Spice+SinuOrega+nasal+spray",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Journal of Restorative Medicine monograph: Oregano (Origanum vulgare)",
+        "url": "https://restorativemedicine.org/library/monographs/oregano/"
+      }
+    ]
+  },
+  {
+    "cat": "tonics",
+    "name": "Goldenseal Root",
+    "what": "The root of Hydrastis canadensis, a North American herb, sold as capsules or tincture.",
+    "why": "A traditional herb used for seasonal support of the nose, throat and digestion.*",
+    "evidence": {
+      "level": "limited",
+      "label": "Traditional use",
+      "note": "NIH says there is little scientific evidence for goldenseal for any health purpose. Its compound berberine has been studied, but goldenseal contains only small amounts."
+    },
+    "caution": "Do not use if you are pregnant or breastfeeding, or give to babies or young children. Goldenseal changes how the body processes many medicines, including metformin, cyclosporine and some blood pressure drugs. Ask your doctor or pharmacist first if you take any medication. Short-term use only.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+goldenseal+root+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "NIH NCCIH: Goldenseal",
+        "url": "https://www.nccih.nih.gov/health/goldenseal"
+      },
+      {
+        "title": "Merck Manual Consumer Version: Goldenseal",
+        "url": "https://www.merckmanuals.com/home/special-subjects/dietary-supplements-and-vitamins/goldenseal"
       }
     ]
   }

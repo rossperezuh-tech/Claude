@@ -123,6 +123,13 @@
       "blurb": "What people reach for when a cold is coming on."
     },
     {
+      "id": "nasal",
+      "label": "Nasal & Sinus Care",
+      "short": "Nasal care",
+      "icon": "mist",
+      "blurb": "Ready-made sprays and rinses for a stuffy nose."
+    },
+    {
       "id": "recovery",
       "label": "Recovery & Rest",
       "short": "Recovery",

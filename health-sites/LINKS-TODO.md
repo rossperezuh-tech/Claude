@@ -80,7 +80,7 @@ Edit links in `sites/remedies/products.json`, then run `node build.js`.
 - [ ] **Site name**: "Root & Rally" is a working name. Confirm it or pick another (it is set in `sites/remedies/site.json`).
 - [ ] **Site address**: `https://www.rootandrally.com` is a placeholder. Put your real domain in `sites/remedies/site.json` ("url").
 
-### Links that earn no commission yet (28)
+### Links that earn no commission yet (32)
 
 - [ ] **Vitamin D3 + K2**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
   - Current link: https://www.amazon.com/s?k=vitamin+D3+K2+supplement
@@ -138,4 +138,12 @@ Edit links in `sites/remedies/products.json`, then run `node build.js`.
   - Current link: https://www.amazon.com/s?k=melatonin+1mg+low+dose
 - [ ] **L-Theanine**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
   - Current link: https://www.amazon.com/s?k=L-theanine+200mg+capsules
+- [ ] **Saline + Xylitol Nasal Spray** (Xlear): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Xlear+saline+xylitol+nasal+spray
+- [ ] **Propolis Nasal Spray**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=propolis+nasal+spray+saline
+- [ ] **Oregano Nasal Spray** (North American Herb & Spice): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=North+American+Herb+Spice+SinuOrega+nasal+spray
+- [ ] **Goldenseal Root**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+goldenseal+root+capsules
 

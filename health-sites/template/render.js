@@ -21,7 +21,8 @@ const ICONS = {
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   out: '<path d="M7 17L17 7M9 7h8v8"/>',
   chevron: '<path d="M6 9l6 6 6-6"/>',
-  cross: '<path d="M12 5v14M5 12h14"/>'
+  cross: '<path d="M12 5v14M5 12h14"/>',
+  mist: '<path d="M8 21h6V11H8zM9 11V8h4v3M11 8V5h-3M17 6h3M17 9.5h4M17 13h3"/>'
 };
 
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
