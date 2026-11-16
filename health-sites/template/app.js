@@ -8,6 +8,7 @@
   var cards = $$(".card");
   var secs = $$(".sec");
   var chips = $$(".chip");
+  var sel = $("#cat");
   var empty = $("#empty");
   var active = "all";
 
@@ -29,6 +30,7 @@
       if (count) count.textContent = n + (n === 1 ? " product" : " products");
     });
     if (empty) empty.hidden = shown > 0;
+    if (sel) sel.value = active;
     chips.forEach(function (c) {
       c.setAttribute("aria-pressed", c.dataset.id === active ? "true" : "false");
     });
@@ -44,7 +46,8 @@
     apply();
     var chip = chips.filter(function (c) { return c.dataset.id === id; })[0];
     if (chip && chip.scrollIntoView) chip.scrollIntoView({ block: "nearest", inline: "center" });
-    if (scroll) toCatalog();
+    var target = id !== "all" && document.getElementById(id);
+    if (scroll) { if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); else toCatalog(); }
   }
 
   /* Links that point at one product (the Start Here cards) open its category first. */
@@ -64,6 +67,7 @@
     });
   });
 
+  if (sel) sel.addEventListener("change", function () { pick(sel.value, true); });
   chips.forEach(function (c) {
     c.addEventListener("click", function () { pick(c.dataset.id, true); });
   });

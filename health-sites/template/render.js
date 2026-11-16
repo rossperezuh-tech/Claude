@@ -79,9 +79,12 @@ function startHere(site, products) {
 function chipbar(site, products) {
   const all = [{ id: "all", label: "All", n: products.length }]
     .concat(site.categories.map(c => ({ id: c.id, label: c.label, n: products.filter(p => p.cat === c.id).length })));
-  return `<div class="chipbar" id="catalog"><div class="wrap"><div class="chips" role="group" aria-label="Filter by category">
-  ${all.map(c => `<button class="chip" type="button" data-id="${c.id}" aria-pressed="${c.id === "all"}">${esc(c.label)}<span class="n">${c.n}</span></button>`).join("")}
-</div></div></div>`;
+  return `<div class="chipbar" id="catalog"><div class="wrap">
+  <label class="catpick" for="cat"><span class="sr">Choose a category</span>
+    <select id="cat">${all.map(c => `<option value="${c.id}">${c.id === "all" ? "All categories" : esc(c.label)} (${c.n})</option>`).join("")}</select>
+    ${ico("chevron")}
+  </label>
+</div></div>`;
 }
 
 function evidenceLabel(site, p) {
