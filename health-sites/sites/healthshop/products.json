@@ -1,89 +1,466 @@
 [
-  { "cat": "water", "name": "Water Filter Pick No. 1", "needsName": true, "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.", "start": { "order": 5, "title": "A good water filter", "swap": "Straight tap water" },
-    "links": [{ "url": "https://amzn.to/3FcSIGA" }] },
-  { "cat": "water", "name": "Water Filter Pick No. 2", "needsName": true, "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
-    "links": [{ "url": "https://amzn.to/43uTAAi" }] },
-  { "cat": "water", "name": "Water Filter Pick No. 3", "needsName": true, "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
-    "links": [{ "url": "https://amzn.to/43sNkch" }] },
-  { "cat": "water", "name": "Water Filter Pick No. 4", "needsName": true, "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
-    "links": [{ "url": "https://amzn.to/3XCvKyP" }] },
-  { "cat": "water", "name": "Water Filter Pick No. 5", "needsName": true, "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
-    "links": [{ "url": "https://amzn.to/4hj0tYG" }] },
-  { "cat": "water", "name": "Hydrogen Water Maker", "brand": "Lourdes HydroFix Premium", "why": "Makes hydrogen-rich water at home in minutes, with nothing added.",
-    "links": [{ "url": "https://www.ebay.com/sch/i.html?_nkw=lourdes+hydrofix+premium&LH_ItemCondition=1000&_sop=15", "todo": "eBay search link, earns no commission. Replace with an eBay Partner Network or brand affiliate link." }] },
-
-  { "cat": "air", "name": "Core 300 Air Purifier", "brand": "Levoit", "badge": "Budget", "why": "True HEPA filter traps fine dust, pollen and smoke. Sized for bedrooms and small spaces.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Levoit+Core+300+air+purifier", "todo": "Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "air", "name": "Airmega AP-1512HH", "brand": "Coway", "why": "HEPA plus activated carbon for particles and odors. A solid pick for living rooms.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Coway+Airmega+AP-1512HH", "todo": "Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "air", "name": "HealthMate Air Purifier", "brand": "Austin Air", "badge": "Premium", "why": "Medical-grade HEPA with 15 lb of activated carbon and zeolite for gases and fumes. All-steel housing.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Austin+Air+HealthMate", "todo": "Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-
-  { "cat": "household", "name": "Bamboo Toilet Paper", "why": "Tree-free bamboo, wrapped without plastic.",
-    "links": [{ "url": "https://amzn.to/4iRBNYZ" }] },
-  { "cat": "household", "name": "Bamboo Paper Towels", "brand": "Amazon Aware", "why": "Certified bamboo fiber in place of virgin tree pulp.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FAmazon-Aware-Bamboo-Towels-Certified%2Fdp%2FB0BMQDG363%2Fref%3Dsr_1_4%3Frdc%3D1%26s%3Dhpc%26sr%3D1-4&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "household", "name": "Toxic-Free Laundry Detergent", "why": "A clean wash without harsh chemicals or heavy synthetic fragrance.", "start": { "order": 2, "swap": "Heavily fragranced detergent" },
-    "links": [{ "url": "https://amzn.to/3zofbOf" }] },
-  { "cat": "household", "name": "Organic Soap", "why": "A short ingredient list built on organic oils.", "start": { "order": 4, "swap": "Body wash with synthetic fragrance" },
-    "links": [{ "url": "https://amzn.to/47qmnWA" }] },
-  { "cat": "household", "name": "Non-Toxic Flushable Wet Wipes", "why": "Plant-based and flushable, with soothing aloe.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB09124NCTR&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "household", "name": "Organic Cotton Sheets", "brand": "California Design Den", "why": "100% organic cotton, grown without synthetic pesticides. Breathable for sleep.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FCalifornia-Design-Den-Organic-Cotton%2Fdp%2FB084X6YHGR%2Fref%3Dsr_1_6%3Fsr%3D8-6&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "household", "name": "Organic Essential Oils Set", "brand": "Cliganic", "why": "USDA organic, 100% pure oils to scent your home without synthetic fragrance.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Cliganic+organic+essential+oils+set", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-
-  { "cat": "selfcare", "name": "Organic Cotton Boxers", "why": "Organic cotton against your skin in place of synthetic fabric.",
-    "links": [{ "url": "https://a.co/d/hIMlm6E", "todo": "a.co share link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "selfcare", "name": "Beef Tallow Face Moisturizer", "brand": "Vanman's", "why": "Grass-fed tallow, honey, beeswax and olive oil. No added scent.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FVanmans-ADDED-SCENT-Tallow-Honey%2Fdp%2FB0BTN6XC43&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "selfcare", "name": "Chapstick", "why": "Clean lip care with a simple ingredient list.",
-    "links": [{ "url": "https://amzn.to/4emvmKL" }] },
-  { "cat": "selfcare", "name": "Deodorant", "why": "Aluminum-free formula.", "start": { "order": 1, "swap": "Antiperspirant with aluminum" },
-    "links": [{ "url": "https://amzn.to/3ZvvSC2" }] },
-  { "cat": "selfcare", "name": "Sunscreen with Zinc", "brand": "Badger", "why": "Mineral SPF with zinc oxide and a short, simple ingredient list.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FBadger-Sunscreen-Spectrum-Resistant-Ingredients%2Fdp%2FB08Y99RBYN&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "selfcare", "name": "EMF Phone Pouch", "why": "A shielded pouch for carrying your phone. Your phone keeps its service.",
-    "links": [{ "url": "https://amzn.to/4gqSQQD" }] },
-  { "cat": "selfcare", "name": "Organic Rosehip Seed Oil", "brand": "Kate Blanc", "why": "USDA certified organic. One ingredient, nothing else.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Kate+Blanc+organic+rosehip+seed+oil", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "selfcare", "name": "Organic Cotton Rounds", "why": "Organic cotton for your face in place of conventional cotton.",
-    "links": [{ "url": "https://www.amazon.com/s?k=organic+cotton+rounds", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "selfcare", "name": "Organic Cotton Swabs", "brand": "Sky Organics", "why": "100% organic cotton, chlorine-free.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Sky+Organics+organic+cotton+swabs", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "selfcare", "name": "Magnetic Nasal Strips", "brand": "Intake Breathing", "why": "Drug-free and reusable. A magnetic band opens the nose for easier breathing.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-
-  { "cat": "kitchen", "name": "Sea Salt", "why": "Third-party tested for lead.", "start": { "order": 6, "swap": "Regular table salt" },
-    "links": [{ "url": "https://a.co/d/fwG7l0e", "todo": "a.co share link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "kitchen", "name": "Beef Tallow", "why": "Grass-fed and finished, food grade. One ingredient.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FRendered-Finished-Tallow-Food-Grade-Raised%2Fdp%2FB0CQRX77QD&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "kitchen", "name": "Activated Charcoal", "brand": "Wild Foods", "why": "Capsules made from organic coconut shells.", "caution": "Can reduce how well medications absorb. Take it a few hours apart from any medicine.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FWild-Activated-Charcoal-Capsules-Organic%2Fdp%2FB072J99N3B&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "kitchen", "name": "Shilajit Trace Minerals", "why": "A mineral-rich resin used in traditional wellness routines.*",
-    "links": [{ "url": "https://amzn.to/3Tqp8l2" }] },
-  { "cat": "kitchen", "name": "Electrolyte Mineral Drops", "why": "Unflavored minerals with no sugar or dyes. Add to any water.",
-    "links": [{ "url": "https://amzn.to/3MLl1w9" }] },
-  { "cat": "kitchen", "name": "Coconut Oil", "brand": "Garden of Life", "why": "Organic, virgin and unrefined.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FGarden-Life-Organic-Virgin-Coconut%2Fdp%2FB06VZ3SRGD&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "kitchen", "name": "Grass-Fed Whey Protein", "why": "Clean protein from grass-fed cows, with a short ingredient list.",
-    "links": [{ "url": "https://amzn.to/4e1OTk4" }] },
-  { "cat": "kitchen", "name": "Wellness Formula", "why": "Herbs, vitamins and minerals that support daily immune function.*",
-    "links": [{ "url": "https://amzn.to/4gkb86l" }] },
-  { "cat": "kitchen", "name": "Wild-Caught Omega-3 Fish Oil", "brand": "Ecostream Naturals", "why": "Omega-3s from wild-caught fish, purified.*",
-    "links": [{ "url": "https://www.amazon.com/s?k=Ecostream+Naturals+wild+caught+omega+3+fish+oil", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-
-  { "cat": "mouth", "name": "Plastic-Free Toothbrush", "why": "A bamboo handle that biodegrades, in place of plastic.", "start": { "order": 3, "swap": "Plastic toothbrush" },
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB0B55NHGF6&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] },
-  { "cat": "mouth", "name": "Mineral Tooth Powder", "brand": "Living Well with Dr. Michelle", "why": "A remineralizing tooth powder with simple, mineral-based ingredients.",
-    "links": [{ "url": "https://livingwellwithdrmichelle.com/product/remineralizing-tooth-powder/", "label": "Buy direct", "todo": "Direct brand link with no affiliate code visible. Confirm whether you have an affiliate link for this brand." }] },
-  { "cat": "mouth", "name": "Remineralizing Mouthwash", "brand": "Living Well with Dr. Michelle", "why": "A mint mineral rinse with a simple ingredient list.",
-    "links": [{ "url": "https://livingwellwithdrmichelle.com/product/remineralizing-mouthwash-mint/", "label": "Buy direct", "todo": "Direct brand link with no affiliate code visible. Confirm whether you have an affiliate link for this brand." }] },
-  { "cat": "mouth", "name": "Nano-Hydroxyapatite Toothpaste", "brand": "Boka", "why": "Fluoride-free toothpaste made with nano-hydroxyapatite.",
-    "links": [{ "url": "https://www.amazon.com/s?k=Boka+nano+hydroxyapatite+toothpaste", "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link." }] },
-  { "cat": "mouth", "name": "Water Flosser", "why": "Cleans between teeth with a stream of water.",
-    "links": [{ "url": "https://amzn.to/3XLm7hC" }] },
-  { "cat": "mouth", "name": "Tongue Scraper", "brand": "MasterMedi", "why": "Solid stainless steel that lasts for years. No plastic.",
-    "links": [{ "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FMasterMedi-Scraper-Treatment-Stainless-Scrapers%2Fdp%2FB0B257614L&btn_ref=org-433bb393e1b8b503", "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe." }] }
+  {
+    "cat": "water",
+    "name": "Water Filter Pick No. 1",
+    "needsName": true,
+    "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
+    "links": [
+      {
+        "url": "https://amzn.to/3FcSIGA"
+      }
+    ]
+  },
+  {
+    "cat": "water",
+    "name": "Water Filter Pick No. 2",
+    "needsName": true,
+    "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
+    "links": [
+      {
+        "url": "https://amzn.to/43uTAAi"
+      }
+    ]
+  },
+  {
+    "cat": "water",
+    "name": "Water Filter Pick No. 3",
+    "needsName": true,
+    "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
+    "links": [
+      {
+        "url": "https://amzn.to/43sNkch"
+      }
+    ]
+  },
+  {
+    "cat": "water",
+    "name": "Water Filter Pick No. 4",
+    "needsName": true,
+    "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
+    "links": [
+      {
+        "url": "https://amzn.to/3XCvKyP"
+      }
+    ]
+  },
+  {
+    "cat": "water",
+    "name": "Water Filter Pick No. 5",
+    "needsName": true,
+    "why": "Filters common tap water contaminants, so you drink and cook with cleaner water.",
+    "links": [
+      {
+        "url": "https://amzn.to/4hj0tYG"
+      }
+    ]
+  },
+  {
+    "cat": "water",
+    "name": "Hydrogen Water Maker",
+    "brand": "Lourdes HydroFix Premium",
+    "why": "Makes hydrogen-rich water at home in minutes, with nothing added.",
+    "links": [
+      {
+        "url": "https://www.ebay.com/sch/i.html?_nkw=lourdes+hydrofix+premium&LH_ItemCondition=1000&_sop=15",
+        "todo": "eBay search link, earns no commission. Replace with an eBay Partner Network or brand affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "air",
+    "name": "Core 300 Air Purifier",
+    "brand": "Levoit",
+    "badge": "Budget",
+    "why": "True HEPA filter traps fine dust, pollen and smoke. Sized for bedrooms and small spaces.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Levoit+Core+300+air+purifier",
+        "todo": "Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "air",
+    "name": "Airmega AP-1512HH",
+    "brand": "Coway",
+    "why": "HEPA plus activated carbon for particles and odors. A solid pick for living rooms.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Coway+Airmega+AP-1512HH",
+        "todo": "Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "air",
+    "name": "HealthMate Air Purifier",
+    "brand": "Austin Air",
+    "badge": "Premium",
+    "why": "Medical-grade HEPA with 15 lb of activated carbon and zeolite for gases and fumes. All-steel housing.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Austin+Air+HealthMate",
+        "todo": "Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Bamboo Toilet Paper",
+    "why": "Tree-free bamboo, wrapped without plastic.",
+    "links": [
+      {
+        "url": "https://amzn.to/4iRBNYZ"
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Bamboo Paper Towels",
+    "brand": "Amazon Aware",
+    "why": "Certified bamboo fiber in place of virgin tree pulp.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FAmazon-Aware-Bamboo-Towels-Certified%2Fdp%2FB0BMQDG363%2Fref%3Dsr_1_4%3Frdc%3D1%26s%3Dhpc%26sr%3D1-4&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Toxic-Free Laundry Detergent",
+    "why": "A clean wash without harsh chemicals or heavy synthetic fragrance.",
+    "links": [
+      {
+        "url": "https://amzn.to/3zofbOf"
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Organic Soap",
+    "why": "A short ingredient list built on organic oils.",
+    "links": [
+      {
+        "url": "https://amzn.to/47qmnWA"
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Non-Toxic Flushable Wet Wipes",
+    "why": "Plant-based and flushable, with soothing aloe.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB09124NCTR&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Organic Cotton Sheets",
+    "brand": "California Design Den",
+    "why": "100% organic cotton, grown without synthetic pesticides. Breathable for sleep.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FCalifornia-Design-Den-Organic-Cotton%2Fdp%2FB084X6YHGR%2Fref%3Dsr_1_6%3Fsr%3D8-6&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "household",
+    "name": "Organic Essential Oils Set",
+    "brand": "Cliganic",
+    "why": "USDA organic, 100% pure oils to scent your home without synthetic fragrance.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Cliganic+organic+essential+oils+set",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Organic Cotton Boxers",
+    "why": "Organic cotton against your skin in place of synthetic fabric.",
+    "links": [
+      {
+        "url": "https://a.co/d/hIMlm6E",
+        "todo": "a.co share link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Beef Tallow Face Moisturizer",
+    "brand": "Vanman's",
+    "why": "Grass-fed tallow, honey, beeswax and olive oil. No added scent.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FVanmans-ADDED-SCENT-Tallow-Honey%2Fdp%2FB0BTN6XC43&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Chapstick",
+    "why": "Clean lip care with a simple ingredient list.",
+    "links": [
+      {
+        "url": "https://amzn.to/4emvmKL"
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Deodorant",
+    "why": "Aluminum-free formula.",
+    "links": [
+      {
+        "url": "https://amzn.to/3ZvvSC2"
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Sunscreen with Zinc",
+    "brand": "Badger",
+    "why": "Mineral SPF with zinc oxide and a short, simple ingredient list.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FBadger-Sunscreen-Spectrum-Resistant-Ingredients%2Fdp%2FB08Y99RBYN&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "EMF Phone Pouch",
+    "why": "A shielded pouch for carrying your phone. Your phone keeps its service.",
+    "links": [
+      {
+        "url": "https://amzn.to/4gqSQQD"
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Organic Rosehip Seed Oil",
+    "brand": "Kate Blanc",
+    "why": "USDA certified organic. One ingredient, nothing else.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Kate+Blanc+organic+rosehip+seed+oil",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Organic Cotton Rounds",
+    "why": "Organic cotton for your face in place of conventional cotton.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+cotton+rounds",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Organic Cotton Swabs",
+    "brand": "Sky Organics",
+    "why": "100% organic cotton, chlorine-free.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Sky+Organics+organic+cotton+swabs",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "selfcare",
+    "name": "Magnetic Nasal Strips",
+    "brand": "Intake Breathing",
+    "why": "Drug-free and reusable. A magnetic band opens the nose for easier breathing.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Sea Salt",
+    "why": "Third-party tested for lead.",
+    "links": [
+      {
+        "url": "https://a.co/d/fwG7l0e",
+        "todo": "a.co share link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Beef Tallow",
+    "why": "Grass-fed and finished, food grade. One ingredient.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FRendered-Finished-Tallow-Food-Grade-Raised%2Fdp%2FB0CQRX77QD&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Activated Charcoal",
+    "brand": "Wild Foods",
+    "why": "Capsules made from organic coconut shells.",
+    "caution": "Can reduce how well medications absorb. Take it a few hours apart from any medicine.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FWild-Activated-Charcoal-Capsules-Organic%2Fdp%2FB072J99N3B&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Shilajit Trace Minerals",
+    "why": "A mineral-rich resin used in traditional wellness routines.*",
+    "links": [
+      {
+        "url": "https://amzn.to/3Tqp8l2"
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Electrolyte Mineral Drops",
+    "why": "Unflavored minerals with no sugar or dyes. Add to any water.",
+    "links": [
+      {
+        "url": "https://amzn.to/3MLl1w9"
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Coconut Oil",
+    "brand": "Garden of Life",
+    "why": "Organic, virgin and unrefined.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FGarden-Life-Organic-Virgin-Coconut%2Fdp%2FB06VZ3SRGD&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Grass-Fed Whey Protein",
+    "why": "Clean protein from grass-fed cows, with a short ingredient list.",
+    "links": [
+      {
+        "url": "https://amzn.to/4e1OTk4"
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Wellness Formula",
+    "why": "Herbs, vitamins and minerals that support daily immune function.*",
+    "links": [
+      {
+        "url": "https://amzn.to/4gkb86l"
+      }
+    ]
+  },
+  {
+    "cat": "kitchen",
+    "name": "Wild-Caught Omega-3 Fish Oil",
+    "brand": "Ecostream Naturals",
+    "why": "Omega-3s from wild-caught fish, purified.*",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Ecostream+Naturals+wild+caught+omega+3+fish+oil",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Plastic-Free Toothbrush",
+    "why": "A bamboo handle that biodegrades, in place of plastic.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2Fdp%2FB0B55NHGF6&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Mineral Tooth Powder",
+    "brand": "Living Well with Dr. Michelle",
+    "why": "A remineralizing tooth powder with simple, mineral-based ingredients.",
+    "links": [
+      {
+        "url": "https://livingwellwithdrmichelle.com/product/remineralizing-tooth-powder/",
+        "label": "Buy direct",
+        "todo": "Direct brand link with no affiliate code visible. Confirm whether you have an affiliate link for this brand."
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Remineralizing Mouthwash",
+    "brand": "Living Well with Dr. Michelle",
+    "why": "A mint mineral rinse with a simple ingredient list.",
+    "links": [
+      {
+        "url": "https://livingwellwithdrmichelle.com/product/remineralizing-mouthwash-mint/",
+        "label": "Buy direct",
+        "todo": "Direct brand link with no affiliate code visible. Confirm whether you have an affiliate link for this brand."
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Nano-Hydroxyapatite Toothpaste",
+    "brand": "Boka",
+    "why": "Fluoride-free toothpaste made with nano-hydroxyapatite.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Boka+nano+hydroxyapatite+toothpaste",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Water Flosser",
+    "why": "Cleans between teeth with a stream of water.",
+    "links": [
+      {
+        "url": "https://amzn.to/3XLm7hC"
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Tongue Scraper",
+    "brand": "MasterMedi",
+    "why": "Solid stainless steel that lasts for years. No plastic.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FMasterMedi-Scraper-Treatment-Stainless-Scrapers%2Fdp%2FB0B257614L&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  }
 ]

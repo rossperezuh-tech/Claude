@@ -22,19 +22,20 @@
   },
   "mark": "<path d=\"M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z\"/><path d=\"M12 8v6M9 11h6\"/>",
   "nav": [
-    { "label": "Start here", "href": "#start" },
-    { "label": "Shop", "href": "#catalog" },
-    { "label": "About", "href": "#about" }
+    {
+      "label": "Shop",
+      "href": "#catalog"
+    },
+    {
+      "label": "About",
+      "href": "#about"
+    }
   ],
   "hero": {
     "eyebrow": "Non-toxic · Low-tox · Curated",
     "title": "Clean living, <em>all in one</em> place.",
     "text": "Hand-picked essentials for your water, air, home, body and kitchen, without the junk ingredients.",
     "searchPlaceholder": "Search tallow, filter, deodorant…"
-  },
-  "start": {
-    "title": "New here? Start with these.",
-    "text": "Six easy first swaps. Change one thing at a time and it adds up."
   },
   "catalog": {
     "title": "Shop everything",
@@ -49,9 +50,18 @@
       "Every product here is something we would put in our own home. We look for short ingredient lists, honest brands and fair prices, and we link you straight to where you can buy it."
     ],
     "points": [
-      { "title": "Short ingredient lists", "text": "If we can't explain what's in it, it doesn't make the shelf." },
-      { "title": "Fair prices", "text": "Clean shouldn't cost double. Good value counts as much as good ingredients." },
-      { "title": "One place", "text": "Water, air, home, body, kitchen and teeth. No hunting across twenty tabs." }
+      {
+        "title": "Short ingredient lists",
+        "text": "If we can't explain what's in it, it doesn't make the shelf."
+      },
+      {
+        "title": "Fair prices",
+        "text": "Clean shouldn't cost double. Good value counts as much as good ingredients."
+      },
+      {
+        "title": "One place",
+        "text": "Water, air, home, body, kitchen and teeth. No hunting across twenty tabs."
+      }
     ]
   },
   "signup": {
@@ -69,11 +79,47 @@
     "tagline": "Made with care in Brooklyn, NY"
   },
   "categories": [
-    { "id": "water", "label": "Water Filters", "short": "Water", "icon": "drop", "blurb": "Cleaner water for drinking and cooking." },
-    { "id": "air", "label": "Air Filters", "short": "Air", "icon": "wind", "blurb": "HEPA purifiers for the rooms you live and sleep in." },
-    { "id": "household", "label": "Household", "short": "Home", "icon": "home", "blurb": "Everyday basics without the harsh chemicals." },
-    { "id": "selfcare", "label": "Self Care", "short": "Self care", "icon": "spray", "blurb": "What goes on your skin, kept simple." },
-    { "id": "kitchen", "label": "Kitchen", "short": "Kitchen", "icon": "jar", "blurb": "Pantry staples and daily supplements." },
-    { "id": "mouth", "label": "Mouth Health", "short": "Mouth", "icon": "tooth", "blurb": "A cleaner routine for teeth and gums." }
+    {
+      "id": "water",
+      "label": "Water Filters",
+      "short": "Water",
+      "icon": "drop",
+      "blurb": "Cleaner water for drinking and cooking."
+    },
+    {
+      "id": "air",
+      "label": "Air Filters",
+      "short": "Air",
+      "icon": "wind",
+      "blurb": "HEPA purifiers for the rooms you live and sleep in."
+    },
+    {
+      "id": "household",
+      "label": "Household",
+      "short": "Home",
+      "icon": "home",
+      "blurb": "Everyday basics without the harsh chemicals."
+    },
+    {
+      "id": "selfcare",
+      "label": "Self Care",
+      "short": "Self care",
+      "icon": "spray",
+      "blurb": "What goes on your skin, kept simple."
+    },
+    {
+      "id": "kitchen",
+      "label": "Kitchen",
+      "short": "Kitchen",
+      "icon": "jar",
+      "blurb": "Pantry staples and daily supplements."
+    },
+    {
+      "id": "mouth",
+      "label": "Mouth Health",
+      "short": "Mouth",
+      "icon": "tooth",
+      "blurb": "A cleaner routine for teeth and gums."
+    }
   ]
 }
