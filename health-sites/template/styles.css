@@ -44,6 +44,12 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
 .search input{width:100%;font-size:16px;padding:15px 16px 15px 46px;border-radius:14px;border:0;background:#fff;color:var(--ink);outline:none;box-shadow:0 10px 30px rgba(0,0,0,.22)}
 .search input:focus{box-shadow:0 0 0 3px var(--accent),0 10px 30px rgba(0,0,0,.22)}
 
+/* compact hero: short title, one line of text, search */
+.hero{padding:22px 0 24px}
+.hero h1{font-size:clamp(26px,7vw,40px);line-height:1.08;letter-spacing:-.025em;max-width:22ch}
+.hero-text{margin-top:8px;font-size:15px;max-width:52ch}
+.search{margin-top:16px}
+
 /* 3D category tiles */
 .scene{perspective:1000px}
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;transform-style:preserve-3d;transform:rotateX(calc(8deg + var(--py,0) * -5deg)) rotateY(calc(var(--ry,0deg) + var(--px,0) * 7deg));transform-origin:50% 0;transition:transform .25s ease-out}
@@ -238,9 +244,9 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
   .brand b{font-size:17px}
   .nav a{display:inline-block}
   .chipbar{top:64px}
-  .hero{padding:72px 0 80px}
+  .hero{padding:40px 0 44px}
   .hero-grid{grid-template-columns:1.05fr .95fr;align-items:center;gap:48px}
-  .hero-text{font-size:18px}
+  .hero-text{font-size:16.5px}
   .tiles{--ry:-14deg;gap:14px;transform-origin:50% 50%}
   .tile{padding:18px;gap:12px;border-radius:20px}
   .tile:nth-child(3n+1){--z:0}.tile:nth-child(3n+2){--z:26}.tile:nth-child(3n){--z:52}

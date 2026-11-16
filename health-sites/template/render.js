@@ -54,24 +54,13 @@ function header(site, base = "") {
 
 function hero(site, products) {
   const h = site.hero;
-  const tiles = site.categories.map((c, i) => {
-    const n = products.filter(p => p.cat === c.id).length;
-    return `<button class="tile" type="button" data-cat="${c.id}" style="--i:${i}">
-      <span class="tile-ico">${ico(c.icon)}</span>
-      <b>${esc(c.short || c.label)}</b><span class="n">${n} ${n === 1 ? "pick" : "picks"}</span>
-    </button>`;
-  }).join("");
-  return `<section class="hero" id="top"><div class="wrap hero-grid">
-  <div>
-    <span class="eyebrow">${esc(h.eyebrow)}</span>
-    <h1>${h.title}</h1>
-    <p class="hero-text">${esc(h.text)}</p>
-    <div class="search" role="search">
-      ${ico("search")}
-      <input id="q" type="search" placeholder="${esc(h.searchPlaceholder)}" autocomplete="off" aria-label="Search products">
-    </div>
+  return `<section class="hero" id="top"><div class="wrap">
+  <h1>${h.title}</h1>
+  <p class="hero-text">${esc(h.text)}</p>
+  <div class="search" role="search">
+    ${ico("search")}
+    <input id="q" type="search" placeholder="${esc(h.searchPlaceholder)}" autocomplete="off" aria-label="Search products">
   </div>
-  <div class="scene"><div class="tiles" aria-label="Browse by category">${tiles}</div></div>
 </div></section>`;
 }
 
@@ -143,7 +132,6 @@ function catalog(site, products) {
   return `<main class="wrap catalog">
   <h2 class="sr">${esc(site.catalog.title)}</h2>
   ${notice(site)}
-  ${legend(site)}
   ${secs}
   <div class="empty" id="empty" hidden><strong>No matches found</strong>Try another word, or clear your search to see everything.</div>
 </main>`;
