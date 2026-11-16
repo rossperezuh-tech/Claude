@@ -89,27 +89,44 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
 .chip[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
 .chip[aria-pressed="true"] .n{color:var(--accent)}
 
-/* catalog */
-.catalog{padding-top:28px;padding-bottom:20px}
-.sec{margin-bottom:36px;scroll-margin-top:124px}
-.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.sec-ico{flex:0 0 auto;width:42px;height:42px;border-radius:13px;background:var(--accent-soft);color:var(--brand2);display:grid;place-items:center}
-.sec-head h2{font-size:23px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
-.sec-head p{font-size:13.5px;color:var(--muted)}
-.sec-note{font-size:12.5px;color:var(--muted);margin-top:12px;max-width:80ch}
+/* catalog: each category is a row that opens and closes */
+.catalog{padding-top:24px;padding-bottom:20px}
+.sec{margin-bottom:10px;border:1px solid var(--line);border-radius:20px;background:var(--paper);scroll-margin-top:124px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.sec[open]{border-color:color-mix(in srgb,var(--brand) 22%,var(--line));box-shadow:0 14px 32px color-mix(in srgb,var(--brand) 8%,transparent)}
+.sec-head{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;list-style:none;-webkit-tap-highlight-color:transparent}
+.sec-head::-webkit-details-marker{display:none}
+.sec-ico{flex:0 0 auto;width:46px;height:46px;border-radius:14px;background:var(--accent-soft);color:var(--brand2);display:grid;place-items:center;transition:background .2s,color .2s}
+.sec[open] .sec-ico{background:var(--brand);color:var(--accent)}
+.sec-txt{flex:1;min-width:0}
+.sec-head h2{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.sec-head p{font-size:13.5px;color:var(--muted);margin-top:2px}
+.chev{flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:var(--bg);color:var(--brand);display:grid;place-items:center;transition:transform .25s,background .2s,color .2s}
+.chev .ico{width:18px;height:18px;stroke-width:2.4}
+.sec[open] .chev{transform:rotate(180deg);background:var(--accent-soft)}
+.sec-body{padding:0 12px 14px}
+.sec[open] .sec-body{animation:open .3s ease}
+@keyframes open{from{opacity:0;transform:translateY(-8px)}}
+.sec-note{font-size:12.5px;color:var(--muted);margin:12px 4px 0;max-width:80ch}
 .grid{display:grid;grid-template-columns:1fr;gap:10px}
-.card{position:relative;display:flex;flex-direction:column;gap:8px;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px;scroll-margin-top:130px;
-  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .18s ease-out,box-shadow .18s,border-color .18s;will-change:transform}
-.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.card .by{font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--brand2);margin-bottom:2px}
-.card h3{font-family:var(--font-body);font-size:16.5px;font-weight:600;line-height:1.28;letter-spacing:-.005em}
-.badge{flex:0 0 auto;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:var(--accent-soft);color:var(--brand2)}
+.card{position:relative;display:grid;grid-template-columns:88px 1fr;gap:10px 12px;align-items:start;background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:12px;scroll-margin-top:130px;
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .18s ease-out,box-shadow .18s,border-color .18s}
+.card.flash{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 45%,transparent)}
+/* product photo slot. Shows the photo when a product has "image", else the category icon. */
+.media{width:88px;aspect-ratio:1;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:var(--accent-soft);color:color-mix(in srgb,var(--brand2) 55%,transparent)}
+.media .ico{width:30px;height:30px;stroke-width:1.6}
+.media.has-img{background:#fff;border:1px solid var(--line)}
+.media img{display:block;width:100%;height:100%;object-fit:contain}
+.info{min-width:0;display:flex;flex-direction:column;gap:6px}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.card .by{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--brand2);margin-bottom:2px}
+.card h3{font-family:var(--font-body);font-size:16px;font-weight:600;line-height:1.28;letter-spacing:-.005em}
+.badge{flex:0 0 auto;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 8px;border-radius:99px;background:var(--accent-soft);color:var(--brand2)}
 .badge.premium{background:var(--brand);color:var(--accent)}
-.why{display:flex;gap:8px;font-size:14px;color:var(--muted);line-height:1.45}
-.why .ico{flex:0 0 auto;width:16px;height:16px;margin-top:2px;color:var(--brand2);stroke-width:2.4}
-.caution{font-size:13px;line-height:1.45;color:#7a4b00;background:#fff4dd;border-radius:10px;padding:8px 10px}
+.why{display:flex;gap:7px;font-size:13.5px;color:var(--muted);line-height:1.45}
+.why .ico{flex:0 0 auto;width:15px;height:15px;margin-top:2px;color:var(--brand2);stroke-width:2.4}
+.caution{grid-column:1/-1;font-size:13px;line-height:1.45;color:#7a4b00;background:#fff4dd;border-radius:10px;padding:8px 10px}
 .caution b{font-weight:600}
-.acts{margin-top:auto;padding-top:8px;display:flex;flex-wrap:wrap;gap:8px}
+.acts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
 .btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:background .15s,color .15s,transform .15s}
 .btn .ico{width:15px;height:15px;stroke-width:2.4;transition:transform .15s}
 .btn:hover .ico{transform:translateX(3px)}
@@ -119,15 +136,6 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
 .btn.ghost:hover{background:var(--accent-soft);border-color:var(--accent-soft)}
 .empty{text-align:center;padding:44px 20px;color:var(--muted)}
 .empty strong{display:block;color:var(--ink);font-size:18px;margin-bottom:4px}
-
-/* On phones, the "All" view shows each category as a swipeable shelf.
-   Picking a category or searching switches to a normal stacked list. */
-@media (max-width:599px){
-  .shelf .grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 20px 14px;margin:0 -20px;scrollbar-width:none}
-  .shelf .grid::-webkit-scrollbar{display:none}
-  .shelf .card{scroll-snap-align:center}
-  .shelf .sec{margin-bottom:26px}
-}
 
 /* about */
 .about{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -196,10 +204,18 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
   .swap:hover{transform:translateY(-4px)}
   .chips{padding:12px 28px;margin:0 -28px}
   .catalog{padding-top:44px;padding-bottom:28px}
-  .sec{margin-bottom:52px;scroll-margin-top:140px}
-  .sec-head h2{font-size:28px}
+  .sec{margin-bottom:14px;scroll-margin-top:140px;border-radius:24px}
+  .sec-head{padding:20px 22px;gap:16px}
+  .sec-head:hover .chev{background:var(--accent-soft)}
+  .sec-head h2{font-size:24px}
+  .sec-head p{font-size:14.5px}
+  .sec-body{padding:0 22px 22px}
   .grid{grid-template-columns:repeat(3,1fr);gap:16px}
-  .card{padding:20px}
+  .card{display:flex;flex-direction:column;gap:12px;padding:16px}
+  .media{width:100%;aspect-ratio:4/3;border-radius:12px}
+  .media .ico{width:44px;height:44px}
+  .info{flex:1}
+  .acts{margin-top:auto}
   .card:hover{box-shadow:0 18px 36px color-mix(in srgb,var(--brand) 12%,transparent);border-color:color-mix(in srgb,var(--brand) 22%,var(--line))}
   .about-grid{grid-template-columns:1fr 1fr;gap:56px;align-items:start}
   .points{grid-template-columns:1fr}

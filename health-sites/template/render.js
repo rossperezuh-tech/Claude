@@ -19,7 +19,8 @@ const ICONS = {
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
-  out: '<path d="M7 17L17 7M9 7h8v8"/>'
+  out: '<path d="M7 17L17 7M9 7h8v8"/>',
+  chevron: '<path d="M6 9l6 6 6-6"/>'
 };
 
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -101,9 +102,17 @@ function card(site, p, cat) {
   const links = p.links.map((l, i) =>
     `<a class="btn ${i === 0 ? "primary" : "ghost"}" href="${esc(l.url)}" target="_blank" rel="sponsored nofollow noopener">${esc(linkLabel(l))}${ico("out")}</a>`).join("");
   const search = [p.name, p.brand, p.why, p.what, cat.label, p.badge].filter(Boolean).join(" ").toLowerCase();
+  /* PRODUCT PHOTO: add "image": "img/your-file.jpg" to the product in products.json
+     and put the file in the site's static/img folder. Square photos look best. */
+  const media = p.image
+    ? `<div class="media has-img"><img src="${esc(p.image)}" alt="${esc((p.brand ? p.brand + " " : "") + p.name)}" loading="lazy" width="400" height="400"></div>`
+    : `<div class="media" aria-hidden="true">${ico(cat.icon)}</div>`;
   return `<article class="card" id="${p.id}" data-cat="${p.cat}" data-search="${esc(search)}">
-    <div class="card-top"><div>${p.brand ? `<div class="by">${esc(p.brand)}</div>` : ""}<h3>${esc(p.name)}</h3></div>${badge}</div>
-    <p class="why">${ico("check")}<span><span class="sr">${esc(site.catalog.whyLabel)}: </span>${esc(p.why)}</span></p>
+    ${media}
+    <div class="info">
+      <div class="card-top"><div>${p.brand ? `<div class="by">${esc(p.brand)}</div>` : ""}<h3>${esc(p.name)}</h3></div>${badge}</div>
+      <p class="why">${ico("check")}<span><span class="sr">${esc(site.catalog.whyLabel)}: </span>${esc(p.why)}</span></p>
+    </div>
     ${p.caution ? `<p class="caution"><b>Heads up:</b> ${esc(p.caution)}</p>` : ""}
     <div class="acts">${links}</div>
   </article>`;
@@ -114,13 +123,15 @@ function catalog(site, products) {
     const items = products.filter(p => p.cat === c.id);
     if (!items.length) return "";
     const starred = items.some(p => /\*/.test(p.why));
-    return `<section class="sec" id="${c.id}">
-    <div class="sec-head"><span class="sec-ico">${ico(c.icon)}</span><div><h2>${esc(c.label)}</h2><p><span class="count">${items.length} products</span> · ${esc(c.blurb)}</p></div></div>
-    <div class="grid">${items.map(p => card(site, p, c)).join("")}</div>
-    ${starred && site.footer.fda ? `<p class="sec-note">${esc(site.footer.fda)}</p>` : ""}
-  </section>`;
+    return `<details class="sec" id="${c.id}">
+    <summary class="sec-head"><span class="sec-ico">${ico(c.icon)}</span><div class="sec-txt"><h2>${esc(c.label)}</h2><p><span class="count">${items.length} products</span> · ${esc(c.blurb)}</p></div><span class="chev">${ico("chevron")}</span></summary>
+    <div class="sec-body">
+      <div class="grid">${items.map(p => card(site, p, c)).join("")}</div>
+      ${starred && site.footer.fda ? `<p class="sec-note">${esc(site.footer.fda)}</p>` : ""}
+    </div>
+  </details>`;
   }).join("");
-  return `<main class="wrap catalog shelf">
+  return `<main class="wrap catalog">
   <h2 class="sr">${esc(site.catalog.title)}</h2>
   ${secs}
   <div class="empty" id="empty" hidden><strong>No matches found</strong>Try another word, or clear your search to see everything.</div>

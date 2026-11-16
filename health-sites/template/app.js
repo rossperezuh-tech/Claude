@@ -9,9 +9,9 @@
   var secs = $$(".sec");
   var chips = $$(".chip");
   var empty = $("#empty");
-  var main = $(".catalog");
   var active = "all";
 
+  /* Categories start closed. Picking a category or searching opens what matches. */
   function apply() {
     var term = q ? q.value.trim().toLowerCase() : "";
     var shown = 0;
@@ -24,11 +24,11 @@
     secs.forEach(function (s) {
       var n = $$(".card:not([hidden])", s).length;
       s.hidden = !n;
+      s.open = n > 0 && (active !== "all" || !!term);
       var count = $(".count", s);
       if (count) count.textContent = n + (n === 1 ? " product" : " products");
     });
     if (empty) empty.hidden = shown > 0;
-    if (main) main.classList.toggle("shelf", active === "all" && !term);
     chips.forEach(function (c) {
       c.setAttribute("aria-pressed", c.dataset.id === active ? "true" : "false");
     });
@@ -46,6 +46,23 @@
     if (chip && chip.scrollIntoView) chip.scrollIntoView({ block: "nearest", inline: "center" });
     if (scroll) toCatalog();
   }
+
+  /* Links that point at one product (the Start Here cards) open its category first. */
+  $$('a[href^="#p-"]').forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      var card = document.getElementById(a.getAttribute("href").slice(1));
+      if (!card) return;
+      e.preventDefault();
+      if (q) q.value = "";
+      active = "all";
+      apply();
+      var sec = card.closest(".sec");
+      if (sec) sec.open = true;
+      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.classList.add("flash");
+      setTimeout(function () { card.classList.remove("flash"); }, 1800);
+    });
+  });
 
   chips.forEach(function (c) {
     c.addEventListener("click", function () { pick(c.dataset.id, true); });
