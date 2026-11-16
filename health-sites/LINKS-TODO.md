@@ -72,3 +72,70 @@ Edit links in `sites/healthshop/products.json`, then run `node build.js`.
 - [ ] **Tongue Scraper** (MasterMedi): Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe.
   - Current link: https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FMasterMedi-Scraper-Treatment-Stainless-Scrapers%2Fdp%2FB0B257614L&btn_ref=org-433bb393e1b8b503
 
+
+## Root & Rally
+
+Edit links in `sites/remedies/products.json`, then run `node build.js`.
+
+- [ ] **Site name**: "Root & Rally" is a working name. Confirm it or pick another (it is set in `sites/remedies/site.json`).
+- [ ] **Site address**: `https://www.rootandrally.com` is a placeholder. Put your real domain in `sites/remedies/site.json` ("url").
+
+### Links that earn no commission yet (28)
+
+- [ ] **Vitamin D3 + K2**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=vitamin+D3+K2+supplement
+- [ ] **Vitamin C**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=vitamin+C+supplement+500mg
+- [ ] **Zinc**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=zinc+picolinate+supplement
+- [ ] **Quercetin** (Garden of Life): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Garden+of+Life+quercetin+immune
+- [ ] **Aged Garlic Extract**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=aged+garlic+extract+capsules
+- [ ] **Mushroom Blend (Reishi, Turkey Tail)**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+mushroom+complex+reishi+turkey+tail+capsules
+- [ ] **Elderberry Syrup**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+elderberry+syrup
+- [ ] **Echinacea**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+echinacea+capsules
+- [ ] **Zinc Lozenges**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=zinc+acetate+lozenges
+- [ ] **Raw Honey**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=raw+unfiltered+honey
+- [ ] **Saline Sinus Rinse** (Guru Nanda): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Guru+Nanda+sinus+rinse+bottle
+- [ ] **Electrolyte Powder**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=electrolyte+powder+no+sugar
+- [ ] **Bone Broth**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+chicken+bone+broth
+- [ ] **Throat Tea (Licorice and Slippery Elm)**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Traditional+Medicinals+Throat+Coat+tea
+- [ ] **Epsom Salt**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Epsom+salt+unscented
+- [ ] **Probiotics**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=probiotic+lactobacillus+bifidobacterium+capsules
+- [ ] **Psyllium Husk Fiber**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+psyllium+husk+powder
+- [ ] **Fermented Foods (Sauerkraut, Kimchi, Kefir)**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=raw+organic+sauerkraut+live+cultures
+- [ ] **Ginger**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+ginger+chews
+- [ ] **Turmeric (Curcumin)** (Sunergetic): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Sunergetic+organic+turmeric+supplement
+- [ ] **Oil of Oregano**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=oil+of+oregano+softgels
+- [ ] **Fire Cider**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+fire+cider+tonic
+- [ ] **Astragalus**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+astragalus+root+capsules
+- [ ] **Magnesium Glycinate**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=magnesium+glycinate+capsules
+- [ ] **Ashwagandha**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+ashwagandha+KSM-66+capsules
+- [ ] **Chamomile Tea**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=organic+chamomile+tea+bags
+- [ ] **Melatonin (Low Dose)**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=melatonin+1mg+low+dose
+- [ ] **L-Theanine**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=L-theanine+200mg+capsules
+

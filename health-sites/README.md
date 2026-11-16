@@ -4,7 +4,7 @@ Two static affiliate sites built from one shared template.
 
 - `template/` shared layout, styles and behavior
 - `sites/healthshop/` All In One Health Shop
-- `sites/remedies/` supplement and herb site (coming in Part 3)
+- `sites/remedies/` Root & Rally, the supplement and herb site (working name)
 - `LINKS-TODO.md` every link that still needs an affiliate-tagged replacement
 
 ## Rebuild both sites

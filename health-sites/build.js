@@ -62,8 +62,8 @@ function schema(site, products) {
   ];
 }
 
-function head(site, products, hasOg) {
-  const e = R.esc, t = site.theme, url = site.url + "/";
+function head(site, products, hasOg, pagePath = "/") {
+  const e = R.esc, t = site.theme, url = site.url + pagePath;
   const og = site.url + "/og.png";
   return `<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,7 +89,7 @@ ${hasOg ? `<meta property="og:image" content="${e(og)}">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="${e(t.fontUrl)}" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="${e(t.fontUrl)}"></noscript>
-${schema(site, products).map(s => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, "\\u003c")}</script>`).join("\n")}`;
+${(products.length ? schema(site, products) : []).map(s => `<script type="application/ld+json">${JSON.stringify(s).replace(/</g, "\\u003c")}</script>`).join("\n")}`;
 }
 
 /* Collects every link that still needs the owner's attention. */
@@ -104,6 +104,7 @@ function linkReport(site, products) {
   });
   const row = x => `- [ ] **${x.p.name}**${x.p.brand ? ` (${x.p.brand})` : ""}: ${x.note}\n  - Current link: ${x.l.url}`;
   let md = `## ${site.name}\n\nEdit links in \`sites/${site.id}/products.json\`, then run \`node build.js\`.\n\n`;
+  if (site.nameIsPlaceholder) md += `- [ ] **Site name**: "${site.name}" is a working name. Confirm it or pick another (it is set in \`sites/${site.id}/site.json\`).\n`;
   if (site.urlIsPlaceholder) md += `- [ ] **Site address**: \`${site.url}\` is a placeholder. Put your real domain in \`sites/${site.id}/site.json\` ("url").\n\n`;
   if (names.length) md += `### Products that need their real name (${names.length})\n\n` +
     names.map(p => `- [ ] **${p.name}**: open ${p.links[0].url} and send the real product name.`).join("\n") + "\n\n";
@@ -148,7 +149,7 @@ function buildSite(id) {
   const body = [
     R.header(site), R.hero(site, products), R.startHere(site, products),
     R.chipbar(site, products), R.catalog(site, products),
-    R.about(site), R.signup(site), R.footer(site, year)
+    R.doctorBox(site), R.about(site), R.signup(site), R.footer(site, year)
   ].filter(Boolean).join("\n");
 
   const html = read(path.join(TPL, "layout.html"))
@@ -158,12 +159,27 @@ function buildSite(id) {
     .replace("{{js}}", () => read(path.join(TPL, "app.js")));
 
   fs.writeFileSync(path.join(dist, "index.html"), html);
+
+  const pages = ["/"];
+  if (site.sourcesPage) {
+    const sub = Object.assign({}, site, {
+      title: site.sourcesPage.title + " | " + site.name,
+      description: site.sourcesPage.description
+    });
+    const page = read(path.join(TPL, "layout.html"))
+      .replace("{{head}}", () => head(sub, [], fs.existsSync(path.join(dist, "og.png")), "/sources"))
+      .replace("{{css}}", () => css)
+      .replace("{{body}}", () => [R.header(site, "index.html"), R.sourcesPage(site, products), R.footer(site, year, "index.html")].join("\n"))
+      .replace("{{js}}", () => "");
+    fs.writeFileSync(path.join(dist, "sources.html"), page);
+    pages.push("/sources");
+  }
   fs.writeFileSync(path.join(dist, "favicon.svg"), favicon(site));
   fs.writeFileSync(path.join(dist, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${site.url}/sitemap.xml\n`);
   const today = new Date().toISOString().slice(0, 10);
   fs.writeFileSync(path.join(dist, "sitemap.xml"),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    `  <url><loc>${site.url}/</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>\n</urlset>\n`);
+    pages.map(pg => `  <url><loc>${site.url}${pg}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${pg === "/" ? "1.0" : "0.6"}</priority></url>\n`).join("") + `</urlset>\n`);
 
   const report = linkReport(site, products);
   const kb = (Buffer.byteLength(html) / 1024).toFixed(1);

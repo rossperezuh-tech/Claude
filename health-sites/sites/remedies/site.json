@@ -1,0 +1,115 @@
+{
+  "id": "remedies",
+  "name": "Root & Rally",
+  "nameIsPlaceholder": true,
+  "url": "https://www.rootandrally.com",
+  "urlIsPlaceholder": true,
+  "title": "Root & Rally | Supplements, Herbs and Teas for Everyday Immune Support",
+  "description": "Plain-language guides to supplements, herbs and teas that support your immune system day to day and help you rest up when you're run down. Every pick shows its evidence level and cautions.",
+  "location": "Brooklyn, NY",
+  "theme": {
+    "brand": "#2f3b24",
+    "brand2": "#4c5f37",
+    "accent": "#f2b85b",
+    "accentSoft": "#f7ead0",
+    "bg": "#f8f3e9",
+    "paper": "#fffdf8",
+    "ink": "#22261b",
+    "muted": "#666a58",
+    "line": "#e6dfcf",
+    "fontDisplay": "Fraunces, Georgia, \"Times New Roman\", serif",
+    "fontBody": "\"DM Sans\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "fontUrl": "https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap"
+  },
+  "mark": "<path d=\"M5 19c0-9 5-14 15-14 0 10-5 15-14 15\"/><path d=\"M5 19c3-5 6-8 10-10\"/>",
+  "nav": [
+    { "label": "Shop", "href": "#catalog" },
+    { "label": "When to see a doctor", "href": "#doctor" },
+    { "label": "About", "href": "#about" }
+  ],
+  "footerLinks": [
+    { "label": "Sources", "href": "sources.html" }
+  ],
+  "hero": {
+    "eyebrow": "Supplements · Herbs · Teas",
+    "title": "Everyday support for your <em>immune system.</em>",
+    "text": "Simple guides to what people take to stay well, and to rest up when they're run down. Every pick shows what the research says and who should be careful.",
+    "searchPlaceholder": "Search elderberry, zinc, sleep…"
+  },
+  "catalog": {
+    "title": "Browse everything",
+    "whyLabel": "Why people use it",
+    "whyVisible": true,
+    "cautionLabel": "Cautions"
+  },
+  "sectionDisclaimer": true,
+  "notice": {
+    "title": "Talk to your doctor first,",
+    "text": "especially if you take medications, are pregnant or nursing, or have a health condition. Supplements can interact with medicines."
+  },
+  "evidence": {
+    "title": "How to read the evidence levels",
+    "levels": {
+      "strong": { "label": "Strong", "text": "Reviews of multiple good-quality human trials agree there is a benefit." },
+      "some": { "label": "Some", "text": "Human trials exist, but they are small, mixed or low-certainty." },
+      "limited": { "label": "Traditional use", "text": "A long history of use or early lab research, with little human trial data." }
+    }
+  },
+  "doctorBox": {
+    "title": "When to see a doctor",
+    "text": "Supplements are not a substitute for medical care. Call your doctor if you have any of these.",
+    "items": [
+      "A fever of 103°F (39.4°C) or higher, or any fever lasting more than 3 days",
+      "Symptoms that last more than 10 days, or get worse after starting to improve",
+      "Trouble keeping fluids down, very little urine, or dizziness when standing",
+      "A severe sore throat, earache, sinus pain or headache",
+      "Any fever in a baby under 3 months old",
+      "You are pregnant, over 65, or have a chronic condition and feel very unwell"
+    ],
+    "emergency": "Call 911 right away for trouble breathing, chest pain, confusion, fainting, or bluish lips or face."
+  },
+  "sourcesPage": {
+    "title": "Sources",
+    "description": "The studies and references behind every evidence level on Root & Rally.",
+    "paragraphs": [
+      "Every evidence level on this site comes from published research. We lean on systematic reviews first (Cochrane and peer-reviewed meta-analyses), then U.S. National Institutes of Health fact sheets (the Office of Dietary Supplements and NCCIH), then individual trials.",
+      "Research changes. If you spot something out of date, let us know and we will review it."
+    ]
+  },
+  "about": {
+    "eyebrow": "About Root & Rally",
+    "title": "Honest about what the research does and doesn't show.",
+    "paragraphs": [
+      "Root & Rally is a small, independent guide based in Brooklyn, New York. We built it because the supplement aisle is confusing, and most labels promise more than the research supports.",
+      "For every product we read the best available evidence, then tell you plainly how strong it is. Some picks have solid research behind them. Others are long-standing traditions with little clinical data, and we say so.",
+      "We are not doctors and this is not medical advice. Use this site to get oriented, then talk with your doctor or pharmacist about what is right for you."
+    ],
+    "points": [
+      { "title": "Evidence on every card", "text": "Strong, Some or Traditional use, with the sources listed." },
+      { "title": "Cautions up front", "text": "Drug interactions, pregnancy and health conditions, in plain words." },
+      { "title": "No miracle claims", "text": "Supplements support your body. They do not cure, treat or prevent disease." }
+    ]
+  },
+  "signup": {
+    "title": "Seasonal wellness notes.",
+    "text": "A short email at the start of each season with new research and what's worth keeping on your shelf. No spam.",
+    "button": "Sign me up",
+    "placeholder": "you@email.com",
+    "action": "",
+    "pendingMessage": "Email signup opens soon. Check back shortly."
+  },
+  "footer": {
+    "disclosure": "As an Amazon Associate, Root & Rally earns from qualifying purchases at no extra cost to you.",
+    "disclaimer": "Content on this site is for general information only and is not medical advice. Always talk to your doctor before starting a supplement, especially if you take medications, are pregnant or nursing, or have a health condition.",
+    "fda": "*These statements have not been evaluated by the Food and Drug Administration. These products are not intended to diagnose, treat, cure, or prevent any disease.",
+    "tagline": "Made with care in Brooklyn, NY"
+  },
+  "categories": [
+    { "id": "daily", "label": "Daily Immune Support", "short": "Daily immune", "icon": "shield", "blurb": "Everyday basics for normal immune function." },
+    { "id": "cold", "label": "Cold & Flu Season", "short": "Cold season", "icon": "snow", "blurb": "What people reach for when a cold is coming on." },
+    { "id": "recovery", "label": "Recovery & Rest", "short": "Recovery", "icon": "cup", "blurb": "Fluids and comfort for when you're run down." },
+    { "id": "gut", "label": "Gut Health", "short": "Gut health", "icon": "gut", "blurb": "Fiber, live cultures and stomach settlers." },
+    { "id": "tonics", "label": "Herbal Tonics", "short": "Tonics", "icon": "leaf", "blurb": "Traditional herbs and kitchen tonics." },
+    { "id": "sleep", "label": "Sleep & Stress", "short": "Sleep", "icon": "moon", "blurb": "Wind down and get the rest your body needs." }
+  ]
+}

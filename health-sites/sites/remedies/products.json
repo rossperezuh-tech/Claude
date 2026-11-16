@@ -1,0 +1,731 @@
+[
+  {
+    "cat": "daily",
+    "name": "Vitamin D3 + K2",
+    "what": "Vitamin D3 paired with vitamin K2, usually as a softgel or drops.",
+    "why": "Supports normal immune function and bone health, especially in winter or when you get little sun.*",
+    "evidence": {
+      "level": "some",
+      "note": "Pooled trials found a small drop in respiratory infections with daily vitamin D. The effect is modest and clearest in people who start out low."
+    },
+    "caution": "Vitamin K can interfere with warfarin and other blood thinners. Very high doses of vitamin D can raise blood calcium. Ask your doctor if you take thiazide diuretics or have kidney disease.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=vitamin+D3+K2+supplement",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Martineau et al. 2017, BMJ. Vitamin D supplementation to prevent acute respiratory tract infections: meta-analysis of individual participant data",
+        "url": "https://www.bmj.com/content/356/bmj.i6583"
+      },
+      {
+        "title": "Jolliffe et al. 2021, Lancet Diabetes & Endocrinology. Vitamin D supplementation to prevent acute respiratory infections: updated meta-analysis",
+        "url": "https://doi.org/10.1016/S2213-8587(21)00075-9"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Vitamin D fact sheet",
+        "url": "https://ods.od.nih.gov/factsheets/VitaminD-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "daily",
+    "name": "Vitamin C",
+    "what": "An essential vitamin, sold as capsules, powder or chewables.",
+    "why": "Supports immune cell function. Taken regularly, it may help shorten colds a little.*",
+    "evidence": {
+      "level": "some",
+      "note": "A Cochrane review found regular vitamin C did not reduce how often most people catch colds, but shortened them by about 8% in adults. Starting after symptoms begin showed no consistent benefit."
+    },
+    "caution": "Doses above 2,000 mg a day can cause stomach upset and diarrhea. Check with your doctor if you have a history of kidney stones or iron overload (hemochromatosis).",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=vitamin+C+supplement+500mg",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Hemilä & Chalker, Cochrane Review. Vitamin C for preventing and treating the common cold",
+        "url": "https://doi.org/10.1002/14651858.CD000980.pub4"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Vitamin C fact sheet",
+        "url": "https://ods.od.nih.gov/factsheets/VitaminC-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "daily",
+    "name": "Zinc",
+    "what": "An essential mineral, sold as capsules or tablets (often zinc picolinate or gluconate).",
+    "why": "Supports normal immune function, especially if your diet is low in zinc.*",
+    "evidence": {
+      "level": "some",
+      "note": "Zinc is needed for immune cells to work normally. Cochrane found no clear evidence that daily zinc reduces the number of colds people catch."
+    },
+    "caution": "Stay under 40 mg a day unless your doctor says otherwise. Long-term high doses can lower copper levels. Take it a few hours apart from antibiotics and penicillamine.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=zinc+picolinate+supplement",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Nault et al. 2024, Cochrane Review. Zinc for prevention and treatment of the common cold",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD014914.pub2"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Zinc fact sheet",
+        "url": "https://ods.od.nih.gov/factsheets/Zinc-Consumer/"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Dietary Supplements for Immune Function and Infectious Diseases",
+        "url": "https://ods.od.nih.gov/factsheets/ImmuneFunction-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "daily",
+    "name": "Quercetin",
+    "brand": "Garden of Life",
+    "what": "A plant flavonoid found in onions, apples and berries, sold as tablets or capsules.",
+    "why": "Used for antioxidant support and to support immune and respiratory health.*",
+    "evidence": {
+      "level": "limited",
+      "note": "The largest trial (1,002 adults, 12 weeks) found no overall effect on upper respiratory illness. A benefit appeared only in one subgroup, so it needs confirming.",
+      "label": "Early research"
+    },
+    "caution": "Can interact with some antibiotics, blood thinners and blood pressure medicines. Not well studied in pregnancy or breastfeeding. High doses may be hard on the kidneys.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Garden+of+Life+quercetin+immune",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Heinz et al. 2010, Pharmacological Research. Quercetin supplementation and upper respiratory tract infection: randomized community clinical trial",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/20478383/"
+      }
+    ]
+  },
+  {
+    "cat": "daily",
+    "name": "Aged Garlic Extract",
+    "what": "Garlic that has been aged to mellow the odor, sold as capsules.",
+    "why": "Supports immune cell function. People take it daily through the winter.*",
+    "evidence": {
+      "level": "some",
+      "note": "One trial of 146 people reported fewer colds with a garlic supplement, and one trial of aged garlic extract showed changes in immune cells. Cochrane says more trials are needed."
+    },
+    "caution": "Garlic can increase bleeding risk. Talk to your doctor if you take blood thinners or have surgery planned. It may also interact with some HIV and blood pressure medicines.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=aged+garlic+extract+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Lissiman et al., Cochrane Review. Garlic for the common cold",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/22419312/"
+      },
+      {
+        "title": "NIH NCCIH: Garlic",
+        "url": "https://www.nccih.nih.gov/health/garlic"
+      }
+    ]
+  },
+  {
+    "cat": "daily",
+    "name": "Mushroom Blend (Reishi, Turkey Tail)",
+    "what": "Powder or capsules made from functional mushrooms such as reishi and turkey tail.",
+    "why": "A traditional tonic used to support immune health.*",
+    "evidence": {
+      "level": "limited",
+      "note": "Used for centuries in East Asian traditions. Most immune research on reishi is in the lab or in animals, and human studies are small or focus on specific medical settings."
+    },
+    "caution": "Avoid if you take immunosuppressants or have had a transplant, and check with your doctor if you have an autoimmune condition. May interact with blood thinners, blood pressure and diabetes medicines.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+mushroom+complex+reishi+turkey+tail+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "National Cancer Institute PDQ: Medicinal Mushrooms",
+        "url": "https://www.cancer.gov/about-cancer/treatment/cam/patient/mushrooms-pdq"
+      }
+    ]
+  },
+  {
+    "cat": "cold",
+    "name": "Elderberry Syrup",
+    "what": "A syrup or gummy made from cooked black elderberries (Sambucus nigra).",
+    "why": "Supports immune health in cold and flu season. May help colds feel shorter and milder.*",
+    "evidence": {
+      "level": "some",
+      "note": "A 2021 systematic review of five trials found elderberry may reduce the length and severity of colds, but called the evidence uncertain. It probably does not stop you catching one."
+    },
+    "caution": "Never eat raw or unripe elderberries, which can cause nausea and vomiting. Not recommended in pregnancy for lack of safety data. Ask your doctor if you take immunosuppressants or diabetes medicine.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+elderberry+syrup",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Wieland et al. 2021, BMC Complementary Medicine and Therapies. Elderberry for prevention and treatment of viral respiratory illnesses: systematic review",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8026097"
+      },
+      {
+        "title": "NIH NCCIH: Elderberry",
+        "url": "https://www.nccih.nih.gov/health/elderberry"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Dietary Supplements for Immune Function and Infectious Diseases",
+        "url": "https://ods.od.nih.gov/factsheets/ImmuneFunction-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "cold",
+    "name": "Echinacea",
+    "what": "A flowering herb taken as tea, tincture or capsules.",
+    "why": "Supports the body's natural defenses at the first sign of a cold.*",
+    "evidence": {
+      "level": "some",
+      "note": "A Cochrane review of 24 trials found weak evidence overall. Pooled results suggest a small (10 to 20%) drop in the chance of catching a cold, of uncertain importance. Products vary a lot."
+    },
+    "caution": "Can cause allergic reactions, especially if you are allergic to ragweed, daisies or marigolds. Check with your doctor if you have an autoimmune condition or take immunosuppressants.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+echinacea+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Karsch-Völk et al. 2014, Cochrane Review. Echinacea for preventing and treating the common cold",
+        "url": "https://www.cochrane.org/CD000530/ARI_echinacea-for-preventing-and-treating-the-common-cold"
+      },
+      {
+        "title": "NIH NCCIH: Echinacea",
+        "url": "https://www.nccih.nih.gov/health/echinacea"
+      }
+    ]
+  },
+  {
+    "cat": "cold",
+    "name": "Zinc Lozenges",
+    "what": "Lozenges made with zinc acetate or zinc gluconate that dissolve slowly in the mouth.",
+    "why": "Taken at the first sign of a cold. May help shorten colds.*",
+    "evidence": {
+      "level": "some",
+      "note": "A 2024 Cochrane review found zinc may shorten a cold by about two days, with low-certainty evidence. A separate reanalysis of lozenge trials found a larger effect. Start within 24 hours of symptoms."
+    },
+    "caution": "Can cause nausea and a bad taste. Use for a few days only, and stay under 40 mg of zinc a day long term. Avoid zinc nasal sprays, which have been linked to loss of smell. Space it apart from antibiotics.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=zinc+acetate+lozenges",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Nault et al. 2024, Cochrane Review. Zinc for prevention and treatment of the common cold",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD014914.pub2"
+      },
+      {
+        "title": "Hemilä & Chalker 2024, Frontiers in Medicine. Reanalysis of zinc lozenge trials",
+        "url": "https://www.frontiersin.org/journals/medicine/articles/10.3389/fmed.2024.1470004/full"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Zinc fact sheet",
+        "url": "https://ods.od.nih.gov/factsheets/Zinc-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "cold",
+    "name": "Raw Honey",
+    "what": "Unprocessed honey, taken by the spoonful or stirred into warm tea.",
+    "why": "Soothes the throat and helps calm a nighttime cough.*",
+    "evidence": {
+      "level": "some",
+      "note": "A Cochrane review found honey probably eases cough in children more than no treatment or placebo. Evidence quality was low to moderate, and most studies lasted one night."
+    },
+    "caution": "Never give honey to babies under 12 months because of the risk of infant botulism. Honey is sugar, so count it if you have diabetes.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=raw+unfiltered+honey",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Oduwole et al. 2018, Cochrane Review. Honey for acute cough in children",
+        "url": "https://www.cochrane.org/evidence/CD007094"
+      }
+    ]
+  },
+  {
+    "cat": "cold",
+    "name": "Saline Sinus Rinse",
+    "brand": "Guru Nanda",
+    "what": "A squeeze bottle or neti pot used to rinse the nose with salt water.",
+    "why": "Rinses out mucus and helps you breathe more comfortably when stuffed up.*",
+    "evidence": {
+      "level": "some",
+      "note": "A Cochrane review of five trials found saline rinsing is safe and possibly eases symptoms, but the evidence is limited."
+    },
+    "caution": "Use only distilled, sterile or previously boiled and cooled water. Never use plain tap water, which can carry organisms that cause rare but serious infections. Clean and dry the bottle after every use.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Guru+Nanda+sinus+rinse+bottle",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "King et al. 2015, Cochrane Review. Saline nasal irrigation for acute upper respiratory tract infections",
+        "url": "https://www.cochrane.org/CD006821"
+      },
+      {
+        "title": "U.S. FDA: Is Rinsing Your Sinuses With Neti Pots Safe?",
+        "url": "https://www.fda.gov/consumers/consumer-updates/rinsing-your-sinuses-neti-pots-safe"
+      }
+    ]
+  },
+  {
+    "cat": "recovery",
+    "name": "Electrolyte Powder",
+    "what": "A drink mix with sodium, potassium and other minerals, often with a little glucose.",
+    "why": "Supports hydration when you are sweating, not eating well or losing fluids.*",
+    "evidence": {
+      "level": "strong",
+      "note": "Oral rehydration solutions are one of the best-studied tools in medicine. Cochrane reviews find they rehydrate about as well as IV fluids in most cases."
+    },
+    "caution": "Check with your doctor first if you have kidney disease, heart failure or high blood pressure, or take diuretics or potassium-sparing medicines. Watch the sugar and sodium on the label.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=electrolyte+powder+no+sugar",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Cochrane Review. Reduced osmolarity oral rehydration solution for treating dehydration",
+        "url": "https://www.cochrane.org/evidence/CD002847_reduced-osmolarity-oral-rehydration-solution-treating-dehydration-caused-acute-diarrhoea-children"
+      }
+    ]
+  },
+  {
+    "cat": "recovery",
+    "name": "Bone Broth",
+    "what": "A slow-simmered broth, sold ready to drink or as a powder.",
+    "why": "A warm, easy-to-digest source of fluids, protein and salt when your appetite is low.",
+    "evidence": {
+      "level": "limited",
+      "note": "A well-known lab study found chicken soup slowed the movement of certain immune cells in a test tube. There are no good human trials, but warm fluids are a time-honored comfort.",
+      "label": "Traditional use"
+    },
+    "caution": "Often high in sodium, so check the label if you watch your salt. Long-simmered broths are high in histamine, which bothers some people.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+chicken+bone+broth",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Rennard et al. 2000, Chest 118(4):1150-1157. Chicken soup inhibits neutrophil chemotaxis in vitro (university summary)",
+        "url": "https://www.unmc.edu/newsroom/2000/10/17/mother-approved-doctor-tested/"
+      }
+    ]
+  },
+  {
+    "cat": "recovery",
+    "name": "Throat Tea (Licorice and Slippery Elm)",
+    "what": "An herbal tea blend made with licorice root, slippery elm bark and marshmallow root.",
+    "why": "Coats and soothes the throat.*",
+    "evidence": {
+      "level": "some",
+      "note": "One randomized trial of 60 adults found a tea of this type eased throat discomfort better than placebo for about 30 minutes after drinking."
+    },
+    "caution": "Licorice root can raise blood pressure and lower potassium with regular use. Avoid if you are pregnant or have high blood pressure, heart or kidney disease. Slippery elm may slow the absorption of medicines, so take them an hour apart.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Traditional+Medicinals+Throat+Coat+tea",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Brinckmann et al. 2003, Journal of Alternative and Complementary Medicine. Throat Coat herbal tea randomized controlled trial",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/12804082/"
+      },
+      {
+        "title": "NIH NCCIH: Licorice Root",
+        "url": "https://www.nccih.nih.gov/health/licorice-root"
+      }
+    ]
+  },
+  {
+    "cat": "recovery",
+    "name": "Epsom Salt",
+    "what": "Magnesium sulfate crystals that dissolve in a warm bath.",
+    "why": "A warm soak people use to relax and ease tired, achy muscles.",
+    "evidence": {
+      "level": "limited",
+      "note": "A long-standing home tradition. A 2017 review found little evidence that magnesium is absorbed through the skin, so the comfort likely comes from the warm bath itself.",
+      "label": "Traditional use"
+    },
+    "caution": "For soaking only. Do not drink it unless a doctor tells you to. Skip hot baths if you have a fever, feel dizzy or have open wounds. Ask your doctor first if you have kidney disease.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Epsom+salt+unscented",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Gröber et al. 2017, Nutrients. Myth or Reality: Transdermal Magnesium?",
+        "url": "https://doi.org/10.3390/nu9080813"
+      }
+    ]
+  },
+  {
+    "cat": "gut",
+    "name": "Probiotics",
+    "what": "Capsules of live beneficial bacteria, usually Lactobacillus and Bifidobacterium strains.",
+    "why": "Support a healthy balance of gut bacteria, including during and after antibiotics.*",
+    "evidence": {
+      "level": "strong",
+      "note": "Cochrane reviews find probiotics are likely to lower the number of upper respiratory infections and help keep digestion regular during antibiotic use. Effects depend on the strain."
+    },
+    "caution": "Not for people with weakened immune systems, serious illness or a central line, or for premature infants, unless a doctor approves. May cause gas or bloating at first.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=probiotic+lactobacillus+bifidobacterium+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Zhao et al. 2022, Cochrane Review. Probiotics for preventing acute upper respiratory tract infections",
+        "url": "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD006895.pub4/information"
+      },
+      {
+        "title": "Guo et al. 2019, Cochrane Review. Probiotics for the prevention of pediatric antibiotic-associated diarrhea",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31039287/"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Probiotics fact sheet",
+        "url": "https://ods.od.nih.gov/factsheets/Probiotics-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "gut",
+    "name": "Psyllium Husk Fiber",
+    "what": "A soluble fiber from Plantago seed husks, sold as powder or capsules.",
+    "why": "Supports regularity and feeds beneficial gut bacteria.*",
+    "evidence": {
+      "level": "strong",
+      "note": "A 2022 meta-analysis of randomized trials found psyllium was the most effective fiber for regularity, at more than 10 g a day for at least 4 weeks."
+    },
+    "caution": "Always take with a full glass of water, as it can swell and cause choking if taken dry. Take medicines 2 hours apart. Not for people with trouble swallowing or a bowel obstruction.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+psyllium+husk+powder",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "van der Schoot et al. 2022, American Journal of Clinical Nutrition. Fiber supplementation and chronic constipation: systematic review and meta-analysis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/35816465/"
+      }
+    ]
+  },
+  {
+    "cat": "gut",
+    "name": "Fermented Foods (Sauerkraut, Kimchi, Kefir)",
+    "what": "Foods made with live cultures, such as raw sauerkraut, kimchi and kefir.",
+    "why": "Add live cultures to your diet and support a diverse gut microbiome.*",
+    "evidence": {
+      "level": "some",
+      "note": "A Stanford trial of 36 adults found a 10-week high-fermented-food diet increased gut microbe diversity and lowered several markers of inflammation. The study was small."
+    },
+    "caution": "Raw, unpasteurized ferments are not recommended if you have a weakened immune system. They are high in salt and histamine, which bothers some people.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=raw+organic+sauerkraut+live+cultures",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Wastyk et al. 2021, Cell. Gut-microbiota-targeted diets modulate human immune status",
+        "url": "https://doi.org/10.1016/j.cell.2021.06.019"
+      }
+    ]
+  },
+  {
+    "cat": "gut",
+    "name": "Ginger",
+    "what": "Ginger root as capsules, chews or tea.",
+    "why": "Helps settle the stomach and eases occasional nausea.*",
+    "evidence": {
+      "level": "some",
+      "note": "NIH says research shows ginger may be helpful for nausea in pregnancy. Studies for motion sickness have mostly not shown a benefit."
+    },
+    "caution": "May cause heartburn or stomach upset. Talk to your doctor before using ginger supplements if you are pregnant, take blood thinners or have gallstones.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+ginger+chews",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "NIH NCCIH: Ginger",
+        "url": "https://www.nccih.nih.gov/health/ginger"
+      }
+    ]
+  },
+  {
+    "cat": "tonics",
+    "name": "Turmeric (Curcumin)",
+    "brand": "Sunergetic",
+    "what": "Capsules or tea made from turmeric root, often with black pepper to aid absorption.",
+    "why": "Supports a healthy inflammatory response and joint comfort.*",
+    "evidence": {
+      "level": "some",
+      "note": "NIH says early research is positive but higher-quality studies are needed before firm conclusions can be drawn."
+    },
+    "caution": "Highly absorbable curcumin products have been linked to rare cases of liver injury. Stop and call your doctor if you notice dark urine, yellow skin or unusual tiredness. Check first if you take blood thinners, have gallbladder disease or are pregnant.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Sunergetic+organic+turmeric+supplement",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "NIH NCCIH: Turmeric",
+        "url": "https://www.nccih.nih.gov/health/turmeric"
+      },
+      {
+        "title": "NIH LiverTox: Turmeric",
+        "url": "https://www.ncbi.nlm.nih.gov/books/NBK548561/"
+      }
+    ]
+  },
+  {
+    "cat": "tonics",
+    "name": "Oil of Oregano",
+    "what": "A concentrated oil from oregano leaves, taken as softgels or diluted drops.",
+    "why": "A traditional herbal used for seasonal immune support.*",
+    "evidence": {
+      "level": "limited",
+      "note": "Used in folk herbalism for generations. Lab studies show activity from its main compound, carvacrol, but human studies are lacking.",
+      "label": "Traditional use"
+    },
+    "caution": "Do not use if you are pregnant or breastfeeding. Can irritate the stomach, mouth and skin, so never take it undiluted. Avoid if you are allergic to mint-family plants. Short-term use only.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=oil+of+oregano+softgels",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Journal of Restorative Medicine monograph: Oregano (Origanum vulgare)",
+        "url": "https://restorativemedicine.org/library/monographs/oregano/"
+      }
+    ]
+  },
+  {
+    "cat": "tonics",
+    "name": "Fire Cider",
+    "what": "A folk tonic of apple cider vinegar steeped with garlic, onion, ginger, horseradish and hot peppers, often sweetened with honey.",
+    "why": "A warming traditional tonic people take by the spoonful in cold weather.",
+    "evidence": {
+      "level": "limited",
+      "note": "A New England herbal tradition. There are no clinical trials on fire cider itself, though some ingredients, such as garlic, have been studied on their own.",
+      "label": "Traditional use"
+    },
+    "caution": "The vinegar and peppers can worsen heartburn and wear on tooth enamel, so dilute it and rinse your mouth after. Versions with honey are not for babies under 12 months. Garlic may interact with blood thinners.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+fire+cider+tonic",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "NIH NCCIH: Garlic",
+        "url": "https://www.nccih.nih.gov/health/garlic"
+      }
+    ]
+  },
+  {
+    "cat": "tonics",
+    "name": "Astragalus",
+    "what": "The root of Astragalus membranaceus, taken as capsules, tincture or tea.",
+    "why": "An herb from traditional Chinese practice used as a daily tonic for immune support.*",
+    "evidence": {
+      "level": "limited",
+      "note": "Used for centuries in traditional Chinese medicine. NIH says there is not enough reliable evidence in people to know if it helps for any health purpose.",
+      "label": "Traditional use"
+    },
+    "caution": "Avoid if you have an autoimmune disease or take immunosuppressants. Not recommended in pregnancy or breastfeeding.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+astragalus+root+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "NIH NCCIH: Astragalus",
+        "url": "https://www.nccih.nih.gov/health/astragalus"
+      }
+    ]
+  },
+  {
+    "cat": "sleep",
+    "name": "Magnesium Glycinate",
+    "what": "Magnesium bound to the amino acid glycine, a form that is gentle on the stomach.",
+    "why": "Supports muscle relaxation and restful sleep.*",
+    "evidence": {
+      "level": "some",
+      "note": "A review of three small trials in older adults found magnesium helped people fall asleep about 17 minutes faster, but the evidence quality was low."
+    },
+    "caution": "Ask your doctor first if you have kidney disease. Take it 2 hours apart from antibiotics and osteoporosis medicines. The upper limit from supplements is 350 mg a day. Too much causes loose stools.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=magnesium+glycinate+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Mah & Pitre 2021, BMC Complementary Medicine and Therapies. Oral magnesium supplementation for insomnia in older adults: systematic review and meta-analysis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/33865376/"
+      },
+      {
+        "title": "NIH Office of Dietary Supplements: Magnesium fact sheet",
+        "url": "https://ods.od.nih.gov/factsheets/Magnesium-Consumer/"
+      }
+    ]
+  },
+  {
+    "cat": "sleep",
+    "name": "Ashwagandha",
+    "what": "The root of Withania somnifera, an herb from Ayurvedic tradition, sold as capsules or powder.",
+    "why": "Supports a calm response to everyday stress and may support sleep.*",
+    "evidence": {
+      "level": "some",
+      "note": "NIH says several trials suggest ashwagandha may reduce stress and lower cortisol. Sleep benefits appear small. Long-term safety past 3 months is not known."
+    },
+    "caution": "Do not use if you are pregnant or breastfeeding. Has been linked to rare liver injury. May affect thyroid function. Check with your doctor if you take thyroid, diabetes, blood pressure, sedative or immunosuppressant medicines, or have prostate cancer.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+ashwagandha+KSM-66+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "NIH Office of Dietary Supplements: Ashwagandha fact sheet for health professionals",
+        "url": "https://ods.od.nih.gov/factsheets/Ashwagandha-HealthProfessional/"
+      }
+    ]
+  },
+  {
+    "cat": "sleep",
+    "name": "Chamomile Tea",
+    "what": "Dried chamomile flowers, steeped as a caffeine-free tea.",
+    "why": "A gentle bedtime tea used to relax and support sleep quality.*",
+    "evidence": {
+      "level": "some",
+      "note": "A 2019 meta-analysis found chamomile improved sleep quality. Results for other sleep measures were mixed and the trials were small."
+    },
+    "caution": "May cause reactions if you are allergic to ragweed, daisies or chrysanthemums. May interact with blood thinners and some other medicines.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=organic+chamomile+tea+bags",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Hieu et al. 2019, Phytotherapy Research. Chamomile for anxiety and sleep quality: systematic review and meta-analysis",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/31006899/"
+      },
+      {
+        "title": "NIH NCCIH: Chamomile",
+        "url": "https://www.nccih.nih.gov/health/chamomile"
+      }
+    ]
+  },
+  {
+    "cat": "sleep",
+    "name": "Melatonin (Low Dose)",
+    "what": "A hormone your body makes at night, sold as low-dose tablets (0.5 to 3 mg).",
+    "why": "Helps reset your body clock after travel and may help you fall asleep sooner.*",
+    "evidence": {
+      "level": "strong",
+      "note": "A Cochrane review found melatonin is remarkably effective for jet lag when crossing five or more time zones. For everyday sleep, benefits are smaller."
+    },
+    "caution": "For short-term use. Can cause drowsiness, so do not drive after taking it. Ask your doctor first if you are pregnant or breastfeeding, have epilepsy, or take blood thinners, immunosuppressants or diabetes medicine. Ask a pediatrician before giving it to children.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=melatonin+1mg+low+dose",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Herxheimer & Petrie, Cochrane Review. Melatonin for the prevention and treatment of jet lag",
+        "url": "https://www.cochrane.org/CD001520"
+      },
+      {
+        "title": "NIH NCCIH: Melatonin, What You Need To Know",
+        "url": "https://www.nccih.nih.gov/health/melatonin-what-you-need-to-know"
+      }
+    ]
+  },
+  {
+    "cat": "sleep",
+    "name": "L-Theanine",
+    "what": "An amino acid found naturally in green tea, sold as capsules.",
+    "why": "Supports a relaxed, calm state without drowsiness and may support sleep quality.*",
+    "evidence": {
+      "level": "some",
+      "note": "A 2025 systematic review of 13 trials found 200 to 450 mg a day appears to support healthy sleep in adults. Studies are small and use different products."
+    },
+    "caution": "May lower blood pressure slightly, so check with your doctor if you take blood pressure medicine or sedatives. Not well studied in pregnancy.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=L-theanine+200mg+capsules",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "2025 systematic review, Nutritional Neuroscience. Examining the effect of L-theanine on sleep",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41176609/"
+      }
+    ]
+  }
+]

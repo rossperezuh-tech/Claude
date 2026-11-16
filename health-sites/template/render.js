@@ -20,7 +20,8 @@ const ICONS = {
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   out: '<path d="M7 17L17 7M9 7h8v8"/>',
-  chevron: '<path d="M6 9l6 6 6-6"/>'
+  chevron: '<path d="M6 9l6 6 6-6"/>',
+  cross: '<path d="M12 5v14M5 12h14"/>'
 };
 
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -41,11 +42,11 @@ function mark(site) {
   return `<span class="mark">${ico(site.mark)}</span>`;
 }
 
-function header(site) {
+function header(site, base = "") {
   const nav = site.nav.map((n, i) =>
-    `<a href="${esc(n.href)}"${n.label === "Shop" || n.cta ? ' class="cta"' : ""}>${esc(n.label)}</a>`).join("");
+    `<a href="${esc(n.href[0] === "#" ? base + n.href : n.href)}"${n.label === "Shop" || n.cta ? ' class="cta"' : ""}>${esc(n.label)}</a>`).join("");
   return `<header class="top"><div class="wrap">
-  <a class="brand" href="#top" aria-label="${esc(site.name)} home">${mark(site)}<b>${esc(site.name)}</b></a>
+  <a class="brand" href="${base}#top" aria-label="${esc(site.name)} home">${mark(site)}<b>${esc(site.name)}</b></a>
   <nav class="nav" aria-label="Main">${nav}</nav>
 </div></header>`;
 }
@@ -97,6 +98,11 @@ function chipbar(site, products) {
 </div></div></div>`;
 }
 
+function evidenceLabel(site, p) {
+  const levels = (site.evidence && site.evidence.levels) || {};
+  return "Evidence: " + (p.evidence.label || (levels[p.evidence.level] || {}).label || p.evidence.level);
+}
+
 function card(site, p, cat) {
   const badge = p.badge ? `<span class="badge ${slug(p.badge)}">${esc(p.badge)}</span>` : "";
   const links = p.links.map((l, i) =>
@@ -111,9 +117,11 @@ function card(site, p, cat) {
     ${media}
     <div class="info">
       <div class="card-top"><div>${p.brand ? `<div class="by">${esc(p.brand)}</div>` : ""}<h3>${esc(p.name)}</h3></div>${badge}</div>
-      <p class="why">${ico("check")}<span><span class="sr">${esc(site.catalog.whyLabel)}: </span>${esc(p.why)}</span></p>
+      ${p.what ? `<p class="what">${esc(p.what)}</p>` : ""}
+      <p class="why">${ico("check")}<span>${site.catalog.whyVisible ? `<b>${esc(site.catalog.whyLabel)}:</b> ` : `<span class="sr">${esc(site.catalog.whyLabel)}: </span>`}${esc(p.why)}</span></p>
     </div>
-    ${p.caution ? `<p class="caution"><b>Heads up:</b> ${esc(p.caution)}</p>` : ""}
+    ${p.evidence ? `<div class="ev ev-${p.evidence.level}"><span class="ev-pill">${esc(evidenceLabel(site, p))}</span><span class="ev-note">${esc(p.evidence.note)} <a href="sources.html#${p.id}">Sources</a></span></div>` : ""}
+    ${p.caution ? `<p class="caution"><b>${esc(site.catalog.cautionLabel || "Heads up")}:</b> ${esc(p.caution)}</p>` : ""}
     <div class="acts">${links}</div>
   </article>`;
 }
@@ -127,14 +135,63 @@ function catalog(site, products) {
     <summary class="sec-head"><span class="sec-ico">${ico(c.icon)}</span><div class="sec-txt"><h2>${esc(c.label)}</h2><p><span class="count">${items.length} products</span> · ${esc(c.blurb)}</p></div><span class="chev">${ico("chevron")}</span></summary>
     <div class="sec-body">
       <div class="grid">${items.map(p => card(site, p, c)).join("")}</div>
-      ${starred && site.footer.fda ? `<p class="sec-note">${esc(site.footer.fda)}</p>` : ""}
+      ${(starred || site.sectionDisclaimer) && site.footer.fda ? `<p class="sec-note">${esc(site.footer.fda)}</p>` : ""}
     </div>
   </details>`;
   }).join("");
   return `<main class="wrap catalog">
   <h2 class="sr">${esc(site.catalog.title)}</h2>
+  ${notice(site)}
+  ${legend(site)}
   ${secs}
   <div class="empty" id="empty" hidden><strong>No matches found</strong>Try another word, or clear your search to see everything.</div>
+</main>`;
+}
+
+/* Visible "talk to your doctor" notice (health sites). */
+function notice(site) {
+  if (!site.notice) return "";
+  return `<aside class="notice" role="note">${ico("shield")}<p><b>${esc(site.notice.title)}</b> ${esc(site.notice.text)}</p></aside>`;
+}
+
+/* Explains what each evidence level means. */
+function legend(site) {
+  const e = site.evidence;
+  if (!e) return "";
+  return `<div class="legend"><b>${esc(e.title)}</b><ul>${Object.keys(e.levels).map(k =>
+    `<li class="ev-${k}"><span class="ev-pill">${esc(e.levels[k].label)}</span><span>${esc(e.levels[k].text)}</span></li>`).join("")}</ul></div>`;
+}
+
+/* "When to see a doctor" box. */
+function doctorBox(site) {
+  const d = site.doctorBox;
+  if (!d) return "";
+  return `<section class="band" id="doctor"><div class="wrap"><div class="doc">
+  <div class="doc-head"><span class="doc-ico">${ico("cross")}</span><div><h2>${esc(d.title)}</h2><p>${esc(d.text)}</p></div></div>
+  <ul>${d.items.map(t => `<li>${ico("check")}<span>${esc(t)}</span></li>`).join("")}</ul>
+  <p class="doc-911">${esc(d.emergency)}</p>
+</div></div></section>`;
+}
+
+/* The /sources page: every product with its evidence level and references. */
+function sourcesPage(site, products) {
+  const s = site.sourcesPage;
+  const secs = site.categories.map(c => {
+    const items = products.filter(p => p.cat === c.id);
+    if (!items.length) return "";
+    return `<section class="src-sec"><h2>${esc(c.label)}</h2>${items.map(p => `<article class="src" id="${p.id}">
+      <h3>${esc(p.name)}</h3>
+      ${p.evidence ? `<p class="ev ev-${p.evidence.level}"><span class="ev-pill">${esc(evidenceLabel(site, p))}</span><span class="ev-note">${esc(p.evidence.note)}</span></p>` : ""}
+      <ol>${(p.sources || []).map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.title)}</a>${x.note ? `<span> ${esc(x.note)}</span>` : ""}</li>`).join("")}</ol>
+    </article>`).join("")}</section>`;
+  }).join("");
+  return `<main class="wrap page">
+  <a class="back" href="index.html#catalog">${ico("arrow")}<span>Back to all products</span></a>
+  <h1>${esc(s.title)}</h1>
+  ${s.paragraphs.map(t => `<p class="lead">${esc(t)}</p>`).join("")}
+  ${legend(site)}
+  ${secs}
+  <p class="sec-note">${esc(site.footer.fda)}</p>
 </main>`;
 }
 
@@ -169,16 +226,16 @@ function signup(site) {
 </div></div></section>`;
 }
 
-function footer(site, year) {
+function footer(site, year, base = "") {
   const f = site.footer;
   const links = site.nav.concat(site.footerLinks || []);
   return `<footer class="foot"><div class="wrap">
   <div class="brand">${mark(site)}<b>${esc(site.name)}</b></div>
   <p>${esc(f.disclosure)} ${esc(f.disclaimer)}</p>
   ${f.fda ? `<p>${esc(f.fda)}</p>` : ""}
-  <div class="foot-links">${links.map(n => `<a href="${esc(n.href)}">${esc(n.label)}</a>`).join("")}</div>
+  <div class="foot-links">${links.map(n => `<a href="${esc(n.href[0] === "#" ? base + n.href : n.href)}">${esc(n.label)}</a>`).join("")}</div>
   <div class="foot-bottom"><span>© ${year} ${esc(site.name)}</span><span>${esc(f.tagline)}</span></div>
 </div></footer>`;
 }
 
-module.exports = { ICONS, esc, ico, slug, linkLabel, header, hero, startHere, chipbar, catalog, about, signup, footer };
+module.exports = { ICONS, esc, ico, slug, linkLabel, header, hero, startHere, chipbar, catalog, doctorBox, sourcesPage, about, signup, footer };

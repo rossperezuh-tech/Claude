@@ -137,6 +137,48 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
 .empty{text-align:center;padding:44px 20px;color:var(--muted)}
 .empty strong{display:block;color:var(--ink);font-size:18px;margin-bottom:4px}
 
+/* health-site extras: what line, evidence, notice, legend, doctor box */
+.what{font-size:13.5px;color:var(--ink);line-height:1.45}
+.why b{color:var(--ink);font-weight:600}
+.ev{grid-column:1/-1;display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:13px;line-height:1.45;color:var(--muted)}
+.ev-pill{flex:0 0 auto;display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 9px;border-radius:99px;white-space:nowrap}
+.ev-strong .ev-pill{background:var(--brand);color:var(--accent)}
+.ev-some .ev-pill{background:var(--accent);color:var(--brand)}
+.ev-limited .ev-pill{background:transparent;color:var(--brand2);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--brand2) 45%,transparent)}
+.ev a{color:var(--brand2);font-weight:600;white-space:nowrap}
+.notice{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;margin-bottom:12px;border-radius:16px;background:#fff4dd;color:#5c3a00;font-size:14.5px;line-height:1.5}
+.notice .ico{flex:0 0 auto;width:22px;height:22px;margin-top:1px}
+.legend{padding:14px 16px;margin-bottom:16px;border-radius:16px;border:1px dashed color-mix(in srgb,var(--brand2) 35%,var(--line));font-size:13.5px;color:var(--muted)}
+.legend>b{display:block;color:var(--ink);font-size:14px;margin-bottom:8px}
+.legend ul{list-style:none;display:grid;gap:8px}
+.legend li{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.doc{border-radius:24px;background:var(--paper);border:2px solid #d9482b;padding:22px}
+.doc-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+.doc-ico{flex:0 0 auto;width:44px;height:44px;border-radius:14px;background:#d9482b;color:#fff;display:grid;place-items:center}
+.doc-ico .ico{width:22px;height:22px;stroke-width:2.6}
+.doc h2{font-size:clamp(24px,6vw,32px);line-height:1.1;font-weight:800;letter-spacing:-.02em}
+.doc-head p{color:var(--muted);margin-top:4px;font-size:15px}
+.doc ul{list-style:none;display:grid;gap:10px}
+.doc li{display:flex;gap:10px;font-size:15px;line-height:1.45}
+.doc li .ico{flex:0 0 auto;width:17px;height:17px;margin-top:3px;color:#d9482b;stroke-width:2.6}
+.doc-911{margin-top:16px;padding:12px 14px;border-radius:12px;background:#fdebe6;color:#8a2412;font-weight:600;font-size:14.5px}
+
+/* sources page */
+.page{padding-top:28px;padding-bottom:48px;max-width:860px}
+.page h1{font-size:clamp(32px,8vw,48px);line-height:1.05;font-weight:800;letter-spacing:-.03em;margin:14px 0 12px}
+.page .lead{color:var(--muted);font-size:16px;max-width:66ch;margin-bottom:12px}
+.page .legend{margin-top:18px}
+.back{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--brand2);text-decoration:none}
+.back .ico{width:16px;height:16px;transform:rotate(180deg)}
+.src-sec{margin-top:30px}
+.src-sec>h2{font-size:24px;font-weight:700;letter-spacing:-.02em;padding-bottom:8px;border-bottom:2px solid var(--line);margin-bottom:6px}
+.src{padding:16px 0;border-bottom:1px solid var(--line);scroll-margin-top:80px}
+.src h3{font-family:var(--font-body);font-size:17px;font-weight:600;margin-bottom:8px}
+.src ol{margin:10px 0 0 20px;display:grid;gap:6px;font-size:14.5px}
+.src ol a{color:var(--brand2);font-weight:500;overflow-wrap:anywhere}
+.src ol span{color:var(--muted)}
+.src:target{background:var(--accent-soft);margin:0 -12px;padding:16px 12px;border-radius:12px}
+
 /* about */
 .about{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .about-grid{display:grid;gap:26px}
@@ -179,6 +221,11 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
   .points{grid-template-columns:repeat(3,1fr)}
   .points li{flex-direction:column}
   .signup-card{padding:40px}
+  .ev{flex-direction:row;align-items:flex-start;gap:10px}
+  .ev-pill{margin-top:1px}
+  .legend ul{grid-template-columns:repeat(3,1fr);gap:14px}
+  .doc{padding:32px}
+  .doc ul{grid-template-columns:1fr 1fr;gap:12px 28px}
 }
 
 /* ---------- desktop ---------- */
@@ -215,6 +262,7 @@ h1,h2,h3,.display{font-family:var(--font-display);text-wrap:balance}
   .media{width:100%;aspect-ratio:4/3;border-radius:12px}
   .media .ico{width:44px;height:44px}
   .info{flex:1}
+  .ev{flex-direction:column}
   .acts{margin-top:auto}
   .card:hover{box-shadow:0 18px 36px color-mix(in srgb,var(--brand) 12%,transparent);border-color:color-mix(in srgb,var(--brand) 22%,var(--line))}
   .about-grid{grid-template-columns:1fr 1fr;gap:56px;align-items:start}
