@@ -16,7 +16,7 @@ Edit links in `sites/healthshop/products.json`, then run `node build.js`.
 - [ ] **Water Filter Pick No. 4**: open https://amzn.to/3XCvKyP and send the real product name.
 - [ ] **Water Filter Pick No. 5**: open https://amzn.to/4hj0tYG and send the real product name.
 
-### Links that earn no commission yet (15)
+### Links that earn no commission yet (20)
 
 - [ ] **Hydrogen Water Maker** (Lourdes HydroFix Premium): eBay search link, earns no commission. Replace with an eBay Partner Network or brand affiliate link.
   - Current link: https://www.ebay.com/sch/i.html?_nkw=lourdes+hydrofix+premium&LH_ItemCondition=1000&_sop=15
@@ -36,8 +36,6 @@ Edit links in `sites/healthshop/products.json`, then run `node build.js`.
   - Current link: https://www.amazon.com/s?k=organic+cotton+rounds
 - [ ] **Organic Cotton Swabs** (Sky Organics): New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link.
   - Current link: https://www.amazon.com/s?k=Sky+Organics+organic+cotton+swabs
-- [ ] **Magnetic Nasal Strips** (Intake Breathing): New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link.
-  - Current link: https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit
 - [ ] **Sea Salt**: a.co share link, not affiliate-tagged. Replace with your tagged link.
   - Current link: https://a.co/d/fwG7l0e
 - [ ] **Wild-Caught Omega-3 Fish Oil** (Ecostream Naturals): New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link.
@@ -48,6 +46,18 @@ Edit links in `sites/healthshop/products.json`, then run `node build.js`.
   - Current link: https://livingwellwithdrmichelle.com/product/remineralizing-mouthwash-mint/
 - [ ] **Nano-Hydroxyapatite Toothpaste** (Boka): New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link.
   - Current link: https://www.amazon.com/s?k=Boka+nano+hydroxyapatite+toothpaste
+- [ ] **Sinus Rinse Kit (Large Squeeze Bottle)** (NeilMed): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=NeilMed+Sinus+Rinse+kit+squeeze+bottle+premixed+packets
+- [ ] **Saline Sinus Rinse** (Guru Nanda): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Guru+Nanda+sinus+rinse+bottle
+- [ ] **Saline + Xylitol Nasal Spray** (Xlear): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Xlear+saline+xylitol+nasal+spray
+- [ ] **Propolis Nasal Spray**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=propolis+nasal+spray+saline
+- [ ] **Oregano Nasal Spray** (North American Herb & Spice): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=North+American+Herb+Spice+SinuOrega+nasal+spray
+- [ ] **Magnetic Nasal Strips** (Intake Breathing): TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
+  - Current link: https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit
 
 ### Links worth swapping for plain Amazon links (10)
 

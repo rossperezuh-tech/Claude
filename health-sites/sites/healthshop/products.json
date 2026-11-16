@@ -282,18 +282,6 @@
     ]
   },
   {
-    "cat": "selfcare",
-    "name": "Magnetic Nasal Strips",
-    "brand": "Intake Breathing",
-    "why": "Drug-free and reusable. A magnetic band opens the nose for easier breathing.",
-    "links": [
-      {
-        "url": "https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit",
-        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
-      }
-    ]
-  },
-  {
     "cat": "kitchen",
     "name": "Sea Salt",
     "why": "Third-party tested for lead.",
@@ -460,6 +448,83 @@
       {
         "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FMasterMedi-Scraper-Treatment-Stainless-Scrapers%2Fdp%2FB0B257614L&btn_ref=org-433bb393e1b8b503",
         "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Sinus Rinse Kit (Large Squeeze Bottle)",
+    "brand": "NeilMed",
+    "why": "Just salt, baking soda and water. Drug-free, with premixed packets so there's no guesswork.",
+    "caution": "Use distilled or boiled water only, never plain tap water. Clean the bottle after every use.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=NeilMed+Sinus+Rinse+kit+squeeze+bottle+premixed+packets",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Saline Sinus Rinse",
+    "brand": "Guru Nanda",
+    "why": "A reusable squeeze bottle for a plain salt-water rinse. No medication.",
+    "caution": "Use distilled or boiled water only, never plain tap water. Clean the bottle after every use.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Guru+Nanda+sinus+rinse+bottle",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Saline + Xylitol Nasal Spray",
+    "brand": "Xlear",
+    "why": "Saline and birch-derived xylitol. No drugs and no steroids.",
+    "caution": "Xylitol is toxic to dogs, so keep the bottle away from pets.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Xlear+saline+xylitol+nasal+spray",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Propolis Nasal Spray",
+    "why": "A natural bee product in a saline base.",
+    "caution": "Skip if you're allergic to bees or pollen. Avoid versions with added decongestant (oxymetazoline) for more than 3 days.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=propolis+nasal+spray+saline",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Oregano Nasal Spray",
+    "brand": "North American Herb & Spice",
+    "why": "Sea salt and plant oils: oregano, clove, sage and bay leaf.",
+    "caution": "Can sting. Not for pregnancy or children. Never put plain oregano oil in your nose.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=North+American+Herb+Spice+SinuOrega+nasal+spray",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Magnetic Nasal Strips",
+    "brand": "Intake Breathing",
+    "why": "Drug-free and reusable. A magnetic band opens the nose for easier breathing.",
+    "caution": "Adhesive can irritate sensitive skin. Loud snoring with gasping can mean sleep apnea, so see a doctor.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
       }
     ]
   }

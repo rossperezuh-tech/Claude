@@ -93,6 +93,13 @@
       "short": "Mouth",
       "icon": "tooth",
       "blurb": "A cleaner routine for teeth and gums."
+    },
+    {
+      "id": "nasal",
+      "label": "Nasal Health",
+      "short": "Nasal",
+      "icon": "mist",
+      "blurb": "Drug-free rinses, sprays and strips for easier breathing."
     }
   ]
 }
