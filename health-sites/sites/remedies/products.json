@@ -884,5 +884,80 @@
         "url": "https://www.merckmanuals.com/home/special-subjects/dietary-supplements-and-vitamins/goldenseal"
       }
     ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Nano-Hydroxyapatite Toothpaste",
+    "brand": "Boka",
+    "what": "A fluoride-free toothpaste made with nano-hydroxyapatite, the same mineral that makes up most of tooth enamel.",
+    "why": "Supports enamel remineralization and everyday cavity protection, without fluoride.*",
+    "evidence": {
+      "level": "some",
+      "note": "Reviews of clinical and lab studies found nano-hydroxyapatite rebuilt early enamel spots about as well as fluoride on some measures. More long-term trials are needed."
+    },
+    "caution": "If you or your child are at high risk for cavities, ask your dentist whether to keep a fluoride toothpaste. Spit, don't swallow.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Boka+nano+hydroxyapatite+toothpaste",
+        "todo": "New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Efficacy of nano-hydroxyapatite on caries prevention: systematic review and meta-analysis, Clinical Oral Investigations 2022",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8979882/"
+      },
+      {
+        "title": "The effect of nano-hydroxyapatite on white spot lesions: systematic review and meta-analysis, Journal of Dentistry 2024",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39395626/"
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Water Flosser",
+    "what": "A countertop or cordless device that cleans between teeth and along the gumline with a pulsing stream of water.",
+    "why": "Supports healthy gums by cleaning where a toothbrush can't reach. Easier than string floss for many people.",
+    "evidence": {
+      "level": "some",
+      "note": "A Cochrane review found adding a water flosser to brushing may reduce gum inflammation, but the evidence was very low certainty."
+    },
+    "caution": "Start on the lowest pressure. If your gums bleed a lot or keep bleeding after a week or two, see a dentist.",
+    "links": [
+      {
+        "url": "https://amzn.to/3XLm7hC"
+      }
+    ],
+    "sources": [
+      {
+        "title": "Worthington et al. 2019, Cochrane Review. Home use of interdental cleaning devices, in addition to toothbrushing",
+        "url": "https://www.cochrane.org/news/featured-review-home-use-devices-cleaning-between-teeth"
+      }
+    ]
+  },
+  {
+    "cat": "mouth",
+    "name": "Tongue Scraper",
+    "brand": "MasterMedi",
+    "what": "A U-shaped stainless steel tool that gently scrapes buildup off the tongue.",
+    "why": "Part of a daily routine for fresher breath and a cleaner-feeling mouth.",
+    "evidence": {
+      "level": "limited",
+      "label": "Early research",
+      "note": "Small studies found tongue scraping may briefly freshen breath, but a 2019 Cochrane review called the evidence very uncertain."
+    },
+    "caution": "Scrape gently to avoid irritating the tongue. Bad breath that doesn't go away can be a sign of gum disease or another condition, so mention it to your dentist or doctor.",
+    "links": [
+      {
+        "url": "https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FMasterMedi-Scraper-Treatment-Stainless-Scrapers%2Fdp%2FB0B257614L&btn_ref=org-433bb393e1b8b503",
+        "review": "Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Kumbargere Nagraj et al. 2019, Cochrane Review. Interventions for managing halitosis",
+        "url": "https://www.cochrane.org/CD012213/ORAL_interventions-managing-halitosis-bad-breath"
+      }
+    ]
   }
 ]

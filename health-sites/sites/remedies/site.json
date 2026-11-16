@@ -130,6 +130,13 @@
       "blurb": "Ready-made sprays and rinses for a stuffy nose."
     },
     {
+      "id": "mouth",
+      "label": "Mouth Health",
+      "short": "Mouth",
+      "icon": "tooth",
+      "blurb": "Everyday care for teeth, gums and fresh breath."
+    },
+    {
       "id": "recovery",
       "label": "Recovery & Rest",
       "short": "Recovery",

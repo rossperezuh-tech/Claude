@@ -108,7 +108,7 @@ Edit links in `sites/remedies/products.json`, then run `node build.js`.
 - [ ] **Site name**: "Root & Rally" is a working name. Confirm it or pick another (it is set in `sites/remedies/site.json`).
 - [ ] **Site address**: `https://www.rootandrally.com` is a placeholder. Put your real domain in `sites/remedies/site.json` ("url").
 
-### Links that earn no commission yet (34)
+### Links that earn no commission yet (35)
 
 - [ ] **Vitamin D3 + K2**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
   - Current link: https://www.amazon.com/s?k=vitamin+D3+K2+supplement
@@ -178,4 +178,11 @@ Edit links in `sites/remedies/products.json`, then run `node build.js`.
   - Current link: https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit
 - [ ] **Goldenseal Root**: TODO: placeholder Amazon search link. Replace with your tagged affiliate link.
   - Current link: https://www.amazon.com/s?k=organic+goldenseal+root+capsules
+- [ ] **Nano-Hydroxyapatite Toothpaste** (Boka): New product from your screenshots. Amazon search link, not affiliate-tagged. Replace with your tagged link.
+  - Current link: https://www.amazon.com/s?k=Boka+nano+hydroxyapatite+toothpaste
+
+### Links worth swapping for plain Amazon links (1)
+
+- [ ] **Tongue Scraper** (MasterMedi): Third-party redirect link (r.amzlink.to). Safer to replace with a plain amzn.to link from SiteStripe.
+  - Current link: https://r.amzlink.to/?btn_url=https%3A%2F%2Fwww.amazon.com%2FMasterMedi-Scraper-Treatment-Stainless-Scrapers%2Fdp%2FB0B257614L&btn_ref=org-433bb393e1b8b503
 
