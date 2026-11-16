@@ -57,10 +57,6 @@ function hero(site, products) {
   return `<section class="hero" id="top"><div class="wrap">
   <h1>${h.title}</h1>
   <p class="hero-text">${esc(h.text)}</p>
-  <div class="search" role="search">
-    ${ico("search")}
-    <input id="q" type="search" placeholder="${esc(h.searchPlaceholder)}" autocomplete="off" aria-label="Search products">
-  </div>
 </div></section>`;
 }
 
