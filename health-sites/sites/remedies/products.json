@@ -802,6 +802,62 @@
     ]
   },
   {
+    "cat": "nasal",
+    "name": "Sinus Rinse Kit (Large Squeeze Bottle)",
+    "brand": "NeilMed",
+    "what": "A large 8 oz (240 ml) squeeze bottle with premixed salt and baking soda packets.",
+    "why": "A full, gentle rinse that flushes mucus and allergens out of the nose. The packets take the guesswork out of mixing.*",
+    "evidence": {
+      "level": "some",
+      "note": "A Cochrane review found saline rinsing is safe and possibly eases cold symptoms, but the evidence is limited."
+    },
+    "caution": "Mix with distilled, sterile or previously boiled and cooled water only, never plain tap water. Use one packet per bottle unless your doctor says otherwise. Rinse, clean and air-dry the bottle after every use and replace it every 3 months.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=NeilMed+Sinus+Rinse+kit+squeeze+bottle+premixed+packets",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "King et al. 2015, Cochrane Review. Saline nasal irrigation for acute upper respiratory tract infections",
+        "url": "https://www.cochrane.org/CD006821"
+      },
+      {
+        "title": "U.S. FDA: Is Rinsing Your Sinuses With Neti Pots Safe?",
+        "url": "https://www.fda.gov/consumers/consumer-updates/rinsing-your-sinuses-neti-pots-safe"
+      }
+    ]
+  },
+  {
+    "cat": "nasal",
+    "name": "Magnetic Nasal Strips",
+    "brand": "Intake Breathing",
+    "what": "A reusable band that holds the nostrils open with small magnets on adhesive tabs.",
+    "why": "Opens the nose for easier breathing during sleep, exercise or a stuffy night. Drug-free.",
+    "evidence": {
+      "level": "some",
+      "note": "Reviews find external nasal strips improve airflow through the nose. They do not treat sleep apnea. Intake's magnetic design has not been studied on its own."
+    },
+    "caution": "The adhesive tabs can irritate sensitive skin. Do not use on broken or sunburned skin. Loud snoring with gasping or choking can be a sign of sleep apnea, so see a doctor rather than relying on strips.",
+    "links": [
+      {
+        "url": "https://www.amazon.com/s?k=Intake+Breathing+magnetic+nasal+strips+starter+kit",
+        "todo": "TODO: placeholder Amazon search link. Replace with your tagged affiliate link."
+      }
+    ],
+    "sources": [
+      {
+        "title": "Camacho et al. 2016, Nasal Dilators (Breathe Right Strips and NoZovent) for Snoring and OSA: Systematic Review and Meta-Analysis",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5187471/"
+      },
+      {
+        "title": "Over-the-counter nasal dilators: systematic review, JAMA Facial Plastic Surgery 2016",
+        "url": "https://journals.sagepub.com/doi/10.1001/jamafacial.2016.0291"
+      }
+    ]
+  },
+  {
     "cat": "tonics",
     "name": "Goldenseal Root",
     "what": "The root of Hydrastis canadensis, a North American herb, sold as capsules or tincture.",
