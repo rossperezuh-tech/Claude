@@ -23,12 +23,20 @@
   },
   "mark": "<path d=\"M5 19c0-9 5-14 15-14 0 10-5 15-14 15\"/><path d=\"M5 19c3-5 6-8 10-10\"/>",
   "nav": [
-    { "label": "Shop", "href": "#catalog" },
-    { "label": "When to see a doctor", "href": "#doctor" },
-    { "label": "About", "href": "#about" }
+    {
+      "label": "Shop",
+      "href": "#catalog"
+    },
+    {
+      "label": "When to see a doctor",
+      "href": "#doctor"
+    }
   ],
   "footerLinks": [
-    { "label": "Sources", "href": "sources.html" }
+    {
+      "label": "Sources",
+      "href": "sources.html"
+    }
   ],
   "hero": {
     "eyebrow": "Supplements · Herbs · Teas",
@@ -50,9 +58,18 @@
   "evidence": {
     "title": "How to read the evidence levels",
     "levels": {
-      "strong": { "label": "Strong", "text": "Reviews of multiple good-quality human trials agree there is a benefit." },
-      "some": { "label": "Some", "text": "Human trials exist, but they are small, mixed or low-certainty." },
-      "limited": { "label": "Traditional use", "text": "A long history of use or early lab research, with little human trial data." }
+      "strong": {
+        "label": "Strong",
+        "text": "Reviews of multiple good-quality human trials agree there is a benefit."
+      },
+      "some": {
+        "label": "Some",
+        "text": "Human trials exist, but they are small, mixed or low-certainty."
+      },
+      "limited": {
+        "label": "Traditional use",
+        "text": "A long history of use or early lab research, with little human trial data."
+      }
     }
   },
   "doctorBox": {
@@ -76,20 +93,6 @@
       "Research changes. If you spot something out of date, let us know and we will review it."
     ]
   },
-  "about": {
-    "eyebrow": "About Root & Rally",
-    "title": "Honest about what the research does and doesn't show.",
-    "paragraphs": [
-      "Root & Rally is a small, independent guide based in Brooklyn, New York. We built it because the supplement aisle is confusing, and most labels promise more than the research supports.",
-      "For every product we read the best available evidence, then tell you plainly how strong it is. Some picks have solid research behind them. Others are long-standing traditions with little clinical data, and we say so.",
-      "We are not doctors and this is not medical advice. Use this site to get oriented, then talk with your doctor or pharmacist about what is right for you."
-    ],
-    "points": [
-      { "title": "Evidence on every card", "text": "Strong, Some or Traditional use, with the sources listed." },
-      { "title": "Cautions up front", "text": "Drug interactions, pregnancy and health conditions, in plain words." },
-      { "title": "No miracle claims", "text": "Supplements support your body. They do not cure, treat or prevent disease." }
-    ]
-  },
   "signup": {
     "title": "Seasonal wellness notes.",
     "text": "A short email at the start of each season with new research and what's worth keeping on your shelf. No spam.",
@@ -105,11 +108,47 @@
     "tagline": "Made with care in Brooklyn, NY"
   },
   "categories": [
-    { "id": "daily", "label": "Daily Immune Support", "short": "Daily immune", "icon": "shield", "blurb": "Everyday basics for normal immune function." },
-    { "id": "cold", "label": "Cold & Flu Season", "short": "Cold season", "icon": "snow", "blurb": "What people reach for when a cold is coming on." },
-    { "id": "recovery", "label": "Recovery & Rest", "short": "Recovery", "icon": "cup", "blurb": "Fluids and comfort for when you're run down." },
-    { "id": "gut", "label": "Gut Health", "short": "Gut health", "icon": "gut", "blurb": "Fiber, live cultures and stomach settlers." },
-    { "id": "tonics", "label": "Herbal Tonics", "short": "Tonics", "icon": "leaf", "blurb": "Traditional herbs and kitchen tonics." },
-    { "id": "sleep", "label": "Sleep & Stress", "short": "Sleep", "icon": "moon", "blurb": "Wind down and get the rest your body needs." }
+    {
+      "id": "daily",
+      "label": "Daily Immune Support",
+      "short": "Daily immune",
+      "icon": "shield",
+      "blurb": "Everyday basics for normal immune function."
+    },
+    {
+      "id": "cold",
+      "label": "Cold & Flu Season",
+      "short": "Cold season",
+      "icon": "snow",
+      "blurb": "What people reach for when a cold is coming on."
+    },
+    {
+      "id": "recovery",
+      "label": "Recovery & Rest",
+      "short": "Recovery",
+      "icon": "cup",
+      "blurb": "Fluids and comfort for when you're run down."
+    },
+    {
+      "id": "gut",
+      "label": "Gut Health",
+      "short": "Gut health",
+      "icon": "gut",
+      "blurb": "Fiber, live cultures and stomach settlers."
+    },
+    {
+      "id": "tonics",
+      "label": "Herbal Tonics",
+      "short": "Tonics",
+      "icon": "leaf",
+      "blurb": "Traditional herbs and kitchen tonics."
+    },
+    {
+      "id": "sleep",
+      "label": "Sleep & Stress",
+      "short": "Sleep",
+      "icon": "moon",
+      "blurb": "Wind down and get the rest your body needs."
+    }
   ]
 }
